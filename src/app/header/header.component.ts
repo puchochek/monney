@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   date: string;
-  dateShift = 0;
+  dateShiftLeft = 0;
+  dateShiftRight = 0;
+  isToggled = false;
 
   constructor() { }
 
@@ -19,7 +21,7 @@ export class HeaderComponent implements OnInit {
   getCurrentDate(): string {
     const dayWithShift = new Date();
     const today = new Date();
-    dayWithShift.setDate(today.getDate() + this.dateShift);
+    dayWithShift.setDate(today.getDate() + this.dateShiftLeft + this.dateShiftRight);
     const currentDate = dayWithShift.getDate();
     const currentMonth = dayWithShift.getMonth() + 1;
     const currentYear = dayWithShift.getFullYear();
@@ -54,9 +56,18 @@ export class HeaderComponent implements OnInit {
   }
 
   goToPrevDate(): void {
-    console.log('click');
-    this.dateShift = this.dateShift - 1;
+    this.isToggled = true;
+    this.dateShiftLeft = this.dateShiftLeft - 1;
     this.date = this.getCurrentDate();
+  }
+
+  goToNextDate(): void {
+    this.dateShiftRight = this.dateShiftRight + 1;
+    this.date = this.getCurrentDate();
+    if (this.dateShiftRight + this.dateShiftLeft === 0) {
+      this.isToggled = false;
+    }
+    
   }
 
 }

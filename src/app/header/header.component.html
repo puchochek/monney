@@ -1,1 +1,14 @@
-<span class="chevron left" (click)="goToPrevDate()"></span> {{ date }}
+<div class="main">
+  <span class="chevron left" 
+        (click)="goToPrevDate()">
+  </span> 
+  <span class="date-holder">
+    {{ date }}
+  </span>
+  <span *ngIf="isToggled"
+        class="chevron right" 
+        (click)="goToNextDate()">
+  </span>
+</div>
+
+
