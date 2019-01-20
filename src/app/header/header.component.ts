@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from "../data.service";
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: []
 })
 export class HeaderComponent implements OnInit {
 
@@ -12,7 +15,9 @@ export class HeaderComponent implements OnInit {
   dateShiftRight = 0;
   isToggled = false;
 
-  constructor() { }
+  constructor(private data: DataService) {
+    
+   }
 
   ngOnInit() {
     this.date = this.getCurrentDate();
@@ -26,6 +31,9 @@ export class HeaderComponent implements OnInit {
     const currentMonth = dayWithShift.getMonth() + 1;
     const currentYear = dayWithShift.getFullYear();
     const currentDay = this.getDayOfWeek(dayWithShift.getDay());
+    //Set data to pass to AddExpenseComponent
+    this.data.setData(`${currentDate}.${currentMonth}.${currentYear} ${currentDay} `);
+  
     return `${currentDate}.${currentMonth}.${currentYear} ${currentDay} `;
   }
 
@@ -66,8 +74,7 @@ export class HeaderComponent implements OnInit {
     this.date = this.getCurrentDate();
     if (this.dateShiftRight + this.dateShiftLeft === 0) {
       this.isToggled = false;
-    }
-    
+    }   
   }
 
 }

@@ -1,3 +1,12 @@
-<p>
-  category-list works!
-</p>
+<div class="grid grid-pad" *ngIf="categoryList">
+  <a *ngFor="let category of categories" class="col-1-4">
+    <div class="module category"
+        [class.selected]="category === selectedCategory"
+        (click)="onSelect(category)">
+      <h4>{{category.name}}</h4>
+    </div>
+  </a>
+</div>
+
+<app-add-expense [category]="selectedCategory"></app-add-expense>
+

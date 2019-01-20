@@ -1,0 +1,49 @@
+// @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+.form-group {
+	width: 95%;
+	font-size: 16px;
+	background: #495C70;
+	padding: 30px 30px 15px 30px;
+	border: 5px solid #53687E;
+}
+.form-group label {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: #fff;
+
+}
+.form-group label {
+	display:block;
+	margin-bottom: 10px;
+}
+.form-group label > span {
+	display: inline-block;
+	float: left;
+	width: 150px;
+}
+
+.form-group input[type=text] {
+	background: transparent;
+	border: none;
+	border-bottom: 1px dashed #83A4C5;
+	width: 100%;
+	outline: none;
+	padding: 0px 0px 0px 0px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #fff;
+}
+
+.form-group input[type=submit],
+.form-group input[type=button]{
+	background: #576E86;
+	border: none;
+	padding: 8px 10px 8px 10px;
+	border-radius: 5px;
+    color: #A8BACE;
+    margin-left: 10px;
+}
+.form-group input[type=submit]:hover,
+.form-group input[type=button]:hover{
+background: #394D61;
+}
