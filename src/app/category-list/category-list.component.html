@@ -1,12 +1,12 @@
-<div class="grid grid-pad" *ngIf="categoryList">
-  <a *ngFor="let category of categories" class="col-1-4">
-    <div class="module category"
-        [class.selected]="category === selectedCategory"
-        (click)="onSelect(category)">
-      <h4>{{category.name}}</h4>
+
+<div class="grid grid-pad main">
+  <a *ngFor="let category of categories" 
+      class="col-1-6"
+      routerLink="/categories/{{category.name}}">
+        <div class="module category">
+        <h2>{{category.name}}</h2>
     </div>
   </a>
 </div>
 
-<app-add-expense [category]="selectedCategory"></app-add-expense>
 

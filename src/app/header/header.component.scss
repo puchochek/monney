@@ -1,13 +1,31 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 .main {
-	weight: 100%;
-	height: 40px;
+	weight: 100vw;
+	height: 50px;
     text-align: left;
-    background: #0f2537;  
+	background: #283e52; 
+	font-family: Roboto; 
 }
 
-.date-holder {
-	//weight: 200px;
-	font-size: 20px;
+.header-container {
+	display: grid;
+	grid-template-columns: 9fr 1fr 1fr 1fr;
+}
+
+.money-icon {
+	color: white;
+	font-size: 50px;
+}
+
+.common {
+	 padding-top: 10px;
+	 padding-left: 5px;
+}
+
+.date-holder  {
+	vertical-align: middle;
+	font-size: 30px;
 	color: white;
 }
 .chevron::before {
@@ -21,7 +39,7 @@
 	position: relative;
 	top: 0.15em;
 	transform: rotate(-45deg);
-	vertical-align: top;
+	vertical-align: middle;
 	width: 0.45em;
 }
 

@@ -1,7 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { CategoryListComponent } from './category-list/category-list.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { ModalComponent } from './modal/modal.component';
+import { AddIncomeComponent } from './add-income/add-income.component';
+import { BalanceComponent } from './balance/balance.component';
 
-const routes: Routes = [];
+ const routes: Routes = [
+    { path: '', redirectTo: 'categories', pathMatch: 'full' },
+    { path: 'categories', component: CategoryListComponent },
+    { path: 'categories/:category', component: AddExpenseComponent },
+    { path: 'categories/:category/:status', component: ModalComponent },
+    { path: 'income', component: AddIncomeComponent },
+    { path: 'income/:status', component: AddIncomeComponent },
+    { path: 'balance', component: BalanceComponent },
+ ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

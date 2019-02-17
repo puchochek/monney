@@ -1,0 +1,17 @@
+<div class=main>
+  <div id="openModal" class="modalDialog" >
+      <div [ngStyle]="{'background': getBackground()}">
+      
+        <div class="close" (click)="closeModal()">
+            X
+        </div>
+      
+        
+        <h1>{{ status === 'saved' ? 'Saved!' : 'Error!' }}</h1>
+        <h2>{{ status === 'saved' ? 
+          'The expense was successfully added to the ' + category + ' category.'  :
+          'Something goes wrong. Try again.' }}</h2>
+      </div>
+    </div>
+</div>
+
