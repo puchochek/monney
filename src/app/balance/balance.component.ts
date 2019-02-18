@@ -29,22 +29,42 @@ export class BalanceComponent implements OnInit {
   }
 
   parseResponse(response) {
-    // console.log('resp ', response);
-    // let categories = this.getExistedCategories(response);
     let categories = response.reduce(function (categories, currentRecord) {
-      // console.log('current ', current);
-      console.log('obj ', categories);
       if (!categories.includes(currentRecord.type)) {
         categories.push(currentRecord.type);
       }
       return categories;
     }, []);
-    console.log(categories);
 
+    let currentMonth = (new Date().getMonth() + 1).toString();
+    currentMonth.length === 1 ?
+    currentMonth = '0' + currentMonth
+    : currentMonth = currentMonth;
+
+    let thisMonthExpensies = response.reduce(function (thisMonthExpensies, currentRecord) {
+      if (currentMonth === currentRecord.date.substring(5, 7)) {
+        thisMonthExpensies.push(currentRecord);
+      }
+      return thisMonthExpensies;
+    }, []);
+
+    let expencesByCategories = {};
+    for (let i = 0; i < categories.length; i++) {
+      expencesByCategories[categories[i]] = thisMonthExpensies.filter(expense => expense.type === categories[i]);
+    }
+
+    let income = {};
+    income['Income'] = expencesByCategories['Income'];
+    let sum = 0;
+    income['Income'].forEach(income => {
+      sum = sum + (+income.sum);
+    });
+    income['Total'] = sum;
+    delete expencesByCategories['Income'];
+    console.log('income ', income);
+    console.log('expencesByCategories ', expencesByCategories);
   }
 
-  getExistedCategories(response) {
 
-  }
 
 }

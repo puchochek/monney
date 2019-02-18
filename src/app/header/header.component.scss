@@ -10,12 +10,13 @@
 
 .header-container {
 	display: grid;
-	grid-template-columns: 9fr 1fr 1fr 1fr;
+	grid-template-columns: 9fr 1fr 1fr;
 }
 
 .money-icon {
 	color: white;
-	font-size: 50px;
+	font-size: 45px;
+	margin: auto;
 }
 
 .common {
