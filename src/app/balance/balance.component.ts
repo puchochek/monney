@@ -10,6 +10,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class BalanceComponent implements OnInit {
 
+  thisMonthIncomes = [];
+  incomeTotal: number;
+  gridColumns: number;
+  //expenses = {};
+
   constructor(
     private data: DataService, 
     private http: HttpClient,
@@ -53,17 +58,39 @@ export class BalanceComponent implements OnInit {
       expencesByCategories[categories[i]] = thisMonthExpensies.filter(expense => expense.type === categories[i]);
     }
 
-    let income = {};
-    income['Income'] = expencesByCategories['Income'];
+    let incomes = expencesByCategories['Income'];
     let sum = 0;
-    income['Income'].forEach(income => {
+    incomes.forEach(income => {
       sum = sum + (+income.sum);
     });
-    income['Total'] = sum;
+
     delete expencesByCategories['Income'];
-    console.log('income ', income);
+    this.gridColumns = Object.keys(expencesByCategories).length;
     console.log('expencesByCategories ', expencesByCategories);
+    //this.expenses = expencesByCategories;
+
+    incomes = incomes.reduce(function (incomesToRender, currentIncome) {
+      currentIncome.date = currentIncome.date.substring(0, 10);
+      incomesToRender.push(currentIncome);
+      return incomesToRender;
+    }, []);
+
+    this.thisMonthIncomes = incomes;
+    console.log('thisMonthIncomes ', this.thisMonthIncomes);
+    this.incomeTotal = sum;
   }
+
+  setGridMarkup() {
+    let gridMarkup = '';
+    for (let i = 0; i < this.gridColumns; i++) {
+      gridMarkup = gridMarkup + '2fr ';
+    }
+
+    return new Object({'grid-template-columns': gridMarkup});
+  }
+
+
+
 
 
 

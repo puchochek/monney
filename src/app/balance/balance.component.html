@@ -1,8 +1,27 @@
 <div class="main">
-  <div class="balance">
-    Data about income and expence goes here
+    <div class="income-header">This month income:</div> 
 
-  </div>
+    <div class="incomes-container">
+      <a *ngFor="let currentIncome of thisMonthIncomes" 
+          class="incomes">
+            <div>{{currentIncome.date}}</div>
+            <div>{{currentIncome.comment}}</div>
+            <div>{{currentIncome.sum}}</div>
+      </a>
+    </div>
+
+    <div class="total">Total: {{incomeTotal}}</div>
+
+    <div class="income-header">This month expenses:</div> 
+
+    <div class="expenses-container" [ngStyle]="setGridMarkup()">
+      <div>test</div>
+      <div>test</div>
+      <!-- <a *ngFor="let expense of expenses" >
+        <div>{{expense.sum}}</div>
+      </a> -->
+    </div>
+  
 
 
 </div>

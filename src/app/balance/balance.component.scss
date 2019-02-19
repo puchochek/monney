@@ -1,9 +1,38 @@
 .main {
   height: 100vh;
-  background-color: #53687E;
+  background-color: #53687e;
   overflow: auto;
   font-family: Roboto; 
 }
-.balance {
-    
+.income-header {
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 30px;
+  color: white;
+}
+.incomes-container {
+  width: 100%;
+  border-bottom: 1px solid #283e52;
+}
+.incomes {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr;
+  font-size: 20px;
+  color: white;
+  padding-left: 20px;
+}
+.incomes > div {
+  height: 30px;
+}
+.total {
+  font-size: 20px;
+  color: white;
+  border-top: 1px solid white;
+  padding-top: 10px;
+  padding-right: 10px;
+  text-align: right;
+}
+.expenses-container {
+  display: grid;
 }
