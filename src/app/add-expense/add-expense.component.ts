@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { DataService } from "../data.service";
+import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -73,15 +73,15 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     }
   }
 
-  connectDataBase() {
-    //use for get-request
-    this.http.get('http://localhost:3000/').subscribe((response) => {
-    });
-  }
-  
+  // connectDataBase() {
+  //   //use for get-request
+  //   this.http.get('http://localhost:3000/expences').subscribe((response) => {
+  //   });
+  // }
+
   saveNewExpence(newExpence) {
-    //console.log('newExpence Obj in Post', newExpence);
-    this.http.post('http://localhost:3000/', {
+    // console.log('newExpence Obj in Post', newExpence);
+    this.http.post('http://localhost:3000/expences', {
       type: newExpence.type,
       dateToParse: newExpence.date,
       sum: newExpence.sum, 

@@ -5,6 +5,8 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ModalComponent } from './modal/modal.component';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { BalanceComponent } from './balance/balance.component';
+import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
+
 
  const routes: Routes = [
     { path: '', redirectTo: 'categories', pathMatch: 'full' },
@@ -14,6 +16,7 @@ import { BalanceComponent } from './balance/balance.component';
     { path: 'income', component: AddIncomeComponent },
     { path: 'income/:status', component: AddIncomeComponent },
     { path: 'balance', component: BalanceComponent },
+    { path: 'detail/:category', component: ExpenseDetailComponent },
  ];
 
 @NgModule({

@@ -39,16 +39,9 @@
 }
 .expenses {
   display: grid;
-  grid-template-columns: 5fr 5fr 2fr;
+  grid-template-columns: 5fr 5fr;
   color: white;
   font-size: 1.5rem;
-  padding-left: 5%;
-}
-.expences-table-headers {
-  display: grid;
-  grid-template-columns: 5fr 5fr 2fr;
-  color: white;
-  font-size: 1.7rem;
   padding-left: 5%;
 }
 .expense-table-row {
@@ -63,3 +56,22 @@
 .detail-icon:hover {
   cursor: pointer;
 }
+.detail-modal {
+  position: fixed;
+	top: 30%;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: #283e52;
+	z-index: 1000;
+  height: 70%;
+  width: 98vw;
+  border-radius: 1%;
+  opacity: 1;
+}
+.custom-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+
+}
+

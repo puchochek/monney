@@ -1,20 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule }     from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
-import { DataService } from "./data.service";
+import { DataService } from './data.service';
 import { ModalComponent } from './modal/modal.component';
 
-import { MatIconModule } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { BalanceComponent } from './balance/balance.component';
+import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { BalanceComponent } from './balance/balance.component';
     AddExpenseComponent,
     ModalComponent,
     AddIncomeComponent,
-    BalanceComponent
+    BalanceComponent,
+    ExpenseDetailComponent
   ],
   imports: [
     BrowserModule,

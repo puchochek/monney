@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
-import { DataService } from "../data.service";
+import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { FinanceData } from '../interfaces';
+import { ExpencesData } from '../interfaces';
 
 @Component({
   selector: 'app-balance',
@@ -17,9 +19,10 @@ export class BalanceComponent implements OnInit {
   expencesTableData = [];
   balance: number;
   showCategoryDetails: boolean;
+  isDetailModal: boolean;
 
   constructor(
-    private data: DataService, 
+    private data: DataService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
@@ -31,26 +34,25 @@ export class BalanceComponent implements OnInit {
 
   connectDataBase() {
     // use for get-request
-    this.http.get('http://localhost:3000/').subscribe((response) => {
-      this.parseResponse(response);
+    this.http.get('http://localhost:3000/expences').subscribe((response: FinanceData[]) => {
+    this.parseResponse(response);
     });
   }
 
-  parseResponse(response) {
-
-    let categories = this.getExistedCategories(response);
-    let currentMonth = this.getCurrentMonth();
-    let thisMonthExpensies = this.getThisMonthExpensies(response, currentMonth);
-    let expencesByCategories = this.getExpencesByCategories(categories, thisMonthExpensies);
-    let incomes = this.getIncomesToRender(expencesByCategories['Income']);
-    let totalIncomes = this.countTotalSum(expencesByCategories['Income'], 'sum');
+  parseResponse(response: FinanceData[]) {
+    const categories = this.getExistedCategories(response);
+    const currentMonth = this.getCurrentMonth();
+    const thisMonthExpensies = this.getThisMonthExpensies(response, currentMonth);
+    const expencesByCategories = this.getExpencesByCategories(categories, thisMonthExpensies);
+    const incomes = this.getIncomesToRender(expencesByCategories['Income']);
+    const totalIncomes = this.countTotalSum(expencesByCategories['Income'], 'sum');
 
     delete expencesByCategories['Income'];
 
-    let expencesData = this.getExpencesData(expencesByCategories);
-    let expencesToRender = this.getExpencesToRender(expencesData);
-    let expencesToRenderSorted = this.sortExpencesToRender(expencesToRender);
-    let totalExpences = this.countTotalSum(expencesToRenderSorted, 'total');
+    const expencesData = this.getExpencesData(expencesByCategories);
+    const expencesToRender = this.getExpencesToRender(expencesData);
+    const expencesToRenderSorted = this.sortExpencesToRender(expencesToRender);
+    const totalExpences = this.countTotalSum(expencesToRenderSorted, 'total');
 
     console.log('expencesToRenderSorted ', expencesToRenderSorted);
 
@@ -59,30 +61,29 @@ export class BalanceComponent implements OnInit {
     this.incomeTotal = totalIncomes;
     this.expencesTotal = totalExpences;
     this.balance = this.countBalance(totalIncomes, totalExpences);
-    //this.gridColumns = Object.keys(expencesByCategories).length;
+    // this.gridColumns = Object.keys(expencesByCategories).length;
   }
 
-  countBalance(totalIncomes, totalExpences) {
+  countBalance(totalIncomes: number, totalExpences: number): number {
     return totalIncomes - totalExpences;
   }
 
-  getIncomesToRender(incomes): any {
-    let incomesToRender = incomes.reduce(function (incomesToRender, currentIncome) {
+  getIncomesToRender(incomes: FinanceData[]): FinanceData[] {
+    const incomesToRender = incomes.reduce(function (resultArray, currentIncome) {
       currentIncome.date = currentIncome.date.substring(0, 10);
-      incomesToRender.push(currentIncome);
-      return incomesToRender;
+      resultArray.push(currentIncome);
+      return resultArray;
     }, []);
 
     return incomesToRender;
-
   }
 
-  getExistedCategories(response): any {
-    let categories = response.reduce(function (categories, currentRecord) {
-      if (!categories.includes(currentRecord.type)) {
-        categories.push(currentRecord.type);
+  getExistedCategories(response: FinanceData[]): string[] {
+    const categories = response.reduce(function (resultArray, currentRecord) {
+      if (!resultArray.includes(currentRecord.type)) {
+        resultArray.push(currentRecord.type);
       }
-      return categories;
+      return resultArray;
     }, []);
 
     return categories;
@@ -97,8 +98,8 @@ export class BalanceComponent implements OnInit {
     return currentMonth;
   }
 
-  getExpencesByCategories(categories, thisMonthExpensies): any {
-    let expencesByCategories = {};
+  getExpencesByCategories(categories: string[], thisMonthExpensies: FinanceData[]): any {  // TODO add returned type
+    const expencesByCategories = {};
     for (let i = 0; i < categories.length; i++) {
       expencesByCategories[categories[i]] = thisMonthExpensies.filter(expense => expense.type === categories[i]);
     }
@@ -106,23 +107,23 @@ export class BalanceComponent implements OnInit {
     return expencesByCategories;
   }
 
-  getThisMonthExpensies(response, currentMonth): any {
-    let thisMonthExpensies = response.reduce(function (thisMonthExpensies, currentRecord) {
+  getThisMonthExpensies(response: FinanceData[], currentMonth: string): any {
+    const thisMonthExpensies = response.reduce(function (resultArray, currentRecord) {
       if (currentMonth === currentRecord.date.substring(5, 7)) {
-        thisMonthExpensies.push(currentRecord);
+        resultArray.push(currentRecord);
       }
-      return thisMonthExpensies;
+      return resultArray;
     }, []);
 
     return thisMonthExpensies;
   }
 
-  getExpencesData(expencesByCategories): any {
-    let expencesData = [];
+  getExpencesData(expencesByCategories): any { // TODO add returned type
+    const expencesData = [];
     Object.keys(expencesByCategories).forEach(expenceByCategoriy => {
-      let total = expencesByCategories[expenceByCategoriy].reduce(function (total, currentExpence) {
-        total = total + (+currentExpence.sum);
-        return total;
+      const total = expencesByCategories[expenceByCategoriy].reduce(function (resultArray, currentExpence) {
+        resultArray = resultArray + (+currentExpence.sum);
+        return resultArray;
       }, 0);
       expencesData.push({
         category : expenceByCategoriy,
@@ -134,29 +135,29 @@ export class BalanceComponent implements OnInit {
     return expencesData;
   }
 
-  countTotalSum(arrayTohandle, fieldName): number {
+  countTotalSum(arrayToHandle: FinanceData[], fieldName: string): number {
     let sum = 0;
-    arrayTohandle.forEach(item => {
+    arrayToHandle.forEach(item => {
       sum = sum + (+item[fieldName]);
     });
 
     return sum;
   }
 
-  getExpencesToRender(expencesData): any {
-    let expencesToRender = expencesData.reduce(function (expencesToRender, currentExpence) {
+  getExpencesToRender(expencesData: ExpencesData[]): ExpencesData[] {
+    const expencesToRender = expencesData.reduce(function (resultArray, currentExpence) {
       currentExpence.expences.forEach(expence => {
         expence.date = expence.date.substring(0, 10);
       });
-      expencesToRender.push(currentExpence);
-      return expencesToRender;
+      resultArray.push(currentExpence);
+      return resultArray;
     }, []);
 
     return expencesToRender;
   }
 
-  sortExpencesToRender(expencesToRender): any {
-    let expencesToRenderSorted = expencesToRender.slice(0);
+  sortExpencesToRender(expencesToRender: ExpencesData[]): any {  // TODO check field types
+    const expencesToRenderSorted = expencesToRender.slice(0);
     expencesToRenderSorted.sort(function(a, b) {
       return b.total - a.total;
     });
@@ -164,9 +165,11 @@ export class BalanceComponent implements OnInit {
     return expencesToRenderSorted;
   }
 
-  showDetails() {
-    //TODO ADD NEW COMPONENT TO SHOW DETAILS
-    //this.showCategoryDetails = true;
+  showDetails(event: Event) {
+    this.showCategoryDetails = true;
+    //this.isDetailModal = true;
+    const elementId: string = (event.target as Element).id;
+    console.log(elementId);
 
   }
 
