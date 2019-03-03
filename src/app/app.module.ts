@@ -13,7 +13,6 @@ import { DataService } from './data.service';
 import { ModalComponent } from './modal/modal.component';
 
 import { MatIconModule } from '@angular/material/icon';
-import { AddIncomeComponent } from './add-income/add-income.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 
@@ -24,7 +23,6 @@ import { ExpenseDetailComponent } from './expense-detail/expense-detail.componen
     CategoryListComponent,
     AddExpenseComponent,
     ModalComponent,
-    AddIncomeComponent,
     BalanceComponent,
     ExpenseDetailComponent
   ],

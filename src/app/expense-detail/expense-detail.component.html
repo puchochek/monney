@@ -1,3 +1,27 @@
-<p>
-  expense-detail works!
-</p>
+<div class="main">
+  <div *ngIf="isEmptyExpencesList"
+       class="no-expenses-message">
+    <p> Ooops! </p>
+    <p> It looks like there are no expenses of this category yet. </p>
+    <input type="button" 
+           value="Back" 
+           routerLink="/balance"/>
+  </div>
+  <div *ngIf="isExpencesList"
+       class="detail-view">
+      <div class="detail-header">
+          <div>Sum</div>
+          <div>Comment</div>
+          <div>Date</div>
+        </div>
+    <div *ngFor="let expense of expensesByCategory" >
+      <div class="detail-row">
+          <div>{{expense.sum}}</div>
+          <div>{{expense.comment}}</div>
+          <div>{{expense.date}}</div>
+      </div>
+          
+        
+      </div>
+  </div>
+</div>

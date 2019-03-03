@@ -5,11 +5,6 @@
 
   <div class="form-body">
     <form #empForm="ngForm">
-      <div class="dialog">
-        <a class="close-thik"
-        routerLink="/categories">&#x2716;</a> 
-      </div>
-        
       <div class="form-group">
           <label for="category">{{category}}</label>
         {{status}}
@@ -23,9 +18,9 @@
                 id="sum" 
                 required 
                 [(ngModel)]="sum" 
-               
                 name="sum">
       </div>
+      
       <div *ngIf="isInvalidSum">
           <div class="form-group" id="error-block">
             Fill in the Sum field in the appropriate format.<br/>
@@ -34,7 +29,7 @@
           </div>
       </div>
   
-      <div class="form-group">
+      <div *ngIf="!isInvalidSum" class="form-group">
         <label for="comment">Comment</label>
         <input type="text" 
                 autocomplete="off" 
@@ -49,10 +44,12 @@
         <label>
           <span> </span>
           <input type="submit" 
-                  value="Submit" 
+                  value="Save" 
                   (click)="onSubmit()"/>
           <span> </span>
-          <input type="submit" value="Details" />
+          <input type="submit" 
+                 value="Close" 
+                 routerLink="/categories"/>
         </label>
       </div>
     </form>

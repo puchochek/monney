@@ -1,49 +1,31 @@
+@font-face {
+    font-family: Pt-Sans-Bold;
+    src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
+}
 .container {
-	display: grid;
-	grid-template-columns: 5fr 7fr 5fr; 
 	height: 100vh;
-	background-color: #53687E;
+	background: transparent;
 }
-
-[class*='close-'] {
-	color: #777;
-	font: 30px/100% arial, sans-serif;
-	position: absolute;
-	right: 20%;
-	top: 70px;
-	text-decoration: none;
-	text-shadow: 0 1px 0 #fff;
-  }
-  
-.close-thik:hover {
-	color: #fff;
-	text-shadow: 1px 1px black;
-}
-  
+.form-body {
+	height: 70%;
+	width: 50%;
+	margin: auto;
+	margin-top: 5%;
+	border: 1px solid white;
+}  
 .form-group {
-	width: 60vw;
-	font-size: 16px;
-	background: #495C70;
+	font-size: 2rem;
+	font-family: Pt-Sans-Bold;
 	padding: 30px 30px 15px 30px;
-	border: 5px solid #53687E;
-	border-radius: 15px;
 }
-
-h1 {
-    color: #fff;
-}
-
 #error-block {
 	color: #ad0622;
-	font: 30px/100% Roboto;
-	font-size: 20px;
+	font: 30px/100% Pt-Sans-Bold;
+	font-size: 2rem;
 }
-
 .form-group label {
-    font-family: Roboto; 
-    font-size: 25px;
+    font-size: 2rem;
     color: #fff;
-
 }
 .form-group label {
 	display:block;
@@ -58,25 +40,28 @@ h1 {
 .form-group input[type=text] {
 	background: transparent;
 	border: none;
-	border-bottom: 1px dashed #83A4C5;
+	border-bottom: 1px dashed white;
 	width: 100%;
 	outline: none;
 	padding: 0px 0px 0px 0px;
-	font-family: Roboto;
-	font-size: 20px;
-	color: #fff;
+	font-size: 1.5rem;
+	font-family: Pt-Sans-Bold;
+	color: white;
 }
 
 .form-group input[type=submit],
 .form-group input[type=button]{
-	background: #576E86;
-	border: none;
+	background: transparent;
+	border: 1px solid white;
 	padding: 8px 10px 8px 10px;
-	border-radius: 5px;
-    color: #A8BACE;
-    margin-left: 10px;
+    color: white;
+	margin-left: 10px;
+	font-family: Pt-Sans-Bold;
 }
 .form-group input[type=submit]:hover,
-.form-group input[type=button]:hover{
-	background: #394D61;
+.form-group input[type=button]:hover {
+	cursor: pointer;
+	background: white;
+	color: black;
 }
+

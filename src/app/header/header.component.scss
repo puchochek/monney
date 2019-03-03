@@ -1,33 +1,32 @@
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
+@font-face {
+    font-family: capture;
+    src: url('../../assets/fonts/capture.ttf') format('opentype');
+}
 .main {
 	weight: 100vw;
 	height: 50px;
     text-align: left;
-	background: #283e52; 
-	font-family: Roboto; 
+	font-family: capture; 
 }
-
 .header-container {
 	display: grid;
-	grid-template-columns: 9fr 1fr 1fr;
+	grid-template-columns: 6fr 2fr 2fr 2fr;
 }
-
-.money-icon {
-	color: white;
-	font-size: 45px;
-	margin: auto;
-}
-
 .common {
 	 padding-top: 10px;
 	 padding-left: 5px;
 }
-
-.date-holder  {
+.date-holder, .menu-item  {
 	vertical-align: middle;
 	font-size: 30px;
 	color: white;
+	padding: 10px 10px 0 0;
+	text-align: right;
+}
+.menu-item:hover {
+	cursor: pointer;
+	background: white;
+	color: black;
 }
 .chevron::before {
 	color: white;
@@ -42,13 +41,12 @@
 	transform: rotate(-45deg);
 	vertical-align: middle;
 	width: 0.45em;
+	cursor: pointer;
 }
-
 .chevron.right:before {
 	left: 0;
 	transform: rotate(45deg);
 }
-
 .chevron.left:before {
 	left: 0.25em;
 	transform: rotate(-135deg);
