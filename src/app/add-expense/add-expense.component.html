@@ -18,18 +18,17 @@
                 id="sum" 
                 required 
                 [(ngModel)]="sum" 
-                name="sum">
+                name="sum"
+                (input)="validateSumInput($event)">
       </div>
       
-      <div *ngIf="isInvalidSum">
+      <div *ngIf="isInvalidInput">
           <div class="form-group" id="error-block">
-            Fill in the Sum field in the appropriate format.<br/>
-            Only numbers optionally separated by dot are allowed.<br/>
-            The field also must not be epmty.
+            {{invalidInputMessage}}
           </div>
       </div>
   
-      <div *ngIf="!isInvalidSum" class="form-group">
+      <div *ngIf="!isInvalidInput" class="form-group">
         <label for="comment">Comment</label>
         <input type="text" 
                 autocomplete="off" 
@@ -47,7 +46,7 @@
                   value="Save" 
                   (click)="onSubmit()"/>
           <span> </span>
-          <input type="submit" 
+          <input type="button" 
                  value="Close" 
                  routerLink="/categories"/>
         </label>

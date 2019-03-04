@@ -22,9 +22,7 @@ export class CategoryListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  
-  }
+  ngOnInit() {}
 
   onSelect(category: Category): void {
     this.categoryList = false;

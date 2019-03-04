@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from "../data.service";
+import { Router, ActivatedRoute } from '@angular/router';
+import { DataService } from '../data.service';
 
 
 @Component({
@@ -15,9 +16,23 @@ export class HeaderComponent implements OnInit {
   dateShiftRight = 0;
   isToggled = false;
 
-  constructor(private data: DataService) {
-    
-   }
+  constructor(private data: DataService,
+              public route: ActivatedRoute) {
+    // const selectedCategory = this.route.snapshot.paramMap.get('category');
+    // console.log('selectedCategory ', selectedCategory)
+    // const snapshot = route.snapshot;
+    // console.log('snapshot ', snapshot)
+    // const cat  = this.route.snapshot.params['category'];
+    // console.log('let name = this.route.snapshot.params["cat"]; ', cat);
+    // //console.log('snapshot ', snapshot.routeConfig.component.name);
+  }
+
+  // ngOnInit() {
+  //   this.route.params.subscribe(params => {
+  //     console.log('params ', params['category']);
+  //   });
+  //   this.date = this.getCurrentDate();
+  // }
 
   ngOnInit() {
     this.date = this.getCurrentDate();
@@ -33,7 +48,7 @@ export class HeaderComponent implements OnInit {
     const currentDay = this.getDayOfWeek(dayWithShift.getDay());
     //Set data to pass to AddExpenseComponent
     this.data.setData(`${currentDate}.${currentMonth}.${currentYear} ${currentDay} `);
-  
+    
     return `${currentDate}.${currentMonth}.${currentYear} ${currentDay} `;
   }
 

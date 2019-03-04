@@ -10,33 +10,45 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   providers: []
 })
 export class AddExpenseComponent implements OnChanges, OnInit {
-  //onChange does not work
-  // @Input() sum: string;
 
-  sum: number;
-  comment: string;
+  @Input() sum: number;
+  @Input() comment: string;
+
+  // sum: number;
+  // comment: string;
   dateToSave: string;
   category: string;
   status: string;
-  isInvalidSum: boolean;
+  isInvalidInput: boolean;
+  invalidInputMessage: string;
 
   constructor(
-    private data: DataService, 
+    private data: DataService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('changes');
-    console.log('changes ', changes);
-
-  }
-
   ngOnInit() {
     const selectedCategory = this.route.snapshot.paramMap.get('category');
     this.category =  selectedCategory;
     this.getDate();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes');
+    console.log('changes ', changes);
+  }
+
+  validateSumInput(event) {
+    console.log('validateInput ', event);
+    const currentInput = event.data;
+    this.isInvalidInput = currentInput === null ?
+      false
+      : !this.validateSum(currentInput);
+    if (this.isInvalidInput) {
+      this.invalidInputMessage = `Fill the Sum field with a number.`;
+    }
   }
 
   getDate() {
@@ -48,14 +60,12 @@ export class AddExpenseComponent implements OnChanges, OnInit {
   }
 
   onSubmit() {
-    this.validateSum(this.sum) ? 
-      this.collectDataForSaving() 
-      : this.isInvalidSum = true;
+    this.collectDataForSaving();
   }
 
   collectDataForSaving() {
     const newExpence = {
-      sum: this.sum, 
+      sum: this.sum,
       comment: this.comment,
       type: this.category,
       date: this.dateToSave,
@@ -64,11 +74,11 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     this.saveNewExpence(newExpence);
   }
 
-  validateSum(sum): boolean {
-    if (isNaN(sum)||(!sum)) {
+  validateSum(sum: number): boolean {
+    if (isNaN(sum) || (!sum)) {
       return false;
     } else {
-      this.isInvalidSum = false
+      this.isInvalidInput = false;
       return true;
     }
   }
