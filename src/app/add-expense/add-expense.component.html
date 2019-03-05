@@ -5,8 +5,25 @@
 
   <div class="form-body">
     <form #empForm="ngForm">
-      <div class="form-group">
-          <label for="category">{{category}}</label>
+      <div class="form-group form-header">
+        <div>
+            <label for="category">{{category}}</label>
+        </div>
+        <div>
+          <div class="date-container">
+              <span class="chevron left" 
+                (click)="goToPrevDate()">
+              </span> 
+              <span class="date-holder">
+                {{ dateToSave }}
+              </span>
+              <span *ngIf="isToggled"
+                    class="chevron right" 
+                    (click)="goToNextDate()">
+              </span>
+            </div>
+        </div>
+      
         {{status}}
       </div>
   

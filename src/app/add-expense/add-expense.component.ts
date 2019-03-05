@@ -14,13 +14,14 @@ export class AddExpenseComponent implements OnChanges, OnInit {
   @Input() sum: number;
   @Input() comment: string;
 
-  // sum: number;
-  // comment: string;
   dateToSave: string;
   category: string;
   status: string;
   isInvalidInput: boolean;
   invalidInputMessage: string;
+  dateShiftLeft = 0;
+  dateShiftRight = 0;
+  isToggled = false;
 
   constructor(
     private data: DataService,
@@ -32,7 +33,7 @@ export class AddExpenseComponent implements OnChanges, OnInit {
   ngOnInit() {
     const selectedCategory = this.route.snapshot.paramMap.get('category');
     this.category =  selectedCategory;
-    this.getDate();
+    this.dateToSave = this.getCurrentDate();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -40,8 +41,60 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     console.log('changes ', changes);
   }
 
+  getCurrentDate(): string {
+    const dayWithShift = new Date();
+    const today = new Date();
+    dayWithShift.setDate(today.getDate() + this.dateShiftLeft + this.dateShiftRight);
+    const currentDate = dayWithShift.getDate();
+    const currentMonth = dayWithShift.getMonth() + 1;
+    const currentYear = dayWithShift.getFullYear();
+    const currentDay = this.getDayOfWeek(dayWithShift.getDay());
+
+    return `${currentDate}.${currentMonth}.${currentYear} ${currentDay} `;
+  }
+
+  getDayOfWeek(currentDay: number): string {
+    switch (currentDay) {
+      case 0: {
+        return 'Sun';
+      }
+      case 1: {
+        return 'Mon';
+      }
+      case 2: {
+        return 'Tue';
+      }
+      case 3: {
+        return 'Wed';
+      }
+      case 4: {
+        return 'Thu';
+      }
+      case 5: {
+        return 'Fri';
+      }
+      case 6: {
+        return 'Sat';
+      }
+    }
+  }
+
+  goToPrevDate(): void {
+    this.isToggled = true;
+    this.dateShiftLeft = this.dateShiftLeft - 1;
+    this.dateToSave = this.getCurrentDate();
+  }
+
+  goToNextDate(): void {
+    this.dateShiftRight = this.dateShiftRight + 1;
+    this.dateToSave = this.getCurrentDate();
+    if (this.dateShiftRight + this.dateShiftLeft === 0) {
+      this.isToggled = false;
+    }
+  }
+
   validateSumInput(event) {
-    console.log('validateInput ', event);
+    //console.log('validateInput ', event);
     const currentInput = event.data;
     this.isInvalidInput = currentInput === null ?
       false
@@ -49,14 +102,6 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     if (this.isInvalidInput) {
       this.invalidInputMessage = `Fill the Sum field with a number.`;
     }
-  }
-
-  getDate() {
-    this.data.currentDate.subscribe(date => {
-      this.dateToSave = date;
-    }, err => {
-      console.log(err);
-    });
   }
 
   onSubmit() {
@@ -83,18 +128,12 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     }
   }
 
-  // connectDataBase() {
-  //   //use for get-request
-  //   this.http.get('http://localhost:3000/expences').subscribe((response) => {
-  //   });
-  // }
-
   saveNewExpence(newExpence) {
     // console.log('newExpence Obj in Post', newExpence);
     this.http.post('http://localhost:3000/expences', {
       type: newExpence.type,
       dateToParse: newExpence.date,
-      sum: newExpence.sum, 
+      sum: newExpence.sum,
       comment: newExpence.comment,
     }).subscribe((result) => {
       console.log('result ', result);
@@ -107,5 +146,4 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     });
   }
 
- 
 }

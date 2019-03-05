@@ -1,54 +1,42 @@
+@font-face {
+    font-family: Pt-Sans-Bold;
+    src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
+}
 .main {
-    height:100vh;
-    width: 100vw;
-	background: #394D61;
-	z-index: -1;
+    height:100%;
+    width: 100%;
+	background:transparent;
+}
 
+.modal-form {
+	border: 2px solid;
+	margin: 20%;
 }
-.modalDialog {
-	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: rgba(0,0,0,0.8);
-	z-index: 99999;
-	-webkit-transition: opacity 400ms ease-in;
-	-moz-transition: opacity 400ms ease-in;
-	transition: opacity 400ms ease-in;
-    pointer-events: auto;
+
+.modal-message {
+	height: 50%;
+	width: 50%;
+	font-family: Pt-Sans-Bold;
+	font-size: 2rem;
+	color: white;
+	padding-left: 2%;
+	padding-top: 3%;
 }
-.modalDialog:target {
-	display: block;
-	pointer-events: auto;
+
+.modal-form input[type=submit] {
+	background: transparent;
+	border: 1px solid white;
+	padding: 8px 10px 8px 10px;
+    color: white;
+	margin-left: 80%;
+	margin-bottom: 5%;
+	font-size: 1rem;
+	font-family: Pt-Sans-Bold;
 }
-.modalDialog > div {
-	width: 400px;
-	position: relative;
-	margin: 10% auto;
-	padding: 5px 20px 13px 20px;
-	border-radius: 10px;
-	background: -moz-linear-gradient(#fff, #999);
-	background: -webkit-linear-gradient(#fff, #999);
-	background: -o-linear-gradient(#fff, #999);
+
+.modal-form input[type=submit]:hover {
+	cursor: pointer;
+	background-color: white;
+	color: black;
 }
-.close {
-	background: #606061;
-	color:#8eacbb;
-	line-height: 25px;
-	position: absolute;
-	right: -12px;
-	text-align: center;
-	top: -10px;
-	width: 24px;
-	text-decoration: none;
-	font-weight: bold;
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 12px;
-	border-radius: 12px;
-	-moz-box-shadow: 1px 1px 3px #000;
-	-webkit-box-shadow: 1px 1px 3px #000;
-	box-shadow: 1px 1px 3px #000;
-}
-.close:hover { background: #394D61; }
+

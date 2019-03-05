@@ -23,18 +23,18 @@ export class ModalComponent implements OnInit {
     this.status =  resultStatus;
   }
 
-  getBackground(): string {
+  getBorderColor(): string {
     if (this.status === 'saved') {
-      return '#8eacbb';
+      return 'white';
     } else {
-      return '#ad0622';
+      return '#d50000';
     }
   }
 
   closeModal() {
-    console.log('status ', status)
+    console.log('status ', status);
     if (this.status === 'saved') {
-      this.router.navigate(['/categories']);  
+      this.router.navigate(['/categories']);
     } else {
       this.router.navigate(['/categories/' + this.category]);
     } 
