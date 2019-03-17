@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { FinanceData } from '../interfaces';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-expense-detail',
@@ -20,6 +21,7 @@ export class ExpenseDetailComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private data: DataService
   ) { }
 
   ngOnInit() {
@@ -47,14 +49,16 @@ export class ExpenseDetailComponent implements OnInit {
     this.expensesByCategory = sortedResponse;
   }
 
-  formatResponseDate(response: FinanceData[]): FinanceData[] {  // TODO this logic is also used in balance component. Move it to a service
-    const formattedResponse = response.reduce(function (resultArray, currentExpense) {
-      currentExpense.date = currentExpense.date.substring(0, 10);
-      resultArray.push(currentExpense);
-      return resultArray;
-    }, []);
+  formatResponseDate(response: FinanceData[]): FinanceData[] {
+    // const formattedResponse = response.reduce(function (resultArray, currentExpense) { //do I need replace this method to servis?
+    //   currentExpense.date = currentExpense.date.substring(0, 10);
+    //   resultArray.push(currentExpense);
+    //   return resultArray;
+    // }, []);
 
-    return formattedResponse;
+    // return formattedResponse;
+
+    return this.data.formatResponseDate(response);
   }
 
   getThisMonthExpences(formattedResponse: FinanceData[]): FinanceData[] {  // TODO this logic is also used in balance component. 

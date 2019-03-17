@@ -15,6 +15,7 @@ import { ModalComponent } from './modal/modal.component';
 import { MatIconModule } from '@angular/material/icon';
 import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ExpenseDetailComponent } from './expense-detail/expense-detail.componen
     AddExpenseComponent,
     ModalComponent,
     BalanceComponent,
-    ExpenseDetailComponent
+    ExpenseDetailComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,

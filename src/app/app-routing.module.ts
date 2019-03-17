@@ -5,10 +5,13 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ModalComponent } from './modal/modal.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 
  const routes: Routes = [
-    { path: '', redirectTo: 'categories', pathMatch: 'full' },
+    //  { path: '', redirectTo: 'categories', pathMatch: 'full' },
+    { path: '', redirectTo: 'auth', pathMatch: 'full' },
+    { path: 'auth', component: LoginFormComponent },
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/:category', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },
