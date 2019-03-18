@@ -12,58 +12,30 @@
     height: 100vh;
 }
 
-.ask-user {
-    font-family: capture;
-    color: white;
-    font-size: 3rem;
-    padding-top: 10%;
+.login-form-container {
+    height: 100%;
+    width: 100%;
     text-align: center;
 }
 
-.anser-options {
-    padding-top: 5%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    text-align: center;
+.login-form {
+    width: 50%;
+    height: 80%;
+    margin-top: 5%;
+    border: 1px solid white;
+    display: inline-block;
 }
 
-.yes-btn, .no-btn {
-    font-family: capture;
-    color: white;
-    font-size: 3rem;
-
-}
-
-.yes-btn:hover, .no-btn:hover {
-    background-color: #eee;
-    cursor: pointer;
-    color: black;
-  }
-
-  .login-form-container {
-      height: 100%;
-      width: 100%;
-      text-align: center;
-  }
-
-  .login-form {
-      width: 50%;
-      height: 80%;
-      margin-top: 5%;
-      border: 1px solid white;
-      display: inline-block;
-  }
-
-  .login-mess {
+.login-mess {
     font-family: capture;
     color: white;
     font-size: 2rem;
     padding-top: 2%;
     text-align: left;
     padding-left: 2%;
-  }
+}
 
-  .login-label {
+.login-label {
     font-family: capture;
     color: white;
     font-size: 1.5rem;
@@ -71,40 +43,40 @@
     text-align: left;
     padding-left: 15%;
     padding-top: 4%;
-  }
+}
 
-  .form-group input[type=text],
-  .form-group input[type=password] {
-	background: transparent;
-	border: none;
-	border-bottom: 1px dashed white;
-	width: 70%;
-	outline: none;
-	padding-top: 2%;
-	font-size: 1.5rem;
-	font-family: Pt-Sans-Bold;
-	color: white;
+.form-group input[type=text],
+.form-group input[type=password] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed white;
+    width: 70%;
+    outline: none;
+    padding-top: 2%;
+    font-size: 1.5rem;
+    font-family: Pt-Sans-Bold;
+    color: white;
 }
 
 .button-group {
     margin-top: 3%;
     margin-right: 15%;
     text-align: right;
-
 }
 
 .form-group input[type=submit],
 .form-group input[type=button]{
-	background: transparent;
-	border: 1px solid white;
-	padding: 8px 10px 8px 10px;
+    background: transparent;
+    border: 1px solid white;
+    padding: 8px 10px 8px 10px;
     color: white;
-	margin-left: 10px;
-	font-family: Pt-Sans-Bold;
+    margin-left: 10px;
+    font-family: Pt-Sans-Bold;
 }
+
 .form-group input[type=submit]:hover,
 .form-group input[type=button]:hover {
-	cursor: pointer;
-	background: white;
-	color: black;
+    cursor: pointer;
+    background: white;
+    color: black;
 }

@@ -6,12 +6,14 @@ import { ModalComponent } from './modal/modal.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 
 
  const routes: Routes = [
     //  { path: '', redirectTo: 'categories', pathMatch: 'full' },
-    { path: '', redirectTo: 'auth', pathMatch: 'full' },
-    { path: 'auth', component: LoginFormComponent },
+    { path: '', redirectTo: 'hello-monney', pathMatch: 'full' },
+    { path: 'hello-monney', component: HelloMonneyComponent },
+    { path: 'login', component: LoginFormComponent },
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/:category', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },

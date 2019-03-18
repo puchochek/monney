@@ -1,26 +1,6 @@
 <div class="main">
 
-  <div class="user-check" *ngIf="!isButtonPressed">
-    <div class="ask-user">
-        already have an account here ?
-    </div>
-    <div class="anser-options">
-      <div class="empty-div"></div>
-      <div class="yes-btn"
-           (click)="singIn()"
-           routerLink="/categories">yes</div> 
-           <!-- TODO remove the router link after sing-in form creation -->
-      <div class="no-btn"
-           (click)="logIn()">no</div>
-      <div class="empty-div"></div>
-    </div>
-  </div>
-
-  <div class="singin-form-container" *ngIf="isExistedUser">
-
-  </div>
-
-  <div class="login-form-container" *ngIf="isNewUser">
+  <div class="login-form-container">
     <div class="login-form">
       <div class="login-mess">login</div>
       
@@ -59,18 +39,13 @@
       <div class="button-group form-group ">
           <input type="submit" 
                  value="Login" 
-                  (click)="onSubmit()"/>
+                  (click)="login()"/>
           <span> </span>
           <input type="button" 
                  value="Close" 
-                 (click)="closeLoginForm()"/>
+                 routerLink="/hello-monney"/>                
+      </div>   
 
-      </div>
-      
-    </div>
-    
+    </div>    
   </div>
-
-
-
 </div>

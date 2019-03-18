@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     ModalComponent,
     BalanceComponent,
     ExpenseDetailComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    HelloMonneyComponent
   ],
   imports: [
     BrowserModule,
