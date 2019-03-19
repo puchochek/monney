@@ -31,17 +31,20 @@ export class LoginFormComponent implements OnInit {
   }
 
   login() {
-    let test = 'login';
+    // TODO add validation for all params
     console.log('password', this.password);
     this.http.post('http://localhost:3000/expences/login', {
       password: this.password,
+      name: this.name,
+      email: this.mailAddress
     }).subscribe((result) => {
       console.log('result ', result);
-      if (result) {
-        this.status = 'saved';
-      } else {
-        this.status = 'error';
-      }
+      // TODO add modal message
+      // if (result) {
+      //   this.status = 'saved';
+      // } else {
+      //   this.status = 'error';
+      // }
       this.router.navigate(['/categories']);
     });
   }
