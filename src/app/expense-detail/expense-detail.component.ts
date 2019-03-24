@@ -33,7 +33,7 @@ export class ExpenseDetailComponent implements OnInit {
 
   connectDataBase() {
     // use for get-request
-    this.http.get('http://localhost:3000/expences/' + this.selectedCategory).subscribe((response: FinanceData[]) => {
+    this.http.get('http://localhost:3000/expence/' + this.selectedCategory).subscribe((response: FinanceData[]) => {
       this.setExpensesByCategory(response);
     });
   }

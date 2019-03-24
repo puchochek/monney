@@ -80,3 +80,20 @@
     background: white;
     color: black;
 }
+
+#error-block {
+	color: #d50000;
+	font: 30px/100% Pt-Sans-Bold;
+    font-size: 1.5rem;
+    padding: 10Px 15px;
+}
+
+.hide-message {
+    text-align: right;
+    padding-top: 5px;
+}
+
+.hide-message:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

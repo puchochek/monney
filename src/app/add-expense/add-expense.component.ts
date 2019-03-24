@@ -130,7 +130,7 @@ export class AddExpenseComponent implements OnChanges, OnInit {
 
   saveNewExpence(newExpence) {
     // console.log('newExpence Obj in Post', newExpence);
-    this.http.post('http://localhost:3000/expences', {
+    this.http.post('http://localhost:3000/expence', {
       type: newExpence.type,
       dateToParse: newExpence.date,
       sum: newExpence.sum,

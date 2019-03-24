@@ -12,7 +12,6 @@
             required 
             [(ngModel)]="name" 
             name="name">
-            <!-- (input)="validateSumInput($event)"> -->
 
         <div class="login-label">e-mail</div>
         <div class="form-group">
@@ -22,7 +21,6 @@
           required 
           [(ngModel)]="mailAddress" 
           name="mailAddress">
-          <!-- (input)="validateSumInput($event)"> -->
 
         <div class="login-label">password</div>
         <div class="form-group">
@@ -31,20 +29,31 @@
           id="password" 
           required 
           [(ngModel)]="password" 
-          name="password">
-          <!-- (input)="validateSumInput($event)"> -->             
-
+          name="password">           
       </div>
 
       <div class="button-group form-group ">
           <input type="submit" 
                  value="Login" 
-                  (click)="login()"/>
+                 [disabled]="isFormInvalid"
+                 (click)="validateInput()"/>
           <span> </span>
           <input type="button" 
                  value="Close" 
                  routerLink="/hello-monney"/>                
-      </div>   
+      </div>  
+      
+      <div *ngIf="isInvalidInput">
+        <div class="form-group" id="error-block">
+          Please, correct the input.
+          <br/><br/>
+          {{invalidInputMessage}}
+            <div class="hide-message"
+                 (click)="hideMessage()">
+              Got it.
+            </div>
+        </div>
+    </div>
 
     </div>    
   </div>

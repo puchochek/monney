@@ -34,7 +34,7 @@ export class BalanceComponent implements OnInit {
 
   connectDataBase() {
     // use for get-request
-    this.http.get('http://localhost:3000/expences').subscribe((response: FinanceData[]) => {
+    this.http.get('http://localhost:3000/expence').subscribe((response: FinanceData[]) => {
     this.parseResponse(response);
     });
   }
