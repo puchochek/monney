@@ -38,7 +38,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   validateInput() {
-    
     this.isValidName = this.validateName(this.name);
     this.isEmailValid = this.validateEmail(this.mailAddress);
     this.isPasswordVaild = this.validatePassword(this.password);
@@ -86,7 +85,7 @@ export class LoginFormComponent implements OnInit {
   clearWrongInput(wrongInputs: string[]) {
     console.log('wrongInput ', wrongInputs);
     wrongInputs.forEach(wrongInput => {
-      switch(wrongInput) {
+      switch (wrongInput) {
         case 'name':
           this.name = '';
         case 'email':
@@ -98,7 +97,7 @@ export class LoginFormComponent implements OnInit {
 
   }
 
-  validateName(nameInput) {
+  validateName(nameInput: string) {
     // allows lowercase and one uppercase letters and numbers
     const expression = /^([- A-Za-zа-яА-ЯёЁ0-9]+)$/;
     if (expression.test(String(nameInput).toLowerCase()) || nameInput.length === 0) {
@@ -118,9 +117,13 @@ export class LoginFormComponent implements OnInit {
   }
 
   validatePassword(passwordInput: string): boolean {
+    console.log('passwordInput ', passwordInput);
     // at least one number, one lowercase and one uppercase letter
     // at least six characters
-    const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    //const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    //const expression = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    const expression = /^[A-Za-z]\w{7,15}$/;
+    console.log(expression.test(String(passwordInput).toLowerCase()));
     return expression.test(String(passwordInput).toLowerCase()) ? true : false;
 
   }
