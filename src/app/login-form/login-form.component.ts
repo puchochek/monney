@@ -26,6 +26,7 @@ export class LoginFormComponent implements OnInit {
   isFormInvalid: boolean;
   isInvalidInput: boolean;
   invalidInputMessage: string;
+  url: string;
 
   constructor(
     private data: DataService,
@@ -34,10 +35,15 @@ export class LoginFormComponent implements OnInit {
     private router: Router, ) { }
 
   ngOnInit() {
-
+    this.url = this.router.url;
   }
 
   validateInput() {
+    console.log('this.url ', this.url)
+    console.log('th', this.url.split('/'));
+    //TODO add autorize endpoint 
+    const requestParam = this.url.split('/')[1];
+    console.log('requestParam ', requestParam);
     this.isValidName = this.validateName(this.name);
     this.isEmailValid = this.validateEmail(this.mailAddress);
     this.isPasswordVaild = this.validatePassword(this.password);

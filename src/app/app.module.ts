@@ -17,6 +17,7 @@ import { BalanceComponent } from './balance/balance.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
+import { ActivateUserComponent } from './activate-user/activate-user.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
     BalanceComponent,
     ExpenseDetailComponent,
     LoginFormComponent,
-    HelloMonneyComponent
+    HelloMonneyComponent,
+    ActivateUserComponent
   ],
   imports: [
     BrowserModule,
