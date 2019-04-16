@@ -20,10 +20,11 @@ export class ActivateUserComponent implements OnInit {
   ngOnInit() {
     const token = this.route.snapshot.paramMap.get('token');
     console.log('token ', token);
+    this.activateUser(token);
   }
 
   activateUser(token: string) {
-    this.http.post('http://localhost:3000/user', {
+    this.http.post('http://localhost:3000/user/token', {
       token: token,
     }).subscribe((result) => {
       console.log('result ', result);
