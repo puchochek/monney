@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { LoggedUser } from '../interfaces';
 
 const wrongName = `Name field may only consist of letters or numbers.`;
 const wrongEmail = `Email field must contain @ symbol.`;
@@ -39,9 +40,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   validateInput() {
-    console.log('this.url ', this.url)
-    console.log('th', this.url.split('/'));
-    //TODO add autorize endpoint 
     const requestParam = this.url.split('/')[1];
     console.log('requestParam ', requestParam);
     this.isValidName = this.validateName(this.name);
@@ -49,7 +47,14 @@ export class LoginFormComponent implements OnInit {
     this.isPasswordVaild = this.validatePassword(this.password);
 
     if (this.isValidName && this.isEmailValid && this.isPasswordVaild) {
-      this.login();
+      const currentAction = this.url;
+      if (currentAction.includes('login')) {
+        this.login();
+      } else if (currentAction.includes('autorize')) {
+        this.autorize();
+      }
+      console.log('currentAction ', currentAction);
+
     } else {
       this.disableLoginButton();
       this.isInvalidInput = true;
@@ -137,19 +142,37 @@ export class LoginFormComponent implements OnInit {
   login() {
     // TODO add validation for all params
     console.log('password', this.password);
-    this.http.post('http://localhost:3000/user/login', {
+    this.http.post('http://localhost:3000/user/register', {
       password: this.password,
       name: this.name,
       email: this.mailAddress
-    }).subscribe((result) => {
-      console.log('result ', result);
-      // TODO add modal message
-      // if (result) {
-      //   this.status = 'saved';
-      // } else {
-      //   this.status = 'error';
-      // }
-      this.router.navigate(['/categories']);
+    }).subscribe((response: LoggedUser) => {
+      console.log('result REGISTRED', response);
+      if (response) {
+        // TODO add modal message kind of "Check your email"
+        // this.router.navigate(['/myprofile/' + response.id]);
+      } else {
+      // TODO add error modal
+      }
+    });
+  }
+
+  autorize() {
+    console.log('localStorage ', localStorage.getItem('token'));
+    this.http.post('http://localhost:3000/user/autorize', {
+      password: this.password,
+      name: this.name,
+      email: this.mailAddress
+    }, {
+      headers: new HttpHeaders().set('authorization', 'Bearer ' + localStorage.getItem('token'))
+    }).subscribe((response: LoggedUser) => {
+      console.log('result AUTHORIZED', response);
+      if (response) {
+        // TODO add modal message kind of "Check your email"
+        // this.router.navigate(['/myprofile/' + response.id]);
+      } else {
+      // TODO add error modal
+      }
     });
   }
 

@@ -8,6 +8,7 @@ import { ExpenseDetailComponent } from './expense-detail/expense-detail.componen
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
  const routes: Routes = [
@@ -23,6 +24,7 @@ import { ActivateUserComponent } from './activate-user/activate-user.component';
     { path: 'balance', component: BalanceComponent },
     { path: 'detail/:category', component: ExpenseDetailComponent },
     { path: 'activate/:token', component: ActivateUserComponent },
+    { path: 'myprofile/:userid', component: UserProfileComponent },
  ];
 
 @NgModule({

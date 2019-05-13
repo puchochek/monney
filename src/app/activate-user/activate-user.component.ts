@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { LoggedUser } from '../interfaces';
 
 @Component({
   selector: 'app-activate-user',
@@ -8,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./activate-user.component.scss']
 })
 export class ActivateUserComponent implements OnInit {
-
+  token = this.route.snapshot.paramMap.get('token');
   status: string;
 
   constructor(
@@ -18,23 +19,28 @@ export class ActivateUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const token = this.route.snapshot.paramMap.get('token');
-    console.log('token ', token);
-    this.activateUser(token);
+    //const token = this.route.snapshot.paramMap.get('token');
+    console.log('---> token ', this.token);
+    this.activateUser(this.token);
   }
 
   activateUser(token: string) {
     this.http.post('http://localhost:3000/user/token', {
       token: token,
-    }).subscribe((result) => {
-      console.log('result ', result);
-      if (result) {
-        this.status = 'success';
+    }).subscribe((response: LoggedUser) => {
+      console.log('---> result ', response);
+      if (response) {
+        this.router.navigate(['/myprofile/' + response.id]);
+        this.saveTokenToLocalStorage();
+        //this.status = 'success';
       } else {
-        this.status = 'error';
+         // TODO add error modal
       }
-      this.router.navigate(['/categories/' + this.status]);
     });
+  }
+
+  saveTokenToLocalStorage() {
+    localStorage.setItem('token', this.token);
   }
 
 }

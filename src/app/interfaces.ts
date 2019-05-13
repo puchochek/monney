@@ -11,3 +11,11 @@ export interface FinanceData {
     expences: FinanceData[];
     total: number;
   }
+
+  export interface LoggedUser {
+    id: string;
+    password: string;
+    name: string;
+    email: string;
+    isConfirmed: boolean;
+  }

@@ -18,6 +18,7 @@ import { ExpenseDetailComponent } from './expense-detail/expense-detail.componen
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ActivateUserComponent } from './activate-user/activate-user.component';
     ExpenseDetailComponent,
     LoginFormComponent,
     HelloMonneyComponent,
-    ActivateUserComponent
+    ActivateUserComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
