@@ -22,7 +22,9 @@ export class CategoryListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('local storage ', localStorage.getItem('token'));
+  }
 
   onSelect(category: Category): void {
     this.categoryList = false;
