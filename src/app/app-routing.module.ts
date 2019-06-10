@@ -22,6 +22,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     { path: 'categories/:category', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },
     { path: 'categories/:category/:status', component: ModalComponent },
+    { path: 'login/:userName/:status', component: ModalComponent },
     { path: 'balance', component: BalanceComponent },
     { path: 'detail/:category', component: ExpenseDetailComponent },
     { path: 'activate/:token', component: ActivateUserComponent },

@@ -4,11 +4,11 @@
 
   <div class="empty-div"></div>
 
-  <div class="form-body">
+  <div class="form-body" *ngIf="isNewExpenseFormShown">
     <form #empForm="ngForm">
       <div class="form-group form-header">
         <div>
-            <label for="category">{{category}}</label>
+            <label for="category">{{ category }}</label>
         </div>
         <div>
           <div class="date-container">
@@ -25,7 +25,7 @@
             </div>
         </div>
       
-        {{status}}
+        {{ status }}
       </div>
   
       <div class="form-group">
@@ -42,7 +42,7 @@
       
       <div *ngIf="isInvalidInput">
           <div class="form-group" id="error-block">
-            {{invalidInputMessage}}
+            {{ invalidInputMessage }}
           </div>
       </div>
   
@@ -73,5 +73,11 @@
   </div>
 
   <div class="empty-div"></div>
+
+
+  <div class="modal-view" *ngIf="isModalShown">
+    <app-modal [message]="message" [status]="status"></app-modal>
+  </div>
+  
 
 </div>

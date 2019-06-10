@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -8,8 +8,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class ModalComponent implements OnInit {
 
-  category: string;
-  status: string;
+  @Input() message: string;
+  @Input() status: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -17,10 +17,15 @@ export class ModalComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    const selectedCategory = this.route.snapshot.paramMap.get('category');
-    const resultStatus = this.route.snapshot.paramMap.get('status');
-    this.category =  selectedCategory;
-    this.status =  resultStatus;
+    //const
+    // const selectedCategory = this.route.snapshot.paramMap.get('category');
+    // const resultStatus = this.route.snapshot.paramMap.get('status');
+    // this.successEntity =  selectedCategory;
+    // this.status =  resultStatus;
+    // console.log('message ', this.message);
+    //this.message = message;
+    //this.url = this.router.url;
+    //this.defineParentComponent(this.router.url);
   }
 
   getBorderColor(): string {
@@ -36,7 +41,7 @@ export class ModalComponent implements OnInit {
     if (this.status === 'saved') {
       this.router.navigate(['/categories']);
     } else {
-      this.router.navigate(['/categories/' + this.category]);
+      this.router.navigate(['/categories/' + this.successEntity]);
     } 
   }
 }

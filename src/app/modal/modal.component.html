@@ -1,13 +1,13 @@
-<app-header></app-header>
 <div class=main>
       <div id="openModal" >
       <div class="modal-form" [ngStyle]="{'border-color': getBorderColor()}">
         <div class="modal-message">
-            {{ status === 'saved' ? 'Saved.' : 'Error!' }}
+            <!-- {{ status === 'saved' ? 'Saved.' : 'Error!' }} -->
         <br/>
-            {{ status === 'saved' ? 
-              'The expense was successfully added to the ' + category + ' category.'  :
-              'Something goes wrong. Try again.' }}
+        {{ message }}
+            <!-- {{ status === 'saved' ? 
+              'The expense was successfully added to the ' + successEntity + ' category.'  :
+              'Something goes wrong. Try again.' }} -->
         </div>
 
         <input type="submit" 

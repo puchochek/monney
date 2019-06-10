@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, SimpleChang
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-add-expense',
@@ -19,9 +20,12 @@ export class AddExpenseComponent implements OnChanges, OnInit {
   status: string;
   isInvalidInput: boolean;
   invalidInputMessage: string;
-  dateShiftLeft = 0;
-  dateShiftRight = 0;
-  isToggled = false;
+  dateShiftLeft: number;
+  dateShiftRight: number;
+  isToggled: boolean;
+  isModalShown: boolean;
+  isNewExpenseFormShown: boolean;
+  message: string;
 
   constructor(
     private data: DataService,
@@ -31,6 +35,13 @@ export class AddExpenseComponent implements OnChanges, OnInit {
   ) { }
 
   ngOnInit() {
+    // default values;
+    this.isNewExpenseFormShown = true;
+    this.isModalShown = false;
+    this.isToggled = false;
+    this.dateShiftRight = 0;
+    this.dateShiftLeft = 0;
+
     const selectedCategory = this.route.snapshot.paramMap.get('category');
     this.category =  selectedCategory;
     this.dateToSave = this.getCurrentDate();
@@ -139,10 +150,17 @@ export class AddExpenseComponent implements OnChanges, OnInit {
       console.log('result ', result);
       if (result) {
         this.status = 'saved';
+        // TODO add category type
+        this.message = 'The expense was successfully added to the ' +  result['type'] + ' category.';
+        this.isNewExpenseFormShown = false;
+        console.log('this.message ', this.message);
+        this.isModalShown = true;
       } else {
         this.status = 'error';
+        this.message = 'Something goes wrong. Try again.';
+        this.isNewExpenseFormShown = false;
+        this.isModalShown = true;
       }
-      this.router.navigate(['/categories/' + this.category + '/' + this.status]);
     });
   }
 

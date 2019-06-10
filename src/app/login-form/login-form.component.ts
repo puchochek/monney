@@ -150,10 +150,13 @@ export class LoginFormComponent implements OnInit {
       console.log('result REGISTRED', response);
       if (response) {
         // TODO add modal message kind of "Check your email"
-        // this.router.navigate(['/myprofile/' + response.id]);
+        this.status = 'success';
+        //this.router.navigate(['/categories/' + this.category + '/' + this.status]); 
       } else {
+        this.status = 'error';
       // TODO add error modal
       }
+      this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
     });
   }
 
