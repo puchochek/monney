@@ -2,14 +2,10 @@
       <div id="openModal" >
       <div class="modal-form" [ngStyle]="{'border-color': getBorderColor()}">
         <div class="modal-message">
-            <!-- {{ status === 'saved' ? 'Saved.' : 'Error!' }} -->
+            {{ status === 'saved' ? 'Saved.' : 'Error!' }}
         <br/>
-        {{ message }}
-            <!-- {{ status === 'saved' ? 
-              'The expense was successfully added to the ' + successEntity + ' category.'  :
-              'Something goes wrong. Try again.' }} -->
+        {{ message }}            
         </div>
-
         <input type="submit" 
                value="Close" 
                (click)="closeModal()"/>

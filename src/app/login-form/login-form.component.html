@@ -1,6 +1,6 @@
 <div class="main">
 
-  <div class="login-form-container">
+  <div class="login-form-container" *ngIf="isLoginFormShown">
     <div class="login-form">
       <div class="login-mess">login</div>
       
@@ -41,7 +41,7 @@
           <input type="button" 
                  value="Close" 
                  routerLink="/hello-monney"/>                
-      </div>  
+      </div>      
       
       <div *ngIf="isInvalidInput">
         <div class="form-group" id="error-block">
@@ -53,8 +53,10 @@
               Got it.
             </div>
         </div>
-    </div>
-
-    </div>    
+      </div>
+    </div>      
   </div>
+  <div class="modal-view" *ngIf="isModalShown">
+    <app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
+  </div>   
 </div>

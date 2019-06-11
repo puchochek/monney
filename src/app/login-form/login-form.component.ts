@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ModalComponent } from '../modal/modal.component';
 import { LoggedUser } from '../interfaces';
 
 const wrongName = `Name field may only consist of letters or numbers.`;
@@ -28,6 +29,9 @@ export class LoginFormComponent implements OnInit {
   isInvalidInput: boolean;
   invalidInputMessage: string;
   url: string;
+  isModalShown: boolean;
+  isLoginFormShown: boolean;
+  message: string;
 
   constructor(
     private data: DataService,
@@ -36,12 +40,14 @@ export class LoginFormComponent implements OnInit {
     private router: Router, ) { }
 
   ngOnInit() {
+    this.isLoginFormShown = true;
+    this.isModalShown = false;
     this.url = this.router.url;
   }
 
   validateInput() {
     const requestParam = this.url.split('/')[1];
-    console.log('requestParam ', requestParam);
+    //console.log('requestParam ', requestParam);
     this.isValidName = this.validateName(this.name);
     this.isEmailValid = this.validateEmail(this.mailAddress);
     this.isPasswordVaild = this.validatePassword(this.password);
@@ -53,7 +59,7 @@ export class LoginFormComponent implements OnInit {
       } else if (currentAction.includes('autorize')) {
         this.autorize();
       }
-      console.log('currentAction ', currentAction);
+      //console.log('---> currentAction ', currentAction);
 
     } else {
       this.disableLoginButton();
@@ -94,7 +100,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   clearWrongInput(wrongInputs: string[]) {
-    console.log('wrongInput ', wrongInputs);
+    //console.log('wrongInput ', wrongInputs);
     wrongInputs.forEach(wrongInput => {
       switch (wrongInput) {
         case 'name':
@@ -128,35 +134,49 @@ export class LoginFormComponent implements OnInit {
   }
 
   validatePassword(passwordInput: string): boolean {
-    console.log('passwordInput ', passwordInput);
+    //console.log('passwordInput ', passwordInput);
     // at least one number, one lowercase and one uppercase letter
     // at least six characters
     //const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     //const expression = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     const expression = /^[A-Za-z]\w{7,15}$/;
-    console.log(expression.test(String(passwordInput).toLowerCase()));
+    //console.log(expression.test(String(passwordInput).toLowerCase()));
     return expression.test(String(passwordInput).toLowerCase()) ? true : false;
 
   }
 
+  closeModal(event) {
+    if (event.value === 'error') {
+      this.isLoginFormShown = true;
+      this.isModalShown = false;
+    } else {
+      this.message = 'Please, check your email to continue.';
+      this.isLoginFormShown = false;
+      this.isModalShown = true;
+    }
+  }
+
   login() {
     // TODO add validation for all params
-    console.log('password', this.password);
+    //console.log('password', this.password);
     this.http.post('http://localhost:3000/user/register', {
       password: this.password,
       name: this.name,
       email: this.mailAddress
-    }).subscribe((response: LoggedUser) => {
-      console.log('result REGISTRED', response);
+    }).subscribe((response: LoggedUser) => {      
       if (response) {
-        // TODO add modal message kind of "Check your email"
-        this.status = 'success';
-        //this.router.navigate(['/categories/' + this.category + '/' + this.status]); 
+        console.log('---> result REGISTRED', response);
+        this.status = 'saved';
+        this.message = 'Congratulations! You were successfully logged in the app. Now check your email to continue.';
+        this.isLoginFormShown = false;
+        this.isModalShown = true;
       } else {
         this.status = 'error';
-      // TODO add error modal
+        this.message = 'Something goes wrong. Try again.';
+        this.isLoginFormShown = false;
+        this.isModalShown = true;
       }
-      this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
+      //this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
     });
   }
 

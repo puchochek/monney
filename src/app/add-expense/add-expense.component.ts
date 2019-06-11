@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -47,6 +47,7 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     this.dateToSave = this.getCurrentDate();
   }
 
+  //TODO WHY DOES NOT WORK
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes');
     console.log('changes ', changes);
@@ -119,6 +120,14 @@ export class AddExpenseComponent implements OnChanges, OnInit {
     this.collectDataForSaving();
   }
 
+  closeModal(event) {
+    this.isNewExpenseFormShown = true;
+    this.isModalShown = false;
+    if (event.value === 'saved') {
+      this.router.navigate(['/categories']);
+    }
+  }
+
   collectDataForSaving() {
     const newExpence = {
       sum: this.sum,
@@ -147,13 +156,11 @@ export class AddExpenseComponent implements OnChanges, OnInit {
       sum: newExpence.sum,
       comment: newExpence.comment,
     }).subscribe((result) => {
-      console.log('result ', result);
+      console.log('---> SAVED CATEGORY ', result);
       if (result) {
         this.status = 'saved';
-        // TODO add category type
         this.message = 'The expense was successfully added to the ' +  result['type'] + ' category.';
         this.isNewExpenseFormShown = false;
-        console.log('this.message ', this.message);
         this.isModalShown = true;
       } else {
         this.status = 'error';

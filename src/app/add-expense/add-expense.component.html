@@ -23,9 +23,7 @@
                     (click)="goToNextDate()">
               </span>
             </div>
-        </div>
-      
-        {{ status }}
+        </div>       
       </div>
   
       <div class="form-group">
@@ -76,7 +74,7 @@
 
 
   <div class="modal-view" *ngIf="isModalShown">
-    <app-modal [message]="message" [status]="status"></app-modal>
+    <app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
   </div>
   
 

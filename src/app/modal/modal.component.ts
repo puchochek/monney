@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -10,6 +10,7 @@ export class ModalComponent implements OnInit {
 
   @Input() message: string;
   @Input() status: string;
+  @Output() onCloseModal = new EventEmitter();
 
   constructor(
     private route: ActivatedRoute,
@@ -17,15 +18,7 @@ export class ModalComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    //const
-    // const selectedCategory = this.route.snapshot.paramMap.get('category');
-    // const resultStatus = this.route.snapshot.paramMap.get('status');
-    // this.successEntity =  selectedCategory;
-    // this.status =  resultStatus;
-    // console.log('message ', this.message);
-    //this.message = message;
-    //this.url = this.router.url;
-    //this.defineParentComponent(this.router.url);
+    console.log('modal called');
   }
 
   getBorderColor(): string {
@@ -37,11 +30,6 @@ export class ModalComponent implements OnInit {
   }
 
   closeModal() {
-    console.log('status ', status);
-    if (this.status === 'saved') {
-      this.router.navigate(['/categories']);
-    } else {
-      this.router.navigate(['/categories/' + this.successEntity]);
-    } 
+    this.onCloseModal.emit({value: this.status});
   }
 }
