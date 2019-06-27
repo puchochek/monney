@@ -1,62 +1,45 @@
 <div class="main">
+	
+	<div class="login-form-container" *ngIf="isLoginFormShown">
+		<div class="login-form">
+			<div class="login-mess">login</div>
 
-  <div class="login-form-container" *ngIf="isLoginFormShown">
-    <div class="login-form">
-      <div class="login-mess">login</div>
-      
-        <div class="login-label">name</div>
-        <div class="form-group">
-            <input type="text" 
-            autocomplete="off" 
-            id="user-name" 
-            required 
-            [(ngModel)]="name" 
-            name="name">
+			<div class="login-label">name</div>
+			<div class="form-group">
+				<input type="text" autocomplete="off" id="user-name" required [(ngModel)]="name" name="name">
 
-        <div class="login-label">e-mail</div>
-        <div class="form-group">
-          <input type="text" 
-          autocomplete="off" 
-          id="mail-address" 
-          required 
-          [(ngModel)]="mailAddress" 
-          name="mailAddress">
+				<div class="login-label">e-mail</div>
+				<div class="form-group">
+					<input type="text" autocomplete="off" id="mail-address" required [(ngModel)]="mailAddress"
+						name="mailAddress">
 
-        <div class="login-label">password</div>
-        <div class="form-group">
-          <input type="password" 
-          autocomplete="off" 
-          id="password" 
-          required 
-          [(ngModel)]="password" 
-          name="password">           
-      </div>
+					<div class="login-label">password</div>
+					<div class="form-group">
+						<input type="password" autocomplete="off" id="password" required [(ngModel)]="password"
+							name="password">
+					</div>
 
-      <div class="button-group form-group ">
-          <input type="submit" 
-                 value="Login" 
-                 [disabled]="isFormInvalid"
-                 (click)="validateInput()"/>
-          <span> </span>
-          <input type="button" 
-                 value="Close" 
-                 routerLink="/hello-monney"/>                
-      </div>      
-      
-      <div *ngIf="isInvalidInput">
-        <div class="form-group" id="error-block">
-          Please, correct the input.
-          <br/><br/>
-          {{invalidInputMessage}}
-            <div class="hide-message"
-                 (click)="hideMessage()">
-              Got it.
-            </div>
-        </div>
-      </div>
-    </div>      
-  </div>
-  <div class="modal-view" *ngIf="isModalShown">
-    <app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
-  </div>   
+					<div class="button-group form-group ">
+						<input type="submit" value="Login" [disabled]="isFormInvalid" (click)="validateInput()" />
+						<span> </span>
+						<input type="button" value="Close" routerLink="/hello-monney" />
+					</div>
+
+					<div *ngIf="isInvalidInput">
+						<div class="form-group" id="error-block">
+							Please, correct the input.
+							<br /><br />
+							{{invalidInputMessage}}
+							<div class="hide-message" (click)="hideMessage()">
+								Got it.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-view" *ngIf="isModalShown">
+		<app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
+	</div>
 </div>

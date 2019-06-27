@@ -1,14 +1,25 @@
-<div class=main>
-      <div id="openModal" >
-      <div class="modal-form" [ngStyle]="{'border-color': getBorderColor()}">
-        <div class="modal-message">
-            {{ status === 'saved' ? 'Saved.' : 'Error!' }}
-        <br/>
-        {{ message }}            
+<!-- <div class=main>
+    <div id="openModal">
+        <div class="modal-form" [ngStyle]="{'border-color': getBorderColor()}">
+            <div class="modal-message">
+                {{ status === 'saved' ? 'Saved.' : 'Error!' }}
+                <br />
+                {{ message }}
+            </div>
+            <input type="submit" value="Close" (click)="closeModal()" />
         </div>
-        <input type="submit" 
-               value="Close" 
-               (click)="closeModal()"/>
+    </div>
+</div> -->
+
+<div class=main>
+    <div id="openModal">
+        <div class="modal-form">
+            <div class="modal-message" [ngStyle]="{'border-color': getBorderColor()}">
+                {{ status === 'saved' ? 'Saved.' : 'Error!' }}
+                <br />
+                {{ message }}
+            </div>
+            <input type="submit" value="Close" (click)="closeModal()" />
+        </div>
     </div>
 </div>
-

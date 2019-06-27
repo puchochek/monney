@@ -3,15 +3,15 @@
     src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
 }
 .main {
-    height:100%;
-    width: 100%;
+    height:100vh;
+    width: 100vw;
 	background:transparent;
 }
 
-.modal-form {
-	border: 2px solid;
-	margin: 20%;
-}
+// .modal-form {
+// 	border: 2px solid;
+// 	margin: 20%;
+// }
 
 .modal-message {
 	height: 50%;
@@ -21,6 +21,8 @@
 	color: white;
 	padding-left: 2%;
 	padding-top: 3%;
+	border: 2px solid;
+	margin: 20%;
 }
 
 .modal-form input[type=submit] {
