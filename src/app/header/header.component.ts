@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @Component({
@@ -10,6 +11,10 @@ import { DataService } from '../data.service';
 })
 export class HeaderComponent implements OnInit {
 
+  navLinks = []
+
+
+  //depricated
   date: string;
   dateShiftLeft = 0;
   dateShiftRight = 0;

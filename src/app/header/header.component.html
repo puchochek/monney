@@ -1,4 +1,45 @@
-<div class="main">
+<!-- <mat-toolbar class="mat-toolbar header-container" role="heading" >
+  <mat-toolbar-row align="end">
+    <span>First Row</span>
+  </mat-toolbar-row>  
+</mat-toolbar> -->
+
+
+
+<!-- TODO add navLinks to array in init -->
+<nav mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let link of navLinks"
+       [routerLink]="link.path"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
+  
+
+<!-- <mat-toolbar class="mat-toolbar header-container">
+    <mat-toolbar-row >
+      <div fxFlex="25%" align="end">
+          <button mat-button>
+              <b>Home</b>
+            </button>
+      </div>      
+      <div fxFlex="25%" align="end">
+          <button mat-button>
+              <b>Add App</b>
+            </button>
+      </div>
+   </mat-toolbar-row>
+  </mat-toolbar> -->
+
+
+
+
+
+
+
+<!-- <div class="main">
   <div class="header-container">
     <div class="avatar">
       <div class="avatar-content">E</div>
@@ -17,6 +58,4 @@
     </div>     
   </div>
   
-</div>
-
-
+</div> -->
