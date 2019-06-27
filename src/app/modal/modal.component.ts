@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-//import {MatCardModule, MatButtonModule} from '@angular/material/card';
 import { MatCardModule, MatButtonModule } from '@angular/material';
 
 
@@ -15,6 +14,8 @@ export class ModalComponent implements OnInit {
   @Input() status: string;
   @Output() onCloseModal = new EventEmitter();
 
+  buttonValue: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -22,8 +23,10 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     console.log('modal called');
+    this.buttonValue = 'ok';
   }
 
+  // is not used for now
   getBorderColor(): string {
     if (this.status === 'saved') {
       return 'white';

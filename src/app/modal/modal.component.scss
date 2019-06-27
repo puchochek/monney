@@ -4,53 +4,25 @@
 }
 
 .modal-cart {
-    font-family: Pt-Sans-Bold;       
-    height: 50vh;
+    font-family: Pt-Sans-Bold;   
+    margin: 10% auto;    
+    // height: 50vh;
     width: 50vw;
     background: transparent;    
     border: 1px solid white;
+    color: white;
 }
 
+.modal-status {
+    font-size: 1.8rem;
+}
 
+.modal-message {
+    font-size: 1.8rem;
+    margin: 0 16px;
+}
 
-
-// .main {
-//     height:100vh;
-//     width: 100vw;
-// 	background:transparent;
-// }
-
-// // .modal-form {
-// // 	border: 2px solid;
-// // 	margin: 20%;
-// // }
-
-// .modal-message {
-// 	height: 50%;
-// 	width: 50%;
-// 	font-family: Pt-Sans-Bold;
-// 	font-size: 2rem;
-// 	color: white;
-// 	padding-left: 2%;
-// 	padding-top: 3%;
-// 	border: 2px solid;
-// 	margin: 20%;
-// }
-
-// .modal-form input[type=submit] {
-// 	background: transparent;
-// 	border: 1px solid white;
-// 	padding: 8px 10px 8px 10px;
-//     color: white;
-// 	margin-left: 80%;
-// 	margin-bottom: 5%;
-// 	font-size: 1rem;
-// 	font-family: Pt-Sans-Bold;
-// }
-
-// .modal-form input[type=submit]:hover {
-// 	cursor: pointer;
-// 	background-color: white;
-// 	color: black;
-// }
-
+.mat-stroked-button {
+    font-size: 1.8rem;
+    font-family: Pt-Sans-Bold;
+}
