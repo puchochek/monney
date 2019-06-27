@@ -1,5 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+//import {MatCardModule, MatButtonModule} from '@angular/material/card';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 
 @Component({
   selector: 'app-modal',
