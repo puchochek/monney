@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
 			{ label: 'home', path: '/categories' },
 			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
 			{ label: 'balance', path: '/balance' },
-			{ label: 'profile', path: '/myprofile/:' + this.userId },
+			{ label: 'profile', path: '/myprofile/' + this.userId },
 			{ label: '', path: '' }
 		];
 		this.navLinks = headerLinks;

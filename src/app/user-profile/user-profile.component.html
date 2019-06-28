@@ -1,5 +1,36 @@
 <app-header></app-header>
 
-<p>
-  user-profile works!
-</p>
+<div class="profile-container">
+	<div class="profile-menu">
+		<mat-drawer-container class="example-container" autosize>
+			<mat-drawer #drawer class="example-sidenav" mode="side">
+				<p>Auto-resizing sidenav</p>
+				<p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+				<button (click)="showFiller = !showFiller" mat-raised-button>
+					Toggle extra text
+				</button>
+			</mat-drawer>
+
+			<div class="example-sidenav-content">
+				<button mat-fab aria-label="Example icon-button with a heart icon" (click)="drawer.toggle()">
+					<mat-icon>{{ menuIconToDisplay }}</mat-icon>
+				</button>
+			</div>
+
+		</mat-drawer-container>
+
+		<!-- <mat-list>
+					<mat-list-item>Item 1</mat-list-item>
+					<mat-divider></mat-divider>
+					<mat-list-item>Item 2</mat-list-item>
+					<mat-divider></mat-divider>
+					<mat-list-item>Item 3</mat-list-item>
+				  </mat-list> -->
+	</div>
+	<div class="profile-content">
+
+		d
+	</div>
+
+
+</div>

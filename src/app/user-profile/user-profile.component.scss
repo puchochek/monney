@@ -1,0 +1,41 @@
+.profile-container {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+.profile-menu {
+
+}
+
+.mat-divider{
+    border-top: 1px solid white;
+  }
+
+
+  .example-container {
+    width: 100vw;
+    height: 100vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background: transparent;
+    font-family: capture;
+  color: white;
+  font-size: 1.8rem;
+  }
+  
+  .example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    
+    
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+    background: transparent;
+    font-family: capture;
+  color: white;
+  font-size: 1.8rem;
+  }
+
+  
