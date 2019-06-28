@@ -12,6 +12,11 @@ export class UserProfileComponent implements OnInit {
 	menuOpenedIcon: string;
 	menuClosedIcon: string;
 	menuIconToDisplay: string;
+	menuOptions = [
+		'profile settings',
+		'manage categories',
+		'create report'
+	];
 
 	constructor() { }
 

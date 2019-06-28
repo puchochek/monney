@@ -3,8 +3,12 @@
 <div class="profile-container">
 	<div class="profile-menu">
 		<mat-drawer-container class="example-container" autosize>
-			<mat-drawer #drawer class="sidenav" mode="side" position="end">
-				<p>Auto-resizing sidenav</p>
+			<mat-drawer #drawer opened="true" class="sidenav" mode="side" position="end">
+				<mat-list *ngFor="let menuOption of menuOptions">
+					<mat-list-item>{{ menuOption }}</mat-list-item>
+					<mat-divider></mat-divider>
+
+				</mat-list>
 				<!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
 				<button (click)="showFiller = !showFiller" mat-raised-button>
 					Toggle extra text
@@ -16,29 +20,22 @@
 					<mat-icon>{{ menuIconToDisplay }}</mat-icon>
 				</button>
 				<div>
-						Praesent vehicula dui sit amet consectetur feugiat. Etiam ullamcorper, augue placerat iaculis laoreet, ipsum nulla venenatis turpis, nec interdum erat justo id lorem.
-						Nulla eget vulputate magna. Duis bibendum feugiat metus, nec sagittis lacus gravida ac. Etiam at fringilla orci, sed posuere quam. 
-						Quisque ullamcorper, justo a consectetur lacinia, elit lacus tincidunt leo, sit amet imperdiet urna tellus eu est. Ut at nisi tristique nisi congue fermentum. 
-						Aenean mollis velit felis, eu eleifend purus consequat sit amet. Pellentesque eros ipsum, rutrum quis erat pellentesque, semper finibus urna. 
-						Sed ac tempus felis. Integer nisl ipsum, porttitor id semper non, ultricies nec purus. Morbi blandit felis lectus, nec varius massa faucibus non. 
-						Nam porttitor velit eget nunc tempus, eget sollicitudin purus rutrum. Mauris et commodo arcu. Nulla mattis vulputate sem ac venenatis.
+					Praesent vehicula dui sit amet consectetur feugiat. Etiam ullamcorper, augue placerat iaculis
+					laoreet, ipsum nulla venenatis turpis, nec interdum erat justo id lorem.
+					Nulla eget vulputate magna. Duis bibendum feugiat metus, nec sagittis lacus gravida ac. Etiam at
+					fringilla orci, sed posuere quam.
+					Quisque ullamcorper, justo a consectetur lacinia, elit lacus tincidunt leo, sit amet imperdiet urna
+					tellus eu est. Ut at nisi tristique nisi congue fermentum.
+					Aenean mollis velit felis, eu eleifend purus consequat sit amet. Pellentesque eros ipsum, rutrum
+					quis erat pellentesque, semper finibus urna.
+					Sed ac tempus felis. Integer nisl ipsum, porttitor id semper non, ultricies nec purus. Morbi blandit
+					felis lectus, nec varius massa faucibus non.
+					Nam porttitor velit eget nunc tempus, eget sollicitudin purus rutrum. Mauris et commodo arcu. Nulla
+					mattis vulputate sem ac venenatis.
 				</div>
 			</div>
 
 		</mat-drawer-container>
 
-		<!-- <mat-list>
-					<mat-list-item>Item 1</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>Item 2</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>Item 3</mat-list-item>
-				  </mat-list> -->
 	</div>
-	<!-- <div class="profile-content">
-
-		d
-	</div> -->
-
-
 </div>
