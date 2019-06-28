@@ -26,27 +26,18 @@
   font-size: 1.8rem;
 }
 
-.mat-card-title {
-  padding: 0 5% 0 5%;
-}
-
-.mat-card-title:hover {
+.mat-card-title:hover:not(:first-child):not(:last-child) {
   cursor: pointer;
   background: white;
   color: black;
 }
 
-.mat-card-title:not(:first-child) {
-  margin-top: 30px;
-  margin: auto;
+.mat-card-title:not(:first-child):not(:last-child) {
+	padding: 10px 10px 0px 10px;
 }
 
-.mat-card-header .mat-card-title {
-  margin-top: 30px;
-  margin-bottom: 0px;
-}
 
 .navigation-container {
   display: flex;
-  margin-right: 1.5%;
+  margin-right: 5%;
 }

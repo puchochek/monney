@@ -31,7 +31,7 @@ export class ActivateUserComponent implements OnInit {
       console.log('---> result ', response);
       if (response) {
         this.router.navigate(['/myprofile/' + response.id]);
-        this.saveTokenToLocalStorage();
+        this.saveDataToLocalStorage(response);
         //this.status = 'success';
       } else {
          // TODO add error modal
@@ -39,8 +39,9 @@ export class ActivateUserComponent implements OnInit {
     });
   }
 
-  saveTokenToLocalStorage() {
+  saveDataToLocalStorage(response) {
     localStorage.setItem('token', this.token);
+    localStorage.setItem('userId', response.id);
   }
 
 }
