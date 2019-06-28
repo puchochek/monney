@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  providers: []
+  providers: []  
 })
 export class HeaderComponent implements OnInit {
 
-  navLinks = []
+  navLinks = [];
+  // todo set user id to localstorage
+  userid: string;
 
 
   //depricated
@@ -21,6 +23,13 @@ export class HeaderComponent implements OnInit {
   isToggled = false;
 
   constructor(private data: DataService) {
+    const headerLinks = [
+      {label: 'home', path: '/categories'},
+      {label: 'income', path: '/categories/Income'},
+      {label: 'balance', path: '/balance'},
+      // {label: 'my profile', path: '/myprofile/:userid'}
+    ];
+    this.navLinks = headerLinks;
 
   }
 

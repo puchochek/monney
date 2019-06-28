@@ -1,61 +1,52 @@
 @font-face {
-    font-family: capture;
-    src: url('../../assets/fonts/capture.ttf') format('opentype');
+  font-family: capture;
+  src: url("../../assets/fonts/capture.ttf") format("opentype");
 }
 
-.header-container {
-	background: transparent;	
+.mat-card {
+  background: transparent;
+  padding-bottom: 5px; 
 }
 
-.mat-button {
-	font-family: capture;
-	color: white;
-	font-size: 1.8rem;
-
+.mat-card-header {
+  display: flex;
+  justify-content: space-between;
 }
 
-
-
-
-
-
-
-
-
-.main {
-    text-align: left;
-	font-family: capture; 
-}
-.header-container {
-	height: 70px;
-	display: grid;
-	grid-template-columns: 6fr 2fr 2fr 2fr;
+.header-avatar-image {
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
+  background-size: cover;
+  height: 60px;
+  width: 60px;
 }
 
-.date-holder, .menu-item  {
-	vertical-align: middle;
-	font-size: 30px;
-	color: white;
-	padding: 10px 10px 0 0;
-	text-align: right;
-}
-.menu-item:hover {
-	cursor: pointer;
-	background: white;
-	color: black;
-}
-.avatar {
-	border: 1px solid white;
-	height: 95%;
-	width: 10%;
-	margin-top: 1%;
-	margin-left: 20px;
+.mat-card-title {
+  font-family: capture;
+  color: white;
+  font-size: 1.8rem;
 }
 
-.avatar-content {
-	text-align: center;
-	font-family: capture; 
-	font-size: 2rem;
-	color: white;
+.mat-card-title {
+  padding: 0 5% 0 5%;
 }
 
+.mat-card-title:hover {
+  cursor: pointer;
+  background: white;
+  color: black;
+}
+
+.mat-card-title:not(:first-child) {
+  margin-top: 30px;
+  margin: auto;
+}
+
+.mat-card-header .mat-card-title {
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+
+.navigation-container {
+  display: flex;
+  margin-right: 1.5%;
+}
