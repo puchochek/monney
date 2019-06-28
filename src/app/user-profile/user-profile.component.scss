@@ -1,53 +1,55 @@
 .mat-divider {
- 	border-top: 1px solid white;
+  border-top: 1px solid white;
 }
 
-.example-container {
-	width: 100vw;
-	height: 100vh;
-	border: 1px solid rgba(0, 0, 0, 0.5);
-	background: transparent;
-	font-family: capture;
-	color: white;
-	font-size: 1.8rem;
+.sidenav-container {
+  width: 100vw;
+  // height: 100vh;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: transparent;
+  font-family: capture;
+  color: white;
+  font-size: 1.8rem;
 }
 
-.example-sidenav-content {
-	display: flex;
-	height: 100%;
-	align-items: center;
-	justify-content: center;
-	position: relative;
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .sidenav {
-	padding: 0 20px 20px 20px;
-	background: transparent;
-	font-family: capture;
-	color: white;
-	font-size: 1.8rem;
-	max-width: 30vw;
- 
+  padding: 0 20px 20px 20px;
+  background: transparent;
+  font-family: capture;
+  color: white;
+  font-size: 1.8rem;
+  max-width: 30vw;
 }
 
 .toggle-menu-button {
-	position: absolute;
-   	background-color: white;
-	color: black;
-	top: 5px;
-	right: 1%;
-	border-radius: 0;
-  
+  position: absolute;
+  background-color: white;
+  color: black;
+  top: 5px;
+  right: 1%;
+  border-radius: 0;
 }
 
 .mat-list-item {
-	font-family: capture;
-	color: white;
-	font-size: 1.8rem;	
+  font-family: capture;
+  color: white;
+  font-size: 1.8rem;
 }
 
 .mat-list-item:hover {
-	cursor: pointer;
-	background: white;
-	color: black;
-  }
+  cursor: pointer;
+  background: white;
+  color: black;
+}
+
+.sidenav-content-section {
+  padding-top: 10%;
+}

@@ -21,23 +21,39 @@ export class UserProfileComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
-		this.menuClosedIcon = `arrow_forward_ios`;
+		this.menuClosedIcon = `arrow_back_ios`;
 		this.menuIconToDisplay = this.menuClosedIcon;
 	}
 
-	@HostListener('click') onClick() {		
+	onOpenedChange(e: boolean) {		
 		if (this.menuClosedIcon) {
 			this.menuClosedIcon = undefined;
-			this.menuOpenedIcon = `arrow_back_ios`;
+			this.menuOpenedIcon = `arrow_forward_ios`;
 			this.menuIconToDisplay = this.menuOpenedIcon;
 
 		} else {
 			this.menuOpenedIcon = undefined;
-			this.menuClosedIcon = `arrow_forward_ios`;
+			this.menuClosedIcon = `arrow_back_ios`;
 			this.menuIconToDisplay = this.menuClosedIcon;
 		}
-
 	}
+
+
+	//TODO cant track exact target from here
+	// @HostListener('click') onClick() {		
+		
+	// 	if (this.menuClosedIcon) {
+	// 		this.menuClosedIcon = undefined;
+	// 		this.menuOpenedIcon = `arrow_back_ios`;
+	// 		this.menuIconToDisplay = this.menuOpenedIcon;
+
+	// 	} else {
+	// 		this.menuOpenedIcon = undefined;
+	// 		this.menuClosedIcon = `arrow_forward_ios`;
+	// 		this.menuIconToDisplay = this.menuClosedIcon;
+	// 	}
+
+	// }
 
 
 

@@ -2,8 +2,8 @@
 
 <div class="profile-container">
 	<div class="profile-menu">
-		<mat-drawer-container class="example-container" autosize>
-			<mat-drawer #drawer opened="true" class="sidenav" mode="side" position="end">
+		<mat-drawer-container class="sidenav-container" autosize>
+			<mat-drawer #drawer (openedChange)="onOpenedChange($event)" opened="true" class="sidenav" mode="side" position="end">
 				<mat-list *ngFor="let menuOption of menuOptions">
 					<mat-list-item>{{ menuOption }}</mat-list-item>
 					<mat-divider></mat-divider>
@@ -15,11 +15,11 @@
 				</button> -->
 			</mat-drawer>
 
-			<div class="example-sidenav-content">
+			<div class="sidenav-content">
 				<button mat-fab class="toggle-menu-button" aria-label="Toggle menu button" (click)="drawer.toggle()">
 					<mat-icon>{{ menuIconToDisplay }}</mat-icon>
 				</button>
-				<div>
+				<div class="sidenav-content-section">
 					Praesent vehicula dui sit amet consectetur feugiat. Etiam ullamcorper, augue placerat iaculis
 					laoreet, ipsum nulla venenatis turpis, nec interdum erat justo id lorem.
 					Nulla eget vulputate magna. Duis bibendum feugiat metus, nec sagittis lacus gravida ac. Etiam at
