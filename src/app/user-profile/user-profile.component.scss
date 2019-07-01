@@ -1,10 +1,5 @@
-.mat-divider {
-  border-top: 1px solid white;
-}
-
 .sidenav-container {
-  width: 100vw;
-  // height: 100vh;
+  width: 100vw;  
   border: 1px solid rgba(0, 0, 0, 0.5);
   background: transparent;
   font-family: capture;
@@ -21,7 +16,7 @@
 }
 
 .sidenav {
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px 0;
   background: transparent;
   font-family: capture;
   color: white;
@@ -31,23 +26,31 @@
 
 .toggle-menu-button {
   position: absolute;
-  background-color: white;
-  color: black;
+  background: transparent;
+  color: white;
   top: 5px;
-  right: 1%;
+  right: 2%;
   border-radius: 0;
 }
 
-.mat-list-item {
+.menu-list-item {
   font-family: capture;
   color: white;
   font-size: 1.8rem;
+  padding: 16px;
+  border-bottom: 1px solid white;
 }
 
-.mat-list-item:hover {
+.menu-list-item:hover {
   cursor: pointer;
   background: white;
+  color: black;  
+}
+
+.menu-list-item-active {
+  background: white;
   color: black;
+  opacity: 0.8;
 }
 
 .sidenav-content-section {

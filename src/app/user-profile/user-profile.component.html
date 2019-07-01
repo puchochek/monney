@@ -3,12 +3,15 @@
 <div class="profile-container">
 	<div class="profile-menu">
 		<mat-drawer-container class="sidenav-container" autosize>
-			<mat-drawer #drawer (openedChange)="onOpenedChange($event)" opened="true" class="sidenav" mode="side" position="end">
-				<mat-list *ngFor="let menuOption of menuOptions">
-					<mat-list-item>{{ menuOption }}</mat-list-item>
-					<mat-divider></mat-divider>
-
-				</mat-list>
+			<mat-drawer #drawer (openedChange)="onOpenedChange($event)" opened="true" class="sidenav" mode="side"
+				position="end">
+				<div class="menu-list-item" 
+					[class.menu-list-item-active]="menuOption.isActive === true"					
+					*ngFor="let menuOption of menuOptions; let i= index"
+					id="{{ i }}"
+					(click)="onMenuItemClicked($event)">
+					{{ menuOption.value }}
+				</div>
 				<!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
 				<button (click)="showFiller = !showFiller" mat-raised-button>
 					Toggle extra text
