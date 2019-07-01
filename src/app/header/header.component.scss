@@ -20,24 +20,24 @@
   width: 60px;
 }
 
-.mat-card-title {
+.header-navigation-items {
   font-family: capture;
   color: white;
   font-size: 1.8rem;
 }
 
-.mat-card-title:hover:not(:first-child):not(:last-child) {
+.header-navigation-items:hover {
   cursor: pointer;
   background: white;
   color: black;
 }
 
-.mat-card-title:not(:first-child):not(:last-child) {
+.header-navigation-items {
 	padding: 10px 10px 0px 10px;
 }
 
 
 .navigation-container {
   display: flex;
-  margin-right: 5%;
+  margin-right: 1%;
 }

@@ -24,13 +24,11 @@ export class HeaderComponent implements OnInit {
 
 	constructor(private data: DataService) {
 		this.userId = localStorage.getItem('userId')
-		const headerLinks = [			
-			{ label: '', path: '' },  // first child has another margin!!!
+		const headerLinks = [						
 			{ label: 'home', path: '/categories' },
 			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
 			{ label: 'balance', path: '/balance' },
-			{ label: 'profile', path: '/myprofile/' + this.userId },
-			{ label: '', path: '' }
+			{ label: 'profile', path: '/myprofile/' + this.userId },			
 		];
 		this.navLinks = headerLinks;
 
