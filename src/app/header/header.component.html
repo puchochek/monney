@@ -2,7 +2,10 @@
 	<mat-card-header class="mat-card-header">
 		<div mat-card-avatar class="header-avatar-image" alt="my avatar image"></div>
 		<div class="navigation-container">
-			<div class="header-navigation-items" *ngFor="let link of navLinks" [routerLink]="link.path">
+			<div class="header-navigation-items"
+				*ngFor="let link of navLinks" 
+				[class.header-navigation-items-active]="link.isActive === true" 
+				[routerLink]="link.path">
 				{{link.label}}
 			</div>
 		</div>

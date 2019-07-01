@@ -5,12 +5,13 @@
 
 .mat-card {
   background: transparent;
-  padding-bottom: 5px; 
+  padding-right: 0;
+  //padding-bottom: 5px; 
 }
 
 .mat-card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  
 }
 
 .header-avatar-image {
@@ -30,6 +31,7 @@
   cursor: pointer;
   background: white;
   color: black;
+  opacity: 0.9;
 }
 
 .header-navigation-items {
@@ -40,4 +42,9 @@
 .navigation-container {
   display: flex;
   margin-right: 1%;
+}
+
+.header-navigation-items-active {
+  background: white;
+  color: black;  
 }

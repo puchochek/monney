@@ -16,7 +16,7 @@
 }
 
 .sidenav {
-  padding: 0 20px 20px 0;
+  padding: 0 16px 20px 0;
   background: transparent;
   font-family: capture;
   color: white;
@@ -44,13 +44,13 @@
 .menu-list-item:hover {
   cursor: pointer;
   background: white;
-  color: black;  
+  color: black; 
+  opacity: 0.9; 
 }
 
 .menu-list-item-active {
   background: white;
-  color: black;
-  opacity: 0.8;
+  color: black;  
 }
 
 .sidenav-content-section {

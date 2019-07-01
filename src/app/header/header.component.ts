@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { MatCardModule, MatButtonModule } from '@angular/material';
 
@@ -22,20 +23,35 @@ export class HeaderComponent implements OnInit {
 	dateShiftRight = 0;
 	isToggled = false;
 
-	constructor(private data: DataService) {
-		this.userId = localStorage.getItem('userId')
-		const headerLinks = [						
-			{ label: 'home', path: '/categories' },
+	constructor(
+		private data: DataService,
+		private router: Router
+	) {
+		this.userId = localStorage.getItem('userId');
+		const href = this.router.url;		
+		const headerLinks = [
+			{ label: 'home', path: '/categories', isActive: false },
 			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
-			{ label: 'balance', path: '/balance' },
-			{ label: 'profile', path: '/myprofile/' + this.userId },			
+			{ label: 'balance', path: '/balance', isActive: false },
+			{ label: 'profile', path: '/myprofile/' + this.userId, isActive: false },
 		];
 		this.navLinks = headerLinks;
-
+		this.onHeaderItemClicked(href);		
 	}
 
 	ngOnInit() {
 		// this.date = this.getCurrentDate();
+	}
+
+	onHeaderItemClicked(url: String) {		
+		const switchedHeaderOptions = this.navLinks.reduce((switchedHeaderOptions, headerOption, currentIndex, array) => {
+			const isActive = headerOption.path.includes(url) ?
+				true
+				: false;
+			switchedHeaderOptions.push({ label: headerOption.label, path: headerOption.path, isActive: isActive });
+			return switchedHeaderOptions;
+		}, []);
+		this.navLinks = switchedHeaderOptions;		
 	}
 
 	// getCurrentDate(): string {
