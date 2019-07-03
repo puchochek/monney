@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule } from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
+import { AddNewEntityFormComponent } from '../add-new-category/add-new-category';
 
 
 @Component({
@@ -12,7 +13,11 @@ export class UserProfileComponent implements OnInit {
 	menuOpenedIcon: string;
 	menuClosedIcon: string;
 	menuIconToDisplay: string;
+	profileSettings: boolean;
+	manageCategories: boolean;
+	createReport: boolean;
 	menuOptions = [];
+	inputFields = [];
 
 	constructor() { }
 
@@ -25,6 +30,10 @@ export class UserProfileComponent implements OnInit {
 		this.menuOptions = initialMenuOptions;
 		this.menuClosedIcon = `arrow_back_ios`;
 		this.menuIconToDisplay = this.menuClosedIcon;
+
+		this.profileSettings = true;
+		this.manageCategories = false;
+		this.createReport = false;
 	}
 
 	onOpenedChange(e: boolean) {
@@ -43,16 +52,46 @@ export class UserProfileComponent implements OnInit {
 	onMenuItemClicked(event) {
 		const target = event.target || event.srcElement || event.currentTarget;
 		const idAttr = target.attributes.id;
-		const selectedOptionId = idAttr.nodeValue;		
-		const switchedMenuOptions = this.menuOptions.reduce((switchedMenuOptions, menuOption, currentIndex, array) => {			
+		const selectedOptionId = idAttr.nodeValue;
+		const switchedMenuOptions = this.menuOptions.reduce((switchedMenuOptions, menuOption, currentIndex, array) => {
 			const isActive = currentIndex === Number(selectedOptionId) ?
 				true
 				: false;
-			switchedMenuOptions.push({value: menuOption.value, isActive: isActive});
+			switchedMenuOptions.push({ value: menuOption.value, isActive: isActive });
 			return switchedMenuOptions;
-		}, []);		
+		}, []);
+
+		switch (selectedOptionId) {
+			case `0`: {
+				this.profileSettings = true;
+				this.manageCategories = false;
+				this.createReport = false;
+				break;
+			}
+			case `1`: {
+				//this.setInputFields();
+				this.profileSettings = false;
+				this.manageCategories = true;
+				this.createReport = false;
+				break;
+			}
+			case `2`: {
+				this.profileSettings = false;
+				this.manageCategories = false;
+				this.createReport = true;
+				break;
+			}
+		}
 		this.menuOptions = switchedMenuOptions;
 	}
+
+	// setInputFields() {
+	// 	this.inputFields = [
+	// 		{placeholder: 'Category', value: ''},
+	// 		{placeholder: 'Another test field', value: ''},
+	// 	];
+
+	// }
 
 
 	//TODO cant track exact target from here

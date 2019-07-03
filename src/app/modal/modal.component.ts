@@ -4,38 +4,37 @@ import { MatCardModule, MatButtonModule } from '@angular/material';
 
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+	selector: 'app-modal',
+	templateUrl: './modal.component.html',
+	styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
 
-  @Input() message: string;
-  @Input() status: string;
-  @Output() onCloseModal = new EventEmitter();
+	@Input() message: string;
+	@Input() status: string;
+	@Output() onCloseModal = new EventEmitter();
 
-  buttonValue: string;
+	buttonValue: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    ) { }
+	constructor(
+		private route: ActivatedRoute,
+		private router: Router,
+	) { }
 
-  ngOnInit() {
-    console.log('modal called');
-    this.buttonValue = 'ok';
-  }
+	ngOnInit() {
+		this.buttonValue = 'ok';
+	}
 
-  // is not used for now
-  getBorderColor(): string {
-    if (this.status === 'saved') {
-      return 'white';
-    } else {
-      return '#d50000';
-    }
-  }
+	// is not used for now
+	getBorderColor(): string {
+		if (this.status === 'saved') {
+			return 'white';
+		} else {
+			return '#d50000';
+		}
+	}
 
-  closeModal() {
-    this.onCloseModal.emit({value: this.status});
-  }
+	closeModal() {
+		this.onCloseModal.emit({ value: this.status });
+	}
 }

@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
 		private router: Router
 	) {
 		this.userId = localStorage.getItem('userId');
-		const href = this.router.url;		
+		const href = this.router.url;
 		const headerLinks = [
 			{ label: 'home', path: '/categories', isActive: false },
 			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
@@ -36,14 +36,14 @@ export class HeaderComponent implements OnInit {
 			{ label: 'profile', path: '/myprofile/' + this.userId, isActive: false },
 		];
 		this.navLinks = headerLinks;
-		this.onHeaderItemClicked(href);		
+		this.onHeaderItemClicked(href);
 	}
 
 	ngOnInit() {
 		// this.date = this.getCurrentDate();
 	}
 
-	onHeaderItemClicked(url: String) {		
+	onHeaderItemClicked(url: String) {
 		const switchedHeaderOptions = this.navLinks.reduce((switchedHeaderOptions, headerOption, currentIndex, array) => {
 			const isActive = headerOption.path.includes(url) ?
 				true
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
 			switchedHeaderOptions.push({ label: headerOption.label, path: headerOption.path, isActive: isActive });
 			return switchedHeaderOptions;
 		}, []);
-		this.navLinks = switchedHeaderOptions;		
+		this.navLinks = switchedHeaderOptions;
 	}
 
 	// getCurrentDate(): string {
