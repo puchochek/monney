@@ -59,6 +59,7 @@ import {
 	MatToolbarModule,
 	MatTooltipModule,
 } from '@angular/material';
+import { ProfileManageCategoriesComponent } from './profile-manage-categories/profile-manage-categories.component';
 
 @NgModule({
 	declarations: [
@@ -72,7 +73,8 @@ import {
 		LoginFormComponent,
 		HelloMonneyComponent,
 		ActivateUserComponent,
-		UserProfileComponent
+		UserProfileComponent,
+		ProfileManageCategoriesComponent
 	],
 	imports: [
 		BrowserModule,

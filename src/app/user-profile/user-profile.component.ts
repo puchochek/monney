@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule } from '@angular/material';
 import { MatDividerModule } from '@angular/material/divider';
-import { AddNewEntityFormComponent } from '../add-new-category/add-new-category';
+import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 
 
 @Component({
