@@ -7,8 +7,8 @@ import { LoggedUser } from '../interfaces';
 
 const wrongName = `Name field may only consist of letters or numbers.`;
 const wrongEmail = `Email field must contain @ symbol.`;
-const wrongPassword = `Password must contain 6 or more characters.
-Requires at least one upper case letter, one lower case letter and one no-letter character.`;
+const wrongPassword = `Password must contain 5 or more characters.
+At least one upper case letter, one lower case letter and one no-letter character.`;
 
 @Component({
 	selector: 'app-login-form',
@@ -61,13 +61,9 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	validateInput() {
-		console.log('---> validateInput ');
 		this.isValidName = this.validateName(this.name);
-		console.log('---> this.isValidName ', this.isValidName);
 		this.isEmailValid = this.validateEmail(this.mailAddress);
-		console.log('---> this.isEmailValid ', this.isEmailValid);
 		this.isPasswordVaild = this.validatePassword(this.password);
-		console.log('---> this.isPasswordVaild ', this.isPasswordVaild);
 
 		if (this.isValidName && this.isEmailValid && this.isPasswordVaild) {
 			if (this.isLogin) {
@@ -82,20 +78,16 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	setErrorMessage(isValidName: boolean, isEmailValid: boolean, isPasswordVaild: boolean): string {
-		console.log('---> setErrorMessage ', isValidName, isEmailValid, isPasswordVaild);
 		let invalidInputMessage: string;
 
 		if (!isValidName && !isEmailValid && !isPasswordVaild) {
-			invalidInputMessage = `${wrongName}
-			${wrongEmail}
-			${wrongPassword}`;
-			//invalidInputMessage = wrongName + ' ' + wrongEmail + ' ' + wrongPassword;
+			invalidInputMessage = `${wrongName} ${wrongEmail} ${wrongPassword}`;
 		} else if (!isValidName && !isPasswordVaild) {
-			invalidInputMessage = wrongName + ' ' + wrongPassword;
+			invalidInputMessage = `${wrongName} ${wrongPassword}`;
 		} else if (!isEmailValid && !isPasswordVaild) {
-			invalidInputMessage = wrongEmail + ' ' + wrongPassword;
+			invalidInputMessage = `${wrongEmail} ${wrongPassword}`;
 		} else if (!isValidName && !isEmailValid) {
-			invalidInputMessage = wrongName + ' ' + wrongEmail;
+			invalidInputMessage = `${wrongName} ${wrongEmail}`;
 		} else if (!isValidName) {
 			invalidInputMessage = wrongName;
 		} else if (!isEmailValid) {
@@ -129,15 +121,13 @@ export class LoginFormComponent implements OnInit {
 		if (emailInput && (expression.test(String(emailInput).toLowerCase()))) {
 			isEmailValid = true;
 		}
-		//return expression.test(String(emailInput).toLowerCase()) ? true : false;
 		return isEmailValid;
 	}
 
 	validatePassword(passwordInput: string): boolean {
 		let isPasswordVaild = false;
-		console.log('passwordInput ', passwordInput);
 		//Password expresion that requires one lower case letter, one upper case letter, one digit, 5-10 length, and no spaces.
-		const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
+		const expression    = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
 		if (passwordInput && (expression.test(String(passwordInput)))) {
 			isPasswordVaild = true;
 		}

@@ -4,13 +4,19 @@
 }
 
 .modal-cart {
-    font-family: Pt-Sans-Bold;   
-    margin: 10% auto;    
-    // height: 50vh;
-    width: 50vw;
-    background: transparent;    
+    font-family: Pt-Sans-Bold;
+    background: transparent;
     border: 1px solid white;
     color: white;
+    width: 50%;
+    height: 20%;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .modal-status {
