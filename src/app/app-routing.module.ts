@@ -12,9 +12,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
  const routes: Routes = [
-    //  { path: '', redirectTo: 'categories', pathMatch: 'full' },
-    //{ path: '', redirectTo: 'hello-monney', pathMatch: 'full' },
-    { path: '', redirectTo: 'categories', pathMatch: 'full' },
+    { path: '', redirectTo: 'hello-monney', pathMatch: 'full' },
+    //{ path: '', redirectTo: 'categories', pathMatch: 'full' },
     { path: 'hello-monney', component: HelloMonneyComponent },
     { path: 'login', component: LoginFormComponent },
     { path: 'autorize', component: LoginFormComponent },

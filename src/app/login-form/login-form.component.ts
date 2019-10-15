@@ -21,17 +21,23 @@ export class LoginFormComponent implements OnInit {
 	@Input() mailAddress: string;
 	@Input() password: string;
 
-	status: string;
-	isValidName: boolean;
-	isEmailValid: boolean;
-	isPasswordVaild: boolean;
-	isFormInvalid: boolean;
-	isInvalidInput: boolean;
+	nameFieldLabel: string;
+	mailFieldLabel: string;
+	passwordFieldLabel: string;
+
+	status: string; // FWP?
+	isValidName: boolean; // form validation
+	isEmailValid: boolean; // form validation
+	isPasswordVaild: boolean; // form validation
+	isInvalidInput: boolean; //
 	invalidInputMessage: string;
 	url: string;
 	isModalShown: boolean;
 	isLoginFormShown: boolean;
 	message: string;
+	title: string;
+	isLogin: boolean;
+
 
 	constructor(
 		private data: DataService,
@@ -40,109 +46,102 @@ export class LoginFormComponent implements OnInit {
 		private router: Router, ) { }
 
 	ngOnInit() {
+		this.nameFieldLabel = 'name';
+		this.mailFieldLabel = 'e-mail';
+		this.passwordFieldLabel = 'password';
 		this.isLoginFormShown = true;
 		this.isModalShown = false;
 		this.url = this.router.url;
+		this.isLogin = this.url == '/login' ?
+			true
+			: false;
+		this.title = this.isLogin ?
+			'sign up'
+			: 'sign in';
 	}
 
 	validateInput() {
-		const requestParam = this.url.split('/')[1];
-		//console.log('requestParam ', requestParam);
+		console.log('---> validateInput ');
 		this.isValidName = this.validateName(this.name);
+		console.log('---> this.isValidName ', this.isValidName);
 		this.isEmailValid = this.validateEmail(this.mailAddress);
+		console.log('---> this.isEmailValid ', this.isEmailValid);
 		this.isPasswordVaild = this.validatePassword(this.password);
+		console.log('---> this.isPasswordVaild ', this.isPasswordVaild);
 
 		if (this.isValidName && this.isEmailValid && this.isPasswordVaild) {
-			const currentAction = this.url;
-			if (currentAction.includes('login')) {
+			if (this.isLogin) {
 				this.login();
-			} else if (currentAction.includes('autorize')) {
+			} else {
 				this.autorize();
 			}
-			//console.log('---> currentAction ', currentAction);
-
 		} else {
-			this.disableLoginButton();
 			this.isInvalidInput = true;
 			this.invalidInputMessage = this.setErrorMessage(this.isValidName, this.isEmailValid, this.isPasswordVaild);
 		}
 	}
 
-	setErrorMessage(nameInput: boolean, emailInput: boolean, passwordInput: boolean): string {
+	setErrorMessage(isValidName: boolean, isEmailValid: boolean, isPasswordVaild: boolean): string {
+		console.log('---> setErrorMessage ', isValidName, isEmailValid, isPasswordVaild);
 		let invalidInputMessage: string;
 
-		if (!nameInput && !emailInput && !passwordInput) {
-			this.clearWrongInput(['name', 'email', 'password']);
-			invalidInputMessage = wrongName + ' ' + wrongEmail + ' ' + wrongPassword;
-		} else if (!nameInput && !passwordInput) {
-			this.clearWrongInput(['name', 'password']);
+		if (!isValidName && !isEmailValid && !isPasswordVaild) {
+			invalidInputMessage = `${wrongName}
+			${wrongEmail}
+			${wrongPassword}`;
+			//invalidInputMessage = wrongName + ' ' + wrongEmail + ' ' + wrongPassword;
+		} else if (!isValidName && !isPasswordVaild) {
 			invalidInputMessage = wrongName + ' ' + wrongPassword;
-		} else if (!emailInput && !passwordInput) {
-			this.clearWrongInput(['email', 'password']);
+		} else if (!isEmailValid && !isPasswordVaild) {
 			invalidInputMessage = wrongEmail + ' ' + wrongPassword;
-		} else if (!nameInput && !emailInput) {
-			this.clearWrongInput(['name', 'email']);
+		} else if (!isValidName && !isEmailValid) {
 			invalidInputMessage = wrongName + ' ' + wrongEmail;
-		} else if (!nameInput) {
-			this.clearWrongInput(['name']);
+		} else if (!isValidName) {
 			invalidInputMessage = wrongName;
-		} else if (!emailInput) {
-			this.clearWrongInput(['email']);
+		} else if (!isEmailValid) {
 			invalidInputMessage = wrongEmail;
-		} else if (!passwordInput) {
-			this.clearWrongInput(['password']);
+		} else if (!isPasswordVaild) {
 			invalidInputMessage = wrongPassword;
 		} else {
-			invalidInputMessage = `Something is wron, but I don't know what exactly.`;
+			invalidInputMessage = `Something is wrong, but I don't know what exactly.`;
 		}
 
 		return invalidInputMessage;
 	}
 
-	clearWrongInput(wrongInputs: string[]) {
-		//console.log('wrongInput ', wrongInputs);
-		wrongInputs.forEach(wrongInput => {
-			switch (wrongInput) {
-				case 'name':
-					this.name = '';
-				case 'email':
-					this.mailAddress = '';
-				case 'password':
-					this.password = '';
-			}
-		});
-
-	}
-
 	validateName(nameInput: string) {
-		// allows lowercase and one uppercase letters and numbers
+		// allows lowercase and one uppercase letters and numbers from 1 to 40 symbols length
+		let isNameValid = false;
 		const expression = /^([- A-Za-zа-яА-ЯёЁ0-9]+)$/;
-		if (expression.test(String(nameInput).toLowerCase()) || nameInput.length === 0) {
-			return true;
-		} else {
-			return false;
+		if (nameInput) {
+			if ((nameInput.length > 0) && (nameInput.length < 40)) {
+				if (expression.test(String(nameInput).toLowerCase())) {
+					isNameValid = true;
+				}
+			}
 		}
+		return isNameValid;
 	}
 
 	validateEmail(emailInput: string): boolean {
+		let isEmailValid = false;
 		const expression = /\S+@\S+/;
-		return expression.test(String(emailInput).toLowerCase()) ? true : false;
-	}
-
-	disableLoginButton() {
-		this.isFormInvalid = true;
+		if (emailInput && (expression.test(String(emailInput).toLowerCase()))) {
+			isEmailValid = true;
+		}
+		//return expression.test(String(emailInput).toLowerCase()) ? true : false;
+		return isEmailValid;
 	}
 
 	validatePassword(passwordInput: string): boolean {
-		//console.log('passwordInput ', passwordInput);
-		// at least one number, one lowercase and one uppercase letter
-		// at least six characters
-		//const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-		//const expression = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-		const expression = /^[A-Za-z]\w{7,15}$/;
-		//console.log(expression.test(String(passwordInput).toLowerCase()));
-		return expression.test(String(passwordInput).toLowerCase()) ? true : false;
-
+		let isPasswordVaild = false;
+		console.log('passwordInput ', passwordInput);
+		//Password expresion that requires one lower case letter, one upper case letter, one digit, 5-10 length, and no spaces.
+		const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
+		if (passwordInput && (expression.test(String(passwordInput)))) {
+			isPasswordVaild = true;
+		}
+		return isPasswordVaild;
 	}
 
 	closeModal(event) {
@@ -198,12 +197,4 @@ export class LoginFormComponent implements OnInit {
 				}
 			});
 	}
-
-	hideMessage() {
-		this.isFormInvalid = false;
-		this.isInvalidInput = false;
-	}
-
-
-
 }
