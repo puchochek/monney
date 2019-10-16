@@ -60,6 +60,7 @@ import {
 	MatTooltipModule,
 } from '@angular/material';
 import { ProfileManageCategoriesComponent } from './profile-manage-categories/profile-manage-categories.component';
+import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
 
 @NgModule({
 	declarations: [
@@ -74,7 +75,8 @@ import { ProfileManageCategoriesComponent } from './profile-manage-categories/pr
 		HelloMonneyComponent,
 		ActivateUserComponent,
 		UserProfileComponent,
-		ProfileManageCategoriesComponent
+		ProfileManageCategoriesComponent,
+		AddCategoryModalComponent
 	],
 	imports: [
 		BrowserModule,
@@ -123,6 +125,7 @@ import { ProfileManageCategoriesComponent } from './profile-manage-categories/pr
 		BrowserAnimationsModule
 	],
 	providers: [DataService],
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent],
+	entryComponents: [AddCategoryModalComponent]
 })
 export class AppModule { }

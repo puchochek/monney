@@ -47,8 +47,6 @@ export class UserProfileComponent implements OnInit {
 		this.http.get('http://localhost:3000/user/' + userId).subscribe((response: LoggedUser[]) => {
 			console.log('---> response ', response);
 			this.currentUser = response;
-			console.log('---> response[0] ', response[0]);
-			console.log('---> this.currentUser ', this.currentUser);
       //this.setExpensesByCategory(response);
     });
 		// const initialMenuOptions = [

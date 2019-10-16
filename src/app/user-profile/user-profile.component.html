@@ -18,7 +18,7 @@
 			{{categoriesTabLabel}}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
-	<app-profile-manage-categories [appUser]="currentUser"></app-profile-manage-categories>
+	<app-profile-manage-categories *ngIf="currentUser" [appUser]="currentUser"></app-profile-manage-categories>
 </mat-expansion-panel>
 
 <mat-expansion-panel class="user-profile">
