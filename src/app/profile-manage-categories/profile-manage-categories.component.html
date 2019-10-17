@@ -4,35 +4,30 @@
             <button mat-button (click)="openAddCategoryModal()">{{newCategoryBtnLbl}}</button>
         </div>
         <div class="user-categories user-categories-message" *ngIf="categories else noCategories">
-            <table mat-table [dataSource]="categories" matSort class="mat-elevation-z8">
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+            <div class="categories-table-header-container">
+                <ng-container *ngFor="let header of headers">
+                    <div class="categories-table-container">
+                        <div class="categories-table-header-cell">
+                            {{header}}
+                        </div>
+                    </div>
                 </ng-container>
-
-                <ng-container matColumnDef="description">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> description </th>
-                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            </table>
-
-            <!-- <mat-table [dataSource]="categories">
-                <ng-container cdkColumnDef="username">
-                    <mat-header-cell *cdkHeaderCellDef> Name </mat-header-cell>
-                    <mat-cell *cdkCellDef="let row"> {{row.type}} </mat-cell>
-                </ng-container>
-
-                <ng-container cdkColumnDef="age">
-                    <mat-header-cell *cdkHeaderCellDef> Description </mat-header-cell>
-                    <mat-cell *cdkCellDef="let row"> {{row.description}} </mat-cell>
-                </ng-container>
-                <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *cdkRowDef="let row; columns: ['Name', 'Description']"></mat-row>
-            </mat-table> -->
+            </div>
+            <ng-container *ngFor="let category of categories">
+                <div class="categories-table-container">
+                    <div class="categories-table-cell">
+                        {{category.name}}
+                    </div>
+                    <div class="categories-table-cell">
+                        {{category.description}}
+                    </div>
+                    <div class="categories-table-cell categories-table-actions-cell">
+                        <mat-icon class="categories-table-actions-icon" aria-hidden="false" aria-label="Edit icon" (click)="openAddCategoryModal(category)">edit</mat-icon>
+                        <mat-icon class="categories-table-actions-icon" aria-hidden="false" aria-label="Delete icon" (click)="deleteCategory(category)">delete</mat-icon>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </ng-container>
         </div>
         <ng-template #noCategories>
             <div class="greetings user-categories-message">
@@ -40,8 +35,6 @@
             </div>
             <div class="user-categories-message">{{noCategoriesMessage}}</div>
         </ng-template>
-        <!-- <div class="new-category-btn">
-            <button mat-button (click)="openAddCategoryModal()">{{newCategoryBtnLbl}}</button>
-        </div> -->
+
     </div>
 </div>

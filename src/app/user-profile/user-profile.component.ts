@@ -22,15 +22,6 @@ export class UserProfileComponent implements OnInit {
 	categoriesTabLabel: string;
 	reportsTabLabel: string;
 
-	// menuOpenedIcon: string;
-	// menuClosedIcon: string;
-	// menuIconToDisplay: string;
-	// profileSettings: boolean;
-	// manageCategories: boolean;
-	// createReport: boolean;
-	// menuOptions = [];
-	// inputFields = [];
-
 	constructor(
 		private http: HttpClient
 	) { }

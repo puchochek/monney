@@ -8,5 +8,28 @@
 }
 .new-category-btn {
     padding-top: 5px;;
-    text-align: right;
+   // text-align: right;
+}
+
+.categories-table-container, .categories-table-header-container {
+    display: grid;
+    grid-template-columns: 3fr 8fr 1fr;
+}
+
+.categories-table-header-container {
+    margin: 1% 0;
+    border-bottom: 1px solid #757575;
+}
+
+.categories-table-cell {
+    font-size: 1.2rem;
+}
+
+.categories-table-actions-cell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.categories-table-actions-icon:hover {
+    cursor: pointer;
+    color:#bdbdbd;
 }

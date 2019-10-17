@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,16 +16,20 @@ export class AddCategoryModalComponent implements OnInit {
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private dialogRef: MatDialogRef<AddCategoryModalComponent>
+		private dialogRef: MatDialogRef<AddCategoryModalComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: any
 	) { }
 
 	ngOnInit() {
-		this.categoryNameLabel = `New category name`;
+		this.categoryNameLabel = `Category name`;
 		this.okBtnLabel = `OK`;
 		this.closeBtnLabel = `Close`;
+		const categoryToEdit = this.data.category;
+		const categoryName = categoryToEdit ? categoryToEdit.name : '';
+		const categoryDescription = categoryToEdit ? categoryToEdit.description : '';
 		this.form = this.formBuilder.group({
-			categoryName: '',
-			categoryDescription: ''
+			categoryName: categoryName,
+			categoryDescription: categoryDescription
 		})
 	}
 
@@ -33,7 +38,6 @@ export class AddCategoryModalComponent implements OnInit {
 			name: form.value.categoryName,
 			description: form.value.categoryDescription
 		};
-		// this.dialogRef.close(`${form.value.categoryName}`);
 		this.dialogRef.close(newCategoryInput);
 
 	}

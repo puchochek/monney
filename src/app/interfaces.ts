@@ -10,9 +10,10 @@ export interface Category {
 	user: string;
 	description: string;
 	id: string;
-	type: string;
+	name: string;
 	createdAt: string;
 	updatedAt: string;
+	isActive: boolean;
 }
 
 export interface ExpencesData {
