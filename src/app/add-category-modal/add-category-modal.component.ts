@@ -23,12 +23,19 @@ export class AddCategoryModalComponent implements OnInit {
 		this.okBtnLabel = `OK`;
 		this.closeBtnLabel = `Close`;
 		this.form = this.formBuilder.group({
-			categoryName: ''
+			categoryName: '',
+			categoryDescription: ''
 		})
 	}
 
 	submit(form: any) {
-		this.dialogRef.close(`${form.value.categoryName}`);
+		const newCategoryInput = {
+			name: form.value.categoryName,
+			description: form.value.categoryDescription
+		};
+		// this.dialogRef.close(`${form.value.categoryName}`);
+		this.dialogRef.close(newCategoryInput);
+
 	}
 
 }
