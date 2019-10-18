@@ -2,15 +2,33 @@
   font-family: capture;
   src: url('../../assets/fonts/capture.ttf') format('opentype');
 }
-.main {
-  height: 90%;
-  margin-top: 10px;
-  background: transparent;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  font-family: capture; 
+
+.categories-list-container {
+	font-family: capture;
+	color: white;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .main {
+//   height: 90%;
+//   margin-top: 10px;
+//   background: transparent;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr;
+//   grid-template-rows: 1fr 1fr 1fr;
+//   font-family: capture; 
+// }
 .categories-container {
   padding: 10px 20px 10px 20px;
 }

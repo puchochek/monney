@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Category } from '../category';
 
 @Component({
 	selector: 'app-add-category-modal',
@@ -35,9 +34,6 @@ export class AddCategoryModalComponent implements OnInit {
 			this.categoryDescription = this.categoryToEdit.description;
 			this.categoryId = this.categoryToEdit.id;
 		}
-		// const categoryToEdit = this.data.category;
-		// const categoryName = categoryToEdit ? categoryToEdit.name : '';
-		// const categoryDescription = categoryToEdit ? categoryToEdit.description : '';
 		this.form = this.formBuilder.group({
 			categoryName: this.categoryName,
 			categoryDescription: this.categoryDescription
@@ -50,9 +46,6 @@ export class AddCategoryModalComponent implements OnInit {
 			description: form.value.categoryDescription,
 			id: this.categoryId
 		};
-		console.log('---> editedCategoryInput ', newCategoryInput);
 		this.dialogRef.close(newCategoryInput);
-
 	}
-
 }
