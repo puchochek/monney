@@ -19,9 +19,14 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	newCategoryBtnLbl: string;
 	status: string;
 	categories: Category[];
+	categoriesToDisplay: Category[];
 	dialogRef: MatDialogRef<AddCategoryModalComponent>;
 	headers: string[];
-
+	pageAmount: number;
+	pageNumber: number;
+	recordsPerPage: number;
+	categoryDisplayFrom: number;
+	categoryDisplayTo: number;
 	isAscSorted: boolean;
 
 	constructor(
@@ -31,6 +36,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.recordsPerPage = 10;
 		this.isAscSorted = false;
 		this.greetingMessage = `Hello, ${this.appUser.name}!`;
 		this.noCategoriesMessage = `It looks like you don't have any expense categories yet.
@@ -40,7 +46,53 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.categories = this.appUser.categories.length > 0 ?
 			this.appUser.categories
 			: null;
+		this.preparePaginationData(this.categories);
 		this.headers = ['Name', 'Description', 'Action'];
+	}
+
+	preparePaginationData(categories: Category[]) {
+		const categoriesNumber = categories.length;
+		this.pageNumber = 1;
+		if (categoriesNumber <= this.recordsPerPage) {
+			this.pageAmount = 1;
+			this.categoriesToDisplay = categories;
+			document.getElementById('left-pagination').style.pointerEvents = 'none';
+			document.getElementById('right-pagination').style.pointerEvents = 'none';
+		} else {
+			document.getElementById('left-pagination').style.pointerEvents = 'none';
+			this.pageAmount = Math.ceil(categoriesNumber / this.recordsPerPage);
+			this.categoryDisplayFrom = 0;
+			this.categoryDisplayTo = this.recordsPerPage;
+			this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+		}
+	}
+
+	showPreviouseCategories() {
+		document.getElementById('right-pagination').style.pointerEvents = 'auto';
+
+		this.categoryDisplayFrom = this.categoryDisplayFrom - this.recordsPerPage;
+		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage;
+		this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+		this.pageNumber --;
+		if (this.categoryDisplayFrom <= 0) {
+			document.getElementById('left-pagination').style.pointerEvents = 'none';
+		}
+	}
+
+	showNextCategories() {
+		document.getElementById('left-pagination').style.pointerEvents = 'auto';
+
+		this.categoryDisplayFrom = this.categoryDisplayTo;
+		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage;
+		this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+		this.pageNumber ++;
+		if (this.categoryDisplayTo > this.categories.length) {
+			document.getElementById('right-pagination').style.pointerEvents = 'none';
+		}
+	}
+
+	paginateCategories(fromIndex: number, toIndex: number): Category[] {
+		return this.categories.slice(fromIndex, toIndex);
 	}
 
 	openAddCategoryModal(category: any) {
@@ -123,7 +175,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 
 	sortCategoriesByName() {
 		if (this.isAscSorted) {
-			this.categories.sort(function (a, b) {
+			this.categoriesToDisplay.sort(function (a, b) {
 				if (a.name < b.name) { return 1; }
 				if (a.name > b.name) { return -1; }
 				return 0;
@@ -131,7 +183,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 			this.isAscSorted = false;
 
 		} else {
-			this.categories.sort(function (a, b) {
+			this.categoriesToDisplay.sort(function (a, b) {
 				if (a.name < b.name) { return -1; }
 				if (a.name > b.name) { return 1; }
 				return 0;

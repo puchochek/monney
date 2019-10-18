@@ -37,3 +37,13 @@
     cursor: pointer;
     color:#bdbdbd;
 }
+.actions-container {
+    display: grid;
+    grid-template-columns: 11fr 1fr;
+}
+
+.pagination-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
