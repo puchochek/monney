@@ -4,8 +4,6 @@ import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AddCategoryModalComponent } from '../add-category-modal/add-category-modal.component';
-
-
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -43,6 +41,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	}
 
 	openAddCategoryModal(category: any) {
+		const categoryFormId = category ? category.id : undefined;
 		this.dialogRef = this.dialog.open(AddCategoryModalComponent, {
 			data: {
 				category: category
@@ -51,34 +50,33 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.dialogRef
 			.afterClosed()
 			.subscribe(categoryForm => {
-				const categoryToSave = {
-					name: categoryForm.name,
-					description: categoryForm.description,
-					user: this.appUser.id
-				};
+				let categoryToSave;
+				if (categoryForm) {
+					categoryToSave = {
+						name: categoryForm.name,
+						description: categoryForm.description,
+						user: this.appUser.id,
+						id: categoryFormId
+					};
+				}
 				this.saveNewCategory(categoryToSave);
 			});
 	}
 
 	saveNewCategory(categoryToSave: any) {
-		if (categoryToSave.name.length !== 0) {
-			categoryToSave.isActive = true;
-			this.doCategoryControllerCall(categoryToSave);
+		if (categoryToSave) {
+			if (categoryToSave.name.length !== 0) {
+				categoryToSave.isActive = true;
+				this.doCategoryControllerCall(categoryToSave);
+			}
 		}
-	}
-
-	updareCategory(categoryToUpdate: Category) {
-		console.log('---> categoryToUpdate ', categoryToUpdate);
-		this.doCategoryControllerCall(categoryToUpdate);
-
 	}
 
 	deleteCategory(categoryToDel: Category) {
 		categoryToDel.isActive = false;
 		this.doCategoryControllerCall(categoryToDel);
-
 	}
-
+	//TODO add validation for Categories with the same name
 	doCategoryControllerCall(categoryToUpsert: any) {
 		let snackMessage: string;
 		let action: string;
@@ -89,7 +87,6 @@ export class ProfileManageCategoriesComponent implements OnInit {
 			isActive: categoryToUpsert.isActive,
 			id: categoryToUpsert.id
 		}).subscribe((result) => {
-			console.log('---> UPSERTED CATEGORY ', result);
 			if (result) {
 				this.status = 'Done';
 				snackMessage = this.status;
@@ -97,13 +94,20 @@ export class ProfileManageCategoriesComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				//TODO dont add updated category
 				const upsertedCategory = <Category>result;
-				const existedCategory = this.categories.find(category => category.id === upsertedCategory.id);
+				let existedCategory: Category;
+				let filteredCategories: Category[];
+				if (this.categories) {
+					existedCategory = this.categories.find(category => category.id === upsertedCategory.id);
+					filteredCategories = this.categories.filter(category => category.id !== upsertedCategory.id);
+				}
 				if (upsertedCategory.isActive && !existedCategory) {
 					this.categories.push(upsertedCategory);
+				} else if (upsertedCategory.isActive && existedCategory) {
+					existedCategory.description = upsertedCategory.description;
+					filteredCategories.push(existedCategory);
+					this.categories = filteredCategories;
 				} else {
-					const filteredCategories = this.categories.filter(category => category.id !== upsertedCategory.id);
 					this.categories = filteredCategories;
 				}
 			} else {
