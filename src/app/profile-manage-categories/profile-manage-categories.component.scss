@@ -25,6 +25,10 @@
     font-size: 1.2rem;
 }
 
+.categories-table-header {
+    display: inline-block;
+}
+
 .categories-table-actions-cell {
     display: grid;
     grid-template-columns: 1fr 1fr;

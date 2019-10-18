@@ -22,6 +22,8 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	dialogRef: MatDialogRef<AddCategoryModalComponent>;
 	headers: string[];
 
+	isAscSorted: boolean;
+
 	constructor(
 		private http: HttpClient,
 		private dialog: MatDialog,
@@ -29,6 +31,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.isAscSorted = false;
 		this.greetingMessage = `Hello, ${this.appUser.name}!`;
 		this.noCategoriesMessage = `It looks like you don't have any expense categories yet.
 		It would be gread to add some to keep your expenses in order.`;
@@ -102,10 +105,10 @@ export class ProfileManageCategoriesComponent implements OnInit {
 					filteredCategories = this.categories.filter(category => category.id !== upsertedCategory.id);
 				}
 				if (upsertedCategory.isActive && !existedCategory) {
-					this.categories.push(upsertedCategory);
+					this.categories.unshift(upsertedCategory);
 				} else if (upsertedCategory.isActive && existedCategory) {
 					existedCategory.description = upsertedCategory.description;
-					filteredCategories.push(existedCategory);
+					filteredCategories.unshift(existedCategory);
 					this.categories = filteredCategories;
 				} else {
 					this.categories = filteredCategories;
@@ -118,4 +121,22 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		});
 	}
 
+	sortCategoriesByName() {
+		if (this.isAscSorted) {
+			this.categories.sort(function (a, b) {
+				if (a.name < b.name) { return 1; }
+				if (a.name > b.name) { return -1; }
+				return 0;
+			});
+			this.isAscSorted = false;
+
+		} else {
+			this.categories.sort(function (a, b) {
+				if (a.name < b.name) { return -1; }
+				if (a.name > b.name) { return 1; }
+				return 0;
+			});
+			this.isAscSorted = true;
+		}
+	}
 }

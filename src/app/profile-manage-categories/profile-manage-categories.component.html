@@ -6,9 +6,10 @@
         <div class="user-categories user-categories-message" *ngIf="categories else noCategories">
             <div class="categories-table-header-container">
                 <ng-container *ngFor="let header of headers">
-                    <div class="categories-table-container">
+                    <div class="categories-table-container categories-table-header">
                         <div class="categories-table-header-cell">
                             {{header}}
+                            <mat-icon *ngIf="header === 'Name'" class="categories-table-actions-icon" aria-hidden="false" aria-label="Save icon" (click)="sortCategoriesByName()">swap_vert</mat-icon>
                         </div>
                     </div>
                 </ng-container>
