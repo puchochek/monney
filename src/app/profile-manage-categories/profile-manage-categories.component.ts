@@ -18,16 +18,20 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	noCategoriesMessage: string;
 	newCategoryBtnLbl: string;
 	status: string;
-	categories: Category[];
+	allUserCategories: Category[];
 	categoriesToDisplay: Category[];
 	dialogRef: MatDialogRef<AddCategoryModalComponent>;
 	headers: string[];
 	pageAmount: number;
 	pageNumber: number;
+	initialPageNumber: number;
 	recordsPerPage: number;
 	categoryDisplayFrom: number;
 	categoryDisplayTo: number;
 	isAscSorted: boolean;
+	arePagesToPaginate: boolean;
+
+	//nextDisplayFrom: number;
 
 	constructor(
 		private http: HttpClient,
@@ -36,6 +40,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.initialPageNumber = 1;
 		this.recordsPerPage = 10;
 		this.isAscSorted = false;
 		this.greetingMessage = `Hello, ${this.appUser.name}!`;
@@ -43,23 +48,28 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		It would be gread to add some to keep your expenses in order.`;
 		this.newCategoryBtnLbl = `Add category`;
 
-		this.categories = this.appUser.categories.length > 0 ?
-			this.appUser.categories
-			: null;
-		this.preparePaginationData(this.categories);
+		if (this.appUser.categories.length != 0) {
+			console.log('---> if ', this.appUser.categories);
+			this.allUserCategories = this.appUser.categories;
+			this.preparePaginationData();
+			this.arePagesToPaginate = true;
+		} else {
+			this.arePagesToPaginate = false;
+		}
+
 		this.headers = ['Name', 'Description', 'Action'];
 	}
 
-	preparePaginationData(categories: Category[]) {
-		const categoriesNumber = categories.length;
-		this.pageNumber = 1;
+	preparePaginationData() {
+		this.arePagesToPaginate = true;
+		console.log('---> preparePaginationData');
+		let categoriesNumber = this.allUserCategories.length;
+		this.pageNumber = this.initialPageNumber;
 		if (categoriesNumber <= this.recordsPerPage) {
-			this.pageAmount = 1;
-			this.categoriesToDisplay = categories;
-			document.getElementById('left-pagination').style.pointerEvents = 'none';
-			document.getElementById('right-pagination').style.pointerEvents = 'none';
+			this.pageAmount = this.initialPageNumber;
+			this.categoriesToDisplay = this.allUserCategories;
+			console.log('---> this.categoriesToDisplay ', this.categoriesToDisplay);
 		} else {
-			document.getElementById('left-pagination').style.pointerEvents = 'none';
 			this.pageAmount = Math.ceil(categoriesNumber / this.recordsPerPage);
 			this.categoryDisplayFrom = 0;
 			this.categoryDisplayTo = this.recordsPerPage;
@@ -68,31 +78,45 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	}
 
 	showPreviouseCategories() {
-		document.getElementById('right-pagination').style.pointerEvents = 'auto';
-
-		this.categoryDisplayFrom = this.categoryDisplayFrom - this.recordsPerPage;
+		this.categoryDisplayFrom = (this.categoryDisplayFrom - this.recordsPerPage) <= 1 ?
+			0
+			: this.categoryDisplayFrom - this.recordsPerPage;
 		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage;
+		this.updatePageNumber(false);
+
 		this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
-		this.pageNumber --;
-		if (this.categoryDisplayFrom <= 0) {
-			document.getElementById('left-pagination').style.pointerEvents = 'none';
-		}
 	}
 
 	showNextCategories() {
-		document.getElementById('left-pagination').style.pointerEvents = 'auto';
-
 		this.categoryDisplayFrom = this.categoryDisplayTo;
-		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage;
-		this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
-		this.pageNumber ++;
-		if (this.categoryDisplayTo > this.categories.length) {
-			document.getElementById('right-pagination').style.pointerEvents = 'none';
+		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage <= this.allUserCategories.length ?
+			this.categoryDisplayFrom + this.recordsPerPage
+			: this.allUserCategories.length;
+		if (this.categoryDisplayFrom != this.categoryDisplayTo) {
+			this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+			this.updatePageNumber(true);
 		}
 	}
 
 	paginateCategories(fromIndex: number, toIndex: number): Category[] {
-		return this.categories.slice(fromIndex, toIndex);
+		console.log('---> paginate ', fromIndex, ' ', toIndex);
+		return this.allUserCategories.slice(fromIndex, toIndex);
+	}
+
+	updatePageNumber(isNext: boolean) {
+		const nextPageNumber = this.pageNumber + 1;
+		const prevPageNumber = this.pageNumber - 1;
+		if (isNext) {
+			if (nextPageNumber <= this.pageAmount) {
+				this.pageNumber++
+			}
+		} else {
+			if (prevPageNumber > this.initialPageNumber) {
+				this.pageNumber--;
+			} else {
+				this.pageNumber = this.initialPageNumber;
+			}
+		}
 	}
 
 	openAddCategoryModal(category: any) {
@@ -149,28 +173,71 @@ export class ProfileManageCategoriesComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				const upsertedCategory = <Category>result;
-				let existedCategory: Category;
-				let filteredCategories: Category[];
-				if (this.categories) {
-					existedCategory = this.categories.find(category => category.id === upsertedCategory.id);
-					filteredCategories = this.categories.filter(category => category.id !== upsertedCategory.id);
-				}
-				if (upsertedCategory.isActive && !existedCategory) {
-					this.categories.unshift(upsertedCategory);
-				} else if (upsertedCategory.isActive && existedCategory) {
-					existedCategory.description = upsertedCategory.description;
-					filteredCategories.unshift(existedCategory);
-					this.categories = filteredCategories;
-				} else {
-					this.categories = filteredCategories;
-				}
+				this.arePagesToPaginate = true;
+				//const upsertedCategory = <Category>result;
+				this.updateAllUserCategories(<Category>result);
+				this.updateCategoriesToDisplay(<Category>result);
 			} else {
 				this.status = 'error';
 				snackMessage = this.status;
 				action = `Try again`;
 			}
 		});
+	}
+
+	updateAllUserCategories(upsertedCategory: Category) {
+		let existedCategory: Category;
+		let filteredCategories: Category[];
+		let categories: Category[] = [];
+
+		console.log('---> 1 allUserCategories ', this.allUserCategories);
+		if (!this.allUserCategories) {
+			console.log('---> categories ', categories);
+			categories.push(upsertedCategory);
+			this.allUserCategories = categories;
+			this.categoriesToDisplay = categories;
+			//this.preparePaginationData();
+		} else {
+			categories = this.allUserCategories;
+		}
+
+		if (this.arePagesToPaginate) {
+			existedCategory = this.allUserCategories.find(category => category.id === upsertedCategory.id);
+			filteredCategories = this.allUserCategories.filter(category => category.id !== upsertedCategory.id);
+		}
+		if (upsertedCategory.isActive && !existedCategory) {
+			categories.unshift(upsertedCategory);
+		} else if (upsertedCategory.isActive && existedCategory) {
+			existedCategory.description = upsertedCategory.description;
+			filteredCategories.unshift(existedCategory);
+			categories = filteredCategories;
+		} else {
+			categories = filteredCategories;
+		}
+		this.allUserCategories = categories;
+		//this.preparePaginationData();
+		console.log('---> 1 existedCategory ', existedCategory);
+		console.log('---> 1 filteredCategories ', filteredCategories);
+		console.log('---> this.allUserCategories', this.allUserCategories);
+
+	}
+
+	updateCategoriesToDisplay(upsertedCategory: Category) {
+		console.log('---> 2 allUserCategories ', this.allUserCategories);
+		console.log('---> 2 CategoriesToDisplay ', this.categoriesToDisplay);
+		if (this.allUserCategories.length === 0) {
+			this.arePagesToPaginate = false;
+		}
+		let displayFromIndex = this.categoryDisplayFrom ?
+			this.categoryDisplayFrom
+			: 0;
+		let displayToIndex = this.categoryDisplayTo ?
+			this.categoryDisplayTo
+			: this.recordsPerPage;
+		console.log('---> 2 this.categoryDisplayFrom ', this.categoryDisplayFrom);
+		console.log('---> 2 this.categoryDisplayTo ', this.categoryDisplayTo);
+		this.paginateCategories(displayFromIndex, displayToIndex);
+
 	}
 
 	sortCategoriesByName() {
