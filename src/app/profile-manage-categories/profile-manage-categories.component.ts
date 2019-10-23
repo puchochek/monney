@@ -18,10 +18,10 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	noCategoriesMessage: string;
 	newCategoryBtnLbl: string;
 	status: string;
-	allUserCategories: Category[];
-	categoriesToDisplay: Category[];
+	allUserCategories: Category[] = [];
+	categoriesToDisplay: Category[] = [];
 	dialogRef: MatDialogRef<AddCategoryModalComponent>;
-	headers: string[];
+	headers: string[] = [];
 	pageAmount: number;
 	pageNumber: number;
 	initialPageNumber: number;
@@ -30,7 +30,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	categoryDisplayTo: number;
 	isAscSorted: boolean;
 	arePagesToPaginate: boolean;
-	userCategoriesByKeys: any[];
+	userCategoriesByKeys: any[] = [];
 
 	constructor(
 		private http: HttpClient,
