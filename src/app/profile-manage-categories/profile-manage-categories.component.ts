@@ -30,8 +30,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	categoryDisplayTo: number;
 	isAscSorted: boolean;
 	arePagesToPaginate: boolean;
-
-	//nextDisplayFrom: number;
+	userCategoriesByKeys: any[];
 
 	constructor(
 		private http: HttpClient,
@@ -49,7 +48,6 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.newCategoryBtnLbl = `Add category`;
 
 		if (this.appUser.categories.length != 0) {
-			console.log('---> if ', this.appUser.categories);
 			this.allUserCategories = this.appUser.categories;
 			this.preparePaginationData();
 			this.arePagesToPaginate = true;
@@ -61,62 +59,50 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	}
 
 	preparePaginationData() {
-		this.arePagesToPaginate = true;
-		console.log('---> preparePaginationData');
-		let categoriesNumber = this.allUserCategories.length;
-		this.pageNumber = this.initialPageNumber;
-		if (categoriesNumber <= this.recordsPerPage) {
-			this.pageAmount = this.initialPageNumber;
-			this.categoriesToDisplay = this.allUserCategories;
-			console.log('---> this.categoriesToDisplay ', this.categoriesToDisplay);
+		const categoriesToHandle = this.allUserCategories;
+		let categoriesNumber = categoriesToHandle.length;
+		this.pageAmount = Math.ceil(categoriesNumber / this.recordsPerPage);
+		if (this.pageNumber) {
+			if (this.pageNumber > this.pageAmount) {
+				this.pageNumber = this.pageNumber - 1;
+			}
 		} else {
-			this.pageAmount = Math.ceil(categoriesNumber / this.recordsPerPage);
-			this.categoryDisplayFrom = 0;
-			this.categoryDisplayTo = this.recordsPerPage;
-			this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+			this.pageNumber = 1;
+		}
+		let startIndex: number = 0;
+		let endIndex: number = 10;
+		let categoriesByKeys: any[] = [];
+		for (let i = 1; i <= this.pageAmount; i++) {
+			const categoriesPack = categoriesToHandle.slice(startIndex, endIndex);
+			const categoriesPackByIndex = { pageIndex: i, categoriesPerPage: categoriesPack };
+			categoriesByKeys.push(categoriesPackByIndex);
+			startIndex = startIndex + 10;
+			endIndex = endIndex + 10;
+		}
+		if (categoriesByKeys.length === 0) {
+			this.arePagesToPaginate = false;
+		} else {
+			this.arePagesToPaginate = true;
+			const currentPageCategories = categoriesByKeys.find(categoryByKeys => categoryByKeys.pageIndex === this.pageNumber)
+			this.categoriesToDisplay = [...currentPageCategories.categoriesPerPage];
+			this.userCategoriesByKeys = categoriesByKeys;
 		}
 	}
 
 	showPreviouseCategories() {
-		this.categoryDisplayFrom = (this.categoryDisplayFrom - this.recordsPerPage) <= 1 ?
-			0
-			: this.categoryDisplayFrom - this.recordsPerPage;
-		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage;
-		this.updatePageNumber(false);
-
-		this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
+		const previousPageNumber = this.pageNumber - 1;
+		if (previousPageNumber > 0) {
+			this.pageNumber--;
+		}
+		this.preparePaginationData();
 	}
 
 	showNextCategories() {
-		this.categoryDisplayFrom = this.categoryDisplayTo;
-		this.categoryDisplayTo = this.categoryDisplayFrom + this.recordsPerPage <= this.allUserCategories.length ?
-			this.categoryDisplayFrom + this.recordsPerPage
-			: this.allUserCategories.length;
-		if (this.categoryDisplayFrom != this.categoryDisplayTo) {
-			this.categoriesToDisplay = this.paginateCategories(this.categoryDisplayFrom, this.categoryDisplayTo);
-			this.updatePageNumber(true);
-		}
-	}
-
-	paginateCategories(fromIndex: number, toIndex: number): Category[] {
-		console.log('---> paginate ', fromIndex, ' ', toIndex);
-		return this.allUserCategories.slice(fromIndex, toIndex);
-	}
-
-	updatePageNumber(isNext: boolean) {
 		const nextPageNumber = this.pageNumber + 1;
-		const prevPageNumber = this.pageNumber - 1;
-		if (isNext) {
-			if (nextPageNumber <= this.pageAmount) {
-				this.pageNumber++
-			}
-		} else {
-			if (prevPageNumber > this.initialPageNumber) {
-				this.pageNumber--;
-			} else {
-				this.pageNumber = this.initialPageNumber;
-			}
+		if (nextPageNumber <= this.pageAmount) {
+			this.pageNumber++;
 		}
+		this.preparePaginationData();
 	}
 
 	openAddCategoryModal(category: any) {
@@ -173,10 +159,12 @@ export class ProfileManageCategoriesComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				this.arePagesToPaginate = true;
-				//const upsertedCategory = <Category>result;
-				this.updateAllUserCategories(<Category>result);
-				this.updateCategoriesToDisplay(<Category>result);
+				if (this.allUserCategories.length === 0) {
+					this.allUserCategories.push(<Category>result);
+					this.preparePaginationData();
+				} else {
+					this.updateAllUserCategories(<Category>result);
+				}
 			} else {
 				this.status = 'error';
 				snackMessage = this.status;
@@ -188,56 +176,47 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	updateAllUserCategories(upsertedCategory: Category) {
 		let existedCategory: Category;
 		let filteredCategories: Category[];
-		let categories: Category[] = [];
+		let userCategories: Category[] = [];
+		let displayedCategoriesActual = [...this.categoriesToDisplay];
+		let displayedCategoriesUpdated = [...displayedCategoriesActual];
 
-		console.log('---> 1 allUserCategories ', this.allUserCategories);
 		if (!this.allUserCategories) {
-			console.log('---> categories ', categories);
-			categories.push(upsertedCategory);
-			this.allUserCategories = categories;
-			this.categoriesToDisplay = categories;
-			//this.preparePaginationData();
+			userCategories.unshift(upsertedCategory);
+			this.allUserCategories = [...userCategories];
+			this.preparePaginationData();
 		} else {
-			categories = this.allUserCategories;
+			userCategories = [...this.allUserCategories];
+			displayedCategoriesUpdated = [...this.categoriesToDisplay];
 		}
 
-		if (this.arePagesToPaginate) {
-			existedCategory = this.allUserCategories.find(category => category.id === upsertedCategory.id);
-			filteredCategories = this.allUserCategories.filter(category => category.id !== upsertedCategory.id);
-		}
+		existedCategory = userCategories.find(category => category.id === upsertedCategory.id);
+		filteredCategories = displayedCategoriesUpdated.filter(category => category.id !== upsertedCategory.id);
+
 		if (upsertedCategory.isActive && !existedCategory) {
-			categories.unshift(upsertedCategory);
+			displayedCategoriesUpdated.unshift(upsertedCategory);
 		} else if (upsertedCategory.isActive && existedCategory) {
-			existedCategory.description = upsertedCategory.description;
-			filteredCategories.unshift(existedCategory);
-			categories = filteredCategories;
+			existedCategory = { ...upsertedCategory };
+			displayedCategoriesUpdated = [...filteredCategories];
+			displayedCategoriesUpdated.unshift(existedCategory);
 		} else {
-			categories = filteredCategories;
+			if (filteredCategories.length === 0) {
+				displayedCategoriesUpdated = [];
+			} else {
+				displayedCategoriesUpdated = [...filteredCategories];
+			}
 		}
-		this.allUserCategories = categories;
-		//this.preparePaginationData();
-		console.log('---> 1 existedCategory ', existedCategory);
-		console.log('---> 1 filteredCategories ', filteredCategories);
-		console.log('---> this.allUserCategories', this.allUserCategories);
-
-	}
-
-	updateCategoriesToDisplay(upsertedCategory: Category) {
-		console.log('---> 2 allUserCategories ', this.allUserCategories);
-		console.log('---> 2 CategoriesToDisplay ', this.categoriesToDisplay);
-		if (this.allUserCategories.length === 0) {
-			this.arePagesToPaginate = false;
+		let allUserCategoriesUpdated: Category[] = [];
+		this.userCategoriesByKeys.forEach(categoryiesPack => {
+			if (categoryiesPack.pageIndex === this.pageNumber) {
+				categoryiesPack.categoriesPerPage = displayedCategoriesUpdated;
+			}
+			allUserCategoriesUpdated = [...allUserCategoriesUpdated, ...categoryiesPack.categoriesPerPage]
+		});
+		this.allUserCategories = [...allUserCategoriesUpdated];
+		if (this.allUserCategories.length != 0) {
+			this.arePagesToPaginate = true;
 		}
-		let displayFromIndex = this.categoryDisplayFrom ?
-			this.categoryDisplayFrom
-			: 0;
-		let displayToIndex = this.categoryDisplayTo ?
-			this.categoryDisplayTo
-			: this.recordsPerPage;
-		console.log('---> 2 this.categoryDisplayFrom ', this.categoryDisplayFrom);
-		console.log('---> 2 this.categoryDisplayTo ', this.categoryDisplayTo);
-		this.paginateCategories(displayFromIndex, displayToIndex);
-
+		this.preparePaginationData();
 	}
 
 	sortCategoriesByName() {
