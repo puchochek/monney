@@ -34,8 +34,9 @@ export class UserProfileComponent implements OnInit {
 		this.categoriesToolTip = `Set end manage your transactions categories here`;
 		this.reportsToolTip = `Configure and view your transactions reports here`;
 		const userId = localStorage.getItem('userId');
+		//const userId = 'f0797669-d80b-49d0-895c-8a659d624259';
 		console.log('---> userId PROF ', userId);
-		this.http.get('http://localhost:3000/user/' + userId).subscribe((response: LoggedUser[]) => {
+		this.http.get('http://localhost:3000/user/user-by-id/' + userId).subscribe((response: LoggedUser[]) => {
 			console.log('---> response ', response);
 			this.currentUser = response;
 			//this.setExpensesByCategory(response);
