@@ -19,7 +19,7 @@ export class HelloMonneyComponent implements OnInit {
     const token = localStorage.getItem('token');
     console.log('---> userId HL ', userId);
     console.log('---> token HL ', token);
-    console.log('---> ', JSON.stringify(token), token.toString());
+    //console.log('---> ', JSON.stringify(token), token.toString());
     // if (userId) {
     //   console.log('---> if token');
     //   this.http.get('http://localhost:3000/user/' + userId).subscribe((response: LoggedUser[]) => {

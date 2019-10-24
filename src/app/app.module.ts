@@ -62,6 +62,9 @@ import {
 import { ProfileManageCategoriesComponent } from './profile-manage-categories/profile-manage-categories.component';
 import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from '././token.interceptor';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -124,7 +127,13 @@ import { AddCategoryModalComponent } from './add-category-modal/add-category-mod
 		MatTooltipModule,
 		BrowserAnimationsModule
 	],
-	providers: [DataService],
+	providers: [DataService,
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptor,
+			multi: true
+		}
+	],
 	bootstrap: [AppComponent],
 	entryComponents: [AddCategoryModalComponent]
 })
