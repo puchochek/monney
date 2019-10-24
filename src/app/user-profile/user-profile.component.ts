@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 
@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
 				console.log('---> resp ', response);
 				console.log('---> resp.body ', response.body);
 				console.log('---> resp.headers ', response.headers);
-				console.log('---> resp.headers.authorization ', response.headers.get('authorization'));
+				console.log('---> resp.headers.authorization ', response.headers.get('Authorization'));
 			});
 
 	}
