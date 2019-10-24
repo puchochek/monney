@@ -13,7 +13,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const jwtToken = localStorage.getItem('token')
-        console.log('---> jwtToken ', jwtToken );
         if (!!jwtToken) {
             req = req.clone({
                 setHeaders: {
@@ -21,7 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             });
         }
-        console.log('---> request A', req );
+        console.log('---> TokenInterceptor request ', req );
         return next.handle(req);
     }
 }
