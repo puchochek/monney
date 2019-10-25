@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
+import { DataService } from '../data.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 
 
@@ -20,7 +22,9 @@ export class UserProfileComponent implements OnInit {
 	reportsTabLabel: string;
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private dataService: DataService,
+		private router: Router,
 	) { }
 
 	ngOnInit() {
@@ -32,20 +36,43 @@ export class UserProfileComponent implements OnInit {
 		this.reportsToolTip = `Configure and view your transactions reports here`;
 
 		const userId = localStorage.getItem('userId');
-
-		console.log('---> UserProfileComponent userId ', userId);
-
 		const url = `http://localhost:3000/user/user-by-id/${userId}`;
 
 		this.http.get(url, { observe: 'response' })
-			.subscribe(response => {
-				this.currentUser = <LoggedUser>response.body;
-				console.log('---> resp ', response);
-				console.log('---> resp.body ', response.body);
-				console.log('---> resp.headers ', response.headers);
-				console.log('---> resp.headers.authorization ', response.headers.get('Authorization'));
-			});
+			.subscribe(
+				response => {
+					this.currentUser = <LoggedUser>response.body;
+					console.log('---> UserProfileComponent response ', response);
+					//console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
+					this.dataService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> UserProfileComponent error ', error);
+					//this.dataService.cleanLocalstorage();
+					this.router.navigate(['/hello-monney']);
 
+					//   this.errors = error;
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
+
+
+
+
+		// .subscribe(response => {
+		// 	this.currentUser = <LoggedUser>response.body;
+		// 	console.log('---> resp ', response);
+		// 	console.log('---> resp.headers.authorization ', response.headers.get('Authorization'));
+		// });
+
+	}
+
+	logout() {
+		this.router.navigate(['/hello-monney']);
+		this.dataService.cleanLocalstorage();
 	}
 
 }

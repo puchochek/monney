@@ -40,7 +40,7 @@ export class LoginFormComponent implements OnInit {
 
 
 	constructor(
-		private data: DataService,
+		private dataService: DataService,
 		private http: HttpClient,
 		private route: ActivatedRoute,
 		private router: Router, ) { }
@@ -127,7 +127,7 @@ export class LoginFormComponent implements OnInit {
 	validatePassword(passwordInput: string): boolean {
 		let isPasswordVaild = false;
 		//Password expresion that requires one lower case letter, one upper case letter, one digit, 5-10 length, and no spaces.
-		const expression    = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
+		const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
 		if (passwordInput && (expression.test(String(passwordInput)))) {
 			isPasswordVaild = true;
 		}
@@ -148,25 +148,83 @@ export class LoginFormComponent implements OnInit {
 	login() {
 		// TODO add validation for all params
 		//console.log('password', this.password);
-		this.http.post('http://localhost:3000/user/register', {
+
+		// if (token) {
+		// 	this.http.get(url, { observe: 'response' })
+		// 		.subscribe(
+		// 			response => {
+		// 				this.dataService.updateToken(response.headers.get('Authorization'));
+		// 				const currentUser = <LoggedUser>response.body;
+		// 				this.router.navigate(['/myprofile/' + currentUser.id]);
+		// 			},
+		// 			error => {
+		// 				console.log('---> HELLO-MONNEY error ', error);
+		// 				this.isPageLoad = true;
+		// 				this.dataService.cleanLocalstorage();
+		// 			},
+		// 			() => {
+		// 				// 'onCompleted' callback.
+		// 				// No errors, route to new page here
+		// 			}
+		// 		);
+		// }
+
+		const url = `http://localhost:3000/user/register`;
+		//console.log('---> login ls token ', localStorage.getItem('token') );
+		this.http.post(url, {
 			password: this.password,
 			name: this.name,
 			email: this.mailAddress
-		}).subscribe((response: LoggedUser) => {
-			if (response) {
-				console.log('---> result REGISTRED', response);
+		}, { observe: 'response' }).subscribe(
+			response => {
+				console.log('---> LoginFormComponent REGISTRED', response);
 				this.status = 'saved';
 				this.message = 'Congratulations! You were successfully logged in the app. Now check your email to continue.';
 				this.isLoginFormShown = false;
 				this.isModalShown = true;
-			} else {
+				const currantUser = <LoggedUser>response.body;
+				this.dataService.updateUserId(currantUser.id);
+				// console.log('---> LoginFormComponent TOKEN ', response.headers.get('Authorization'));
+				// this.dataService.updateToken(response.headers.get('Authorization'));
+				// const currentUser = <LoggedUser>response.body;
+				// this.router.navigate(['/myprofile/' + currentUser.id]);
+			},
+			error => {
+				console.log('---> LoginFormComponent error ', error);
 				this.status = 'error';
 				this.message = 'Something goes wrong. Try again.';
 				this.isLoginFormShown = false;
 				this.isModalShown = true;
+				//this.isPageLoad = true;
+				this.dataService.cleanLocalstorage();
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
 			}
-			//this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
-		});
+		);
+
+
+
+
+
+
+
+		// subscribe((response: LoggedUser) => {
+		// 	if (response) {
+		// 		console.log('---> result REGISTRED', response);
+		// 		this.status = 'saved';
+		// 		this.message = 'Congratulations! You were successfully logged in the app. Now check your email to continue.';
+		// 		this.isLoginFormShown = false;
+		// 		this.isModalShown = true;
+		// 	} else {
+		// 		this.status = 'error';
+		// 		this.message = 'Something goes wrong. Try again.';
+		// 		this.isLoginFormShown = false;
+		// 		this.isModalShown = true;
+		// 	}
+		// 	//this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
+		// });
 	}
 
 	autorize() {
@@ -176,15 +234,15 @@ export class LoginFormComponent implements OnInit {
 			name: this.name,
 			email: this.mailAddress
 		}, {
-				headers: new HttpHeaders().set('authorization', 'Bearer ' + localStorage.getItem('token'))
-			}).subscribe((response: LoggedUser) => {
-				console.log('result AUTHORIZED', response);
-				if (response) {
-					// TODO add modal message kind of "Check your email"
-					// this.router.navigate(['/myprofile/' + response.id]);
-				} else {
-					// TODO add error modal
-				}
-			});
+			headers: new HttpHeaders().set('authorization', 'Bearer ' + localStorage.getItem('token'))
+		}).subscribe((response: LoggedUser) => {
+			console.log('result AUTHORIZED', response);
+			if (response) {
+				// TODO add modal message kind of "Check your email"
+				// this.router.navigate(['/myprofile/' + response.id]);
+			} else {
+				// TODO add error modal
+			}
+		});
 	}
 }

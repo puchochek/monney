@@ -12,15 +12,23 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const jwtToken = localStorage.getItem('token')
-        if (!!jwtToken) {
+        // const existedToken
+        //console.log('---> localStorage.token ', localStorage.getItem('token'));
+        let jwtToken;
+        if (localStorage.getItem('token')) {
+            jwtToken = localStorage.getItem('token').includes('Bearer') ?
+                localStorage.getItem('token')
+                : `Bearer ${localStorage.getItem('token')}`;
+        }
+        //console.log('---> jwtToken ', jwtToken);
+        if (jwtToken) {
             req = req.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `${jwtToken}`
                 }
             });
         }
-        console.log('---> TokenInterceptor request ', req );
+        console.log('---> TokenInterceptor request ', req);
         return next.handle(req);
     }
 }
