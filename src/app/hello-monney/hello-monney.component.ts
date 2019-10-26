@@ -23,15 +23,19 @@ export class HelloMonneyComponent implements OnInit {
 		const userId = localStorage.getItem('userId');
 		const token = localStorage.getItem('token');
 		const url = `http://localhost:3000/user/user-by-id/${userId}`;
-console.log('---> HELLO-MONNEY token ', token);
-console.log('---> HELLO-MONNEY userId ', userId);
+		console.log('---> HELLO-MONNEY token ', token);
+		console.log('---> HELLO-MONNEY userId ', userId);
 		if (token) {
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						const currentUser = <LoggedUser>response.body;
-						this.router.navigate(['/myprofile/' + currentUser.id]);
+						if (currentUser) {
+							this.router.navigate(['/myprofile/' + currentUser.id]);
+						} else {
+							this.isPageLoad = true;
+						}
 					},
 					error => {
 						console.log('---> HELLO-MONNEY error ', error);

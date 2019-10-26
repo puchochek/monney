@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
+import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-category-list',
@@ -11,35 +13,39 @@ import { Category } from '../interfaces';
 export class CategoryListComponent implements OnInit {
 	categoryList = true;
 	selectedCategory: Category;
-	// categories = [
-	// 	{ id: 1, name: 'Dinners' },
-	// 	{ id: 2, name: 'Household' },
-	// 	{ id: 3, name: 'Fare' },
-	// 	{ id: 4, name: 'Sport' },
-	// 	{ id: 5, name: 'Hobbies' },
-	// 	{ id: 6, name: 'Clothes' },
-	// 	{ id: 7, name: 'Rest' },
-	// 	{ id: 8, name: 'Other' }
-	// ];
-
 	columns: number;
 	categories: Category[];
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private router: Router,
+		private dataService: DataService,
 	) { }
 
 	ngOnInit() {
 		this.defineScreenWeight();
-		//this.columns = 3;
 		const userId = localStorage.getItem('userId');
 		console.log('local storage token', localStorage.getItem('token'));
 		console.log('local storage userId', localStorage.getItem('userId'));
-		this.http.get('http://localhost:3000/category/' + userId).subscribe((response: Category[]) => {
-			console.log('---> response ', response);
-			this.defineColumnsNumber(response);
-			this.categories = response;
-		});
+		const url = `http://localhost:3000/category/${userId}`;
+		this.http.get(url, { observe: 'response' })
+			.subscribe(
+				response => {
+					console.log('---> category list response ', response.body);
+					this.defineColumnsNumber(<Category[]>response.body);
+					this.categories = <Category[]>response.body;
+					this.dataService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> CATEGORY_LIST error ', error);
+					this.router.navigate(['/hello-monney']);
+					this.dataService.cleanLocalstorage();
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
 	}
 
 	defineScreenWeight() {
@@ -50,7 +56,6 @@ export class CategoryListComponent implements OnInit {
 
 	defineColumnsNumber(categories: Category[]) {
 		const categoriesNumber = categories.length;
-		console.log('---> categoriesNumber ', categoriesNumber);
 
 		switch (true) {
 			case (categoriesNumber <= 5):

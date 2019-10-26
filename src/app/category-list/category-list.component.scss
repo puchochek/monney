@@ -1,11 +1,22 @@
 @font-face {
-  font-family: capture;
-  src: url('../../assets/fonts/capture.ttf') format('opentype');
+	font-family: capture;
+	src: url('../../assets/fonts/capture.ttf') format('opentype');
 }
 
 .categories-list-container {
 	font-family: capture;
 	color: white;
+}
+
+.category-item {
+	padding: 1%;
+}
+
+.category-item:hover {
+	cursor: pointer;
+	background-color: white;
+	color: black;
+
 }
 
 

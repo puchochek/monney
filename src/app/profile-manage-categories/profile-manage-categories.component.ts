@@ -142,6 +142,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.doCategoryControllerCall(categoryToDel);
 	}
 	//TODO add validation for Categories with the same name
+	//TODO set localstorage token
 	doCategoryControllerCall(categoryToUpsert: any) {
 		let snackMessage: string;
 		let action: string;

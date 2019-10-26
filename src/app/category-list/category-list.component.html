@@ -1,14 +1,9 @@
 <app-header></app-header>
 
 <mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit">
-	<mat-grid-tile *ngFor="let category of categories" routerLink="/categories/{{category.name}}">
-		{{category.name}}
+	<mat-grid-tile *ngFor="let category of categories">
+		<div class="category-item" routerLink="/categories/{{category.name}}">
+			{{category.name}}
+		</div>
 	</mat-grid-tile>
 </mat-grid-list>
-<!-- <div *ngFor="let category of categories" 
-      class="categories-container"
-      routerLink="/categories/{{category.name}}">
-        <div class="category">
-         <p> {{category.name}} </p>
-        </div>
-  </div> -->
