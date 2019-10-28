@@ -20,8 +20,26 @@ export class HelloMonneyComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		//http://localhost:4200/myprofile/e2c71aff-6861-4fb0-89b6-238df0456031
 		const userId = localStorage.getItem('userId');
 		const token = localStorage.getItem('token');
+		//TODO why no  headers???
+		// this.http.get('http://localhost:3000/user/test', { observe: 'response' })
+		// .subscribe(
+		// 	response => {
+		// 		console.log('---> TEST response ', response);
+		// 	},
+		// 	error => {
+		// 		console.log('---> TEST error ', error);
+		// 	},
+		// 	() => {
+		// 		// 'onCompleted' callback.
+		// 		// No errors, route to new page here
+		// 	}
+		// );
+
+
+
 		const url = `http://localhost:3000/user/user-by-id/${userId}`;
 		console.log('---> HELLO-MONNEY token ', token);
 		console.log('---> HELLO-MONNEY userId ', userId);
@@ -31,6 +49,8 @@ export class HelloMonneyComponent implements OnInit {
 					response => {
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						const currentUser = <LoggedUser>response.body;
+						console.log('---> HELLO-MONNEY response ', response);
+						//console.log('---> currentUser ', currentUser);
 						if (currentUser) {
 							this.router.navigate(['/myprofile/' + currentUser.id]);
 						} else {

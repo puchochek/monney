@@ -61,7 +61,9 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	validateInput() {
-		this.isValidName = this.validateName(this.name);
+		this.isValidName = this.isLogin ?
+			this.validateName(this.name)
+			: true;
 		this.isEmailValid = this.validateEmail(this.mailAddress);
 		this.isPasswordVaild = this.validatePassword(this.password);
 
@@ -146,31 +148,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	login() {
-		// TODO add validation for all params
-		//console.log('password', this.password);
-
-		// if (token) {
-		// 	this.http.get(url, { observe: 'response' })
-		// 		.subscribe(
-		// 			response => {
-		// 				this.dataService.updateToken(response.headers.get('Authorization'));
-		// 				const currentUser = <LoggedUser>response.body;
-		// 				this.router.navigate(['/myprofile/' + currentUser.id]);
-		// 			},
-		// 			error => {
-		// 				console.log('---> HELLO-MONNEY error ', error);
-		// 				this.isPageLoad = true;
-		// 				this.dataService.cleanLocalstorage();
-		// 			},
-		// 			() => {
-		// 				// 'onCompleted' callback.
-		// 				// No errors, route to new page here
-		// 			}
-		// 		);
-		// }
-
 		const url = `http://localhost:3000/user/register`;
-		//console.log('---> login ls token ', localStorage.getItem('token') );
 		this.http.post(url, {
 			password: this.password,
 			name: this.name,
@@ -184,10 +162,6 @@ export class LoginFormComponent implements OnInit {
 				this.isModalShown = true;
 				const currantUser = <LoggedUser>response.body;
 				this.dataService.updateUserId(currantUser.id);
-				// console.log('---> LoginFormComponent TOKEN ', response.headers.get('Authorization'));
-				// this.dataService.updateToken(response.headers.get('Authorization'));
-				// const currentUser = <LoggedUser>response.body;
-				// this.router.navigate(['/myprofile/' + currentUser.id]);
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);
@@ -195,7 +169,6 @@ export class LoginFormComponent implements OnInit {
 				this.message = 'Something goes wrong. Try again.';
 				this.isLoginFormShown = false;
 				this.isModalShown = true;
-				//this.isPageLoad = true;
 				this.dataService.cleanLocalstorage();
 			},
 			() => {
@@ -203,46 +176,63 @@ export class LoginFormComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
-
-
-
-
-
-
-
-		// subscribe((response: LoggedUser) => {
-		// 	if (response) {
-		// 		console.log('---> result REGISTRED', response);
-		// 		this.status = 'saved';
-		// 		this.message = 'Congratulations! You were successfully logged in the app. Now check your email to continue.';
-		// 		this.isLoginFormShown = false;
-		// 		this.isModalShown = true;
-		// 	} else {
-		// 		this.status = 'error';
-		// 		this.message = 'Something goes wrong. Try again.';
-		// 		this.isLoginFormShown = false;
-		// 		this.isModalShown = true;
-		// 	}
-		// 	//this.router.navigate(['/login/' + response.name || 'error' + '/' + this.status]);
-		// });
 	}
 
 	autorize() {
-		console.log('localStorage ', localStorage.getItem('token'));
-		this.http.post('http://localhost:3000/user/autorize', {
+		const url = `http://localhost:3000/user/autorize`;
+		this.http.post(url, {
 			password: this.password,
 			name: this.name,
 			email: this.mailAddress
-		}, {
-			headers: new HttpHeaders().set('authorization', 'Bearer ' + localStorage.getItem('token'))
-		}).subscribe((response: LoggedUser) => {
-			console.log('result AUTHORIZED', response);
-			if (response) {
-				// TODO add modal message kind of "Check your email"
-				// this.router.navigate(['/myprofile/' + response.id]);
-			} else {
-				// TODO add error modal
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				this.isLoginFormShown = false;
+				const currentUser = <LoggedUser>response.body;
+				console.log('---> AUTHORIZED response ', response);
+				if (currentUser) {
+					this.dataService.updateUserId(currentUser.id);
+					this.updateToken(currentUser);
+					//this.router.navigate(['/myprofile/' + currentUser.id]);
+				}
+			},
+			error => {
+				console.log('---> autorize error ', error);
+				this.status = 'error';
+				this.message = 'Something goes wrong. Try again.';
+				this.isLoginFormShown = false;
+				this.isModalShown = true;
+				this.dataService.cleanLocalstorage();
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
 			}
-		});
+		);
+	}
+
+	updateToken(authorizedUser: LoggedUser) {
+		const url = `http://localhost:3000/user/user-token/${authorizedUser.id}`;
+		this.http.get(url, { observe: 'response' }
+		).subscribe(
+			response => {
+				// const currentUser = <LoggedUser>response.body;
+				console.log('---> AUTHORIZED updateToken response ', response);
+				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.router.navigate(['/myprofile/' + authorizedUser.id]);
+			},
+			error => {
+				console.log('---> updateToken autorize error ', error);
+				this.status = 'error';
+				this.message = 'Something goes wrong. Try again.';
+				this.isLoginFormShown = false;
+				this.isModalShown = true;
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+
 	}
 }

@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
 				response => {
 					this.currentUser = <LoggedUser>response.body;
 					console.log('---> UserProfileComponent response ', response);
-					//console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
+					console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
 					this.dataService.updateToken(response.headers.get('Authorization'));
 				},
 				error => {
