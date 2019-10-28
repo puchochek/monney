@@ -87,6 +87,56 @@ export class CategoryListComponent implements OnInit {
 		}
 	}
 
+	onDragOver(event) {
+		if(event.preventDefault) { event.preventDefault(); }
+		if(event.stopPropagation) { event.stopPropagation(); }
+	}
+
+	onDragStart(event) {
+		event
+			.dataTransfer
+			.setData('text', event.target.id);
+
+		event
+			.currentTarget
+			.style
+			.opacity = '0.5';
+	}
+
+	onDrop(event) {
+		if(event.preventDefault) { event.preventDefault(); }
+		if(event.stopPropagation) { event.stopPropagation(); }
+
+		const id = event
+			.dataTransfer
+			.getData('text');
+
+		const draggableElement = document.getElementById(id);
+		const dropzone = event.target;
+		const categoriesBeforeDrag = [...this.categories];
+		const categoriesAfterDrag = [...this.categories];
+		const draggedItemIndex = this.categories.findIndex(category => category.name === id);
+		const targetItemIndex = this.categories.findIndex(category => category.name === dropzone.id);
+
+		categoriesAfterDrag[draggedItemIndex] = categoriesBeforeDrag[targetItemIndex];
+		categoriesAfterDrag[targetItemIndex] = categoriesBeforeDrag[draggedItemIndex];
+
+		this.categories = [...categoriesAfterDrag];
+
+		event
+			.currentTarget
+			.style
+			.opacity = '1';
+
+			draggableElement
+			.style
+			.opacity = '1';
+
+		event
+			.dataTransfer
+			.clearData();
+	}
+
 	onSelect(category: Category): void {
 		this.categoryList = false;
 		this.selectedCategory = category;
