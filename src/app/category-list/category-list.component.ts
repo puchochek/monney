@@ -21,7 +21,7 @@ export class CategoryListComponent implements OnInit {
 		private router: Router,
 		private dataService: DataService,
 	) { }
-
+	//TODO keep dragged categories reordered
 	ngOnInit() {
 		this.defineScreenWeight();
 		const userId = localStorage.getItem('userId');
@@ -88,8 +88,8 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	onDragOver(event) {
-		if(event.preventDefault) { event.preventDefault(); }
-		if(event.stopPropagation) { event.stopPropagation(); }
+		if (event.preventDefault) { event.preventDefault(); }
+		if (event.stopPropagation) { event.stopPropagation(); }
 	}
 
 	onDragStart(event) {
@@ -104,8 +104,8 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	onDrop(event) {
-		if(event.preventDefault) { event.preventDefault(); }
-		if(event.stopPropagation) { event.stopPropagation(); }
+		if (event.preventDefault) { event.preventDefault(); }
+		if (event.stopPropagation) { event.stopPropagation(); }
 
 		const id = event
 			.dataTransfer
@@ -128,7 +128,7 @@ export class CategoryListComponent implements OnInit {
 			.style
 			.opacity = '1';
 
-			draggableElement
+		draggableElement
 			.style
 			.opacity = '1';
 

@@ -5,6 +5,7 @@ import { Category } from '../interfaces';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { AddCategoryModalComponent } from '../add-category-modal/add-category-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from '../data.service';
 
 @Component({
 	selector: 'app-profile-manage-categories',
@@ -35,7 +36,8 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	constructor(
 		private http: HttpClient,
 		private dialog: MatDialog,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private dataService: DataService,
 	) { }
 
 	ngOnInit() {
@@ -132,46 +134,56 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		if (categoryToSave) {
 			if (categoryToSave.name.length !== 0) {
 				categoryToSave.isActive = true;
-				this.doCategoryControllerCall(categoryToSave);
+				this.upsertCategory(categoryToSave);
 			}
 		}
 	}
 
 	deleteCategory(categoryToDel: Category) {
 		categoryToDel.isActive = false;
-		this.doCategoryControllerCall(categoryToDel);
+		this.upsertCategory(categoryToDel);
 	}
+
 	//TODO add validation for Categories with the same name
-	//TODO set localstorage token
-	doCategoryControllerCall(categoryToUpsert: any) {
+	upsertCategory(categoryToUpsert: any) {
 		let snackMessage: string;
 		let action: string;
-		this.http.post('http://localhost:3000/category', {
+		const url = `http://localhost:3000/category/upsert`;
+		this.http.post(url, {
 			name: categoryToUpsert.name,
 			description: categoryToUpsert.description,
 			user: categoryToUpsert.user,
 			isActive: categoryToUpsert.isActive,
-			id: categoryToUpsert.id
-		}).subscribe((result) => {
-			if (result) {
+			id: categoryToUpsert.id,
+		}, { observe: 'response' })
+		.subscribe(
+			response => {
 				this.status = 'Done';
 				snackMessage = this.status;
 				action = `OK`;
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
+				const upsertedCategory = <Category>response.body;
 				if (this.allUserCategories.length === 0) {
-					this.allUserCategories.push(<Category>result);
+					this.allUserCategories.push(upsertedCategory);
 					this.preparePaginationData();
 				} else {
-					this.updateAllUserCategories(<Category>result);
+					this.updateAllUserCategories(upsertedCategory);
 				}
-			} else {
+				this.dataService.updateToken(response.headers.get('Authorization'));
+			},
+			error => {
+				console.log('---> PROFILE MANAGE CATEGORIES error ', error);
 				this.status = 'error';
 				snackMessage = this.status;
 				action = `Try again`;
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
 			}
-		});
+		);
 	}
 
 	updateAllUserCategories(upsertedCategory: Category) {
