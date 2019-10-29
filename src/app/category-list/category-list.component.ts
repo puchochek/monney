@@ -21,19 +21,17 @@ export class CategoryListComponent implements OnInit {
 		private router: Router,
 		private dataService: DataService,
 	) { }
-	//TODO keep dragged categories reordered
+
 	ngOnInit() {
 		this.defineScreenWeight();
 		const userId = localStorage.getItem('userId');
-		console.log('local storage token', localStorage.getItem('token'));
-		console.log('local storage userId', localStorage.getItem('userId'));
 		const url = `http://localhost:3000/category/${userId}`;
 		this.http.get(url, { observe: 'response' })
 			.subscribe(
 				response => {
 					console.log('---> category list response ', response.body);
 					this.defineColumnsNumber(<Category[]>response.body);
-					this.categories = <Category[]>response.body;
+					this.categories = this.setInitialCategoriesOrder(<Category[]>response.body);
 					this.dataService.updateToken(response.headers.get('Authorization'));
 				},
 				error => {
@@ -46,6 +44,16 @@ export class CategoryListComponent implements OnInit {
 					// No errors, route to new page here
 				}
 			);
+	}
+
+	setInitialCategoriesOrder(currentUserCategories: Category[]): Category[] {
+		const sortedCategories = currentUserCategories.sort((a, b) => {
+			if (a.categoryIndex > b.categoryIndex)
+				return 1
+			else
+				return -1
+		})
+		return sortedCategories;
 	}
 
 	defineScreenWeight() {
@@ -112,6 +120,13 @@ export class CategoryListComponent implements OnInit {
 			.getData('text');
 
 		const draggableElement = document.getElementById(id);
+		if (!draggableElement) {
+			event
+				.currentTarget
+				.style
+				.opacity = '1';
+			return;
+		}
 		const dropzone = event.target;
 		const categoriesBeforeDrag = [...this.categories];
 		const categoriesAfterDrag = [...this.categories];
@@ -122,6 +137,7 @@ export class CategoryListComponent implements OnInit {
 		categoriesAfterDrag[targetItemIndex] = categoriesBeforeDrag[draggedItemIndex];
 
 		this.categories = [...categoriesAfterDrag];
+		this.reorderCategories(draggedItemIndex, targetItemIndex);
 
 		event
 			.currentTarget
@@ -135,6 +151,31 @@ export class CategoryListComponent implements OnInit {
 		event
 			.dataTransfer
 			.clearData();
+	}
+
+	reorderCategories(draggedItemIndex: number, targetItemIndex: number) {
+		const url = `http://localhost:3000/category/reorder`;
+		const userId = localStorage.getItem('userId');
+		this.http.post(url, {
+			userId: userId,
+			draggedItemIndex: draggedItemIndex,
+			targetItemIndex: targetItemIndex,
+		}, { observe: 'response' })
+			.subscribe(
+				response => {
+					const upsertedCategories = <Category[]>response.body;
+					console.log('---> upsertedCategories ', upsertedCategories);
+					this.dataService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> CATEGORIES LIST error ', error);
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
+
 	}
 
 	onSelect(category: Category): void {
