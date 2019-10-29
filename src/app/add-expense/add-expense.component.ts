@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-add-expense',
@@ -26,6 +27,9 @@ export class AddExpenseComponent implements OnChanges, OnInit {
 	isModalShown: boolean;
 	isNewExpenseFormShown: boolean;
 	message: string;
+
+	date = new FormControl(new Date());
+	serializedDate = new FormControl((new Date()).toISOString());
 
 	constructor(
 		private data: DataService,

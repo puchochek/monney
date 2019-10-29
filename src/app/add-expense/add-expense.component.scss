@@ -2,102 +2,125 @@
     font-family: Pt-Sans-Bold;
     src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
 }
-.container {
-	height: 100vh;
-	background: transparent;
+
+::ng-deep.mat-grid-tile .mat-figure {
+	justify-content: flex-start !important;
+ }
+
+ .mat-focused .placeholder, .mat-focused, .dummy-input-field{
+    color:black;
+    // font-size: 1.5rem;
 }
-.form-body {
-	height: 70%;
-	width: 70%;
-	margin: auto;
-	margin-top: 5%;
-	border: 1px solid white;
-}  
-.form-group {
-	font-size: 2rem;
-	font-family: Pt-Sans-Bold;
-	padding: 30px 30px 15px 30px;
+
+::ng-deep .mat-form-field-underline{
+    display: none;
 }
-#error-block {
-	color: #d50000;
-	font: 30px/100% Pt-Sans-Bold;
-	font-size: 2rem;
+
+// ::ng-deep .mat-datepicker-toggle{
+// 	color:red;
+//  }
+
+::ng-deep .mat-form-field-infix {
+    border-bottom: 1px solid black;
 }
-.form-group label {
-    font-size: 2rem;
-    color: #fff;
+
+.category-form {
+	max-width: 500px;
+	padding: 10px 20px;
+	background: #f4f7f8;
+	margin: 10% auto;
+	padding: 20px;
+	border-radius: 8px;
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
-.form-group label {
-	display:block;
+.category-form fieldset{
+	border: none;
+}
+.category-form legend {
+	font-size: 1.4em;
 	margin-bottom: 10px;
 }
-.form-group label > span {
-	display: inline-block;
-	float: left;
-	width: 150px;
+.category-form label {
+	display: block;
+	margin-bottom: 8px;
 }
-
-.form-group input[type=text] {
-	background: transparent;
+.category-form input[type="text"],
+.category-form input[type="date"],
+.category-form input[type="datetime"],
+.category-form input[type="email"],
+.category-form input[type="number"],
+.category-form input[type="search"],
+.category-form input[type="time"],
+.category-form input[type="url"],
+.category-form textarea,
+.category-form select {
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
+	background: rgba(255,255,255,.1);
 	border: none;
-	border-bottom: 1px dashed white;
+	border-radius: 4px;
+	font-size: 1.5rem;
+	margin: 0;
+	outline: 0;
+	padding: 10px;
 	width: 100%;
-	outline: none;
-	padding: 0px 0px 0px 0px;
-	font-size: 1.5rem;
-	font-family: Pt-Sans-Bold;
-	color: white;
+	box-sizing: border-box; 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	background-color: #e8eeef;
+	color:#8a97a0;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	margin-bottom: 30px;
+}
+.category-form input[type="text"]:focus,
+.category-form input[type="date"]:focus,
+.category-form input[type="datetime"]:focus,
+.category-form input[type="email"]:focus,
+.category-form input[type="number"]:focus,
+.category-form input[type="search"]:focus,
+.category-form input[type="time"]:focus,
+.category-form input[type="url"]:focus,
+.category-form textarea:focus,
+.category-form select:focus{
+	background: #d2d9dd;
 }
 
-.form-group input[type=submit],
-.form-group input[type=button]{
-	background: transparent;
-	border: 1px solid white;
-	padding: 8px 10px 8px 10px;
-    color: white;
-	margin-left: 10px;
-	font-family: Pt-Sans-Bold;
-}
-.form-group input[type=submit]:hover,
-.form-group input[type=button]:hover {
-	cursor: pointer;
-	background: white;
-	color: black;
-}
-
-.chevron::before {
-	font-size: 1.5rem;
-	font-family: Pt-Sans-Bold;
-	color: white;
-	border-style: solid;
-	border-width: 0.25em 0.25em 0 0;
-	content: '';
-	display: inline-block;
-	height: 0.45em;
-	left: 0.15em;
+.category-form input[type="submit"],
+.category-form input[type="button"]
+{
 	position: relative;
-	top: -0.15em;
-	transform: rotate(-45deg);
-	vertical-align: middle;
-	width: 0.45em;
-	cursor: pointer;
+	display: block;
+	padding: 19px 39px 18px 39px;
+	color: #FFF;
+	margin: 0 auto;
+	background: #616161;
+	font-size: 1.5rem;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	border: 1px solid #373737;
+	border-width: 1px 1px 3px;
+	margin-bottom: 10px;
 }
-.chevron.right:before {
-	left: 0;
-	transform: rotate(45deg);
-}
-.chevron.left:before {
-	left: 0.25em;
-	transform: rotate(-135deg);
+.category-form input[type="submit"]:hover,
+.category-form input[type="button"]:hover
+{
+	background: #8e8e8e;
 }
 
-.form-header {
-	display: grid;
-	grid-template-columns: 4fr 8fr;
-}
 
-.date-container {
-	text-align: right;
-	color: white;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

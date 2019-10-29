@@ -1,81 +1,106 @@
 <app-header></app-header>
 
-<div class="container">
+<div class="form-container">
+	<div class="category-form">
 
-  <div class="empty-div"></div>
+		<form>
 
-  <div class="form-body" *ngIf="isNewExpenseFormShown">
-    <form #empForm="ngForm">
-      <div class="form-group form-header">
-        <div>
-            <label for="category">{{ category }}</label>
-        </div>
-        <div>
-          <div class="date-container">
-              <span class="chevron left" 
-                (click)="goToPrevDate()">
-              </span> 
-              <span class="date-holder">
-                {{ dateToSave }}
-              </span>
-              <span *ngIf="isToggled"
-                    class="chevron right" 
-                    (click)="goToNextDate()">
-              </span>
-            </div>
-        </div>       
-      </div>
-  
-      <div class="form-group">
-        <label for="sum">Sum</label>
-        <input type="text" 
-                autocomplete="off" 
-                class="form-control" 
-                id="sum" 
-                required 
-                [(ngModel)]="sum" 
-                name="sum"
-                (input)="validateSumInput($event)">
-      </div>
-      
-      <div *ngIf="isInvalidInput">
-          <div class="form-group" id="error-block">
-            {{ invalidInputMessage }}
-          </div>
-      </div>
-  
-      <div *ngIf="!isInvalidInput" class="form-group">
-        <label for="comment">Comment</label>
-        <input type="text" 
-                autocomplete="off" 
-                class="form-control" 
-                id="comment" 
-                required 
-                [(ngModel)]="comment" 
-                name="comment">
-      </div>
-  
-      <div class="form-group">
-        <label>
-          <span> </span>
-          <input type="submit" 
-                  value="Save" 
-                  (click)="onSubmit()"/>
-          <span> </span>
-          <input type="button" 
-                 value="Close" 
-                 routerLink="/categories"/>
-        </label>
-      </div>
-    </form>
-  </div>
+			<fieldset>
+				<mat-grid-list cols="2" rowHeight="80px">
+					<mat-grid-tile class="fieldset-item fieldset-legend">
+						<legend>{{ category }}</legend>
+					</mat-grid-tile>
+					<mat-grid-tile class="fieldset-item">
+						<mat-form-field>
+							<mat-placeholder class="placeholder">Date</mat-placeholder>
+							<input matInput [matDatepicker]="picker" [formControl]="date">
+							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+							<mat-datepicker #picker></mat-datepicker>
+						</mat-form-field>
+					</mat-grid-tile>
+				</mat-grid-list>
 
-  <div class="empty-div"></div>
+				<!-- <legend>{{ category }}</legend>
+				<mat-form-field>
+					<mat-placeholder class="placeholder">Date</mat-placeholder>
+					<input matInput [matDatepicker]="picker" [formControl]="date">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field> -->
+				<input type="text" name="field1" placeholder="Sum">
+				<!-- <input type="email" name="field2" placeholder="Your Email *"> -->
+				<textarea name="field3" placeholder="Add a comment"></textarea>
+			</fieldset>
+			<input type="submit" value="Save" (click)="onSubmit()" />
+			<input type="button" value="Close" routerLink="/categories" />
+		</form>
+	</div>
 
-
-  <div class="modal-view" *ngIf="isModalShown">
-    <app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
-  </div>
-  
 
 </div>
+
+
+
+
+
+<!-- <div class="container">
+
+	<div class="empty-div"></div>
+
+	<div class="form-body" *ngIf="isNewExpenseFormShown">
+		<form #empForm="ngForm">
+			<div class="form-group form-header">
+				<div>
+					<label for="category">{{ category }}</label>
+				</div>
+				<div>
+					<div class="date-container">
+						<span class="chevron left" (click)="goToPrevDate()">
+						</span>
+						<span class="date-holder">
+							{{ dateToSave }}
+						</span>
+						<span *ngIf="isToggled" class="chevron right" (click)="goToNextDate()">
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="sum">Sum</label>
+				<input type="text" autocomplete="off" class="form-control" id="sum" required [(ngModel)]="sum"
+					name="sum" (input)="validateSumInput($event)">
+			</div>
+
+			<div *ngIf="isInvalidInput">
+				<div class="form-group" id="error-block">
+					{{ invalidInputMessage }}
+				</div>
+			</div>
+
+			<div *ngIf="!isInvalidInput" class="form-group">
+				<label for="comment">Comment</label>
+				<input type="text" autocomplete="off" class="form-control" id="comment" required [(ngModel)]="comment"
+					name="comment">
+			</div>
+
+			<div class="form-group">
+				<label>
+					<span> </span>
+					<input type="submit" value="Save" (click)="onSubmit()" />
+					<span> </span>
+					<input type="button" value="Close" routerLink="/categories" />
+				</label>
+			</div>
+		</form>
+	</div>
+
+	<div class="empty-div"></div>
+ -->
+
+<div class="modal-view" *ngIf="isModalShown">
+	<app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
+</div>
+
+
+<!-- </div> -->
