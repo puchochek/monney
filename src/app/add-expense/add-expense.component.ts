@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { FormControl } from '@angular/forms';
+import { FinanceData } from '../interfaces';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-add-expense',
@@ -11,140 +14,67 @@ import { FormControl } from '@angular/forms';
 	styleUrls: ['./add-expense.component.scss'],
 	providers: []
 })
-export class AddExpenseComponent implements OnChanges, OnInit {
+export class AddExpenseComponent implements OnInit {
 
 	@Input() sum: number;
 	@Input() comment: string;
 
-	dateToSave: string;
 	category: string;
 	status: string;
 	isInvalidInput: boolean;
 	invalidInputMessage: string;
-	dateShiftLeft: number;
 	dateShiftRight: number;
-	isToggled: boolean;
 	isModalShown: boolean;
-	isNewExpenseFormShown: boolean;
 	message: string;
 
 	date = new FormControl(new Date());
 	serializedDate = new FormControl((new Date()).toISOString());
+	maxDate = new Date();
+	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
 
 	constructor(
-		private data: DataService,
+		private dataService: DataService,
 		private http: HttpClient,
 		private route: ActivatedRoute,
 		private router: Router,
+		private dialog: MatDialog,
+		private snackBar: MatSnackBar,
 	) { }
 
 	ngOnInit() {
-		// default values;
-		this.isNewExpenseFormShown = true;
-		this.isModalShown = false;
-		this.isToggled = false;
-		this.dateShiftRight = 0;
-		this.dateShiftLeft = 0;
-
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.category = selectedCategory;
-		this.dateToSave = this.getCurrentDate();
-	}
-
-	//TODO WHY DOES NOT WORK
-	ngOnChanges(changes: SimpleChanges) {
-		console.log('changes');
-		console.log('changes ', changes);
-	}
-
-	getCurrentDate(): string {
-		const dayWithShift = new Date();
-		const today = new Date();
-		dayWithShift.setDate(today.getDate() + this.dateShiftLeft + this.dateShiftRight);
-		const currentDate = dayWithShift.getDate();
-		const currentMonth = dayWithShift.getMonth() + 1;
-		const currentYear = dayWithShift.getFullYear();
-		const currentDay = this.getDayOfWeek(dayWithShift.getDay());
-
-		return `${currentDate}.${currentMonth}.${currentYear} ${currentDay} `;
-	}
-
-	getDayOfWeek(currentDay: number): string {
-		switch (currentDay) {
-			case 0: {
-				return 'Sun';
-			}
-			case 1: {
-				return 'Mon';
-			}
-			case 2: {
-				return 'Tue';
-			}
-			case 3: {
-				return 'Wed';
-			}
-			case 4: {
-				return 'Thu';
-			}
-			case 5: {
-				return 'Fri';
-			}
-			case 6: {
-				return 'Sat';
-			}
-		}
-	}
-
-	goToPrevDate(): void {
-		this.isToggled = true;
-		this.dateShiftLeft = this.dateShiftLeft - 1;
-		this.dateToSave = this.getCurrentDate();
-	}
-
-	goToNextDate(): void {
-		this.dateShiftRight = this.dateShiftRight + 1;
-		this.dateToSave = this.getCurrentDate();
-		if (this.dateShiftRight + this.dateShiftLeft === 0) {
-			this.isToggled = false;
-		}
-	}
-
-	validateSumInput(event) {
-		//console.log('validateInput ', event);
-		const currentInput = event.data;
-		this.isInvalidInput = currentInput === null ?
-			false
-			: !this.validateSum(currentInput);
-		if (this.isInvalidInput) {
-			this.invalidInputMessage = `Fill the Sum field with a number.`;
-		}
 	}
 
 	onSubmit() {
-		this.collectDataForSaving();
+		const newExpence = {
+			sum: this.sum,
+			comment: this.comment,
+			type: this.category,
+			date: this.date.value,
+		};
+		console.log('---> newExpence ', newExpence);
+		if (this.validateSum(newExpence.sum)) {
+			console.log('---> sum is valid ', this.sum);
+			this.saveNewExpence(newExpence);
+		}
 	}
 
 	closeModal(event) {
-		this.isNewExpenseFormShown = true;
-		this.isModalShown = false;
+		// this.isNewExpenseFormShown = true;
+		// this.isModalShown = false;
 		if (event.value === 'saved') {
 			this.router.navigate(['/categories']);
 		}
 	}
 
-	collectDataForSaving() {
-		const newExpence = {
-			sum: this.sum,
-			comment: this.comment,
-			type: this.category,
-			date: this.dateToSave,
-		};
-
-		this.saveNewExpence(newExpence);
+	hideErrorMessage() {
+		this.isInvalidInput = false;
 	}
 
 	validateSum(sum: number): boolean {
 		if (isNaN(sum) || (!sum)) {
+			this.isInvalidInput = true;
 			return false;
 		} else {
 			this.isInvalidInput = false;
@@ -152,27 +82,47 @@ export class AddExpenseComponent implements OnChanges, OnInit {
 		}
 	}
 
-	saveNewExpence(newExpence) {
+	saveNewExpence(newExpence: any) {
 		// console.log('newExpence Obj in Post', newExpence);
-		this.http.post('http://localhost:3000/expence', {
+		let snackMessage: string;
+		let action: string;
+		const userId = localStorage.getItem('userId');
+		const categoryId = this.route.snapshot.paramMap.get('categoryId');
+		const url = `http://localhost:3000/expence`;
+		this.http.post(url, {
 			type: newExpence.type,
-			dateToParse: newExpence.date,
+			date: newExpence.date,
 			sum: newExpence.sum,
 			comment: newExpence.comment,
-		}).subscribe((result) => {
-			console.log('---> SAVED CATEGORY ', result);
-			if (result) {
-				this.status = 'saved';
-				this.message = 'The expense was successfully added to the ' + result['type'] + ' category.';
-				this.isNewExpenseFormShown = false;
-				this.isModalShown = true;
-			} else {
-				this.status = 'error';
-				this.message = 'Something goes wrong. Try again.';
-				this.isNewExpenseFormShown = false;
-				this.isModalShown = true;
+			userId: userId,
+			categoryId: categoryId
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				this.status = 'Done';
+				snackMessage = this.status;
+				action = `OK`;
+				this.snackBar.open(snackMessage, action, {
+					duration: 5000,
+				});
+				const savedExpense = <FinanceData>response.body;
+				console.log('---> SAVE EXP savedExpense ', savedExpense);
+				this.dataService.updateToken(response.headers.get('Authorization'));
+			},
+			error => {
+				console.log('---> SAVE EXPENSE ERROR ', error);
+				this.status = 'Oops!';
+				snackMessage = this.status;
+				action = `Try again`;
+				this.snackBar.open(snackMessage, action, {
+					duration: 5000,
+				});
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
 			}
-		});
+		);
 	}
 
 }

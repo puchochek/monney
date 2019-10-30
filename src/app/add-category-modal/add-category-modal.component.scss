@@ -1,12 +1,12 @@
 .mat-focused .placeholder, .mat-focused, .dummy-input-field{
-    color:black;
+    //color:black;
     font-size: 1.5rem;
 }
 
-::ng-deep .mat-form-field-underline{
-    display: none;
-}
+// ::ng-deep .mat-form-field-underline{
+//     display: none;
+// }
 
-::ng-deep .mat-form-field-infix {
-    border-bottom: 2px solid black;
-}
+// ::ng-deep .mat-form-field-infix {
+//     border-bottom: 2px solid black;
+// }

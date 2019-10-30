@@ -3,32 +3,36 @@
     src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
 }
 
-::ng-deep.mat-grid-tile .mat-figure {
-	justify-content: flex-start !important;
- }
+// #test > .mat-grid-tile .mat-figure {
+// 	justify-content: flex-start !important;
+// }
 
- .mat-focused .placeholder, .mat-focused, .dummy-input-field{
-    color:black;
-    // font-size: 1.5rem;
-}
+// ::ng-deep.mat-grid-tile .mat-figure {
+// 	justify-content: flex-start !important;
+//  }
 
-::ng-deep .mat-form-field-underline{
-    display: none;
-}
+//  .mat-focused .placeholder, .mat-focused, .dummy-input-field{
+//     color:black;
+//     // font-size: 1.5rem;
+// }
+
+// ::ng-deep .mat-form-field-underline{
+//     display: none;
+// }
 
 // ::ng-deep .mat-datepicker-toggle{
 // 	color:red;
 //  }
 
-::ng-deep .mat-form-field-infix {
-    border-bottom: 1px solid black;
-}
+// ::ng-deep .mat-form-field-infix {
+//     border-bottom: 1px solid black;
+// }
 
 .category-form {
 	max-width: 500px;
 	padding: 10px 20px;
 	background: #f4f7f8;
-	margin: 10% auto;
+	margin: 5% auto;
 	padding: 20px;
 	border-radius: 8px;
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
@@ -67,7 +71,7 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box; 
 	background-color: #e8eeef;
-	color:#8a97a0;
+	color:black;
 	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	margin-bottom: 30px;
@@ -106,6 +110,12 @@
 .category-form input[type="button"]:hover
 {
 	background: #8e8e8e;
+}
+
+.invalid-input-message {
+	color: red;
+	padding: 2% 0;
+	margin-top: -6%;
 }
 
 

@@ -18,7 +18,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     { path: 'login', component: LoginFormComponent },
     { path: 'autorize', component: LoginFormComponent },
     { path: 'categories', component: CategoryListComponent },
-    { path: 'categories/:category', component: AddExpenseComponent },
+    { path: 'categories/:category/:categoryId', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },
     { path: 'categories/:category/:status', component: ModalComponent },
     { path: 'login/:userName/:status', component: ModalComponent },

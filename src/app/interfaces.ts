@@ -4,6 +4,9 @@ export interface FinanceData {
 	id: string;
 	sum: string;
 	type: string;
+	userId: string;
+	categoryId: string;
+	isDeleted: boolean;
 }
 
 export interface Category {
