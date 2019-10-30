@@ -5,8 +5,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { FormControl } from '@angular/forms';
 import { FinanceData } from '../interfaces';
-import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
 	selector: 'app-add-expense',
@@ -24,8 +24,8 @@ export class AddExpenseComponent implements OnInit {
 	isInvalidInput: boolean;
 	invalidInputMessage: string;
 	dateShiftRight: number;
-	isModalShown: boolean;
 	message: string;
+	savedExpense: FinanceData;
 
 	date = new FormControl(new Date());
 	serializedDate = new FormControl((new Date()).toISOString());
@@ -37,10 +37,9 @@ export class AddExpenseComponent implements OnInit {
 		private http: HttpClient,
 		private route: ActivatedRoute,
 		private router: Router,
-		private dialog: MatDialog,
 		private snackBar: MatSnackBar,
 	) { }
-
+	//TODO mobile view!!!
 	ngOnInit() {
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.category = selectedCategory;
@@ -105,9 +104,10 @@ export class AddExpenseComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				const savedExpense = <FinanceData>response.body;
-				console.log('---> SAVE EXP savedExpense ', savedExpense);
+				this.savedExpense = <FinanceData>response.body;
+				console.log('---> SAVE EXP savedExpense ', this.savedExpense);
 				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.router.navigate(['/categories']);
 			},
 			error => {
 				console.log('---> SAVE EXPENSE ERROR ', error);

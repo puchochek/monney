@@ -79,7 +79,7 @@ import { TokenInterceptor } from '././token.interceptor';
 		ActivateUserComponent,
 		UserProfileComponent,
 		ProfileManageCategoriesComponent,
-		AddCategoryModalComponent
+		AddCategoryModalComponent,
 	],
 	imports: [
 		BrowserModule,

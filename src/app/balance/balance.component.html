@@ -1,52 +1,35 @@
 <app-header></app-header>
 
-<div class="main">
-    
-  <div class="income-header">This month income:</div> 
+<mat-expansion-panel class="balance">
+	<mat-expansion-panel-header>
+		<mat-panel-title matTooltip={{incomeToolTip}} class="balance-header balance-title">
+			{{incomesTabLabel}}
+		</mat-panel-title>
+	</mat-expansion-panel-header>
+	<div class="income-panel-container">
+		<div class="income-panel-actions">
+			<div class="new-category-btn">
+				<button mat-button (click)="openAddExpenseComponent()">{{newCategoryBtnLbl}}</button>
+			</div>
+		</div>
+	</div>
+</mat-expansion-panel>
 
-  <div class="incomes-container">
-    <div *ngFor="let currentIncome of thisMonthIncomes" 
-        class="incomes">
-          <div>{{currentIncome.date}}</div>
-          <div>{{currentIncome.comment}}</div>
-          <div>{{currentIncome.sum}}</div>
-    </div>
-  </div>
+<mat-expansion-panel class="balance">
+	<mat-expansion-panel-header>
+		<mat-panel-title matTooltip={{expensesToolTip}} class="balance-header balance-title">
+			{{expensesTabLabel}}
+		</mat-panel-title>
+	</mat-expansion-panel-header>
+</mat-expansion-panel>
 
-  <div class="buffer"></div>
+<mat-expansion-panel class="balance">
+	<mat-expansion-panel-header>
+		<mat-panel-title matTooltip={{balanceToolTip}} class="balance-header balance-title">
+			{{balanceTabLabel}}
+		</mat-panel-title>
+	</mat-expansion-panel-header>
 
-  <div class="income-header">This month expenses:</div> 
+	<p>This is the primary content of the panel.</p>
 
-  <div class="expenses-container"> 
-    <div *ngFor="let expenseTable of expencesTableData" class="expenses">
-
-      <div class="category-name">
-
-        <div class="custom-link" 
-             routerLink="/detail/{{expenseTable.category}}">{{expenseTable.category}}</div>
-
-        <div class="detail-modal" *ngIf="showCategoryDetails">
-          <div *ngFor="let expense of expenseTable.expences" >
-              <div class="expense-table-row" >
-                <div>Sum: {{expense.sum}}</div>
-                <div>For: {{expense.comment}}</div>
-                <div>Date: {{expense.date}}</div>
-              </div>
-            </div>
-        </div>
-        
-      </div>
-        
-      <div class="total-sum">{{expenseTable.total}}</div> 
-      
-    </div>
-  </div>
-
-  <div class="buffer"></div>
-
-  <div class="balance">
-    <div class="total">Total incomes: {{incomeTotal}}</div>
-    <div class="total">Total expences: {{expencesTotal}}</div>
-    <div class="total">Current balance: {{balance}}</div>
-  </div>
-</div>
+</mat-expansion-panel>

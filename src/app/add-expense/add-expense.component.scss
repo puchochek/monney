@@ -37,7 +37,7 @@
 	border-radius: 8px;
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
-.category-form fieldset{
+.category-form fieldset {
 	border: none;
 }
 .category-form legend {
@@ -67,9 +67,9 @@
 	outline: 0;
 	padding: 10px;
 	width: 100%;
-	box-sizing: border-box; 
+	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
+	-moz-box-sizing: border-box;
 	background-color: #e8eeef;
 	color:black;
 	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
@@ -85,13 +85,12 @@
 .category-form input[type="time"]:focus,
 .category-form input[type="url"]:focus,
 .category-form textarea:focus,
-.category-form select:focus{
+.category-form select:focus {
 	background: #d2d9dd;
 }
 
 .category-form input[type="submit"],
-.category-form input[type="button"]
-{
+.category-form input[type="button"] {
 	position: relative;
 	display: block;
 	padding: 19px 39px 18px 39px;
@@ -107,9 +106,22 @@
 	margin-bottom: 10px;
 }
 .category-form input[type="submit"]:hover,
-.category-form input[type="button"]:hover
-{
+.category-form input[type="button"]:hover {
 	background: #8e8e8e;
+}
+
+.title {
+	position: relative;
+	display: block;
+	padding: 19px 0;
+	color: #FFF;
+	margin: 0 auto;
+	background: #616161;
+	font-size: 1.5rem;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 .invalid-input-message {
