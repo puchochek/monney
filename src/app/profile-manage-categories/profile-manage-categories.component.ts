@@ -50,7 +50,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.newCategoryBtnLbl = `Add category`;
 
 		if (this.appUser.categories.length != 0) {
-			this.allUserCategories = this.appUser.categories;
+			this.allUserCategories = this.appUser.categories.filter(category => !category.isIncome);
 			this.preparePaginationData();
 			this.arePagesToPaginate = true;
 		} else {

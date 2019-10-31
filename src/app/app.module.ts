@@ -64,6 +64,7 @@ import { AddCategoryModalComponent } from './add-category-modal/add-category-mod
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
+import { BalanceManageIncomesComponent } from './balance-manage-incomes/balance-manage-incomes.component';
 
 @NgModule({
 	declarations: [
@@ -80,6 +81,7 @@ import { TokenInterceptor } from '././token.interceptor';
 		UserProfileComponent,
 		ProfileManageCategoriesComponent,
 		AddCategoryModalComponent,
+		BalanceManageIncomesComponent,
 	],
 	imports: [
 		BrowserModule,

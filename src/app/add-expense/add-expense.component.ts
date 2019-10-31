@@ -26,6 +26,7 @@ export class AddExpenseComponent implements OnInit {
 	dateShiftRight: number;
 	message: string;
 	savedExpense: FinanceData;
+	title: string;
 
 	date = new FormControl(new Date());
 	serializedDate = new FormControl((new Date()).toISOString());
@@ -43,6 +44,9 @@ export class AddExpenseComponent implements OnInit {
 	ngOnInit() {
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.category = selectedCategory;
+		this.title = selectedCategory === 'Income' ?
+			`Add new income`
+			: `Add new expense`;
 	}
 
 	onSubmit() {
@@ -87,6 +91,7 @@ export class AddExpenseComponent implements OnInit {
 		let action: string;
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
+		console.log('---> categoryId ', categoryId);
 		const url = `http://localhost:3000/expence`;
 		this.http.post(url, {
 			type: newExpence.type,

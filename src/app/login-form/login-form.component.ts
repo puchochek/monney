@@ -193,7 +193,7 @@ export class LoginFormComponent implements OnInit {
 				if (currentUser) {
 					this.dataService.updateUserId(currentUser.id);
 					this.updateToken(currentUser);
-					//this.router.navigate(['/myprofile/' + currentUser.id]);
+					this.router.navigate(['/myprofile/' + currentUser.id]);
 				}
 			},
 			error => {

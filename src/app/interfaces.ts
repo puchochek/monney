@@ -3,10 +3,12 @@ export interface FinanceData {
 	date: string;
 	id: string;
 	sum: string;
-	type: string;
+	category: string;
 	userId: string;
 	categoryId: string;
 	isDeleted: boolean;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Category {
@@ -18,6 +20,7 @@ export interface Category {
 	createdAt: string;
 	updatedAt: string;
 	isActive: boolean;
+	isIncome: boolean;
 }
 
 export interface ExpencesData {
@@ -33,4 +36,5 @@ export interface LoggedUser {
 	email: string;
 	isConfirmed: boolean;
 	categories: Category[];
+	expences: FinanceData[];
 }

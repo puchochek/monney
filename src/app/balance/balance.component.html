@@ -6,13 +6,7 @@
 			{{incomesTabLabel}}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
-	<div class="income-panel-container">
-		<div class="income-panel-actions">
-			<div class="new-category-btn">
-				<button mat-button (click)="openAddExpenseComponent()">{{newCategoryBtnLbl}}</button>
-			</div>
-		</div>
-	</div>
+	<app-balance-manage-incomes *ngIf="currentUser" [appUser]="currentUser"></app-balance-manage-incomes>
 </mat-expansion-panel>
 
 <mat-expansion-panel class="balance">

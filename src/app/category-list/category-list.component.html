@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit"  [gutterSize]="'50px'">
+<mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit"  [gutterSize]="'5%'">
 	<mat-grid-tile class="category-item" *ngFor="let category of categories">
 		<div draggable="true" (dragstart)="onDragStart($event)" (dragover)="onDragOver($event)" (drop)="onDrop($event)" id="{{category.name}}" routerLink="/categories/{{category.name}}/{{category.id}}">
 			{{category.name}}

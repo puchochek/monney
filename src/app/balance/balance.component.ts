@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
+// import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 
 
 @Component({
-  selector: 'app-balance',
-  templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+	selector: 'app-balance',
+	templateUrl: './balance.component.html',
+	styleUrls: ['./balance.component.scss']
 })
 export class BalanceComponent implements OnInit {
 
@@ -19,8 +19,10 @@ export class BalanceComponent implements OnInit {
 	expensesToolTip: string;
 	balanceTabLabel: string;
 	balanceToolTip: string;
+	addExpenseBtnLabel: string;
+	currentUser: LoggedUser;
 
-	currentUserIncomeId: string;
+	// currentUserIncomeId: string;
 
 	constructor(
 		private http: HttpClient,
@@ -36,35 +38,28 @@ export class BalanceComponent implements OnInit {
 		this.balanceTabLabel = `Balance`;
 		this.balanceToolTip = `View current balance here`;
 
+
 		const userId = localStorage.getItem('userId');
-		if (!localStorage.getItem('incomeId')) {
-			this.updateUserIncomeId(userId);
-		} else {
-			this.currentUserIncomeId = localStorage.getItem('incomeId');
-		}
 		console.log('---> userId ', userId);
-		// const url = `http://localhost:3000/user/user-by-id/${userId}`;
+		const url = `http://localhost:3000/user/user-by-id/${userId}`;
 
-		// this.http.get(url, { observe: 'response' })
-		// 	.subscribe(
-		// 		response => {
-		// 			this.currentUser = <LoggedUser>response.body;
-		// 			console.log('---> UserProfileComponent response ', response);
-		// 			console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
-		// 			this.dataService.updateToken(response.headers.get('Authorization'));
-		// 		},
-		// 		error => {
-		// 			console.log('---> UserProfileComponent error ', error);
-		// 			//this.dataService.cleanLocalstorage();
-		// 			this.router.navigate(['/hello-monney']);
-
-		// 			//   this.errors = error;
-		// 		},
-		// 		() => {
-		// 			// 'onCompleted' callback.
-		// 			// No errors, route to new page here
-		// 		}
-		// 	);
+		this.http.get(url, { observe: 'response' })
+			.subscribe(
+				response => {
+					this.currentUser = <LoggedUser>response.body;
+					console.log('---> Balance response ', response);
+					this.dataService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> Balance error ', error);
+					//this.dataService.cleanLocalstorage();
+					this.router.navigate(['/hello-monney']);
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
 	}
 
 	updateUserIncomeId(userId: string) {
@@ -72,35 +67,35 @@ export class BalanceComponent implements OnInit {
 		this.http.post(url, {
 			userId: userId,
 		}, { observe: 'response' })
-		.subscribe(
-			response => {
-				console.log('---> BALANCE response ', response );
-				// this.status = 'Done';
-				// snackMessage = this.status;
-				// action = `OK`;
-				// this.snackBar.open(snackMessage, action, {
-				// 	duration: 5000,
-				// });
-				// const upsertedCategory = <Category>response.body;
-				// if (this.allUserCategories.length === 0) {
-				// 	this.allUserCategories.push(upsertedCategory);
-				// 	this.preparePaginationData();
-				// } else {
-				// 	this.updateAllUserCategories(upsertedCategory);
-				// }
-				// this.dataService.updateToken(response.headers.get('Authorization'));
-			},
-			error => {
-				console.log('---> BALANCE error ', error);
-				// this.status = 'error';
-				// snackMessage = this.status;
-				// action = `Try again`;
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
+			.subscribe(
+				response => {
+					console.log('---> BALANCE response ', response);
+					// this.status = 'Done';
+					// snackMessage = this.status;
+					// action = `OK`;
+					// this.snackBar.open(snackMessage, action, {
+					// 	duration: 5000,
+					// });
+					// const upsertedCategory = <Category>response.body;
+					// if (this.allUserCategories.length === 0) {
+					// 	this.allUserCategories.push(upsertedCategory);
+					// 	this.preparePaginationData();
+					// } else {
+					// 	this.updateAllUserCategories(upsertedCategory);
+					// }
+					// this.dataService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> BALANCE error ', error);
+					// this.status = 'error';
+					// snackMessage = this.status;
+					// action = `Try again`;
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
 
 	}
 
