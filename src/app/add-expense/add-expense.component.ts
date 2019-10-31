@@ -15,7 +15,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 	providers: []
 })
 export class AddExpenseComponent implements OnInit {
-
 	@Input() sum: number;
 	@Input() comment: string;
 
@@ -27,7 +26,12 @@ export class AddExpenseComponent implements OnInit {
 	message: string;
 	savedExpense: FinanceData;
 	title: string;
-
+	addNewAction: string;
+	editAction: string;
+	transactionName: string;
+	isEdit: boolean;
+	transactionSum: number;
+	transactionToEdit: FinanceData;
 	date = new FormControl(new Date());
 	serializedDate = new FormControl((new Date()).toISOString());
 	maxDate = new Date();
@@ -42,11 +46,25 @@ export class AddExpenseComponent implements OnInit {
 	) { }
 	//TODO mobile view!!!
 	ngOnInit() {
+		this.route.queryParams.subscribe(params => {
+			this.transactionToEdit = <FinanceData>params;
+		});
+		this.isEdit = Object.keys(this.transactionToEdit).length === 0 ? false : true;
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.category = selectedCategory;
-		this.title = selectedCategory === 'Income' ?
-			`Add new income`
-			: `Add new expense`;
+		this.addNewAction = `Add new`;
+		this.editAction = `Edit`;
+		this.transactionName = selectedCategory === `Income` ?
+			`income`
+			: `ecpense`;
+		this.title = this.isEdit ?
+			`${this.editAction} ${this.transactionName}`
+			: `${this.addNewAction} ${this.transactionName}`;
+		if (this.isEdit) {
+			this.sum = Number(this.transactionToEdit.sum);
+			this.comment = this.transactionToEdit.comment;
+			this.date = new FormControl(this.transactionToEdit.date);
+		}
 	}
 
 	onSubmit() {
@@ -56,16 +74,18 @@ export class AddExpenseComponent implements OnInit {
 			type: this.category,
 			date: this.date.value,
 		};
-		console.log('---> newExpence ', newExpence);
 		if (this.validateSum(newExpence.sum)) {
 			console.log('---> sum is valid ', this.sum);
-			this.saveNewExpence(newExpence);
+			if (this.isEdit) {
+				this.editTransaction(newExpence);
+			} else {
+				this.saveNewExpence(newExpence);
+			}
 		}
 	}
 
 	closeModal(event) {
-		// this.isNewExpenseFormShown = true;
-		// this.isModalShown = false;
+		this.isEdit = false;
 		if (event.value === 'saved') {
 			this.router.navigate(['/categories']);
 		}
@@ -86,19 +106,55 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	saveNewExpence(newExpence: any) {
-		// console.log('newExpence Obj in Post', newExpence);
+		const userId = localStorage.getItem('userId');
+		const categoryId = this.route.snapshot.paramMap.get('categoryId');
+		const requestUrl = `http://localhost:3000/expence/create`;
+		const navigateUrl = this.transactionName === `income` ?
+			`/balance`
+			: `/categories`;
+		const transactionToSave: FinanceData = {
+			comment: newExpence.comment,
+			id: null,
+			sum: newExpence.sum,
+			category: categoryId,
+			userId: userId,
+			isDeleted: false,
+			date: newExpence.date
+		};
+		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
+	}
+
+	editTransaction(transaction: any) {
+		const transactionToSave: FinanceData = {
+			comment: transaction.comment,
+			id: this.transactionToEdit.id,
+			sum: transaction.sum,
+			category: this.transactionToEdit.category,
+			userId: this.transactionToEdit.userId,
+			isDeleted: this.transactionToEdit.isDeleted,
+			date: transaction.date
+		};
+		const requestUrl = `http://localhost:3000/expence/edit`;
+		const navigateUrl = this.transactionName === `income` ?
+			`/balance`
+			: `/categories`;
+		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
+	}
+
+	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
 		let snackMessage: string;
 		let action: string;
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
-		console.log('---> categoryId ', categoryId);
-		const url = `http://localhost:3000/expence`;
-		this.http.post(url, {
-			type: newExpence.type,
-			date: newExpence.date,
-			sum: newExpence.sum,
-			comment: newExpence.comment,
+		this.http.post(requestUrl, {
+			comment: transaction.comment,
+			id: transaction.id || '',
+			sum: transaction.sum,
+			category: transaction.category,
 			userId: userId,
+			user: userId,
+			isDeleted: transaction.isDeleted,
+			date: transaction.date,
 			categoryId: categoryId
 		}, { observe: 'response' }
 		).subscribe(
@@ -112,7 +168,7 @@ export class AddExpenseComponent implements OnInit {
 				this.savedExpense = <FinanceData>response.body;
 				console.log('---> SAVE EXP savedExpense ', this.savedExpense);
 				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.router.navigate(['/categories']);
+				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> SAVE EXPENSE ERROR ', error);
@@ -129,5 +185,4 @@ export class AddExpenseComponent implements OnInit {
 			}
 		);
 	}
-
 }

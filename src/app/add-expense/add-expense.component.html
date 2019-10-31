@@ -18,7 +18,7 @@
 						</mat-form-field>
 					</mat-grid-tile>
 				</mat-grid-list>
-				<input type="text" name="sum" placeholder="Sum" required [(ngModel)]="sum" (keyup)="hideErrorMessage()">
+				<input type="text" name="sum" placeholder="Sum" required [(ngModel)]="sum" (keyup)="hideErrorMessage()" value="transactionSum">
 				<div class="invalid-input-message" *ngIf="isInvalidInput">The Sum field may keep a number values only
 				</div>
 				<textarea name="comment" placeholder="Add a comment" [(ngModel)]="comment"></textarea>
@@ -28,7 +28,3 @@
 		</form>
 	</div>
 </div>
-
-<!-- <div class="modal-view" *ngIf="isModalShown">
-	<app-modal [message]="message" [status]="status" (onCloseModal)="closeModal($event)"></app-modal>
-</div> -->

@@ -17,15 +17,15 @@ export class DataService {
 		this.dateSource.next(dateToSave);
 	}
 
-	formatResponseDate(response: FinanceData[]): FinanceData[] {
-		const formattedResponse = response.reduce(function (resultArray, currentExpense) {
-			currentExpense.date = currentExpense.date.substring(0, 10);
-			resultArray.push(currentExpense);
-			return resultArray;
-		}, []);
+	// formatResponseDate(response: FinanceData[]): FinanceData[] {
+	// 	const formattedResponse = response.reduce(function (resultArray, currentExpense) {
+	// 		currentExpense.date = currentExpense.date.substring(0, 10);
+	// 		resultArray.push(currentExpense);
+	// 		return resultArray;
+	// 	}, []);
 
-		return formattedResponse;
-	}
+	// 	return formattedResponse;
+	// }
 
 	updateToken(newToken: string) {
 		localStorage.setItem('token', newToken);

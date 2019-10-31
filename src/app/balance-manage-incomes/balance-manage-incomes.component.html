@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="user-incomes user-incomes-message" *ngIf="incomes?.length > 0 else noIncomes">
+        <div class="user-incomes user-incomes-message" *ngIf="incomesToDisplay?.length > 0 else noIncomes">
             <div class="incomes-table-header-container">
                 <ng-container *ngFor="let header of headers">
                     <div class="incomes-table-container incomes-table-header">
@@ -32,16 +32,19 @@
                 </ng-container>
             </div>
             <ng-container *ngFor="let income of incomes">
-                <div class="incomes-table-container">
+                <div class="incomes-table-container" id={{income.id}}>
                     <div class="incomes-table-cell">
                         {{income.comment}}
                     </div>
                     <div class="incomes-table-cell">
-                        {{income.createdAt}}
+                        {{income.sum}}
+                    </div>
+                    <div class="incomes-table-cell">
+                        {{income.date | date:'mediumDate'}}
                     </div>
                     <div class="incomes-table-cell incomes-table-actions-cell">
                         <mat-icon class="incomes-table-actions-icon" aria-hidden="false" aria-label="Edit icon"
-                            (click)="openAddIncomeModal(income)">edit</mat-icon>
+                            (click)="openEditIncomeModal(income)">edit</mat-icon>
                         <mat-icon class="incomes-table-actions-icon" aria-hidden="false" aria-label="Delete icon"
                             (click)="deleteIncome(income)">delete</mat-icon>
                     </div>

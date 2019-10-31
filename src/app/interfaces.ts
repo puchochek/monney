@@ -5,10 +5,7 @@ export interface FinanceData {
 	sum: string;
 	category: string;
 	userId: string;
-	categoryId: string;
 	isDeleted: boolean;
-	createdAt: string;
-	updatedAt: string;
 }
 
 export interface Category {

@@ -24,6 +24,6 @@
 		</mat-panel-title>
 	</mat-expansion-panel-header>
 
-	<p>This is the primary content of the panel.</p>
+	<app-balance-view-balance *ngIf="currentUser" [appUser]="currentUser"></app-balance-view-balance>
 
 </mat-expansion-panel>
