@@ -16,10 +16,8 @@ export class UserProfileComponent implements OnInit {
 	currentUser: LoggedUser;
 	settingsToolTip: string;
 	categoriesToolTip: string;
-	reportsToolTip: string;
 	settingsTabLabel: string;
 	categoriesTabLabel: string;
-	reportsTabLabel: string;
 
 	constructor(
 		private http: HttpClient,
@@ -30,10 +28,8 @@ export class UserProfileComponent implements OnInit {
 	ngOnInit() {
 		this.settingsTabLabel = `Settings`;
 		this.categoriesTabLabel = `Categories`;
-		this.reportsTabLabel = `Reports`;
 		this.settingsToolTip = `Define your Profile settings here`;
 		this.categoriesToolTip = `Set end manage your transactions categories here`;
-		this.reportsToolTip = `Configure and view your transactions reports here`;
 
 		const userId = localStorage.getItem('userId');
 		const url = `http://localhost:3000/user/user-by-id/${userId}`;

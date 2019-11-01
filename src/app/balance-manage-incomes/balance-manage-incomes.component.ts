@@ -21,6 +21,11 @@ export class BalanceManageIncomesComponent implements OnInit {
 	greetingMessage: string;
 	incomeCategoryId: string;
 	headers: string[];
+	editIncomeTooltip: string;
+	deleteIncomeTooltip: string;
+	balanceLabel: string;
+	currentBalanceValue: number;
+	currentDate: Date;
 
 	constructor(
 		private http: HttpClient,
@@ -33,6 +38,8 @@ export class BalanceManageIncomesComponent implements OnInit {
 		this.greetingMessage = `Hello, ${this.appUser.name}. Add an income here to track your balance.`
 		this.addExpenseBtnLabel = `Add income`;
 		this.headers = ['Income', 'Sum', 'Date', 'Actions'];
+		this.editIncomeTooltip = `Edti income`;
+		this.deleteIncomeTooltip = `Delete income`;
 
 		if (this.appUser.categories) {
 			const incomeCategory = this.appUser.categories.filter(category => category.name === `income`);
@@ -44,6 +51,32 @@ export class BalanceManageIncomesComponent implements OnInit {
 			this.incomes = this.orderIncomesByDate(this.appUser.expences.filter(expense => expense.category === this.incomeCategoryId));
 			this.incomesToDisplay = this.incomes;
 		}
+
+		this.setCurrentMonthBalance();
+	}
+
+	setCurrentMonthBalance() {
+		this.currentDate = new Date();
+		this.balanceLabel = ` balance:`;
+		const categories = this.appUser.categories;
+		const thisMonthTransaction = this.appUser.expences.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
+		console.log('---> thisMonthTransaction ', thisMonthTransaction);
+		const incomeCategory = categories.filter(category => category.name === 'income');
+		const thisMonthTransactionByType = this.sortIncomesExpences(incomeCategory[0].id, thisMonthTransaction);
+		console.log('---> thisMonthTransactionByType ', thisMonthTransactionByType);
+
+	}
+
+	sortIncomesExpences(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
+		const thisMonthTransactionByType = arrayToSort.reduce((exps, exp) => {
+			if (exp.category === incomeCategoryId) {
+				exps['incomes'].push(exp);
+			} else {
+				exps['expenses'].push(exp);
+			}
+			return exps;
+		}, { incomes: [], expenses: [] });
+		return thisMonthTransactionByType;
 	}
 
 	orderIncomesByDate(incomes: FinanceData[]): FinanceData[] {
@@ -109,14 +142,15 @@ export class BalanceManageIncomesComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				// this.savedExpense = <FinanceData>response.body;
 				this.dataService.updateToken(response.headers.get('Authorization'));
-				const deletedIncome = <FinanceData>response.body;
-				console.log('---> DELETED EXP savedExpense ', deletedIncome);
-				//TODO DELETE FROM FRONT END
-				const filteredIncomes = this.incomes.filter(income => income.id !== deletedIncome.id);
-				this.incomesToDisplay = filteredIncomes;
-				// this.router.navigate([navigateUrl]);
+				const upsertedIncome = <FinanceData>response.body;
+				console.log('---> upsertedIncome EXP savedExpense ', upsertedIncome);
+				if (upsertedIncome.isDeleted) {
+					this.removeIncomesFromTable(upsertedIncome);
+				} else {
+					this.addInconesToTable(upsertedIncome);
+				}
+
 			},
 			error => {
 				console.log('---> DELETED EXPENSE ERROR ', error);
@@ -131,6 +165,16 @@ export class BalanceManageIncomesComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
+	}
+
+	removeIncomesFromTable(incomeToRemove: FinanceData) {
+		const filteredIncomes = this.incomesToDisplay.filter(income => income.id !== incomeToRemove.id);
+		this.incomesToDisplay = filteredIncomes;
+
+	}
+
+	addInconesToTable(incomeToRemove: FinanceData) {
+
 	}
 
 }

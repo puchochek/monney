@@ -2,9 +2,9 @@
     <div class="incomes-container">
         <div class="actions-container">
             <div class="new-category-btn">
-                <button mat-button (click)="openAddIncomeModal()">{{addExpenseBtnLabel}}</button>
+                <input type="button" value={{addExpenseBtnLabel}} (click)="openAddIncomeModal()" />
             </div>
-            <div class="pagination-area" *ngIf="arePagesToPaginate">
+            <div class="pagination-area" *ngIf="arePagesToPaginate else noPagesToPaginate">
                 <div class="pagination-btn" id="left-pagination">
                     <mat-icon class="incomes-table-actions-icon" aria-hidden="false" aria-label="Pagination left"
                         (click)="showPreviouseCategories()">keyboard_arrow_left
@@ -19,6 +19,14 @@
                     </mat-icon>
                 </div>
             </div>
+            <ng-template #noPagesToPaginate>
+                <div class="empty-div"></div>
+            </ng-template>
+            <div class="balance-info-container">
+                <div class="balance-info">
+                    {{currentDate | date:'MMM yyyy'}} {{balanceLabel}} {{currentBalanceValue}}
+                </div>
+            </div>
         </div>
 
         <div class="user-incomes user-incomes-message" *ngIf="incomesToDisplay?.length > 0 else noIncomes">
@@ -31,7 +39,7 @@
                     </div>
                 </ng-container>
             </div>
-            <ng-container *ngFor="let income of incomes">
+            <ng-container *ngFor="let income of incomesToDisplay">
                 <div class="incomes-table-container" id={{income.id}}>
                     <div class="incomes-table-cell">
                         {{income.comment}}
@@ -44,9 +52,11 @@
                     </div>
                     <div class="incomes-table-cell incomes-table-actions-cell">
                         <mat-icon class="incomes-table-actions-icon" aria-hidden="false" aria-label="Edit icon"
-                            (click)="openEditIncomeModal(income)">edit</mat-icon>
+                            (click)="openEditIncomeModal(income)" matTooltip={{editIncomeTooltip}}
+                            matTooltipPosition="before">edit</mat-icon>
                         <mat-icon class="incomes-table-actions-icon" aria-hidden="false" aria-label="Delete icon"
-                            (click)="deleteIncome(income)">delete</mat-icon>
+                            (click)="deleteIncome(income)" matTooltip={{deleteIncomeTooltip}}
+                            matTooltipPosition="before">delete</mat-icon>
                     </div>
                 </div>
                 <mat-divider></mat-divider>

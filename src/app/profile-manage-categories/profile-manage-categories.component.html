@@ -2,7 +2,8 @@
     <div class="categories-container">
         <div class="actions-container">
             <div class="new-category-btn">
-                <button mat-button (click)="openAddCategoryModal()">{{newCategoryBtnLbl}}</button>
+                    <input type="button" value={{newCategoryBtnLbl}} (click)="openAddCategoryModal()" />
+                <!-- <button mat-button (click)="openAddCategoryModal()">{{newCategoryBtnLbl}}</button> -->
             </div>
             <div class="pagination-area" *ngIf="arePagesToPaginate">
                 <div class="pagination-btn" id="left-pagination">

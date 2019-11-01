@@ -10,25 +10,22 @@
     padding-top: 5px;;
    // text-align: right;
 }
-
 .incomes-table-container, .incomes-table-header-container {
     display: grid;
     grid-template-columns: 3fr 3fr 5fr 1fr;
 }
-
 .incomes-table-header-container {
     margin: 1% 0;
     border-bottom: 1px solid #757575;
 }
-
 .incomes-table-cell {
     font-size: 1.2rem;
 }
-
 .incomes-table-header {
     display: inline-block;
+    text-transform: uppercase;
+    font-size: 1.2rem;
 }
-
 .incomes-table-actions-cell {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -39,11 +36,39 @@
 }
 .actions-container {
     display: grid;
-    grid-template-columns: 11fr 1fr;
+    grid-template-columns: 8fr 2fr 2fr;
 }
-
 .pagination-area {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+.actions-container input[type="button"] {
+	position: relative;
+	padding: 5px 10px;
+	color: #FFF;
+	margin: 0 auto;
+	background: #616161;
+	font-size: 1.2rem;
+	font-style: normal;
+	border: 1px solid #373737;
+	border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.actions-container input[type="button"]:hover  {
+	background: #8e8e8e;
+}
+
+.balance-info-container {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.balance-info {
+    margin-top: 5%;
+}
+
+.empty-div {
+    display: hidden;
 }
 

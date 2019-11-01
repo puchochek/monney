@@ -47,7 +47,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.greetingMessage = `Hello, ${this.appUser.name}!`;
 		this.noCategoriesMessage = `It looks like you don't have any expense categories yet.
 		It would be gread to add some to keep your expenses in order.`;
-		this.newCategoryBtnLbl = `Add category`;
+		this.newCategoryBtnLbl = `add category`;
 
 		if (this.appUser.categories.length != 0) {
 			this.allUserCategories = this.appUser.categories.filter(category => !category.isIncome);
