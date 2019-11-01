@@ -1,1 +1,41 @@
-<p>balance-view-balance works!</p>
+<mat-grid-list class="balance-info-container" cols="3" rowHeight="10em">
+    <mat-grid-tile class="balance-info">
+        <mat-card class="balance">
+            <mat-card-header class="balance-info-header">
+                <mat-card-title class="balance-info-title">{{incomesLabel}}</mat-card-title>
+                <mat-card-subtitle class="balance-info-subtitle">{{currentDate | date:'MMMM yyyy'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="balance-info-content">
+                    {{currentIncomesValue}}
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile class="balance-info">
+        <mat-card class="balance">
+            <mat-card-header class="balance-info-header">
+                <mat-card-title class="balance-info-title">{{expensesLabel}}</mat-card-title>
+                <mat-card-subtitle class="balance-info-subtitle">{{currentDate | date:'MMMM yyyy'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="balance-info-content">
+                    {{currentExpensesValue}}
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile class="balance-info">
+        <mat-card class="balance">
+            <mat-card-header class="balance-info-header">
+                <mat-card-title class="balance-info-title">{{balanceLabel}}</mat-card-title>
+                <mat-card-subtitle class="balance-info-subtitle">{{currentDate | date:'MMMM yyyy'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="balance-info-content">
+                    {{currentBalanceValue}}
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

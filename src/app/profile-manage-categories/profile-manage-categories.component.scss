@@ -39,13 +39,22 @@
     cursor: pointer;
     color:#bdbdbd;
 }
+.mat-icon {
+    vertical-align: middle;
+}
 .actions-container {
     display: grid;
-    grid-template-columns: 11fr 1fr;
+    grid-template-columns: 10fr 2fr;
 }
 .pagination-area {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+#left-pagination {
+    text-align: right;
+}
+#right-pagination {
+    text-align: left;
 }
 .actions-container input[type="button"] {
 	position: relative;

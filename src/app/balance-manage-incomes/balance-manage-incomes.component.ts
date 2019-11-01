@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BalanceManageIncomesComponent implements OnInit {
 	@Input() appUser: LoggedUser;
-
+	
 	incomes: FinanceData[];
 	incomesToDisplay: FinanceData[];
 	addExpenseBtnLabel: string;
@@ -23,9 +23,11 @@ export class BalanceManageIncomesComponent implements OnInit {
 	headers: string[];
 	editIncomeTooltip: string;
 	deleteIncomeTooltip: string;
-	balanceLabel: string;
-	currentBalanceValue: number;
-	currentDate: Date;
+	// balanceLabel: string;
+	// currentBalanceValue: number;
+	// currentDate: Date;
+
+	// isDateMenu: boolean;
 
 	constructor(
 		private http: HttpClient,
@@ -52,32 +54,18 @@ export class BalanceManageIncomesComponent implements OnInit {
 			this.incomesToDisplay = this.incomes;
 		}
 
-		this.setCurrentMonthBalance();
+		//this.setCurrentMonthBalance();
 	}
 
-	setCurrentMonthBalance() {
-		this.currentDate = new Date();
-		this.balanceLabel = ` balance:`;
-		const categories = this.appUser.categories;
-		const thisMonthTransaction = this.appUser.expences.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
-		console.log('---> thisMonthTransaction ', thisMonthTransaction);
-		const incomeCategory = categories.filter(category => category.name === 'income');
-		const thisMonthTransactionByType = this.sortIncomesExpences(incomeCategory[0].id, thisMonthTransaction);
-		console.log('---> thisMonthTransactionByType ', thisMonthTransactionByType);
-
-	}
-
-	sortIncomesExpences(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
-		const thisMonthTransactionByType = arrayToSort.reduce((exps, exp) => {
-			if (exp.category === incomeCategoryId) {
-				exps['incomes'].push(exp);
-			} else {
-				exps['expenses'].push(exp);
-			}
-			return exps;
-		}, { incomes: [], expenses: [] });
-		return thisMonthTransactionByType;
-	}
+	// setCurrentMonthBalance() {
+	// 	this.currentDate = new Date();
+	// 	this.balanceLabel = ` balance:`;
+	// 	const categories = this.appUser.categories;
+	// 	const thisMonthTransaction = this.appUser.expences.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
+	// 	const incomeCategory = categories.filter(category => category.name === 'income');
+	// 	const thisMonthTransactionByType = this.dataService.sortTransactions(incomeCategory[0].id, thisMonthTransaction);
+	// 	this.currentBalanceValue = this.dataService.countBalance(thisMonthTransactionByType);
+	// }
 
 	orderIncomesByDate(incomes: FinanceData[]): FinanceData[] {
 		const sortedIncomes = incomes.sort(function (a, b) {

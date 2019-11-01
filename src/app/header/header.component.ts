@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
 		this.userId = localStorage.getItem('userId');
 		const href = this.router.url;
 		const headerLinks = [
-			{ label: 'home', path: '/categories', isActive: false },
+			{ label: 'add expense', path: '/categories', isActive: false },
 			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
 			{ label: 'balance', path: '/balance', isActive: false },
 			{ label: 'profile', path: '/myprofile/' + this.userId, isActive: false },

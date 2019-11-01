@@ -10,6 +10,8 @@ export class DataService {
 
 	private dateSource = new BehaviorSubject<string>('default');
 	currentDate = this.dateSource.asObservable();
+	// thsiMonthExpenses: number;
+	// thsiMonthIncomes: number;
 
 	constructor(private http: HttpClient, ) { }
 
@@ -17,15 +19,33 @@ export class DataService {
 		this.dateSource.next(dateToSave);
 	}
 
-	// formatResponseDate(response: FinanceData[]): FinanceData[] {
-	// 	const formattedResponse = response.reduce(function (resultArray, currentExpense) {
-	// 		currentExpense.date = currentExpense.date.substring(0, 10);
-	// 		resultArray.push(currentExpense);
-	// 		return resultArray;
-	// 	}, []);
+	sortTransactions(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
+		const thisMonthTransactionByType = arrayToSort.reduce((exps, exp) => {
+			if (exp.category === incomeCategoryId) {
+				exps['incomes'].push(exp);
+			} else {
+				exps['expenses'].push(exp);
+			}
+			return exps;
+		}, { incomes: [], expenses: [] });
+		return thisMonthTransactionByType;
+	}
 
-	// 	return formattedResponse;
-	// }
+	countBalance(transactionsToSort: any): number {
+		const thsiMonthExpenses = transactionsToSort[`expenses`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+		const thsiMonthIncomes = transactionsToSort[`incomes`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+		return thsiMonthIncomes - thsiMonthExpenses;
+	}
+
+	countIncomes(transactionsToSort: any): number {
+		const thsiMonthIncomes = transactionsToSort[`incomes`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+		return thsiMonthIncomes;
+	}
+
+	countExpenses(transactionsToSort: any): number {
+		const thsiMonthExpenses = transactionsToSort[`expenses`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+		return thsiMonthExpenses;
+	}
 
 	updateToken(newToken: string) {
 		localStorage.setItem('token', newToken);

@@ -22,7 +22,7 @@ export class BalanceComponent implements OnInit {
 	addExpenseBtnLabel: string;
 	currentUser: LoggedUser;
 	reportsToolTip: string;
-	reportsLabel: string;
+	reportsTabLabel: string;
 
 	// currentUserIncomeId: string;
 
@@ -40,7 +40,7 @@ export class BalanceComponent implements OnInit {
 		this.balanceTabLabel = `Balance`;
 		this.balanceToolTip = `View current balance here`;
 		this.reportsToolTip = `Configure and view your transactions reports here`;
-		this.reportsLabel = `Reports`;
+		this.reportsTabLabel = `Reports`;
 
 
 		const userId = localStorage.getItem('userId');

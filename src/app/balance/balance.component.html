@@ -19,8 +19,17 @@
 
 <mat-expansion-panel class="balance">
 	<mat-expansion-panel-header>
+		<mat-panel-title matTooltip={{balanceToolTip}} class="balance-header balance-title">
+			{{balanceTabLabel}}
+		</mat-panel-title>
+	</mat-expansion-panel-header>
+	<app-balance-view-balance *ngIf="currentUser" [appUser]="currentUser"></app-balance-view-balance>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="balance">
+	<mat-expansion-panel-header>
 		<mat-panel-title matTooltip={{reportsToolTip}} class="balance-header balance-title">
-			{{reportsLabel}}
+			{{reportsTabLabel}}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
 
