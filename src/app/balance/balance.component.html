@@ -15,6 +15,7 @@
 			{{expensesTabLabel}}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
+	<app-balance-manage-expenses *ngIf="currentUser" [appUser]="currentUser"></app-balance-manage-expenses>
 </mat-expansion-panel>
 
 <mat-expansion-panel class="balance">

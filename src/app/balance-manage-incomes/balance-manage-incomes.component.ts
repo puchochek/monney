@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BalanceManageIncomesComponent implements OnInit {
 	@Input() appUser: LoggedUser;
-	
+
 	incomes: FinanceData[];
 	incomesToDisplay: FinanceData[];
 	addExpenseBtnLabel: string;
@@ -50,28 +50,9 @@ export class BalanceManageIncomesComponent implements OnInit {
 			}
 		}
 		if (this.incomeCategoryId && this.appUser.expences.length !== 0) {
-			this.incomes = this.orderIncomesByDate(this.appUser.expences.filter(expense => expense.category === this.incomeCategoryId));
+			this.incomes = this.dataService.orderTransactionsByDate(this.appUser.expences.filter(expense => expense.category === this.incomeCategoryId));
 			this.incomesToDisplay = this.incomes;
 		}
-
-		//this.setCurrentMonthBalance();
-	}
-
-	// setCurrentMonthBalance() {
-	// 	this.currentDate = new Date();
-	// 	this.balanceLabel = ` balance:`;
-	// 	const categories = this.appUser.categories;
-	// 	const thisMonthTransaction = this.appUser.expences.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
-	// 	const incomeCategory = categories.filter(category => category.name === 'income');
-	// 	const thisMonthTransactionByType = this.dataService.sortTransactions(incomeCategory[0].id, thisMonthTransaction);
-	// 	this.currentBalanceValue = this.dataService.countBalance(thisMonthTransactionByType);
-	// }
-
-	orderIncomesByDate(incomes: FinanceData[]): FinanceData[] {
-		const sortedIncomes = incomes.sort(function (a, b) {
-			return (new Date(b.date) as any) - (new Date(a.date) as any);
-		});
-		return sortedIncomes;
 	}
 
 	openAddIncomeModal() {

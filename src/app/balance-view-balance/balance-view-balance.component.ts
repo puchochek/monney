@@ -35,8 +35,8 @@ export class BalanceViewBalanceComponent implements OnInit {
 		const thisMonthTransactionByType = this.dataService.sortTransactions(incomeCategory[0].id, thisMonthTransaction);
 
 		this.currentBalanceValue = this.dataService.countBalance(thisMonthTransactionByType);
-		this.currentIncomesValue = this.dataService.countIncomes(thisMonthTransactionByType);
-		this.currentExpensesValue = this.dataService.countExpenses(thisMonthTransactionByType);
+		this.currentIncomesValue = this.dataService.countCategoryTransactionsTotal(thisMonthTransactionByType[`incomes`]);
+		this.currentExpensesValue = this.dataService.countCategoryTransactionsTotal(thisMonthTransactionByType[`expenses`]);
 	}
 
 }

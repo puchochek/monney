@@ -10,8 +10,6 @@ export class DataService {
 
 	private dateSource = new BehaviorSubject<string>('default');
 	currentDate = this.dateSource.asObservable();
-	// thsiMonthExpenses: number;
-	// thsiMonthIncomes: number;
 
 	constructor(private http: HttpClient, ) { }
 
@@ -37,14 +35,16 @@ export class DataService {
 		return thsiMonthIncomes - thsiMonthExpenses;
 	}
 
-	countIncomes(transactionsToSort: any): number {
-		const thsiMonthIncomes = transactionsToSort[`incomes`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+	countCategoryTransactionsTotal(transactionsToSort: any): number {
+		const thsiMonthIncomes = transactionsToSort.reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
 		return thsiMonthIncomes;
 	}
 
-	countExpenses(transactionsToSort: any): number {
-		const thsiMonthExpenses = transactionsToSort[`expenses`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
-		return thsiMonthExpenses;
+	orderTransactionsByDate(incomes: FinanceData[]): FinanceData[] {
+		const sortedIncomes = incomes.sort(function (a, b) {
+			return (new Date(b.date) as any) - (new Date(a.date) as any);
+		});
+		return sortedIncomes;
 	}
 
 	updateToken(newToken: string) {
