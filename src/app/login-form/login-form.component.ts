@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { LoggedUser } from '../interfaces';
+import { environment } from '../../environments/environment'
 
 const wrongName = `Name field may only consist of letters or numbers.`;
 const wrongEmail = `Email field must contain @ symbol.`;
@@ -148,7 +149,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	login() {
-		const url = `http://localhost:3000/user/register`;
+		const url = `${environment.apiBaseUrl}/user/register`;
 		this.http.post(url, {
 			password: this.password,
 			name: this.name,
@@ -179,7 +180,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	autorize() {
-		const url = `http://localhost:3000/user/autorize`;
+		const url = `${environment.apiBaseUrl}/user/autorize`;
 		this.http.post(url, {
 			password: this.password,
 			name: this.name,
@@ -212,7 +213,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	updateToken(authorizedUser: LoggedUser) {
-		const url = `http://localhost:3000/user/user-token/${authorizedUser.id}`;
+		const url = `${environment.apiBaseUrl}/user/user-token/${authorizedUser.id}`;
 		this.http.get(url, { observe: 'response' }
 		).subscribe(
 			response => {

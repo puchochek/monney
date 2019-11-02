@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+	production: true,
+	name: `PROD`,
+	apiBaseUrl: `https://monney-back.herokuapp.com`
 };

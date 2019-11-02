@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { AddCategoryModalComponent } from '../add-category-modal/add-category-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../data.service';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-profile-manage-categories',
@@ -148,7 +149,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 	upsertCategory(categoryToUpsert: any) {
 		let snackMessage: string;
 		let action: string;
-		const url = `http://localhost:3000/category/upsert`;
+		const url = `${environment.apiBaseUrl}/category/upsert`;
 		this.http.post(url, {
 			name: categoryToUpsert.name,
 			description: categoryToUpsert.description,

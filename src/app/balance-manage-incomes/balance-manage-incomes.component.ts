@@ -5,6 +5,7 @@ import { FinanceData } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router, NavigationExtras, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment'
 
 
 @Component({
@@ -84,7 +85,7 @@ export class BalanceManageIncomesComponent implements OnInit {
 			isDeleted: true,
 			date: income.date
 		};
-		const requestUrl = `http://localhost:3000/expence/edit`;
+		const requestUrl = `${environment.apiBaseUrl}/expence/edit`;
 		// const navigateUrl = `/balance`;
 		this.doTransactionControllerCall(transactionToDelete, requestUrl);
 	}

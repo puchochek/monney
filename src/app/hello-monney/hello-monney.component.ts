@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-hello-monney',
@@ -24,7 +25,7 @@ export class HelloMonneyComponent implements OnInit {
 		const userId = localStorage.getItem('userId');
 		const token = localStorage.getItem('token');
 		//TODO why no  headers???
-		// this.http.get('http://localhost:3000/user/test', { observe: 'response' })
+		// this.http.get(`${environment.apiBaseUrl}/user/test`, { observe: 'response' })
 		// .subscribe(
 		// 	response => {
 		// 		console.log('---> TEST response ', response);
@@ -40,7 +41,7 @@ export class HelloMonneyComponent implements OnInit {
 
 
 
-		const url = `http://localhost:3000/user/user-by-id/${userId}`;
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 		console.log('---> HELLO-MONNEY token ', token);
 		console.log('---> HELLO-MONNEY userId ', userId);
 		if (token) {

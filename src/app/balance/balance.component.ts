@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { environment } from '../../environments/environment'
 // import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 
 
@@ -45,7 +46,7 @@ export class BalanceComponent implements OnInit {
 
 		const userId = localStorage.getItem('userId');
 		console.log('---> userId ', userId);
-		const url = `http://localhost:3000/user/user-by-id/${userId}`;
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 
 		this.http.get(url, { observe: 'response' })
 			.subscribe(
@@ -67,7 +68,7 @@ export class BalanceComponent implements OnInit {
 	}
 
 	updateUserIncomeId(userId: string) {
-		const url = `http://localhost:3000/category/income`;
+		const url = `${environment.apiBaseUrl}/category/income`;
 		this.http.post(url, {
 			userId: userId,
 		}, { observe: 'response' })
@@ -148,7 +149,7 @@ export class BalanceComponent implements OnInit {
 
 //   connectDataBase() {
 //     // use for get-request
-//     this.http.get('http://localhost:3000/expence').subscribe((response: FinanceData[]) => {
+//     this.http.get(`${environment.apiBaseUrl}).subscribe((response: FinanceData[]) => {
 //     this.parseResponse(response);
 //     });
 //   }

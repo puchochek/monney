@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { FinanceData } from '../interfaces';
 import { DataService } from '../data.service';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-expense-detail',
@@ -33,7 +34,7 @@ export class ExpenseDetailComponent implements OnInit {
 
 	connectDataBase() {
 		// // use for get-request
-		// this.http.get('http://localhost:3000/expence/' + this.selectedCategory).subscribe((response: FinanceData[]) => {
+		// this.http.get(`${environment.apiBaseUrl}/expence/` + this.selectedCategory).subscribe((response: FinanceData[]) => {
 		// 	this.setExpensesByCategory(response);
 		// });
 	}

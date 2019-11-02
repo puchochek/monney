@@ -6,6 +6,7 @@ import { ModalComponent } from '../modal/modal.component';
 import { FormControl } from '@angular/forms';
 import { FinanceData } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment'
 
 
 @Component({
@@ -108,7 +109,7 @@ export class AddExpenseComponent implements OnInit {
 	saveNewExpence(newExpence: any) {
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
-		const requestUrl = `http://localhost:3000/expence/create`;
+		const requestUrl = `${environment.apiBaseUrl}/expence/create`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
 			: `/categories`;
@@ -134,7 +135,7 @@ export class AddExpenseComponent implements OnInit {
 			isDeleted: this.transactionToEdit.isDeleted,
 			date: transaction.date
 		};
-		const requestUrl = `http://localhost:3000/expence/edit`;
+		const requestUrl = `${environment.apiBaseUrl}/expence/edit`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
 			: `/categories`;

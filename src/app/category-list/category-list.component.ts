@@ -4,6 +4,7 @@ import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-category-list',
@@ -25,7 +26,7 @@ export class CategoryListComponent implements OnInit {
 	ngOnInit() {
 		this.defineScreenWeight();
 		const userId = localStorage.getItem('userId');
-		const url = `http://localhost:3000/category/${userId}`;
+		const url = `${environment.apiBaseUrl}/category/${userId}`;
 		this.http.get(url, { observe: 'response' })
 			.subscribe(
 				response => {
@@ -154,7 +155,7 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	reorderCategories(draggedItemIndex: number, targetItemIndex: number) {
-		const url = `http://localhost:3000/category/reorder`;
+		const url = `${environment.apiBaseUrl}/category/reorder`;
 		const userId = localStorage.getItem('userId');
 		this.http.post(url, {
 			userId: userId,

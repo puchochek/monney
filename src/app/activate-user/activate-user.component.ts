@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-activate-user',
@@ -24,7 +25,7 @@ export class ActivateUserComponent implements OnInit {
 	}
 
 	activateUser(token: string) {
-		this.http.post('http://localhost:3000/user/token', {
+		this.http.post(`${environment.apiBaseUrl}/user/token`, {
 			token: token,
 		}).subscribe((response: LoggedUser) => {
 			console.log('---> activateUser result ', response);

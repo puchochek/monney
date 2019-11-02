@@ -4,6 +4,7 @@ import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
+import { environment } from '../../environments/environment'
 
 
 @Component({
@@ -32,7 +33,7 @@ export class UserProfileComponent implements OnInit {
 		this.categoriesToolTip = `Set end manage your transactions categories here`;
 
 		const userId = localStorage.getItem('userId');
-		const url = `http://localhost:3000/user/user-by-id/${userId}`;
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 
 		this.http.get(url, { observe: 'response' })
 			.subscribe(
