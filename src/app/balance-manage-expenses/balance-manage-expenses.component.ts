@@ -49,4 +49,8 @@ export class BalanceManageExpensesComponent implements OnInit {
 		}
 	}
 
+	openAddIncomeModal() {
+		// TODO
+	}
+
 }
