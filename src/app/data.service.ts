@@ -30,6 +30,10 @@ export class DataService {
 		return thisMonthTransactionByType;
 	}
 
+	sortTransactionsByCategoryId(сategoryId: string, arrayToSort: FinanceData[]) {
+		return arrayToSort.filter(expense => expense.category == сategoryId);
+	}
+
 	countBalance(transactionsToSort: any): number {
 		const thsiMonthExpenses = transactionsToSort[`expenses`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
 		const thsiMonthIncomes = transactionsToSort[`incomes`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
@@ -39,6 +43,12 @@ export class DataService {
 	countCategoryTransactionsTotal(transactionsToSort: any): number {
 		const thsiMonthIncomes = transactionsToSort.reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
 		return thsiMonthIncomes;
+	}
+
+	getThisMonthTransactions(transactions: FinanceData[]): FinanceData[] {
+		const currentMonth = new Date().getMonth();
+		return transactions.filter(transaction => new Date(transaction.date).getMonth() == currentMonth);
+
 	}
 
 	orderTransactionsByDate(incomes: FinanceData[]): FinanceData[] {

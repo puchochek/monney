@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { MatCardModule, MatButtonModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, throwToolbarMixedModesError } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 // import { HttpService } from '../http.service';
 import { environment } from '../../environments/environment'
@@ -19,10 +19,11 @@ export class HeaderComponent implements OnInit {
 
 	public bgColor = "#8e8e8e";
 	public color = "white";
+	//public avatarSize = "large";
 
 
 	navLinks = [];
-	// todo set user id to localstorage
+
 	isMobile: boolean;
 	userId: string;
 	currentUser: LoggedUser;
@@ -32,11 +33,10 @@ export class HeaderComponent implements OnInit {
 	avatarSize: string;
 
 
-	//depricated
-	// date: string;
-	// dateShiftLeft = 0;
-	// dateShiftRight = 0;
-	// isToggled = false;
+	thisMonthExpensesLabel: string = `Expenses: `;
+	thisMonthExpensesSum: number;
+	thisMonthIncomesLabel: string = `Incomes: `;
+	thisMonthIncomesSum: number;
 
 	constructor(
 		private dataService: DataService,
@@ -46,34 +46,23 @@ export class HeaderComponent implements OnInit {
 	) {
 		this.userId = localStorage.getItem('userId');
 		const href = this.router.url;
+		//TODO remove link from url
+		//TODO reduce to 2 items
 		const headerLinks = [
-			{ label: 'add expense', path: '/categories', isActive: false },
+			{ label: 'add expense', path: '/categories', isActive: true },
 			{ label: 'balance', path: '/balance', isActive: false },
 			{ label: 'profile', path: '/myprofile/' + this.userId, isActive: false },
 		];
 		this.navLinks = headerLinks;
-		this.onHeaderItemClicked(href);
 	}
 
 	ngOnInit() {
 		this.getLoggedUser();
-		//TODO define mobile view dynamically
-		this.isMobile = false;
-		this.avatarSize = `small`;
-		this.onResize();
-		this.screenService.checkWidth();
-	}
-
-	onResize() {
-		this.screenService.getMobileStatus().subscribe(isMobile => {
-			this.isMobile = isMobile;
-		});
-		console.log('---> this.isMobile ', this.isMobile);
+		
 	}
 
 	async getLoggedUser() {
 		const userId = localStorage.getItem("userId");
-		//const userId = `895ebe20-44a6-4302-a1c0-86d23bea5947`;
 		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 		if (userId) {
 			this.http.get(url, { observe: 'response' })
@@ -81,7 +70,8 @@ export class HeaderComponent implements OnInit {
 					response => {
 						this.currentUser = <LoggedUser>response.body;
 						console.log('---> HEADER response ', response);
-						this.setUserProfileParameters();
+						this.setAvatar();
+						this.countUserBalance();
 						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 					},
@@ -99,30 +89,49 @@ export class HeaderComponent implements OnInit {
 		}
 	}
 
-	setUserProfileParameters() {
-		console.log('---> HEADER CU IF', this.currentUser);
-		console.log('---> HEADER ISMOB IF', this.isMobile);
+	countUserBalance() {
+		const incomeCategory = this.currentUser.categories.filter(category => category.isIncome);
+		const incomeCategoryId = incomeCategory[0].id;
+		if (incomeCategoryId && this.currentUser.expences.length !== 0) {
+			const expenses = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category !== incomeCategoryId));
+			const thisMonthExpences = this.dataService.getThisMonthTransactions(expenses);
+			const thisMonthExpencesSum = this.dataService.countCategoryTransactionsTotal(thisMonthExpences);
+			console.log('---> thisMonthExpencesSum ', thisMonthExpencesSum);
+
+
+			const incomes = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category == incomeCategoryId));
+			const thisMonthIncomes = this.dataService.getThisMonthTransactions(incomes);
+			const thisMonthIncomesSum = this.dataService.countCategoryTransactionsTotal(thisMonthIncomes);
+			this.thisMonthIncomesSum = thisMonthIncomesSum;
+			console.log('---> thisMonthIncomesSum ', thisMonthIncomesSum );
+		}
+
+	}
+
+	setAvatar() {
 		if (this.currentUser.avatar) {
 			this.isAvatar = true;
 			this.avatarSrc = this.currentUser.avatar;
 		} else {
-			this.avatarInitials = this.currentUser.name.split(` `).length > 1 ?
-				this.currentUser.name.split(` `)[0].slice(0, 1) + this.currentUser.name.split(` `)[1].slice(0, 1)
-				: this.currentUser.name.slice(0, 1);
+			if (this.currentUser.name.split(` `)) {
+				this.avatarInitials = this.currentUser.name.split(` `).length > 1 ?
+					this.currentUser.name.split(` `)[0].slice(0, 1) + this.currentUser.name.split(` `)[1].slice(0, 1)
+					: this.currentUser.name.slice(0, 1);
+			}
 		}
-		console.log('---> this.avatarInitials ', this.avatarInitials);
-
 	}
 
-	onHeaderItemClicked(url: String) {
-		const switchedHeaderOptions = this.navLinks.reduce((switchedHeaderOptions, headerOption, currentIndex, array) => {
-			const isActive = headerOption.path.includes(url) ?
+	setActiveHeaderItem(selectedLinkLabel: string) {
+		const navLinks = [...this.navLinks].reduce((headerLinks, currentLink) => {
+			currentLink.isActive = currentLink.label == selectedLinkLabel ?
 				true
 				: false;
-			switchedHeaderOptions.push({ label: headerOption.label, path: headerOption.path, isActive: isActive });
-			return switchedHeaderOptions;
+			headerLinks.push(currentLink);
+			return headerLinks;
 		}, []);
-		this.navLinks = switchedHeaderOptions;
+
+		this.navLinks = navLinks;
 	}
+
 
 }

@@ -1,36 +1,23 @@
-<!-- <mat-card class="mat-card" id="header">
-	<mat-card-header class="mat-card-header">
-		<div mat-card-avatar class="header-avatar-image" alt="my avatar image"></div>
-		<div class="navigation-container">
-			<div class="header-navigation-items" *ngFor="let link of navLinks"
-				[class.header-navigation-items-active]="link.isActive === true" [routerLink]="link.path">
-				{{link.label}}
-			</div>
-		</div>
-	</mat-card-header>
-</mat-card> -->
-
-<div class="header-container" id="header" (window:resize)="onResize($event)">
-	<mat-grid-list class="header-nav-panel" cols="2" rowHeight="4em">
-		<mat-grid-tile class="header-avatar">
-			<igx-avatar *ngIf="isAvatar else noAvatar" [src]="avatarSrc" roundShape="true" size={{avatarSize}}>
+<div class="header-container" id="header">
+	<div class="header-avatar">
+		<igx-avatar *ngIf="isAvatar else noAvatar" [src]="avatarSrc" roundShape="true">
+		</igx-avatar>
+		<ng-template #noAvatar>
+			<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
 			</igx-avatar>
-			<ng-template #noAvatar>
-				<igx-avatar initials={{avatarInitials}} roundShape="true" size={{avatarSize}} [bgColor]="bgColor" [color]="color">
-				</igx-avatar>
-			</ng-template>
-		</mat-grid-tile>
-		<mat-grid-tile class="header-nav">
-			<mat-grid-list class="header-nav-items" cols="3" rowHeight="4em">
-				<mat-grid-tile class="category-item" *ngFor="let link of navLinks"
-					[class.header-navigation-items-active]="link.isActive === true" [routerLink]="link.path">
-					{{link.label}}
-				</mat-grid-tile>
-			</mat-grid-list>
+		</ng-template>
+	</div>
+	<div class="header-balance-info">
+		<div class="header-balance-incomes">{{thisMonthIncomesLabel}} {{thisMonthIncomesSum}}</div>
+		<div class="header-balance-expenses">{{thisMonthExpensesLabel}} {{thisMonthExpensesSum}}</div>
+		<div class="header-balance-total"></div>
+
+	</div>
+	<mat-grid-list class="header-nav" cols="3" rowHeight="fit">
+		<mat-grid-tile class="header-nav-item" [class.header-nav-item-active]="link.isActive" *ngFor="let link of navLinks"
+			 [routerLink]="link.path" (click)="setActiveHeaderItem(link.label)">
+			{{link.label}}
 		</mat-grid-tile>
 	</mat-grid-list>
 	<mat-divider></mat-divider>
-	<div class="header-balance-info">
-
-	</div>
 </div>
