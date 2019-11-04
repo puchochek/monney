@@ -27,6 +27,7 @@ export interface ExpencesData {
 }
 
 export interface LoggedUser {
+	avatar: string;
 	id: string;
 	password: string;
 	name: string;

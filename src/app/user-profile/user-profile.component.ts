@@ -24,46 +24,53 @@ export class UserProfileComponent implements OnInit {
 		private http: HttpClient,
 		private dataService: DataService,
 		private router: Router,
-	) { }
+	) {
+		// this.dataService.loggedUser.subscribe((data) => {
+		// 	console.log('--->  USER FROM SERVICE loggedUser ', data);
+
+		// }
+		// );
+
+	}
 
 	ngOnInit() {
 		this.settingsTabLabel = `Settings`;
 		this.categoriesTabLabel = `Categories`;
 		this.settingsToolTip = `Define your Profile settings here`;
 		this.categoriesToolTip = `Set end manage your transactions categories here`;
+		this.dataService.loggedUser.subscribe((response) => {
+			console.log('--->  USER FROM SERVICE loggedUser INIT', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+			} else {
+				this.router.navigate(['/hello-monney']);
+			}
 
-		const userId = localStorage.getItem('userId');
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
+		});
 
-		this.http.get(url, { observe: 'response' })
-			.subscribe(
-				response => {
-					this.currentUser = <LoggedUser>response.body;
-					console.log('---> UserProfileComponent response ', response);
-					console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
-					this.dataService.updateToken(response.headers.get('Authorization'));
-				},
-				error => {
-					console.log('---> UserProfileComponent error ', error);
-					//this.dataService.cleanLocalstorage();
-					this.router.navigate(['/hello-monney']);
+		// const userId = localStorage.getItem('userId');
+		// const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 
-					//   this.errors = error;
-				},
-				() => {
-					// 'onCompleted' callback.
-					// No errors, route to new page here
-				}
-			);
+		// this.http.get(url, { observe: 'response' })
+		// 	.subscribe(
+		// 		response => {
+		// 			this.currentUser = <LoggedUser>response.body;
+		// 			console.log('---> UserProfileComponent response ', response);
+		// 			console.log('---> UserProfileComponent resp.headers.authorization ', response.headers.get('Authorization'));
+		// 			this.dataService.updateToken(response.headers.get('Authorization'));
+		// 		},
+		// 		error => {
+		// 			console.log('---> UserProfileComponent error ', error);
+		// 			//this.dataService.cleanLocalstorage();
+		// 			this.router.navigate(['/hello-monney']);
 
-
-
-
-		// .subscribe(response => {
-		// 	this.currentUser = <LoggedUser>response.body;
-		// 	console.log('---> resp ', response);
-		// 	console.log('---> resp.headers.authorization ', response.headers.get('Authorization'));
-		// });
+		// 			//   this.errors = error;
+		// 		},
+		// 		() => {
+		// 			// 'onCompleted' callback.
+		// 			// No errors, route to new page here
+		// 		}
+		// 	);
 
 	}
 

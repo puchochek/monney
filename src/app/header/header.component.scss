@@ -3,6 +3,32 @@
   src: url("../../assets/fonts/capture.ttf") format("opentype");
 }
 
+.header-avatar {
+	width: 10% !important;
+  text-align: left;
+  font-family: capture;
+  font-size: 1rem;
+}
+.header-nav-items{
+	width:90% !important;
+	text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .mat-card {
   background: transparent;
   padding-right: 0;
@@ -15,10 +41,8 @@
 }
 
 .header-avatar-image {
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy3ARUlOyfp6K9YynzfNS5XQV0C4t0-PxlJGbXzwQt8k73_iLnmg");
-  background-size: cover;
-  height: 60px;
-  width: 60px;
+	background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy3ARUlOyfp6K9YynzfNS5XQV0C4t0-PxlJGbXzwQt8k73_iLnmg");
+	background-size: cover;
 }
 
 .header-navigation-items {

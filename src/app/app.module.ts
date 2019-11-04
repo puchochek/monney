@@ -61,7 +61,7 @@ import {
 } from '@angular/material';
 import { ProfileManageCategoriesComponent } from './profile-manage-categories/profile-manage-categories.component';
 import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
-
+import { IgxAvatarModule } from 'igniteui-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { BalanceManageIncomesComponent } from './balance-manage-incomes/balance-manage-incomes.component';
@@ -131,7 +131,8 @@ import { BalanceManageExpensesComponent } from './balance-manage-expenses/balanc
 		MatTabsModule,
 		MatToolbarModule,
 		MatTooltipModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		IgxAvatarModule
 	],
 	providers: [DataService,
 		{

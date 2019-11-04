@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { MatCardModule, MatButtonModule } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+// import { HttpService } from '../http.service';
+import { environment } from '../../environments/environment'
+import { LoggedUser } from '../interfaces';
+import { ScreenService } from '../screen.service';
 
 
 @Component({
@@ -12,26 +17,37 @@ import { MatCardModule, MatButtonModule } from '@angular/material';
 })
 export class HeaderComponent implements OnInit {
 
+	public bgColor = "#8e8e8e";
+	public color = "white";
+
+
 	navLinks = [];
 	// todo set user id to localstorage
+	isMobile: boolean;
 	userId: string;
+	currentUser: LoggedUser;
+	isAvatar: boolean;
+	avatarSrc: string;
+	avatarInitials: string;
+	avatarSize: string;
 
 
 	//depricated
-	date: string;
-	dateShiftLeft = 0;
-	dateShiftRight = 0;
-	isToggled = false;
+	// date: string;
+	// dateShiftLeft = 0;
+	// dateShiftRight = 0;
+	// isToggled = false;
 
 	constructor(
-		private data: DataService,
-		private router: Router
+		private dataService: DataService,
+		private router: Router,
+		private http: HttpClient,
+		private screenService: ScreenService,
 	) {
 		this.userId = localStorage.getItem('userId');
 		const href = this.router.url;
 		const headerLinks = [
 			{ label: 'add expense', path: '/categories', isActive: false },
-			// { label: 'income', path: '/categories/Income' }, // Need to implement Incomes adding in another way
 			{ label: 'balance', path: '/balance', isActive: false },
 			{ label: 'profile', path: '/myprofile/' + this.userId, isActive: false },
 		];
@@ -40,7 +56,62 @@ export class HeaderComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// this.date = this.getCurrentDate();
+		this.getLoggedUser();
+		//TODO define mobile view dynamically
+		this.isMobile = false;
+		this.avatarSize = `small`;
+		this.onResize();
+		this.screenService.checkWidth();
+	}
+
+	onResize() {
+		this.screenService.getMobileStatus().subscribe(isMobile => {
+			this.isMobile = isMobile;
+		});
+		console.log('---> this.isMobile ', this.isMobile);
+	}
+
+	async getLoggedUser() {
+		const userId = localStorage.getItem("userId");
+		//const userId = `895ebe20-44a6-4302-a1c0-86d23bea5947`;
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
+		if (userId) {
+			this.http.get(url, { observe: 'response' })
+				.subscribe(
+					response => {
+						this.currentUser = <LoggedUser>response.body;
+						console.log('---> HEADER response ', response);
+						this.setUserProfileParameters();
+						this.dataService.setLoggedUser(this.currentUser);
+						this.dataService.updateToken(response.headers.get('Authorization'));
+					},
+					error => {
+						console.log('---> HEADER error ', error);
+						//this.dataService.cleanLocalstorage();
+						//this.router.navigate(['/hello-monney']);
+						//   this.errors = error;
+					},
+					() => {
+						// 'onCompleted' callback.
+						// No errors, route to new page here
+					}
+				);
+		}
+	}
+
+	setUserProfileParameters() {
+		console.log('---> HEADER CU IF', this.currentUser);
+		console.log('---> HEADER ISMOB IF', this.isMobile);
+		if (this.currentUser.avatar) {
+			this.isAvatar = true;
+			this.avatarSrc = this.currentUser.avatar;
+		} else {
+			this.avatarInitials = this.currentUser.name.split(` `).length > 1 ?
+				this.currentUser.name.split(` `)[0].slice(0, 1) + this.currentUser.name.split(` `)[1].slice(0, 1)
+				: this.currentUser.name.slice(0, 1);
+		}
+		console.log('---> this.avatarInitials ', this.avatarInitials);
+
 	}
 
 	onHeaderItemClicked(url: String) {
@@ -53,59 +124,5 @@ export class HeaderComponent implements OnInit {
 		}, []);
 		this.navLinks = switchedHeaderOptions;
 	}
-
-	// getCurrentDate(): string {
-	//   const dayWithShift = new Date();
-	//   const today = new Date();
-	//   dayWithShift.setDate(today.getDate() + this.dateShiftLeft + this.dateShiftRight);
-	//   const currentDate = dayWithShift.getDate();
-	//   const currentMonth = dayWithShift.getMonth() + 1;
-	//   const currentYear = dayWithShift.getFullYear();
-	//   const currentDay = this.getDayOfWeek(dayWithShift.getDay());
-	//   //Set data to pass to AddExpenseComponent
-	//   this.data.setData(`${currentDate}.${currentMonth}.${currentYear} ${currentDay} `);
-
-	//   return `${currentDate}.${currentMonth}.${currentYear} ${currentDay} `;
-	// }
-
-	// getDayOfWeek(currentDay: number): string {
-	//   switch(currentDay) { 
-	//     case 0: { 
-	//       return 'Sunday';  
-	//     } 
-	//     case 1: { 
-	//       return 'Monday';  
-	//     } 
-	//     case 2: { 
-	//       return 'Tuesday';  
-	//     } 
-	//     case 3: { 
-	//       return 'Wednesday';  
-	//     } 
-	//     case 4: { 
-	//       return 'Thursday';  
-	//     } 
-	//     case 5: { 
-	//       return 'Friday';  
-	//     } 
-	//     case 6: { 
-	//       return 'Saturday';  
-	//     } 
-	//   }
-	// }
-
-	// goToPrevDate(): void {
-	//   this.isToggled = true;
-	//   this.dateShiftLeft = this.dateShiftLeft - 1;
-	//   this.date = this.getCurrentDate();
-	// }
-
-	// goToNextDate(): void {
-	//   this.dateShiftRight = this.dateShiftRight + 1;
-	//   this.date = this.getCurrentDate();
-	//   if (this.dateShiftRight + this.dateShiftLeft === 0) {
-	//     this.isToggled = false;
-	//   }
-	// }
 
 }

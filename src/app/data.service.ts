@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,14 +7,15 @@ import { FinanceData } from './interfaces';
 
 @Injectable()
 export class DataService {
+	loggedUser: Observable<any>;
+	private loggedUserSubject = new Subject<any>();
 
-	private dateSource = new BehaviorSubject<string>('default');
-	currentDate = this.dateSource.asObservable();
+	constructor(private http: HttpClient, ) {
+		this.loggedUser = this.loggedUserSubject.asObservable();
+	}
 
-	constructor(private http: HttpClient, ) { }
-
-	setData(dateToSave: string) {
-		this.dateSource.next(dateToSave);
+	setLoggedUser(data: any) {
+		this.loggedUserSubject.next(data);
 	}
 
 	sortTransactions(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
