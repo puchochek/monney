@@ -20,10 +20,10 @@ export class AppComponent {
 				console.log('Desktop detected')
 			}
 		});
-		this.onResize();
+		//this.onResize();
 	}
 
-	onResize() {
+	onResize(event: any) {
 		this.responsiveService.checkWidth();
 	}
 }
