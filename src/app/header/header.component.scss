@@ -39,6 +39,22 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	color: white;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+}
+
+.header-balance-incomes, .header-balance-expenses, .header-balance-total{
+	padding: 0 5%;
+}
+
+.balance-info-label {
+	border-bottom: 1px solid #8e8e8e;
+	padding: 5% 0;
+}
+
+.balance-info-value {
+	padding-top: 5%;
+	text-align: right;
 }
 
 @media (max-width: 400px){
@@ -49,7 +65,9 @@
 	.header-nav-item, .header-nav  {
 		height: 50px;
 		font-size: 0.8rem;
-
+	}
+	.header-balance-info {
+		font-size: 0.8rem;
 	}
 }
 

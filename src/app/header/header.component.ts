@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
 	currentUser: LoggedUser;
 	isAvatar: boolean;
 	avatarSrc: string;
-	avatarInitials: string;
+	avatarInitials: string = `AV`;
 	avatarSize: string;
 
 
@@ -37,6 +37,8 @@ export class HeaderComponent implements OnInit {
 	thisMonthExpensesSum: number;
 	thisMonthIncomesLabel: string = `Incomes: `;
 	thisMonthIncomesSum: number;
+	thisMonthBalanceLabel: string = `Balance`;
+	thisMonthBalanceSum: number;
 
 	constructor(
 		private dataService: DataService,
@@ -95,17 +97,16 @@ export class HeaderComponent implements OnInit {
 		if (incomeCategoryId && this.currentUser.expences.length !== 0) {
 			const expenses = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category !== incomeCategoryId));
 			const thisMonthExpences = this.dataService.getThisMonthTransactions(expenses);
-			const thisMonthExpencesSum = this.dataService.countCategoryTransactionsTotal(thisMonthExpences);
-			console.log('---> thisMonthExpencesSum ', thisMonthExpencesSum);
-
+			const thisMonthExpensesSum = this.dataService.countCategoryTransactionsTotal(thisMonthExpences);
+			this.thisMonthExpensesSum = thisMonthExpensesSum;
 
 			const incomes = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category == incomeCategoryId));
 			const thisMonthIncomes = this.dataService.getThisMonthTransactions(incomes);
 			const thisMonthIncomesSum = this.dataService.countCategoryTransactionsTotal(thisMonthIncomes);
 			this.thisMonthIncomesSum = thisMonthIncomesSum;
-			console.log('---> thisMonthIncomesSum ', thisMonthIncomesSum );
-		}
 
+			this.thisMonthBalanceSum = this.thisMonthIncomesSum - this.thisMonthExpensesSum;
+		}
 	}
 
 	setAvatar() {
