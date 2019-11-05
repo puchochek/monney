@@ -2,7 +2,7 @@
     <div class="categories-container">
         <div class="actions-container">
             <div class="new-category-btn">
-                    <input type="button" value={{newCategoryBtnLbl}} (click)="openAddCategoryModal('TODO')" />
+                    <input type="button" value={{newCategoryBtnLbl}} (click)="openAddCategoryModal()" />
                 <!-- <button mat-button (click)="openAddCategoryModal()">{{newCategoryBtnLbl}}</button> -->
             </div>
             <div class="pagination-area" *ngIf="arePagesToPaginate">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="categories-table-cell categories-table-actions-cell">
                         <mat-icon class="categories-table-actions-icon" aria-hidden="false" aria-label="Edit icon"
-                            (click)="openAddCategoryModal(category)">edit</mat-icon>
+                            (click)="openEditCategoryModal(category)">edit</mat-icon>
                         <mat-icon class="categories-table-actions-icon" aria-hidden="false" aria-label="Delete icon"
                             (click)="deleteCategory(category)">delete</mat-icon>
                     </div>

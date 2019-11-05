@@ -9,6 +9,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { HomeComponent } from './home/home.component';
 
 
  const routes: Routes = [
@@ -17,6 +18,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     { path: 'hello-monney', component: HelloMonneyComponent },
     { path: 'login', component: LoginFormComponent },
     { path: 'autorize', component: LoginFormComponent },
+    { path: 'home', component: HomeComponent },
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/:category/:categoryId', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },

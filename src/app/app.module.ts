@@ -67,6 +67,7 @@ import { TokenInterceptor } from '././token.interceptor';
 import { BalanceManageIncomesComponent } from './balance-manage-incomes/balance-manage-incomes.component';
 import { BalanceViewBalanceComponent } from './balance-view-balance/balance-view-balance.component';
 import { BalanceManageExpensesComponent } from './balance-manage-expenses/balance-manage-expenses.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
 	declarations: [
@@ -86,6 +87,7 @@ import { BalanceManageExpensesComponent } from './balance-manage-expenses/balanc
 		BalanceManageIncomesComponent,
 		BalanceViewBalanceComponent,
 		BalanceManageExpensesComponent,
+		HomeComponent,
 	],
 	imports: [
 		BrowserModule,

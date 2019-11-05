@@ -1,0 +1,22 @@
+<div class="home-page-container">
+    <div class="home-page-content">
+        <div class="navigation-zone">
+            <div class="manage-incomes-container">
+                incomes
+            </div>
+            <div class="manage-reports-container">
+                reports
+            </div>
+            <div class="profile-settings-container">
+                profile settings
+            </div>
+
+        </div>
+        <div class="categories-list-container">
+            <app-category-list *ngIf="currentUser" [appUser]="currentUser"></app-category-list>
+        </div>
+
+    </div>
+
+
+</div>

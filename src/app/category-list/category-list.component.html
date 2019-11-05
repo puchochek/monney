@@ -1,7 +1,26 @@
-<mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit"  [gutterSize]="'5%'">
+<!-- <mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit">
 	<mat-grid-tile class="category-item" *ngFor="let category of categories">
-		<div draggable="true" (dragstart)="onDragStart($event)" (dragover)="onDragOver($event)" (drop)="onDrop($event)" id="{{category.name}}" routerLink="/categories/{{category.name}}/{{category.id}}">
+		<div class="category" draggable="true" (dragstart)="onDragStart($event)" (dragover)="onDragOver($event)"
+			(drop)="onDrop($event)" id="{{category.name}}" routerLink="/categories/{{category.name}}/{{category.id}}">
 			{{category.name}}
 		</div>
 	</mat-grid-tile>
-</mat-grid-list>
+</mat-grid-list> -->
+
+
+
+<div class="categories-list-container">
+	<div class="categories-list-header">
+		Expense categories
+	</div>
+	<div class="categories-list-content">
+		<div class="categories-list" *ngFor="let category of categories">
+			<div class="category-item">
+				<igx-avatar initials={{category.initials}} roundShape="true" bgColor={{category.bgColor}}
+					color={{category.color}}>
+				</igx-avatar>
+				{{category.name}}
+			</div>
+		</div>
+	</div>
+</div>

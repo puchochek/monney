@@ -10,21 +10,16 @@
 	<div class="header-balance-info">
 		<div class="header-balance-incomes">
 			<div class="balance-info-label">{{thisMonthIncomesLabel}}</div>
-			<!-- <mat-divider></mat-divider> -->
 			<div class="balance-info-value">{{thisMonthIncomesSum}}</div>
 		</div>
 		<div class="header-balance-expenses">
 				<div class="balance-info-label">{{thisMonthExpensesLabel}}</div>
 				<div class="balance-info-value">{{thisMonthExpensesSum}}</div>
-			<!-- {{thisMonthExpensesLabel}} {{thisMonthExpensesSum}}-->
 			</div>
 		<div class="header-balance-total">
 				<div class="balance-info-label">{{thisMonthBalanceLabel}}</div>
-				<div class="balance-info-value">{{thisMonthExpensesSum}}</div>
-				<!-- thisMonthExpensesSum
-			{{thisMonthBalanceLabel}} {{thisMonthBalanceSum}} -->
+				<div class="balance-info-value">{{thisMonthBalanceSum}}</div>
 		</div>
-
 	</div>
 	<mat-grid-list class="header-nav" cols="3" rowHeight="fit">
 		<mat-grid-tile class="header-nav-item" [class.header-nav-item-active]="link.isActive" *ngFor="let link of navLinks"

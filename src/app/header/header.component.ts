@@ -48,8 +48,7 @@ export class HeaderComponent implements OnInit {
 	) {
 		this.userId = localStorage.getItem('userId');
 		const href = this.router.url;
-		//TODO remove link from url
-		//TODO reduce to 2 items
+		//TODO remove navigation from header
 		const headerLinks = [
 			{ label: 'add expense', path: '/categories', isActive: true },
 			{ label: 'balance', path: '/balance', isActive: false },
@@ -59,36 +58,16 @@ export class HeaderComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.getLoggedUser();
-		
-	}
-
-	async getLoggedUser() {
-		const userId = localStorage.getItem("userId");
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						console.log('---> HEADER response ', response);
-						this.setAvatar();
-						this.countUserBalance();
-						this.dataService.setLoggedUser(this.currentUser);
-						this.dataService.updateToken(response.headers.get('Authorization'));
-					},
-					error => {
-						console.log('---> HEADER error ', error);
-						//this.dataService.cleanLocalstorage();
-						//this.router.navigate(['/hello-monney']);
-						//   this.errors = error;
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
+		this.dataService.loggedUser.subscribe((response) => {
+			console.log('--->  HEADER FROM SERVICE loggedUser INIT', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				this.setAvatar();
+				this.countUserBalance();
+			} else {
+				this.router.navigate(['/hello-monney']);
+			}
+		});
 	}
 
 	countUserBalance() {

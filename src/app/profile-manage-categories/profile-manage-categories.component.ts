@@ -108,7 +108,7 @@ export class ProfileManageCategoriesComponent implements OnInit {
 		this.preparePaginationData();
 	}
 
-	openAddCategoryModal(category: any) {
+	openEditCategoryModal(category: any) {
 		const categoryFormId = category ? category.id : undefined;
 		this.dialogRef = this.dialog.open(AddCategoryModalComponent, {
 			data: {
@@ -129,6 +129,14 @@ export class ProfileManageCategoriesComponent implements OnInit {
 				}
 				this.saveNewCategory(categoryToSave);
 			});
+	}
+
+	openAddCategoryModal() {
+		this.dialogRef = this.dialog.open(AddCategoryModalComponent);
+		this.dialogRef
+			.afterClosed()
+			//TODO save category by name
+			.subscribe(name => console.log('---> name ', name ));
 	}
 
 	saveNewCategory(categoryToSave: any) {
