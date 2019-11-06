@@ -57,7 +57,7 @@ export class AddExpenseComponent implements OnInit {
 		this.editAction = `Edit`;
 		this.transactionName = selectedCategory === `Income` ?
 			`income`
-			: `ecpense`;
+			: `expense`;
 		this.title = this.isEdit ?
 			`${this.editAction} ${this.transactionName}`
 			: `${this.addNewAction} ${this.transactionName}`;
@@ -88,7 +88,7 @@ export class AddExpenseComponent implements OnInit {
 	closeModal(event) {
 		this.isEdit = false;
 		if (event.value === 'saved') {
-			this.router.navigate(['/categories']);
+			this.router.navigate(['/home']);
 		}
 	}
 
@@ -112,7 +112,7 @@ export class AddExpenseComponent implements OnInit {
 		const requestUrl = `${environment.apiBaseUrl}/expence/create`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
-			: `/categories`;
+			: `/home`;
 		const transactionToSave: FinanceData = {
 			comment: newExpence.comment,
 			id: null,
@@ -138,7 +138,7 @@ export class AddExpenseComponent implements OnInit {
 		const requestUrl = `${environment.apiBaseUrl}/expence/edit`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
-			: `/categories`;
+			: `/home`;
 		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
 

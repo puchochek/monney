@@ -1,7 +1,14 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ModalComponent } from '../modal/modal.component';
+import { FormControl } from '@angular/forms';
+import { FinanceData } from '../interfaces';
+import { Category } from '../interfaces';
+import { LoggedUser } from '../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-add-category-modal',
@@ -9,43 +16,88 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 	styleUrls: ['./add-category-modal.component.scss']
 })
 export class AddCategoryModalComponent implements OnInit {
-	form: FormGroup;
-	categoryNameLabel: string;
-	okBtnLabel: string;
-	closeBtnLabel: string;
-	categoryToEdit: any;
-	categoryName: string;
-	categoryDescription: string;
-	categoryId: string;
+	@Input() name: string;
+	@Input() description: string;
+
+	title: string = `Add a new expense category`;
+	categoryToUpdate: Category;
+	//currentUser: LoggedUser;
 
 	constructor(
-		private formBuilder: FormBuilder,
-		private dialogRef: MatDialogRef<AddCategoryModalComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any
+		private dataService: DataService,
+		private http: HttpClient,
+		private route: ActivatedRoute,
+		private router: Router,
+		private snackBar: MatSnackBar,
 	) { }
 
 	ngOnInit() {
-		this.categoryNameLabel = `Category name`;
-		this.okBtnLabel = `OK`;
-		this.closeBtnLabel = `Close`;
-		if (this.data.category) {
-			this.categoryToEdit = this.data.category;
-			this.categoryName = this.categoryToEdit.name;
-			this.categoryDescription = this.categoryToEdit.description;
-			this.categoryId = this.categoryToEdit.id;
-		}
-		this.form = this.formBuilder.group({
-			categoryName: this.categoryName,
-			categoryDescription: this.categoryDescription
-		})
+		this.dataService.categoryToUpsert.subscribe((response) => {
+			console.log('---> response ', response );
+			if (response) {
+				this.categoryToUpdate = <Category>response;
+			}
+		});
 	}
 
-	submit(form: any) {
-		const newCategoryInput = {
-			name: form.value.categoryName,
-			description: form.value.categoryDescription,
-			id: this.categoryId
-		};
-		this.dialogRef.close(newCategoryInput);
+	onSubmit() {
+		console.log('---> this.categoryToUpsert ', this.categoryToUpdate);
+		if (this.categoryToUpdate) {
+			console.log('---> this.categoryToUpsert ', this.categoryToUpdate);
+			const categoryToUpsert = {
+				user : this.categoryToUpdate.user,
+				description : this.description,
+				id : this.categoryToUpdate.id,
+				name : this.name,
+				categoryIndex : this.categoryToUpdate.categoryIndex,
+				isActive : this.categoryToUpdate.isActive,
+				isIncome : this.categoryToUpdate.isIncome
+			}
+			this.upsertCategory(categoryToUpsert);
+		} else {
+			console.log('---> else' );
+			const categoryToUpsert = {
+				user : localStorage.getItem(`userId`),
+				description : this.description,
+				name : this.name,
+				isActive : true,
+				isIncome : false
+			}
+			this.upsertCategory(categoryToUpsert);
+		}
+	}
+
+	upsertCategory(categoryToUpsert: any) {
+		let snackMessage: string;
+		let action: string;
+		const url = `${environment.apiBaseUrl}/category/upsert`;
+		this.http.post(url, {
+			name: categoryToUpsert.name,
+			description: categoryToUpsert.description,
+			user: categoryToUpsert.user,
+			isActive: categoryToUpsert.isActive,
+			id: categoryToUpsert.id,
+		}, { observe: 'response' })
+			.subscribe(
+				response => {
+					snackMessage = 'Done';
+					action = `OK`;
+					this.snackBar.open(snackMessage, action, {
+						duration: 5000,
+					});
+					const upsertedCategory = <Category>response.body;
+					this.dataService.updateToken(response.headers.get('Authorization'));
+					this.router.navigate(['/home']);
+				},
+				error => {
+					console.log('---> ADD CATEGORY error ', error);
+					snackMessage = 'Oops!';
+					action = `Try again`;
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
 	}
 }

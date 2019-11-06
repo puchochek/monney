@@ -1,12 +1,99 @@
-.mat-focused .placeholder, .mat-focused, .dummy-input-field{
-    //color:black;
-    font-size: 1.5rem;
+@font-face {
+    font-family: Pt-Sans-Bold;
+    src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
+}
+.category-form {
+	max-width: 500px;
+	padding: 10px 20px;
+	background: #f4f7f8;
+	margin: 5% auto;
+	padding: 20px;
+	border-radius: 8px;
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
+}
+.category-form fieldset {
+	border: none;
+}
+.category-form legend {
+	font-size: 1.4em;
+	margin-bottom: 10px;
+}
+.category-form label {
+	display: block;
+	margin-bottom: 8px;
+}
+.category-form input[type="text"],
+.category-form textarea {
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
+	background: rgba(255,255,255,.1);
+	border: none;
+	border-radius: 4px;
+	font-size: 1.5rem;
+	margin: 0;
+	outline: 0;
+	padding: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	background-color: #e8eeef;
+	color:black;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	margin-bottom: 30px;
+}
+.category-form input[type="text"]:focus,
+.category-form textarea:focus {
+	background: #d2d9dd;
+}
+.category-form input[type="submit"],
+.category-form input[type="button"] {
+	position: relative;
+	display: block;
+	padding: 19px 39px 18px 39px;
+	color: #FFF;
+	margin: 0 auto;
+	background: #616161;
+	font-size: 1.5rem;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	border: 1px solid #373737;
+	border-width: 1px 1px 3px;
+	margin-bottom: 10px;
+}
+.category-form input[type="submit"]:hover,
+.category-form input[type="button"]:hover {
+	background: #8e8e8e;
+}
+.title {
+	position: relative;
+	display: block;
+	padding: 19px 0;
+	color: #FFF;
+	margin: 0 auto;
+	background: #616161;
+	font-size: 1.5rem;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
-// ::ng-deep .mat-form-field-underline{
-//     display: none;
-// }
 
-// ::ng-deep .mat-form-field-infix {
-//     border-bottom: 2px solid black;
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

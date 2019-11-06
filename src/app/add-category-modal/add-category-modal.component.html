@@ -1,19 +1,14 @@
-<div>
-    <form [formGroup]="form" (ngSubmit)="submit(form)">
-        <mat-dialog-content>
-            <mat-form-field>
-                <input matInput formControlName="categoryName">
-                <mat-placeholder class="placeholder">{{categoryNameLabel}}</mat-placeholder>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
-                <input matInput formControlName="categoryDescription">
-                <mat-placeholder class="placeholder">Add a short description</mat-placeholder>
-            </mat-form-field>
-        </mat-dialog-content>
-        <mat-dialog-actions>
-            <button mat-button type="button" mat-dialog-close>{{closeBtnLabel}}</button>
-            <button mat-button>{{okBtnLabel}}</button>
-        </mat-dialog-actions>
-    </form>
+<div class="form-container">
+    <div class="category-form">
+        <div class="title">{{title}}</div>
+        <form id="category-form">
+            <fieldset>
+                <input type="text" name="name" placeholder="Category name" required [(ngModel)]="name"
+                    value="categoryName">
+                    <textarea name="description" placeholder="Add a description" [(ngModel)]="description"></textarea>
+            </fieldset>
+            <input type="submit" value="Save" (click)="onSubmit()" />
+            <input type="button" value="Close" routerLink="/home" />
+        </form>
+    </div>
 </div>

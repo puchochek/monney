@@ -10,12 +10,20 @@ export class DataService {
 	loggedUser: Observable<any>;
 	private loggedUserSubject = new Subject<any>();
 
+	categoryToUpsert: Observable<any>;
+	private categoryToUpsertSubject = new Subject<any>();
+
 	constructor(private http: HttpClient, ) {
 		this.loggedUser = this.loggedUserSubject.asObservable();
+		this.categoryToUpsert = this.categoryToUpsertSubject.asObservable();
 	}
 
 	setLoggedUser(data: any) {
 		this.loggedUserSubject.next(data);
+	}
+
+	setCategoryToUpsert(data: any) {
+		this.categoryToUpsertSubject.next(data);
 	}
 
 	sortTransactions(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {

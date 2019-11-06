@@ -4,7 +4,9 @@ import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
+
+import {MatMenuModule, MatButtonModule} from '@angular/material';
 
 @Component({
 	selector: 'app-category-list',
@@ -14,13 +16,9 @@ import { environment } from '../../environments/environment'
 export class CategoryListComponent implements OnInit {
 	@Input() appUser: LoggedUser;
 
-
-	// categoryList = true;
-	// selectedCategory: Category;
-	// columns: number;
 	categories: Category[];
-	columns: string =  `3`;
-	// test: string = `fit`;
+	expenseMenuItems: string[] = [`Details`, `Edit`, `Delete`];
+	subMenuItems: string[] = [`name`,`date`, `sum`];
 
 	constructor(
 		private http: HttpClient,
@@ -31,38 +29,14 @@ export class CategoryListComponent implements OnInit {
 	ngOnInit() {
 		console.log('---> appUser CatList ', this.appUser);
 		this.buildCategoriesList();
-		//this.defineScreenHeight();
-		// 	const userId = localStorage.getItem('userId');
-		// 	const url = `${environment.apiBaseUrl}/category/${userId}`;
-		// 	this.http.get(url, { observe: 'response' })
-		// 		.subscribe(
-		// 			response => {
-		// 				console.log('---> category list response ', response.body);
-		// 				this.defineColumnsNumber(<Category[]>response.body);
-		// 				this.categories = this.setInitialCategoriesOrder(<Category[]>response.body);
-		// 				this.dataService.updateToken(response.headers.get('Authorization'));
-		// 			},
-		// 			error => {
-		// 				console.log('---> CATEGORY_LIST error ', error);
-		// 				this.router.navigate(['/hello-monney']);
-		// 				this.dataService.cleanLocalstorage();
-		// 			},
-		// 			() => {
-		// 				// 'onCompleted' callback.
-		// 				// No errors, route to new page here
-		// 			}
-		// 		);
 	}
 
 	buildCategoriesList() {
-		const addNewCategoryItem = { name: `add new category`, initials: `NC`, routerLink: ``, id: ``, color: `white`, bgColor: `#8e8e8e` };
 		if (this.appUser.categories) {
 			const userExpenses = this.appUser.categories.filter(category => !category.isIncome);
-			const userCategories = [...userExpenses, ...[addNewCategoryItem]];
+			const userCategories = [...userExpenses];
 			const categoriesWithInitials = this.setCategoriesInitials(userCategories);
 			this.categories = categoriesWithInitials;
-		} else {
-			const userCategories = [addNewCategoryItem];
 		}
 		console.log('---> this.categories ',this.categories );
 	}
@@ -83,6 +57,38 @@ export class CategoryListComponent implements OnInit {
 		}, []);
 		console.log('---> categoriesWithInitials ', categoriesWithInitials);
 		return categoriesWithInitials;
+
+	}
+
+	openAddCategoryModal() {
+		this.router.navigate(['/category']);
+	}
+
+	sortCategoriesByField(fieldName: string) {
+		console.log('---> fieldName ', fieldName);
+		console.log('---> this.categories ', this.categories);
+		if (fieldName === `name`) {
+			this.sortCategoriesByName();
+		}
+		if (fieldName === `date`) {
+			this.sortCategoriesByDate();
+		}
+	}
+
+	sortCategoriesByName() {
+		const sortedCategories = this.categories.sort((a, b) => (a.name > b.name) ? 1 : -1)
+		console.log('---> sortedCategories ', sortedCategories);
+		this.categories = [...sortedCategories];
+	}
+
+	sortCategoriesByDate() {
+		const sortedCategories =  this.categories.sort(function compare(a, b) {
+			// var dateA = new Date(a.date);
+			// var dateB = new Date(b.date);
+			return (new Date(b.updatedAt)as any) - (new Date(a.updatedAt)as any);
+		  });
+		console.log('---> sortedCategories ', sortedCategories);
+		this.categories = [...sortedCategories];
 
 	}
 

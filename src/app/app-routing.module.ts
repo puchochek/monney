@@ -10,6 +10,7 @@ import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
+import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
 
 
  const routes: Routes = [
@@ -28,6 +29,7 @@ import { HomeComponent } from './home/home.component';
     { path: 'detail/:category', component: ExpenseDetailComponent },
     { path: 'activate/:token', component: ActivateUserComponent },
     { path: 'myprofile/:userid', component: UserProfileComponent },
+    { path: 'category', component: AddCategoryModalComponent },
  ];
 
 @NgModule({

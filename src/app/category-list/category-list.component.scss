@@ -8,59 +8,101 @@
 	color: white;
 }
 
-// .category-item {
-// 	font-size: calc(1em + 1vw);
-// }
-
-// .category:hover {
-// 	cursor: pointer;
-// 	background-color: white;
-//     color: black;
-// }
-
-// .category {
-// 	height: 50%;
-// 	width: 50%;
-// 	// border: 1px solid white;
-// }
-
-// @media (max-width: 400px){
-//     .category-item {
-// 		font-size: calc(.7em + 1vw);
-// 	}
-// }
-
-
-.categories-list-container {
-
-}
-
 .categories-list-header {
 	position: relative;
 	display: block;
-	padding: 1%;
-	color: #FFF;
+	padding: 1% 1% 0 1%;
+	color: white;
 	font-size: 1.5rem;
 	width: 100%;
 	border-bottom: 1px solid #8e8e8e;
-	// margin-bottom: 10px;
+	display: grid;
+	grid-template-columns: 8fr 3fr 1fr;
 }
 
+.categories-list-header-actions {
+	text-align: right;
+}
+
+.sort-menu-btn:hover {
+	color: #8e8e8e;
+	cursor: pointer;
+}
+
+.add-category-btn:hover {
+	color: #8e8e8e;
+	cursor: pointer;
+}
 .categories-list-content {
 	display: grid;
 	grid-template-columns: 4fr 4fr 4fr;
+	text-align: center;
+	height: 45em;
+	overflow-y: auto;
+	margin-top: 10px;
+}
+
+.header-menu-btn {
+	font-size: 2.6rem;
+	margin-right: 5px;
 }
 
 .category-item {
 	display: inline-block;
+	margin: 1%;
 }
 
 .igx-avatar{
 	height: 50px;
 	width: 50px;
-	// margin: 0 2%;
 }
 
+.igx-avatar:hover {
+	cursor: pointer;
+	background-color: white !important;
+	color: black !important;
+}
+
+.category-name {
+	padding-top: 2%;
+	display: inline;
+}
+.category-actions-menu {
+	display: inline;
+}
+
+.custom-menu {
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
+	text-transform: uppercase;
+}
+
+.no-categories-message {
+	padding: 5%;
+	font-size: 1.5rem;
+}
+
+@media (max-width: 400px){
+	.categories-list-content {
+		grid-template-columns: 4fr 4fr;
+	}
+	.header-menu-btn {
+		font-size: 2rem;
+	}
+	.categories-list-header {
+		font-size: .8rem;
+	}
+    .categories-list-container {
+		height: 40rem;
+		overflow-y: scroll;
+	}
+}
+
+@media (max-width: 360px){
+    .categories-list-container {
+		height: 35rem;
+		overflow-y: scroll;
+	}
+}
 
 
 

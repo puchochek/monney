@@ -1,26 +1,58 @@
-<!-- <mat-grid-list class="categories-list-container" id="categories-list" cols="{{columns}}" rowHeight="fit">
-	<mat-grid-tile class="category-item" *ngFor="let category of categories">
-		<div class="category" draggable="true" (dragstart)="onDragStart($event)" (dragover)="onDragOver($event)"
-			(drop)="onDrop($event)" id="{{category.name}}" routerLink="/categories/{{category.name}}/{{category.id}}">
-			{{category.name}}
-		</div>
-	</mat-grid-tile>
-</mat-grid-list> -->
-
-
-
 <div class="categories-list-container">
 	<div class="categories-list-header">
-		Expense categories
+		<div class="categories-list-header-title">
+			Expense categories
+		</div>
+		<div class="categories-list-header-expenses">
+			<!-- TODO add expenses sum -->
+		</div>
+		<div class="categories-list-header-actions">
+			<mat-menu #rootMenu="matMenu">
+				<button mat-menu-item class="custom-menu" (click)="openAddCategoryModal()">Add new category</button>
+				<button mat-menu-item class="custom-menu"[matMenuTriggerFor]="subMenu">Sort categories by</button>
+
+			</mat-menu>
+
+			<mat-menu #subMenu="matMenu">
+				<button mat-menu-item *ngFor="let menuItem of subMenuItems" (click)="sortCategoriesByField(menuItem)" class="custom-menu">{{menuItem}}</button>
+			</mat-menu>
+
+			<button mat-icon-button [matMenuTriggerFor]="rootMenu">
+				<mat-icon class="header-menu-btn">menu</mat-icon>
+			</button>
+		</div>
 	</div>
-	<div class="categories-list-content">
+	<div class="categories-list-content" *ngIf="categories else noCategories">
 		<div class="categories-list" *ngFor="let category of categories">
 			<div class="category-item">
-				<igx-avatar initials={{category.initials}} roundShape="true" bgColor={{category.bgColor}}
-					color={{category.color}}>
-				</igx-avatar>
-				{{category.name}}
+				<div class="category-avatar">
+					<igx-avatar initials={{category.initials}} roundShape="true" bgColor={{category.bgColor}}
+						color={{category.color}} class="category-avatar"
+						routerLink="/categories/{{category.name}}/{{category.id}}">
+					</igx-avatar>
+				</div>
+				<div class="category-details">
+					<div class="category-name">
+						{{category.name}}
+					</div>
+					<div class="category-actions-menu">
+						<mat-menu #appMenu="matMenu">
+							<button mat-menu-item class="custom-menu"
+								*ngFor="let menuItem of expenseMenuItems">{{menuItem}}</button>
+						</mat-menu>
+						<button mat-icon-button [matMenuTriggerFor]="appMenu">
+							<mat-icon>more_horiz</mat-icon>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<ng-template #noCategories>
+		<div class="no-categories-message">
+			Hello, {{appUser.name}}. You don't have any expense categories for now. It would be great to add some to
+			keep
+			your finances in order.
+		</div>
+	</ng-template>
 </div>
