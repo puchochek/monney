@@ -22,7 +22,7 @@
 			</button>
 		</div>
 	</div>
-	<div class="categories-list-content" *ngIf="categories else noCategories">
+	<div class="categories-list-content" *ngIf="categories?.length > 0 else noCategories">
 		<div class="categories-list" *ngFor="let category of categories">
 			<div class="category-item">
 				<div class="category-avatar">

@@ -6,7 +6,7 @@ import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-import {MatMenuModule, MatButtonModule} from '@angular/material';
+import { MatMenuModule, MatButtonModule } from '@angular/material';
 
 @Component({
 	selector: 'app-category-list',
@@ -18,7 +18,7 @@ export class CategoryListComponent implements OnInit {
 
 	categories: Category[];
 	expenseMenuItems: string[] = [`Details`, `Edit`, `Delete`];
-	subMenuItems: string[] = [`name`,`date`, `sum`];
+	subMenuItems: string[] = [`name`, `date`, `sum`];
 
 	constructor(
 		private http: HttpClient,
@@ -38,7 +38,6 @@ export class CategoryListComponent implements OnInit {
 			const categoriesWithInitials = this.setCategoriesInitials(userCategories);
 			this.categories = categoriesWithInitials;
 		}
-		console.log('---> this.categories ',this.categories );
 	}
 
 	setCategoriesInitials(categories: any[]) {
@@ -55,7 +54,7 @@ export class CategoryListComponent implements OnInit {
 			categoriesList.push(currentCategory);
 			return categoriesList;
 		}, []);
-		console.log('---> categoriesWithInitials ', categoriesWithInitials);
+
 		return categoriesWithInitials;
 
 	}
@@ -65,31 +64,79 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	sortCategoriesByField(fieldName: string) {
-		console.log('---> fieldName ', fieldName);
-		console.log('---> this.categories ', this.categories);
 		if (fieldName === `name`) {
 			this.sortCategoriesByName();
 		}
 		if (fieldName === `date`) {
 			this.sortCategoriesByDate();
 		}
+		if (fieldName === `sum`) {
+			this.sortCategoriesBySum();
+		}
 	}
 
 	sortCategoriesByName() {
 		const sortedCategories = this.categories.sort((a, b) => (a.name > b.name) ? 1 : -1)
-		console.log('---> sortedCategories ', sortedCategories);
 		this.categories = [...sortedCategories];
+		this.updateCategoriesIndexes();
 	}
 
 	sortCategoriesByDate() {
-		const sortedCategories =  this.categories.sort(function compare(a, b) {
-			// var dateA = new Date(a.date);
-			// var dateB = new Date(b.date);
-			return (new Date(b.updatedAt)as any) - (new Date(a.updatedAt)as any);
-		  });
-		console.log('---> sortedCategories ', sortedCategories);
+		const sortedCategories = this.categories.sort(function compare(a, b) {
+			return (new Date(b.updatedAt) as any) - (new Date(a.updatedAt) as any);
+		});
 		this.categories = [...sortedCategories];
+		this.updateCategoriesIndexes();
+	}
 
+	sortCategoriesBySum() {
+		const expenseCategories = [...this.categories];
+		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.appUser.expences]);
+		const expensesByCategory = expenseCategories.reduce((expensesList, currentCategory) => {
+			const thisCategoryExpenses = thisMonthExpenses.filter(expense => expense.category === currentCategory.id);
+			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses);
+			const espensesByCategory = {
+				categoryId: currentCategory.id,
+				categoryExpenses: thisCategoryExpenses,
+				categoryExpensesSum: expensesSum
+			}
+			expensesList.push(espensesByCategory);
+			return expensesList;
+		}, []);
+
+		const expensesByCategorySorted = expensesByCategory.sort((a, b) => (a.categoryExpensesSum > b.categoryExpensesSum) ? -1 : 1);
+
+		const sortedCategories = expenseCategories.reduce((categoriesList, currentCategory) => {
+			const categoryIndex = expensesByCategorySorted.findIndex(exp => exp.categoryId === currentCategory.id);
+			categoriesList.splice(categoryIndex, 0, currentCategory);
+			return categoriesList;
+		}, []);
+		this.categories = sortedCategories;
+		this.updateCategoriesIndexes();
+	}
+
+	updateCategoriesIndexes() {
+		this.categories.forEach(function (category, index) {
+			category.categoryIndex = index;
+		});
+		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
+		const categoriesToUpsert = [...this.categories];
+		this.http.post(requestUrl, {
+			categoriesToUpsert: categoriesToUpsert
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				const upsertedCategories = <Category>response.body;
+				this.dataService.updateToken(response.headers.get('Authorization'));
+			},
+			error => {
+				console.log('---> UPSERT CAT ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
 	}
 
 	// setInitialCategoriesOrder(currentUserCategories: Category[]): Category[] {

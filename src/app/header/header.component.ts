@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
 			if (response) {
 				this.currentUser = <LoggedUser>response;
 				this.setAvatar();
-				this.countUserBalance();
+				//this.countUserBalance();
 			} else {
 				this.router.navigate(['/hello-monney']);
 			}

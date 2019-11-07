@@ -71,12 +71,9 @@ export class AddCategoryModalComponent implements OnInit {
 		let snackMessage: string;
 		let action: string;
 		const url = `${environment.apiBaseUrl}/category/upsert`;
+		const categoryToUpsertBulk = [categoryToUpsert];
 		this.http.post(url, {
-			name: categoryToUpsert.name,
-			description: categoryToUpsert.description,
-			user: categoryToUpsert.user,
-			isActive: categoryToUpsert.isActive,
-			id: categoryToUpsert.id,
+			categoriesToUpsert: categoryToUpsertBulk
 		}, { observe: 'response' })
 			.subscribe(
 				response => {

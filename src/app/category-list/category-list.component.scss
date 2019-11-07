@@ -6,6 +6,7 @@
 .categories-list-container {
 	font-family: capture;
 	color: white;
+	height: calc(100vh - 10rem);
 }
 
 .categories-list-header {
@@ -37,7 +38,8 @@
 	display: grid;
 	grid-template-columns: 4fr 4fr 4fr;
 	text-align: center;
-	height: 45em;
+	// height: 45em;
+	// height: calc(100% - 10rem);
 	overflow-y: auto;
 	margin-top: 10px;
 }
@@ -92,14 +94,14 @@
 		font-size: .8rem;
 	}
     .categories-list-container {
-		height: 40rem;
+		height: calc(100vh - 8rem);
 		overflow-y: scroll;
 	}
 }
 
 @media (max-width: 360px){
     .categories-list-container {
-		height: 35rem;
+		height: calc(100vh - 5rem);
 		overflow-y: scroll;
 	}
 }
