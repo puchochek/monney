@@ -9,6 +9,8 @@ import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
+
 import { MatMenuModule, MatButtonModule } from '@angular/material';
 
 @Component({
@@ -24,6 +26,8 @@ export class CategoryListComponent implements OnInit {
 	expenseMenuItems = [{ name: `Details`, action: `` }, { name: `Edit`, action: this.editCategory.bind(this) }, { name: `Delete`, action: this.callDeleteConfirmationModal.bind(this) }];
 	subMenuItems: string[] = [`name`, `date`, `sum`];
 
+	
+
 	constructor(
 		private http: HttpClient,
 		private router: Router,
@@ -36,6 +40,8 @@ export class CategoryListComponent implements OnInit {
 		console.log('---> appUser CatList ', this.appUser);
 		this.buildCategoriesList();
 	}
+
+	
 
 	buildCategoriesList() {
 		if (this.appUser.categories) {

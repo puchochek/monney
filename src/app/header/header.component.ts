@@ -8,6 +8,10 @@ import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
 import { ScreenService } from '../screen.service';
 
+import { Subscription } from 'rxjs';
+import { Subject } from "rxjs"
+// import { takeUntil } from "rxjs/operators"
+
 
 @Component({
 	selector: 'app-header',
@@ -20,6 +24,9 @@ export class HeaderComponent implements OnInit {
 	public bgColor = "#8e8e8e";
 	public color = "white";
 	//public avatarSize = "large";
+
+	private sbscr: Subscription;
+	// componentDestroyed: Subject<boolean> = new Subject()
 
 
 	navLinks = [];
@@ -58,7 +65,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.dataService.loggedUser.subscribe((response) => {
+		this.sbscr = this.dataService.loggedUser.subscribe((response) => {
 			console.log('--->  HEADER FROM SERVICE loggedUser INIT', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
@@ -68,6 +75,10 @@ export class HeaderComponent implements OnInit {
 				this.router.navigate(['/hello-monney']);
 			}
 		});
+	}
+
+	ngOnDestroy() {
+		this.sbscr.unsubscribe();
 	}
 
 	// countUserBalance() {
