@@ -5,6 +5,9 @@ import { Category } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { ModalComponent } from '../modal/modal.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MatMenuModule, MatButtonModule } from '@angular/material';
 
@@ -15,15 +18,18 @@ import { MatMenuModule, MatButtonModule } from '@angular/material';
 })
 export class CategoryListComponent implements OnInit {
 	@Input() appUser: LoggedUser;
+	deleteCategoryModal: MatDialogRef<ModalComponent>;
 
 	categories: Category[];
-	expenseMenuItems = [{ name: `Details`, action: `` }, { name: `Edit`, action: this.editCategory.bind(this) }, { name: `Delete`, action: `` }];
+	expenseMenuItems = [{ name: `Details`, action: `` }, { name: `Edit`, action: this.editCategory.bind(this) }, { name: `Delete`, action: this.callDeleteConfirmationModal.bind(this) }];
 	subMenuItems: string[] = [`name`, `date`, `sum`];
 
 	constructor(
 		private http: HttpClient,
 		private router: Router,
 		private dataService: DataService,
+		private snackBar: MatSnackBar,
+		private dialog: MatDialog
 	) { }
 
 	ngOnInit() {
@@ -119,30 +125,98 @@ export class CategoryListComponent implements OnInit {
 		this.categories.forEach(function (category, index) {
 			category.categoryIndex = index;
 		});
-		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
 		const categoriesToUpsert = [...this.categories];
+		this.doUpsertCategoriesCall(categoriesToUpsert);
+		// this.http.post(requestUrl, {
+		// 	categoriesToUpsert: categoriesToUpsert
+		// }, { observe: 'response' }
+		// ).subscribe(
+		// 	response => {
+		// 		const upsertedCategories = <Category>response.body;
+		// 		this.dataService.updateToken(response.headers.get('Authorization'));
+		// 	},
+		// 	error => {
+		// 		console.log('---> UPSERT CAT ', error);
+		// 	},
+		// 	() => {
+		// 		// 'onCompleted' callback.
+		// 		// No errors, route to new page here
+		// 	}
+		// );
+	}
+
+	doUpsertCategoriesCall(categoriesToUpsert: Category[]) {
+		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
 		this.http.post(requestUrl, {
 			categoriesToUpsert: categoriesToUpsert
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
+				const snackMessage = 'Done';
+				const action = `OK`;
+				this.snackBar.open(snackMessage, action, {
+					duration: 5000,
+				});
 				const upsertedCategories = <Category>response.body;
 				this.dataService.updateToken(response.headers.get('Authorization'));
 			},
 			error => {
 				console.log('---> UPSERT CAT ', error);
+				const snackMessage = 'Oops!';
+				const action = `Try again`;
+				this.snackBar.open(snackMessage, action, {
+					duration: 5000,
+				});
 			},
 			() => {
 				// 'onCompleted' callback.
 				// No errors, route to new page here
 			}
 		);
+
 	}
 
 	editCategory(categoryToEdit: Category) {
 		if (categoryToEdit) {
 			this.router.navigate([`/category/${categoryToEdit.id}`]);
 		}
+	}
+
+	callDeleteConfirmationModal(categoryToDelete: Category) {
+		console.log('---> categoryToDelete', categoryToDelete);
+		this.openDeleteCategoryDialog(categoryToDelete);
+	}
+
+	deleteCategory(categoryToDelete: Category) {
+		const categoriesToUpsert = [...this.categories].reduce((categoriesList, currentCategory) => {
+			if (currentCategory.id === categoryToDelete.id) {
+				currentCategory.isActive = false;
+			}
+			if (currentCategory.categoryIndex > categoryToDelete.categoryIndex) {
+				currentCategory.categoryIndex = currentCategory.categoryIndex - 1;
+			}
+			categoriesList.push(currentCategory);
+			return categoriesList;
+		}, []);
+
+		this.categories = categoriesToUpsert.filter(category => category.id != categoryToDelete.id);
+		this.doUpsertCategoriesCall(categoriesToUpsert);
+	}
+
+	openDeleteCategoryDialog(categoryToDelete: Category) {
+		this.deleteCategoryModal = this.dialog.open(ModalComponent, {
+			hasBackdrop: false,
+			data: {
+				message: `Are you sure you want to delete ${categoryToDelete.name} category?
+				Notice that all related expenses will be deleted too.`
+			}
+		});
+		this.deleteCategoryModal
+			.afterClosed()
+			.subscribe(isActionConfirmed => {
+				if (isActionConfirmed)
+					this.deleteCategory(categoryToDelete);
+			});
 	}
 
 	// setInitialCategoriesOrder(currentUserCategories: Category[]): Category[] {

@@ -1,6 +1,7 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatCardModule, MatButtonModule } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA  } from '@angular/material';
 
 
 @Component({
@@ -9,32 +10,21 @@ import { MatCardModule, MatButtonModule } from '@angular/material';
 	styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-
-	@Input() message: string;
-	@Input() status: string;
-	@Output() onCloseModal = new EventEmitter();
-
-	buttonValue: string;
+	message: string;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
+		private dialogRef: MatDialogRef<ModalComponent>,
+		@Inject(MAT_DIALOG_DATA) private dialogData
 	) { }
 
 	ngOnInit() {
-		this.buttonValue = 'ok';
+		this.message = this.dialogData.message;
 	}
 
-	// is not used for now
-	getBorderColor(): string {
-		if (this.status === 'saved') {
-			return 'white';
-		} else {
-			return '#d50000';
-		}
+	confirmModalMessage() {
+		this.dialogRef.close(true);
 	}
 
-	closeModal() {
-		this.onCloseModal.emit({ value: this.status });
-	}
 }

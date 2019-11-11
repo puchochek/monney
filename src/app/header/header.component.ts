@@ -70,23 +70,23 @@ export class HeaderComponent implements OnInit {
 		});
 	}
 
-	countUserBalance() {
-		const incomeCategory = this.currentUser.categories.filter(category => category.isIncome);
-		const incomeCategoryId = incomeCategory[0].id;
-		if (incomeCategoryId && this.currentUser.expences.length !== 0) {
-			const expenses = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category !== incomeCategoryId));
-			const thisMonthExpences = this.dataService.getThisMonthTransactions(expenses);
-			const thisMonthExpensesSum = this.dataService.countCategoryTransactionsTotal(thisMonthExpences);
-			this.thisMonthExpensesSum = thisMonthExpensesSum;
+	// countUserBalance() {
+	// 	const incomeCategory = this.currentUser.categories.filter(category => category.isIncome);
+	// 	const incomeCategoryId = incomeCategory[0].id;
+	// 	if (incomeCategoryId && this.currentUser.expences.length !== 0) {
+	// 		const expenses = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category !== incomeCategoryId));
+	// 		const thisMonthExpences = this.dataService.getThisMonthTransactions(expenses);
+	// 		const thisMonthExpensesSum = this.dataService.countCategoryTransactionsTotal(thisMonthExpences);
+	// 		this.thisMonthExpensesSum = thisMonthExpensesSum;
 
-			const incomes = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category == incomeCategoryId));
-			const thisMonthIncomes = this.dataService.getThisMonthTransactions(incomes);
-			const thisMonthIncomesSum = this.dataService.countCategoryTransactionsTotal(thisMonthIncomes);
-			this.thisMonthIncomesSum = thisMonthIncomesSum;
+	// 		const incomes = this.dataService.orderTransactionsByDate(this.currentUser.expences.filter(expense => expense.category == incomeCategoryId));
+	// 		const thisMonthIncomes = this.dataService.getThisMonthTransactions(incomes);
+	// 		const thisMonthIncomesSum = this.dataService.countCategoryTransactionsTotal(thisMonthIncomes);
+	// 		this.thisMonthIncomesSum = thisMonthIncomesSum;
 
-			this.thisMonthBalanceSum = this.thisMonthIncomesSum - this.thisMonthExpensesSum;
-		}
-	}
+	// 		this.thisMonthBalanceSum = this.thisMonthIncomesSum - this.thisMonthExpensesSum;
+	// 	}
+	// }
 
 	setAvatar() {
 		if (this.currentUser.avatar) {

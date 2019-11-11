@@ -88,6 +88,7 @@ import { HomeComponent } from './home/home.component';
 		BalanceViewBalanceComponent,
 		BalanceManageExpensesComponent,
 		HomeComponent,
+		ModalComponent
 	],
 	imports: [
 		BrowserModule,
@@ -144,6 +145,6 @@ import { HomeComponent } from './home/home.component';
 		}
 	],
 	bootstrap: [AppComponent],
-	entryComponents: [AddCategoryModalComponent]
+	entryComponents: [AddCategoryModalComponent, ModalComponent]
 })
 export class AppModule { }
