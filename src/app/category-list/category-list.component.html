@@ -1,26 +1,30 @@
 <div class="categories-list-container">
-	<div class="categories-list-header">
-		<div class="categories-list-header-title">
-			Expense categories
-		</div>
-		<div class="categories-list-header-expenses">
-			<!-- TODO add expenses sum -->
-		</div>
-		<div class="categories-list-header-actions">
-			<mat-menu #rootMenu="matMenu">
-				<button mat-menu-item class="custom-menu" (click)="openAddCategoryModal()">Add new category</button>
-				<button mat-menu-item class="custom-menu"[matMenuTriggerFor]="subMenu">Sort categories by</button>
+	<div class="categories-list-header-container">
+		<div class="categories-list-header">
+			<div class="categories-list-header-title">
+				Expense categories
+			</div>
+			<div class="categories-list-header-expenses">
+				<!-- TODO add expenses sum -->
+			</div>
+			<div class="categories-list-header-actions">
+				<mat-menu #rootMenu="matMenu">
+					<button mat-menu-item class="custom-menu" (click)="openAddCategoryModal()">Add new category</button>
+					<button mat-menu-item class="custom-menu" [matMenuTriggerFor]="subMenu">Sort categories by</button>
 
-			</mat-menu>
+				</mat-menu>
 
-			<mat-menu #subMenu="matMenu">
-				<button mat-menu-item *ngFor="let menuItem of subMenuItems" (click)="sortCategoriesByField(menuItem)" class="custom-menu">{{menuItem}}</button>
-			</mat-menu>
+				<mat-menu #subMenu="matMenu">
+					<button mat-menu-item *ngFor="let menuItem of subMenuItems"
+						(click)="sortCategoriesByField(menuItem)" class="custom-menu">{{menuItem}}</button>
+				</mat-menu>
 
-			<button mat-icon-button [matMenuTriggerFor]="rootMenu">
-				<mat-icon class="header-menu-btn">menu</mat-icon>
-			</button>
+				<button mat-icon-button [matMenuTriggerFor]="rootMenu">
+					<mat-icon class="header-menu-btn">menu</mat-icon>
+				</button>
+			</div>
 		</div>
+
 	</div>
 	<div class="categories-list-content" *ngIf="categories?.length > 0 else noCategories">
 		<div class="categories-list" *ngFor="let category of categories">
@@ -37,8 +41,8 @@
 					</div>
 					<div class="category-actions-menu">
 						<mat-menu #appMenu="matMenu">
-							<button mat-menu-item class="custom-menu"
-								*ngFor="let menuItem of expenseMenuItems" (click)="menuItem.action(category)">{{menuItem.name}}</button>
+							<button mat-menu-item class="custom-menu" *ngFor="let menuItem of expenseMenuItems"
+								(click)="menuItem.action(category)">{{menuItem.name}}</button>
 						</mat-menu>
 						<button mat-icon-button [matMenuTriggerFor]="appMenu">
 							<mat-icon>more_horiz</mat-icon>

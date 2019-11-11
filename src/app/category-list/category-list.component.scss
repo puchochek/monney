@@ -9,18 +9,26 @@
 	height: calc(100vh - 10rem);
 }
 
-.categories-list-header {
+.categories-list-header-container {
 	position: relative;
 	display: block;
-	padding: 1% 1% 0 1%;
-	color: white;
-	font-size: 1.5rem;
+	//padding: 0 3% 0 3%;
 	width: 100%;
 	border-bottom: 1px solid #8e8e8e;
+	font-size: 1.5rem;
+}
+
+.categories-list-header {
+	color: white;
+	width: 100%;
 	display: grid;
 	grid-template-columns: 8fr 3fr 1fr;
 }
-
+.categories-list-header-title {
+	position: absolute;
+	bottom: 15%;
+	left: 3%;
+}
 .categories-list-header-actions {
 	text-align: right;
 }
@@ -46,7 +54,27 @@
 
 .header-menu-btn {
 	font-size: 2.6rem;
-	margin-right: 5px;
+	position: absolute;
+	bottom: 20%;
+	padding-left: 150%;
+}
+
+@media (max-width: 1450px) {
+	.header-menu-btn {
+		padding-left: 100%;
+	}
+}
+
+@media (max-width: 1200px) {
+	.header-menu-btn {
+		padding-left: 80%;
+	}
+}
+
+@media (max-width: 1000px) {
+	.header-menu-btn {
+		padding-left: 60%;
+	}
 }
 
 .category-item {
@@ -83,14 +111,17 @@
 	font-size: 1.5rem;
 }
 
-@media (max-width: 400px){
+
+
+@media (max-width: 400px) {
 	.categories-list-content {
 		grid-template-columns: 4fr 4fr;
 	}
 	.header-menu-btn {
 		font-size: 2rem;
+		padding-left: 5%;
 	}
-	.categories-list-header {
+	.categories-list-header-container {
 		font-size: .8rem;
 	}
     .categories-list-container {
@@ -103,6 +134,9 @@
     .categories-list-container {
 		height: calc(100vh - 5rem);
 		overflow-y: scroll;
+	}
+	.header-menu-btn {
+		padding-left: 3%;
 	}
 }
 

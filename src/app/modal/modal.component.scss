@@ -4,13 +4,18 @@
 }
 
 .modal {
-    background-color: #8e8e8e;
+    padding: 2%;
 }
 
-.modal-message {
+.modal-message, .mat-button {
     text-transform: uppercase;
     font-size: 1.3rem;
-    color: white;
-    padding: 5%;
+    padding: 0 2% 2% 2%;
 }
 
+@media (max-width: 400px){
+	.modal-message, .mat-button{
+        font-size: .8rem;
+        line-height: 15px;
+	}
+}
