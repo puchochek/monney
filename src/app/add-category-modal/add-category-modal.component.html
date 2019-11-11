@@ -1,10 +1,9 @@
-<div class="form-container">
+<div class="form-container" >
     <div class="category-form">
         <div class="title">{{title}}</div>
         <form id="category-form">
             <fieldset>
-                <input type="text" name="name" placeholder="Category name" required [(ngModel)]="name"
-                    value="categoryName">
+                <input type="text" name="name" placeholder="Category name" [(ngModel)]="name">
                     <textarea name="description" placeholder="Add a description" [(ngModel)]="description"></textarea>
             </fieldset>
             <input type="submit" value="Save" (click)="onSubmit()" />

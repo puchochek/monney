@@ -39,9 +39,9 @@
 	grid-template-columns: 4fr 4fr 4fr;
 	text-align: center;
 	// height: 45em;
-	// height: calc(100% - 10rem);
+	height: calc(100% - 3.5rem);
 	overflow-y: auto;
-	margin-top: 10px;
+	padding-top: 10px;
 }
 
 .header-menu-btn {

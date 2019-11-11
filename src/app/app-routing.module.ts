@@ -23,13 +23,14 @@ import { AddCategoryModalComponent } from './add-category-modal/add-category-mod
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/:category/:categoryId', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },
-    { path: 'categories/:category/:status', component: ModalComponent },
+    // { path: 'categories/:category/:status', component: ModalComponent },
     { path: 'login/:userName/:status', component: ModalComponent },
     { path: 'balance', component: BalanceComponent },
     { path: 'detail/:category', component: ExpenseDetailComponent },
     { path: 'activate/:token', component: ActivateUserComponent },
     { path: 'myprofile/:userid', component: UserProfileComponent },
     { path: 'category', component: AddCategoryModalComponent },
+    { path: 'category/:categoryId', component: AddCategoryModalComponent },
  ];
 
 @NgModule({

@@ -17,7 +17,7 @@ export class CategoryListComponent implements OnInit {
 	@Input() appUser: LoggedUser;
 
 	categories: Category[];
-	expenseMenuItems: string[] = [`Details`, `Edit`, `Delete`];
+	expenseMenuItems = [{ name: `Details`, action: `` }, { name: `Edit`, action: this.editCategory.bind(this) }, { name: `Delete`, action: `` }];
 	subMenuItems: string[] = [`name`, `date`, `sum`];
 
 	constructor(
@@ -137,6 +137,12 @@ export class CategoryListComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
+	}
+
+	editCategory(categoryToEdit: Category) {
+		if (categoryToEdit) {
+			this.router.navigate([`/category/${categoryToEdit.id}`]);
+		}
 	}
 
 	// setInitialCategoriesOrder(currentUserCategories: Category[]): Category[] {

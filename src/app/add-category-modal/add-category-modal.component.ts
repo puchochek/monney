@@ -2,13 +2,10 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ModalComponent } from '../modal/modal.component';
-import { FormControl } from '@angular/forms';
-import { FinanceData } from '../interfaces';
 import { Category } from '../interfaces';
-import { LoggedUser } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment'
+
 
 @Component({
 	selector: 'app-add-category-modal',
@@ -19,9 +16,8 @@ export class AddCategoryModalComponent implements OnInit {
 	@Input() name: string;
 	@Input() description: string;
 
-	title: string = `Add a new expense category`;
+	title: string;
 	categoryToUpdate: Category;
-	//currentUser: LoggedUser;
 
 	constructor(
 		private dataService: DataService,
@@ -32,36 +28,48 @@ export class AddCategoryModalComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.dataService.categoryToUpsert.subscribe((response) => {
-			console.log('---> response ', response );
-			if (response) {
+		const categoryToEditId = this.route.snapshot.paramMap.get('categoryId');
+		if (categoryToEditId) {
+			this.http.get(`${environment.apiBaseUrl}/category/` + categoryToEditId).subscribe((response: Category) => {
 				this.categoryToUpdate = <Category>response;
-			}
-		});
+				this.title = `Edit category`;
+				this.setInitialCategoryValues();
+			});
+		} else {
+			this.title = `Add a new expense category`;
+		}
+	}
+
+	setInitialCategoryValues() {
+		if (this.categoryToUpdate.name) {
+			this.name = this.categoryToUpdate.name;
+		}
+		if (this.categoryToUpdate.description) {
+			this.description = this.categoryToUpdate.description;
+		}
 	}
 
 	onSubmit() {
 		console.log('---> this.categoryToUpsert ', this.categoryToUpdate);
 		if (this.categoryToUpdate) {
-			console.log('---> this.categoryToUpsert ', this.categoryToUpdate);
 			const categoryToUpsert = {
-				user : this.categoryToUpdate.user,
-				description : this.description,
-				id : this.categoryToUpdate.id,
-				name : this.name,
-				categoryIndex : this.categoryToUpdate.categoryIndex,
-				isActive : this.categoryToUpdate.isActive,
-				isIncome : this.categoryToUpdate.isIncome
+				user: this.categoryToUpdate.user,
+				description: this.description,
+				id: this.categoryToUpdate.id,
+				name: this.name,
+				categoryIndex: this.categoryToUpdate.categoryIndex,
+				isActive: this.categoryToUpdate.isActive,
+				isIncome: this.categoryToUpdate.isIncome
 			}
 			this.upsertCategory(categoryToUpsert);
 		} else {
-			console.log('---> else' );
+			console.log('---> else');
 			const categoryToUpsert = {
-				user : localStorage.getItem(`userId`),
-				description : this.description,
-				name : this.name,
-				isActive : true,
-				isIncome : false
+				user: localStorage.getItem(`userId`),
+				description: this.description,
+				name: this.name,
+				isActive: true,
+				isIncome: false
 			}
 			this.upsertCategory(categoryToUpsert);
 		}

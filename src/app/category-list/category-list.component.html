@@ -38,7 +38,7 @@
 					<div class="category-actions-menu">
 						<mat-menu #appMenu="matMenu">
 							<button mat-menu-item class="custom-menu"
-								*ngFor="let menuItem of expenseMenuItems">{{menuItem}}</button>
+								*ngFor="let menuItem of expenseMenuItems" (click)="menuItem.action(category)">{{menuItem.name}}</button>
 						</mat-menu>
 						<button mat-icon-button [matMenuTriggerFor]="appMenu">
 							<mat-icon>more_horiz</mat-icon>
