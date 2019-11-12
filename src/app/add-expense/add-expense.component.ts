@@ -109,7 +109,7 @@ export class AddExpenseComponent implements OnInit {
 	saveNewExpence(newExpence: any) {
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
-		const requestUrl = `${environment.apiBaseUrl}/expence/create`;
+		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
 			: `/home`;
@@ -135,7 +135,7 @@ export class AddExpenseComponent implements OnInit {
 			isDeleted: this.transactionToEdit.isDeleted,
 			date: transaction.date
 		};
-		const requestUrl = `${environment.apiBaseUrl}/expence/edit`;
+		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
 		const navigateUrl = this.transactionName === `income` ?
 			`/balance`
 			: `/home`;

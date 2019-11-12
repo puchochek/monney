@@ -9,10 +9,6 @@ import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
-import { MatMenuModule, MatButtonModule } from '@angular/material';
-
 @Component({
 	selector: 'app-category-list',
 	templateUrl: './category-list.component.html',
@@ -20,13 +16,17 @@ import { MatMenuModule, MatButtonModule } from '@angular/material';
 })
 export class CategoryListComponent implements OnInit {
 	@Input() appUser: LoggedUser;
+
 	deleteCategoryModal: MatDialogRef<ModalComponent>;
-
+	thisMonthExpensesTotal: number;
 	categories: Category[];
-	expenseMenuItems = [{ name: `Details`, action: `` }, { name: `Edit`, action: this.editCategory.bind(this) }, { name: `Delete`, action: this.callDeleteConfirmationModal.bind(this) }];
-	subMenuItems: string[] = [`name`, `date`, `sum`];
 
-	
+	expenseMenuItems = [
+		{ name: `Details`, action: this.openExpensesDetailComponent.bind(this) },
+		{ name: `Edit`, action: this.editCategory.bind(this) },
+		{ name: `Delete`, action: this.callDeleteConfirmationModal.bind(this) }
+	];
+	subMenuItems: string[] = [`name`, `date`, `sum`];
 
 	constructor(
 		private http: HttpClient,
@@ -39,9 +39,13 @@ export class CategoryListComponent implements OnInit {
 	ngOnInit() {
 		console.log('---> appUser CatList ', this.appUser);
 		this.buildCategoriesList();
+		this.setThisMonthExpensesTotal();
 	}
 
-	
+	setThisMonthExpensesTotal() {
+		console.log('---> appUser SET TOTAL ', this.appUser);
+		//const incomeCategoryId = [...this.appUser.categories].filter(category => category.isIncome)[0].id;
+	}
 
 	buildCategoriesList() {
 		if (this.appUser.categories) {
@@ -103,7 +107,7 @@ export class CategoryListComponent implements OnInit {
 
 	sortCategoriesBySum() {
 		const expenseCategories = [...this.categories];
-		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.appUser.expences]);
+		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.appUser.transactions]);
 		const expensesByCategory = expenseCategories.reduce((expensesList, currentCategory) => {
 			const thisCategoryExpenses = thisMonthExpenses.filter(expense => expense.category === currentCategory.id);
 			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses);
@@ -133,22 +137,6 @@ export class CategoryListComponent implements OnInit {
 		});
 		const categoriesToUpsert = [...this.categories];
 		this.doUpsertCategoriesCall(categoriesToUpsert);
-		// this.http.post(requestUrl, {
-		// 	categoriesToUpsert: categoriesToUpsert
-		// }, { observe: 'response' }
-		// ).subscribe(
-		// 	response => {
-		// 		const upsertedCategories = <Category>response.body;
-		// 		this.dataService.updateToken(response.headers.get('Authorization'));
-		// 	},
-		// 	error => {
-		// 		console.log('---> UPSERT CAT ', error);
-		// 	},
-		// 	() => {
-		// 		// 'onCompleted' callback.
-		// 		// No errors, route to new page here
-		// 	}
-		// );
 	}
 
 	doUpsertCategoriesCall(categoriesToUpsert: Category[]) {
@@ -189,7 +177,6 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	callDeleteConfirmationModal(categoryToDelete: Category) {
-		console.log('---> categoryToDelete', categoryToDelete);
 		this.openDeleteCategoryDialog(categoryToDelete);
 	}
 
@@ -223,6 +210,12 @@ export class CategoryListComponent implements OnInit {
 				if (isActionConfirmed)
 					this.deleteCategory(categoryToDelete);
 			});
+	}
+
+	openExpensesDetailComponent(category: Category) {
+		if (category) {
+			this.router.navigate([`/detail/${category.id}`]);
+		}
 	}
 
 	// setInitialCategoriesOrder(currentUserCategories: Category[]): Category[] {

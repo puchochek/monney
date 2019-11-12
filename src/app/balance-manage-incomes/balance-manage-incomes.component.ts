@@ -50,8 +50,8 @@ export class BalanceManageIncomesComponent implements OnInit {
 				this.incomeCategoryId = incomeCategory[0].id;
 			}
 		}
-		if (this.incomeCategoryId && this.appUser.expences.length !== 0) {
-			this.incomes = this.dataService.orderTransactionsByDate(this.appUser.expences.filter(expense => expense.category === this.incomeCategoryId));
+		if (this.incomeCategoryId && this.appUser.transactions.length !== 0) {
+			this.incomes = this.dataService.orderTransactionsByDate(this.appUser.transactions.filter(expense => expense.category === this.incomeCategoryId));
 			this.incomesToDisplay = this.incomes;
 		}
 	}

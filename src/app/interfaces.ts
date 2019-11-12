@@ -20,9 +20,9 @@ export interface Category {
 	isIncome: boolean;
 }
 
-export interface ExpencesData {
+export interface TransactionsData {
 	category: string;
-	expences: FinanceData[];
+	transactions: FinanceData[];
 	total: number;
 }
 
@@ -34,5 +34,5 @@ export interface LoggedUser {
 	email: string;
 	isConfirmed: boolean;
 	categories: Category[];
-	expences: FinanceData[];
+	transactions: FinanceData[];
 }

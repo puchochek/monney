@@ -1,16 +1,64 @@
+@font-face {
+	font-family: capture;
+	src: url('../../assets/fonts/capture.ttf') format('opentype');
+}
+
 .home-page-content {
 	display: grid;
 	grid-template-columns: 2fr 10fr;
-	// height: 100vh;
-	// width: 100vw;
+	margin: 1%;
 }
 
 .categories-list-container {
 	background: transparent;
-	margin: 3%;
-	border-radius: 8px;
 	border-radius: 8px;
     border: 1px solid white;
-	z-index: 1;
+}
 
+.manage-incomes-container, .profile-settings-container, .manage-reports-container {
+	background: transparent;
+	border-radius: 8px;
+    border: 1px solid white;
+}
+
+.manage-incomes-container, .profile-settings-container {
+	height: 24%;
+}
+.divider {
+	height: 1%;
+}
+
+.manage-reports-container {
+	height: 50%;
+}
+
+.navigation-zone {
+	height: 100%;
+	margin-right: 2%;
+}
+
+.manage-incomes {
+    text-transform: uppercase;
+	background: transparent;
+	font-family: capture;
+}
+.manage-incomes-header {
+    color: white;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #757575;
+}
+.manage-incomes-title {
+	padding: 1% 0 1% 3%;
+}
+.manage-incomes-content {
+    text-align: right;
+    color: white;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 1000px) {
+	.home-page-content {
+		display: grid;
+		grid-template-columns: 4fr 8fr;
+	}
 }

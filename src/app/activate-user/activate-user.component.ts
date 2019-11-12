@@ -31,10 +31,39 @@ export class ActivateUserComponent implements OnInit {
 			console.log('---> activateUser result ', response);
 			if (response) {
 				this.dataService.updateToken(token);
-				this.router.navigate(['/myprofile/' + response.id]);
+				this.createIncomeCategoryForNewUser(response.id);
+				this.router.navigate(['/home']);
 			} else {
 				// TODO add error modal
 			}
 		});
+	}
+
+	createIncomeCategoryForNewUser(userId: string) {
+		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
+		const categoriesToUpsert = [{
+			name: `income`,
+			description: `The category keeps users' incomes data`,
+			user: userId,
+			isActive: true,
+			isIncome: true
+		}];
+		this.http.post(requestUrl, {
+			categoriesToUpsert: categoriesToUpsert
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				console.log('---> createIncomeCategoryForNewUser  response ', response);
+			},
+			error => {
+				console.log('---> createIncomeCategoryForNewUser ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+
+
 	}
 }

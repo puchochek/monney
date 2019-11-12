@@ -3,15 +3,11 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { MatCardModule, MatButtonModule, throwToolbarMixedModesError } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-// import { HttpService } from '../http.service';
 import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
 import { ScreenService } from '../screen.service';
-
 import { Subscription } from 'rxjs';
-import { Subject } from "rxjs"
-// import { takeUntil } from "rxjs/operators"
-
+import { Subject, BehaviorSubject } from "rxjs"
 
 @Component({
 	selector: 'app-header',

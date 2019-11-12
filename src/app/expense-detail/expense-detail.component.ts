@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
-import { FinanceData } from '../interfaces';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
+import { LoggedUser } from '../interfaces';
+import { ScreenService } from '../screen.service';
+import { FinanceData } from '../interfaces';
+import { Category } from '../interfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-expense-detail',
@@ -12,24 +15,42 @@ import { environment } from '../../environments/environment'
 	styleUrls: ['./expense-detail.component.scss']
 })
 export class ExpenseDetailComponent implements OnInit {
+	currentUser: LoggedUser;
+	categoryName: string;
+	categoryDescription: string;
+	categoryId: string;
+	private subscription: Subscription;
 
-	selectedCategory: string;
-	expensesByCategory: FinanceData[];
-	isEmptyExpencesList: boolean;
-	isExpencesList: boolean;
-
+	expenses: FinanceData[];
 	constructor(
 		private http: HttpClient,
-		private route: ActivatedRoute,
+		private dataService: DataService,
 		private router: Router,
-		private data: DataService
+		private route: ActivatedRoute,
 	) { }
 
 	ngOnInit() {
-		// const selectedCategory = this.route.snapshot.paramMap.get('category');
-		// this.selectedCategory = selectedCategory;
+		this.categoryId = this.route.snapshot.paramMap.get('category');
+		this.subscription = this.dataService.loggedUser.subscribe((response) => {
+			console.log('---> DETAIL call subscription' );
+			if (response) {
+				console.log('--->  DETAIL FROM SERVICE loggedUser INIT', response);
+				this.currentUser = response;
+				this.setInitialData();
+			} else {
+				this.router.navigate(['/hello-monney']);
+			}
+		});
+	}
 
-		// this.connectDataBase();
+	ngOnDestroy() {
+		this.subscription.unsubscribe();
+	}
+
+	setInitialData() {
+		const currentCategory = [...this.currentUser.categories].filter(category => category.id === this.categoryId)[0];
+		this.categoryName = currentCategory.name;
+		this.categoryDescription = currentCategory.description;
 	}
 
 	connectDataBase() {
@@ -51,13 +72,13 @@ export class ExpenseDetailComponent implements OnInit {
 	}
 
 	//formatResponseDate(response: FinanceData[]): FinanceData[] {
-		// const formattedResponse = response.reduce(function (resultArray, currentExpense) { //do I need replace this method to servis?
-		//   currentExpense.date = currentExpense.date.substring(0, 10);
-		//   resultArray.push(currentExpense);
-		//   return resultArray;
-		// }, []);
+	// const formattedResponse = response.reduce(function (resultArray, currentExpense) { //do I need replace this method to servis?
+	//   currentExpense.date = currentExpense.date.substring(0, 10);
+	//   resultArray.push(currentExpense);
+	//   return resultArray;
+	// }, []);
 
-		// return formattedResponse;
+	// return formattedResponse;
 
 	// 	return this.data.formatResponseDate(response);
 	// }

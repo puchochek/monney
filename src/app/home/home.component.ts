@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
-						console.log('---> HEADER response ', response);
+						console.log('---> HOME response ', response);
 						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 					},

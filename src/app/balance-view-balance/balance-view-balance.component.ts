@@ -30,7 +30,7 @@ export class BalanceViewBalanceComponent implements OnInit {
 		this.incomesLabel = `incomes:`;
 		this.expensesLabel = `expenses:`;
 		const categories = this.appUser.categories;
-		const thisMonthTransaction = this.appUser.expences.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
+		const thisMonthTransaction = this.appUser.transactions.filter(expense => new Date(expense.date).getMonth() === this.currentDate.getMonth());
 		const incomeCategory = categories.filter(category => category.name === 'income');
 		const thisMonthTransactionByType = this.dataService.sortTransactions(incomeCategory[0].id, thisMonthTransaction);
 

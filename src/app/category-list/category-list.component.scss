@@ -6,13 +6,12 @@
 .categories-list-container {
 	font-family: capture;
 	color: white;
-	height: calc(100vh - 10rem);
+	height: calc(100vh - 8rem);
 }
 
 .categories-list-header-container {
 	position: relative;
 	display: block;
-	//padding: 0 3% 0 3%;
 	width: 100%;
 	border-bottom: 1px solid #8e8e8e;
 	font-size: 1.5rem;
@@ -22,15 +21,16 @@
 	color: white;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 8fr 3fr 1fr;
+	grid-template-columns: 4fr 1fr 7fr;
 }
 .categories-list-header-title {
 	position: absolute;
 	bottom: 15%;
-	left: 3%;
+	left: 5%;
 }
+
 .categories-list-header-actions {
-	text-align: right;
+	text-align: left;
 }
 
 .sort-menu-btn:hover {
@@ -46,40 +46,20 @@
 	display: grid;
 	grid-template-columns: 4fr 4fr 4fr;
 	text-align: center;
-	// height: 45em;
-	height: calc(100% - 3.5rem);
+	height: calc(100% - 3rem);
 	overflow-y: auto;
-	padding-top: 10px;
+	//padding-top: 10px;
 }
 
 .header-menu-btn {
-	font-size: 2.6rem;
+	font-size: 2rem;
 	position: absolute;
 	bottom: 20%;
-	padding-left: 150%;
-}
-
-@media (max-width: 1450px) {
-	.header-menu-btn {
-		padding-left: 100%;
-	}
-}
-
-@media (max-width: 1200px) {
-	.header-menu-btn {
-		padding-left: 80%;
-	}
-}
-
-@media (max-width: 1000px) {
-	.header-menu-btn {
-		padding-left: 60%;
-	}
 }
 
 .category-item {
 	display: inline-block;
-	margin: 1%;
+	padding-top: 10%;
 }
 
 .igx-avatar{
@@ -111,7 +91,33 @@
 	font-size: 1.5rem;
 }
 
+::ng-deep .mat-tooltip {
+	font-size: 14px;
+}
 
+@media (max-width: 1500px) {
+	// .categories-list-header-title {
+	// 	left: 5%;
+	// }
+}
+
+@media (max-width: 1350px) {
+	.categories-list-header-title {
+		left: 6%;
+	}
+}
+
+@media (max-width: 1120px) {
+	.categories-list-header-title {
+		left: 10%;
+	}
+}
+@media (max-width: 750px) {
+	.categories-list-header-title {
+		left: 20%;
+		font-size: 1rem;
+	}
+}
 
 @media (max-width: 400px) {
 	.categories-list-content {
@@ -119,7 +125,7 @@
 	}
 	.header-menu-btn {
 		font-size: 2rem;
-		padding-left: 5%;
+		//padding-left: 5%;
 	}
 	.categories-list-header-container {
 		font-size: .8rem;
@@ -127,6 +133,19 @@
     .categories-list-container {
 		height: calc(100vh - 8rem);
 		overflow-y: scroll;
+	}
+	.categories-list-header-title {
+		left: 15%;
+	}
+	.mat-icon-button {
+		width: 30px;
+	}
+}
+
+@media (max-width: 375px) {
+	.categories-list-header-title {
+		left: 20%;
+		font-size: .8rem;
 	}
 }
 
@@ -136,7 +155,11 @@
 		overflow-y: scroll;
 	}
 	.header-menu-btn {
-		padding-left: 3%;
+		font-size: 1.5rem;
+	}
+	.categories-list-header-title {
+		//padding-left: 5%;
+		font-size: .8rem;
 	}
 }
 

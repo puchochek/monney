@@ -2,10 +2,7 @@
 	<div class="categories-list-header-container">
 		<div class="categories-list-header">
 			<div class="categories-list-header-title">
-				Expense categories
-			</div>
-			<div class="categories-list-header-expenses">
-				<!-- TODO add expenses sum -->
+				Expenses
 			</div>
 			<div class="categories-list-header-actions">
 				<mat-menu #rootMenu="matMenu">
@@ -19,9 +16,12 @@
 						(click)="sortCategoriesByField(menuItem)" class="custom-menu">{{menuItem}}</button>
 				</mat-menu>
 
-				<button mat-icon-button [matMenuTriggerFor]="rootMenu">
+				<button mat-icon-button [matMenuTriggerFor]="rootMenu" matTooltip="Manage expense categories">
 					<mat-icon class="header-menu-btn">menu</mat-icon>
 				</button>
+			</div>
+			<div class="categories-list-header-expenses">
+				{{thisMonthExpensesTotal}}
 			</div>
 		</div>
 
@@ -32,7 +32,8 @@
 				<div class="category-avatar">
 					<igx-avatar initials={{category.initials}} roundShape="true" bgColor={{category.bgColor}}
 						color={{category.color}} class="category-avatar"
-						routerLink="/categories/{{category.name}}/{{category.id}}">
+						routerLink="/categories/{{category.name}}/{{category.id}}"
+						matTooltip="Add new expense">
 					</igx-avatar>
 				</div>
 				<div class="category-details">
@@ -44,7 +45,7 @@
 							<button mat-menu-item class="custom-menu" *ngFor="let menuItem of expenseMenuItems"
 								(click)="menuItem.action(category)">{{menuItem.name}}</button>
 						</mat-menu>
-						<button mat-icon-button [matMenuTriggerFor]="appMenu">
+						<button mat-icon-button [matMenuTriggerFor]="appMenu" matTooltip="More ations">
 							<mat-icon>more_horiz</mat-icon>
 						</button>
 					</div>
