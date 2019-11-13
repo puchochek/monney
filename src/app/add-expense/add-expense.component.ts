@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ModalComponent } from '../modal/modal.component';
 import { FormControl } from '@angular/forms';
 import { FinanceData } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment'
-
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-add-expense',
@@ -37,6 +36,7 @@ export class AddExpenseComponent implements OnInit {
 	serializedDate = new FormControl((new Date()).toISOString());
 	maxDate = new Date();
 	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
+	private sbscr: Subscription;
 
 	constructor(
 		private dataService: DataService,
@@ -45,12 +45,18 @@ export class AddExpenseComponent implements OnInit {
 		private router: Router,
 		private snackBar: MatSnackBar,
 	) { }
-	//TODO mobile view!!!
+
 	ngOnInit() {
-		this.route.queryParams.subscribe(params => {
-			this.transactionToEdit = <FinanceData>params;
-		});
-		this.isEdit = Object.keys(this.transactionToEdit).length === 0 ? false : true;
+		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
+
+		if (this.isEdit) {
+			this.sbscr = this.dataService.categoryToUpsert.subscribe((response) => {
+				console.log('--->  ADD EXPENSE FROM SERVICE categoryToUpsert INIT', response);
+				if (response) {
+					this.transactionToEdit = <FinanceData>response;
+				}
+			});
+		}
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.category = selectedCategory;
 		this.addNewAction = `Add new`;
@@ -68,6 +74,12 @@ export class AddExpenseComponent implements OnInit {
 		}
 	}
 
+	ngOnDestroy() {
+		if (this.sbscr) {
+			this.sbscr.unsubscribe();
+		}
+	}
+
 	onSubmit() {
 		const newExpence = {
 			sum: this.sum,
@@ -76,7 +88,6 @@ export class AddExpenseComponent implements OnInit {
 			date: this.date.value,
 		};
 		if (this.validateSum(newExpence.sum)) {
-			console.log('---> sum is valid ', this.sum);
 			if (this.isEdit) {
 				this.editTransaction(newExpence);
 			} else {
@@ -85,10 +96,11 @@ export class AddExpenseComponent implements OnInit {
 		}
 	}
 
-	closeModal(event) {
-		this.isEdit = false;
-		if (event.value === 'saved') {
-			this.router.navigate(['/home']);
+	closeModal() {
+		if (this.isEdit && this.transactionName !== `income`) {
+			this.router.navigate([`/detail/${this.transactionToEdit.category}`]);
+		} else {
+			this.router.navigate([`/home`]);
 		}
 	}
 
@@ -136,9 +148,16 @@ export class AddExpenseComponent implements OnInit {
 			date: transaction.date
 		};
 		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
-		const navigateUrl = this.transactionName === `income` ?
-			`/balance`
-			: `/home`;
+		let navigateUrl: string;
+		if (this.transactionName === `income`) {
+			navigateUrl = `/balance`; //TODO Change
+		}
+		if (this.transactionName !== `income` && this.transactionToEdit) {
+			navigateUrl = `/detail/${this.transactionToEdit.category}`;
+		}
+		if (this.transactionName !== `income` && !this.transactionToEdit) {
+			navigateUrl = `/home`;
+		}
 		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
 
@@ -147,16 +166,9 @@ export class AddExpenseComponent implements OnInit {
 		let action: string;
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
+		const transactionsToUpsert = [transaction];
 		this.http.post(requestUrl, {
-			comment: transaction.comment,
-			id: transaction.id || '',
-			sum: transaction.sum,
-			category: transaction.category,
-			userId: userId,
-			user: userId,
-			isDeleted: transaction.isDeleted,
-			date: transaction.date,
-			categoryId: categoryId
+			transactionsToUpsert: transactionsToUpsert
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
@@ -167,7 +179,7 @@ export class AddExpenseComponent implements OnInit {
 					duration: 5000,
 				});
 				this.savedExpense = <FinanceData>response.body;
-				console.log('---> SAVE EXP savedExpense ', this.savedExpense);
+				console.log('---> ADD EXP savedExpense ', this.savedExpense);
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.router.navigate([navigateUrl]);
 			},

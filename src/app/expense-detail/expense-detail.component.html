@@ -1,73 +1,73 @@
-<div class="expenses-container">
+<div class="expenses-container" *ngIf="currentUser">
 	<div class="expenses-header">
-		<div class="expenses-name">
-			{{categoryName}}
+		<div class="expenses-header-title">
+			<div class="expenses-name">
+				{{categoryName}}
+			</div>
+			<div class="expenses-description" *ngIf="categoryDescription">
+				{{categoryDescription}}
+			</div>
 		</div>
-		<div class="expenses-description" *ngIf="categoryDescription">
-			{{categoryDescription}}
-		</div>
+		<div class="expenses-header-info">
+			<div class="expenses-header-total">
+				{{expensesTotalLabel}} {{expensesTotal}}
+			</div>
+			<div class="expenses-date-pagination">
+				<div class="expenses-from-date">
+					<mat-form-field>
+						<input matInput [matDatepicker]="fromDate" [formControl]="fromDateValue" [max]="maxFromDate" (dateInput)="onDateInputFrom($event)" >
+						<mat-placeholder class="placeholder">FROM</mat-placeholder>
+						<mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+						<mat-datepicker #fromDate></mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="expenses-to-date">
+					<mat-form-field>
+						<input matInput [matDatepicker]="toDate" [formControl]="toDateValue" [max]="maxToDate" (dateInput)="onDateInputTo($event)">
+						<mat-placeholder class="placeholder">TO</mat-placeholder>
+						<mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+						<mat-datepicker #toDate></mat-datepicker>
+					</mat-form-field>
+				</div>
 
+			</div>
+		</div>
 	</div>
-	hello
-	<!-- <div class="expenses-container">
-		<div class="actions-container">
-			<div class="new-category-btn">
-				<input type="button" value="someBtn" (click)="openAddCategoryModal()" />
-			</div>
-			<div class="pagination-area">
-				<div class="pagination-btn" id="left-pagination">
-					<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Pagination left"
-						(click)="showPreviouseCategories()">keyboard_arrow_left
-					</mat-icon>
-				</div>
-				<div calss="pagination-pages-number">
-					{{pageNumber}} of {{pageAmount}} pages
-				</div>
-				<div class="pagination-btn" id="right-pagination">
-					<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Pagination right"
-						(click)="showNextCategories()">keyboard_arrow_right
-					</mat-icon>
-				</div>
-			</div>
-		</div>
-
-		<div class="user-expenses user-expenses-message" *ngIf="expenses else noExpenses">
-			<div class="expenses-table-header-container">
-				<ng-container *ngFor="let header of headers">
-					<div class="expenses-table-container expenses-table-header">
-						<div class="expenses-table-header-cell">
-							{{header}}
-							<mat-icon *ngIf="header === 'Name'" class="expenses-table-actions-icon" aria-hidden="false"
-								aria-label="Save icon" (click)="sortCategoriesByName()">swap_vert
-							</mat-icon>
-						</div>
-					</div>
-				</ng-container>
-			</div>
-			<ng-container *ngFor="let expense of expenses">
-				<div class="expenses-table-container">
-					<div class="expenses-table-cell">
-						{{expense.name}}
-					</div>
-					<div class="expenses-table-cell">
-						{{expense.description}}
-					</div>
-					<div class="expenses-table-cell expenses-table-actions-cell">
-						<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Edit icon"
-							(click)="openEditCategoryModal(category)">edit</mat-icon>
-						<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Delete icon"
-							(click)="deleteCategory(category)">delete</mat-icon>
+	<div class="expenses-header-content" *ngIf="expensesToDisplay else noExpensesToDisplay">
+		<div class="expenses-table-header-container">
+			<ng-container *ngFor="let header of headers">
+				<div class="expenses-table-container expenses-table-header">
+					<div class="expenses-table-header-cell">
+						{{header}}
+						<mat-icon *ngIf="header === 'Date' || header === 'Sum'" class="expenses-table-actions-icon"
+							aria-hidden="false" aria-label="Save icon" (click)="sortExpenses(header)">swap_vert
+						</mat-icon>
 					</div>
 				</div>
-				<mat-divider></mat-divider>
 			</ng-container>
 		</div>
-		<ng-template #noExpenses>
-			<div class="greetings user-expenses-message">
-				{{greetingMessage}}
+		<ng-container *ngFor="let expense of expensesToDisplay">
+			<div class="expenses-table-container">
+				<div class="expenses-table-cell">
+					{{ expense.date | date }}
+				</div>
+				<div class="expenses-table-cell">
+					{{expense.comment}}
+				</div>
+				<div class="expenses-table-cell">
+					{{expense.sum}}
+				</div>
+				<div class="expenses-table-cell expenses-table-actions-cell">
+					<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Edit icon"
+						(click)="editExpense(expense)" matTooltip="Edit expense">edit</mat-icon>
+					<mat-icon class="expenses-table-actions-icon" aria-hidden="false" aria-label="Delete icon"
+						(click)="openDeleteCategoryDialog(expense)" matTooltip="Delete expense">delete</mat-icon>
+				</div>
 			</div>
-			<div class="user-expenses-message">{{noCategoriesMessage}}</div>
-		</ng-template>
-
-	</div> -->
+			<mat-divider></mat-divider>
+		</ng-container>
+	</div>
+	<ng-template #noExpensesToDisplay>
+		<div class="user-expenses-message">{{noCategoriesMessage}}</div>
+	</ng-template>
 </div>

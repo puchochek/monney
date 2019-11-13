@@ -21,7 +21,7 @@ import { AddCategoryModalComponent } from './add-category-modal/add-category-mod
     { path: 'autorize', component: LoginFormComponent },
     { path: 'home', component: HomeComponent },
     { path: 'categories', component: CategoryListComponent },
-    { path: 'categories/:category/:categoryId', component: AddExpenseComponent },
+    { path: 'categories/:category/:action/:categoryId', component: AddExpenseComponent },
     { path: 'categories/Income', component: AddExpenseComponent },
     // { path: 'categories/:category/:status', component: ModalComponent },
     { path: 'login/:userName/:status', component: ModalComponent },

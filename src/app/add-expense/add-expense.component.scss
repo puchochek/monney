@@ -3,32 +3,7 @@
     src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
 }
 
-// #test > .mat-grid-tile .mat-figure {
-// 	justify-content: flex-start !important;
-// }
-
-// ::ng-deep.mat-grid-tile .mat-figure {
-// 	justify-content: flex-start !important;
-//  }
-
-//  .mat-focused .placeholder, .mat-focused, .dummy-input-field{
-//     color:black;
-//     // font-size: 1.5rem;
-// }
-
-// ::ng-deep .mat-form-field-underline{
-//     display: none;
-// }
-
-// ::ng-deep .mat-datepicker-toggle{
-// 	color:red;
-//  }
-
-// ::ng-deep .mat-form-field-infix {
-//     border-bottom: 1px solid black;
-// }
-
-.category-form {
+.expense-form {
 	max-width: 500px;
 	padding: 10px 20px;
 	background: #f4f7f8;
@@ -37,27 +12,21 @@
 	border-radius: 8px;
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
-.category-form fieldset {
+.expense-form fieldset {
 	border: none;
 }
-.category-form legend {
+.expense-form legend {
 	font-size: 1.4em;
 	margin-bottom: 10px;
 }
-.category-form label {
+.expense-form label {
 	display: block;
 	margin-bottom: 8px;
 }
-.category-form input[type="text"],
-.category-form input[type="date"],
-.category-form input[type="datetime"],
-.category-form input[type="email"],
-.category-form input[type="number"],
-.category-form input[type="search"],
-.category-form input[type="time"],
-.category-form input[type="url"],
-.category-form textarea,
-.category-form select {
+.expense-form input[type="text"],
+.expense-form input[type="date"],
+.expense-form input[type="number"],
+.expense-form textarea {
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 	background: rgba(255,255,255,.1);
 	border: none;
@@ -76,21 +45,15 @@
 	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	margin-bottom: 30px;
 }
-.category-form input[type="text"]:focus,
-.category-form input[type="date"]:focus,
-.category-form input[type="datetime"]:focus,
-.category-form input[type="email"]:focus,
-.category-form input[type="number"]:focus,
-.category-form input[type="search"]:focus,
-.category-form input[type="time"]:focus,
-.category-form input[type="url"]:focus,
-.category-form textarea:focus,
-.category-form select:focus {
+.expense-form input[type="text"]:focus,
+.expense-form input[type="date"]:focus,
+.expense-form input[type="number"]:focus,
+.expense-form textarea:focus {
 	background: #d2d9dd;
 }
 
-.category-form input[type="submit"],
-.category-form input[type="button"] {
+.expense-form input[type="submit"],
+.expense-form input[type="button"] {
 	position: relative;
 	display: block;
 	padding: 19px 39px 18px 39px;
@@ -105,8 +68,8 @@
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
 }
-.category-form input[type="submit"]:hover,
-.category-form input[type="button"]:hover {
+.expense-form input[type="submit"]:hover,
+.expense-form input[type="button"]:hover {
 	background: #8e8e8e;
 }
 
@@ -128,6 +91,36 @@
 	color: red;
 	padding: 2% 0;
 	margin-top: -6%;
+}
+
+.new-expence-header {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+.new-expence-category-name {
+	position: absolute;
+	bottom: 40%;
+	left: 35%;
+	text-transform: uppercase;
+	font-size: 1.4em;
+}
+
+.new-expence-category {
+	position: relative;
+	padding: 0 5%;
+
+}
+
+@media (max-width: 400px) {
+	.expense-form {
+		margin: 5%;
+	}
+	.fieldset-legend {
+		width: 10%;
+	}
+	.new-expence-category-name {
+		font-size: 1em;
+	}
 }
 
 
