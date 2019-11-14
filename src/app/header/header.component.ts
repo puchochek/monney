@@ -72,5 +72,6 @@ export class HeaderComponent implements OnInit {
 	logOut() {
 		this.router.navigate([`/hello-monney`]);
 		this.dataService.cleanLocalstorage();
+		this.isAvatar = false;
 	}
 }
