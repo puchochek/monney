@@ -2,82 +2,46 @@
   font-family: capture;
   src: url("../../assets/fonts/capture.ttf") format("opentype");
 }
-
 .header-container {
 	display: grid;
-	grid-template-columns: 2fr 5fr 5fr;
+	grid-template-columns: 3fr 9fr;
 	border-bottom: 1px solid #8e8e8e;
 }
 .header-avatar {
 	text-align: left;
 }
-
-.header-nav {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	text-align: center;
-	height: 70px;
-	background: transparent;
-	color: white;
-	font-family: capture;
+.igx-avatar {
+	height: 45px;
+	width: 45px;
+	margin: 2%;
 }
-
-.header-nav-item {
-	height: 70px;
-	background: transparent;
-	color: white;
-	font-size: 1.5rem;
-}
-
-.igx-avatar{
-	height: 70px;
-	width: 70px;
-	margin: 0 2%;
-}
-
-.header-balance-info {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+.date {
+	text-align: right;
 	color: white;
 	text-transform: uppercase;
-	font-size: 1rem;
+	font-size: 1.5rem;
+	padding: 2% 2% 0 0;
+	font-family: capture;
 }
-
-.header-balance-incomes, .header-balance-expenses, .header-balance-total{
-	padding: 0 5%;
+.profile-menu-btn {
+	color: white;
+	font-size: 2.5rem;
 }
-
-.balance-info-label {
-	border-bottom: 1px solid #8e8e8e;
-	padding: 2% 0 0 0;
+.custom-menu {
+	display: inline;
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
+	text-transform: uppercase;
 }
-
-.balance-info-value {
-	text-align: right;
-}
-
 @media (max-width: 400px){
-    .igx-avatar{
-        height: 50px;
-		width: 50px;
+    .igx-avatar {
+        height: 35px;
+		width: 20px;
 	}
-	.header-nav-item, .header-nav  {
-		height: 50px;
-		font-size: 0.8rem;
+	.date {
+		font-size: 1rem;
+		padding: 3% 3% 0 0;
 	}
-	.header-balance-info {
-		font-size: 0.5rem;
+	.profile-menu-btn {
+		font-size: 1.5rem;
 	}
-}
-
-.header-nav-item:hover {
-	cursor: pointer;
-	background: white;
-	color: black;
-	opacity: 0.9;
-}
-
-.header-nav-item-active {
-	background: white;
-	color: black;
 }
