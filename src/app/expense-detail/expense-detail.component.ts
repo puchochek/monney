@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 
@@ -35,11 +35,18 @@ export class ExpenseDetailComponent implements OnInit {
 	expensesToDisplay: FinanceData[];
 	maxFromDate: Date;
 	maxToDate: Date;
+	minToDate: Date;
+	minFromDate: Date;
 	toDateValue: FormControl;
 	fromDateValue: FormControl;
-	noCategoriesMessage: string;
+	helloMessage: string;
+	noExpensesMessage = `You do not have
+	expenses for the selected period. You might choose another dates to check.`;
 	isAscSorted: boolean;
-	headers = [`Date`, `Comment`, `Sum`, `Actions`];
+	isValidFromDate: boolean;
+	isValidToDate: boolean;
+
+	headers = [`Date`, `Sum`, `Comment`, `Actions`];
 
 	private subscription: Subscription;
 	deleteExpenseModal: MatDialogRef<ModalComponent>;
@@ -78,6 +85,9 @@ export class ExpenseDetailComponent implements OnInit {
 	}
 
 	setInitialData() {
+		this.helloMessage = `Hi, ${this.currentUser.name}!`;
+		this.isValidFromDate = true;
+		this.isValidToDate = true;
 		const today = new Date();
 		this.toDateValue = new FormControl(today);
 		this.fromDateValue = new FormControl(new Date(today.getFullYear(), today.getMonth(), 1));
@@ -90,17 +100,18 @@ export class ExpenseDetailComponent implements OnInit {
 		this.expenses = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);
 		const tooday = new Date();
 		if (this.expenses.length !== 0) {
-			this.expensesToDisplay = this.setSelectedPeriodTransactions(new Date(tooday.getFullYear(), tooday.getMonth(), 1), tooday)
-		} else {
-			this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You do not have
-			expenses for the selected period. You might choose another dates to check.`;
+			this.expensesToDisplay = this.setSelectedPeriodTransactions(new Date(tooday.getFullYear(), tooday.getMonth(), 1), tooday);
 		}
 		this.expensesTotal = this.expensesToDisplay && this.expensesToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.expensesToDisplay) : 0;
 	}
 
 	setSelectedPeriodTransactions(startDate: Date, endDate: Date): FinanceData[] {
 
-		return [...this.expenses].filter(transaction => (new Date(transaction.date) >= startDate) && (new Date(transaction.date) <= endDate));
+		return [...this.expenses].filter(
+			transaction =>
+				(new Date(new Date(transaction.date).toDateString()) >= new Date(startDate.toDateString()))
+				&& new Date(new Date(transaction.date).toDateString()) <= new Date(endDate.toDateString())
+		);
 	}
 
 	sortExpenses(fieldToSort: string) {
@@ -150,7 +161,7 @@ export class ExpenseDetailComponent implements OnInit {
 		let snackMessage: string;
 		let action: string;
 		this.http.post(requestUrl, {
-			tarnsactionsToEdit: expenses
+			transactionsToUpsert: expenses
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
@@ -159,8 +170,9 @@ export class ExpenseDetailComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				console.log('---> DELETED EXP upserted ', response);
+				console.log('---> DELETED EXP upserted ', <FinanceData[]>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.updateExpensesList(<FinanceData[]>response.body);
 			},
 			error => {
 				console.log('---> DELETED EXP ERROR ', error);
@@ -177,16 +189,45 @@ export class ExpenseDetailComponent implements OnInit {
 		);
 	}
 
+	updateExpensesList(deletedExpenses: FinanceData[]) {
+		const deletedExpensesIds = deletedExpenses.reduce((deletedExpensesList, deletedExpense) => {
+			deletedExpensesList.push(deletedExpense.id);
+			return deletedExpensesList;
+		}, []);
+		this.expensesToDisplay = [...this.expensesToDisplay].filter(expense => !deletedExpensesIds.includes(expense.id));
+	}
+
 	onDateInputFrom(event) {
-		console.log('---> date input FROM', event.target.value);
+		this.isValidFromDate = true;
+		const newDate = event.target.value;
+		this.minToDate = newDate;
+		const isValidDate = this.validateInputDate(newDate);
+		if (isValidDate) {
+			this.expensesToDisplay = this.setSelectedPeriodTransactions(newDate, new Date(this.toDateValue.value));
+		} else {
+			this.isValidFromDate = false;
+		}
 	}
 
 	onDateInputTo(event) {
-		console.log('---> date input TO', event.target.value);
+		this.isValidToDate = true;
+		const newDate = event.target.value;
+		this.maxFromDate = newDate;
+		const isValidDate = this.validateInputDate(newDate);
+		if (isValidDate) {
+			this.expensesToDisplay = this.setSelectedPeriodTransactions(new Date(this.fromDateValue.value), newDate);
+		} else {
+			this.isValidToDate = false;
+		}
+
 	}
 
-	paginateExpenses(event) {
-		console.log('---> event ', event);
+	validateInputDate(newDate: Date): boolean {
+		if (newDate instanceof Date && !(newDate > new Date())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
