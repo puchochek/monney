@@ -1,17 +1,17 @@
 <div class="main" *ngIf='isPageLoad'>
 
-  <div class="user-check" *ngIf="!isButtonPressed">
-    <div class="ask-user">
-        already have an account here ?
-    </div>
-    <div class="anser-options">
-      <div class="empty-div"></div>
-      <div class="yes-btn"
-           routerLink="/autorize">yes</div> 
-           <!-- TODO change the router link after sing-in form creation -->
-      <div class="no-btn"
-           routerLink="/login">no</div>
-      <div class="empty-div"></div>
-    </div>
-  </div>
+	<div class="hello-monney-container">
+		<div class="hello-monney-greeting">
+			welcome to monney-app
+		</div>
+		<div class="hello-monney-message">
+			already have an account here ?
+		</div>
+		<div class="hello-monney-actions">
+			<div class="empty-div"></div>
+			<div class="yes-btn" routerLink="/autorize">yes</div>
+			<div class="no-btn" routerLink="/login">no</div>
+			<div class="empty-div"></div>
+		</div>
+	</div>
 </div>

@@ -6,30 +6,49 @@
     height: 100vh;
 }
 
-.ask-user {
+.hello-monney-greeting {
+    padding-top: 10%;
+}
+
+.hello-monney-message {
+    padding-top: 5%;
+}
+
+.hello-monney-message, .hello-monney-greeting {
     font-family: capture;
     color: white;
-    font-size: 3rem;
-    padding-top: 10%;
+    font-size: 2rem;
     text-align: center;
 }
 
-.anser-options {
+.hello-monney-actions {
     padding-top: 5%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 5fr 1fr 1fr 5fr;
     text-align: center;
 }
 
 .yes-btn, .no-btn {
     font-family: capture;
     color: white;
-    font-size: 3rem;
-
+    font-size: 2rem;
+    padding: 1% 0;
 }
 
 .yes-btn:hover, .no-btn:hover {
-    background-color: #eee;
     cursor: pointer;
+    background-color: #eee;
     color: black;
-  }
+}
+
+@media (max-width: 400px) {
+    .hello-monney-message, 
+    .hello-monney-greeting,
+    .yes-btn, .no-btn{
+        font-size: 1rem;
+    }
+
+    .hello-monney-actions {
+        grid-template-columns: 4fr 2fr 2fr 4fr;
+    }
+}
