@@ -43,8 +43,12 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	setThisMonthExpensesTotal() {
-		//console.log('---> appUser SET TOTAL ', this.appUser);
-		//const incomeCategoryId = [...this.appUser.categories].filter(category => category.isIncome)[0].id;
+		console.log('---> appUser SET TOTAL ', this.appUser);
+		const incomeCategoryId = [...this.appUser.categories].filter(category => category.isIncome)[0].id;
+		console.log('---> incomeCategoryId ', incomeCategoryId );
+		const expenseTransactions = [...this.appUser.transactions].filter(transaction => transaction.id !== incomeCategoryId);
+		const thisMonthExpenseTransactions = this.dataService.getThisMonthTransactions(expenseTransactions);
+		this.thisMonthExpensesTotal = this.dataService.countCategoryTransactionsTotal(thisMonthExpenseTransactions) || 0;
 	}
 
 	buildCategoriesList() {

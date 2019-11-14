@@ -21,12 +21,19 @@
 	color: white;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 4fr 1fr 7fr;
+	grid-template-columns: 10fr 2fr;
 }
 .categories-list-header-title {
 	position: absolute;
 	bottom: 15%;
 	left: 5%;
+}
+
+.categories-list-header-expenses {
+	position: absolute;
+	bottom: 15%;
+	right: 5%;
+	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
 
 .categories-list-header-actions {
