@@ -8,6 +8,12 @@
     padding: 2%;
     font-size: 1.5rem;
 }
+.user-expenses-greeteng {
+    font-family: capture;
+    color: white;
+    font-size: 1.5rem;
+    padding: 2% 2% 0 2%;
+}
 .expenses-container {
     background: transparent;
 	border-radius: 8px;
@@ -24,7 +30,7 @@
     position: relative;
     display: block;
     display: grid;
-    grid-template-columns: 1fr 1fr;;
+    grid-template-columns: 8fr 4fr;
     width: 100%;
 	border-bottom: 1px solid #8e8e8e;
     font-size: 1.5rem;
@@ -107,6 +113,12 @@
     .expenses-table-container, .expenses-table-header-container {
         grid-template-columns: 3fr 3fr 5fr 1fr;
     }
+    .expenses-header {
+        grid-template-columns: 6fr 6fr;
+    }
+    .mat-form-field {
+        width: 130px !important;
+    }
 }
 
 @media (max-width: 400px) {
@@ -145,6 +157,12 @@
     }
     .expenses-date-pagination {
         font-size: .8rem;
+    }
+    .user-expenses-message, .user-expenses-greeteng {
+        font-size: 1rem;
+    }
+    .categories-list-header {
+        grid-template-columns: 7fr 5fr;
     }
 }
 

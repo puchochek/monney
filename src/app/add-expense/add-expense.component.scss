@@ -98,9 +98,9 @@
 	grid-template-columns: 1fr 1fr;
 }
 .new-expence-category-name {
-	position: absolute;
-	bottom: 40%;
-	left: 35%;
+	//position: absolute;
+	//bottom: 40%;
+	//left: 35%;
 	text-transform: uppercase;
 	font-size: 1.4em;
 }
@@ -120,6 +120,19 @@
 	}
 	.new-expence-category-name {
 		font-size: 1em;
+	}
+	.new-expence-header {
+		grid-template-columns: 8fr 4fr;
+	}
+	.mat-form-field {
+        width: 130px !important;
+	}
+	.expense-form input[type="submit"],
+	.expense-form input[type="button"] {
+		padding: 10px 39px 9px 39px;
+	}
+	.title {
+		padding: 14px 0;
 	}
 }
 

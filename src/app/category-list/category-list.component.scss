@@ -20,8 +20,6 @@
 .categories-list-header {
 	color: white;
 	width: 100%;
-	display: grid;
-	grid-template-columns: 10fr 2fr;
 }
 .categories-list-header-title {
 	position: absolute;
@@ -30,9 +28,6 @@
 }
 
 .categories-list-header-expenses {
-	position: absolute;
-	bottom: 15%;
-	right: 5%;
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -55,7 +50,6 @@
 	text-align: center;
 	height: calc(100% - 3rem);
 	overflow-y: auto;
-	//padding-top: 10px;
 }
 
 .header-menu-btn {
@@ -102,12 +96,6 @@
 	font-size: 14px;
 }
 
-@media (max-width: 1500px) {
-	// .categories-list-header-title {
-	// 	left: 5%;
-	// }
-}
-
 @media (max-width: 1350px) {
 	.categories-list-header-title {
 		left: 6%;
@@ -132,7 +120,6 @@
 	}
 	.header-menu-btn {
 		font-size: 2rem;
-		//padding-left: 5%;
 	}
 	.categories-list-header-container {
 		font-size: .8rem;
@@ -165,7 +152,6 @@
 		font-size: 1.5rem;
 	}
 	.categories-list-header-title {
-		//padding-left: 5%;
 		font-size: .8rem;
 	}
 }
