@@ -30,6 +30,7 @@
     "igniteui-angular": "^8.2.7",
     "jszip": "^3.1.5",
     "minireset.css": "~0.0.4",
+    "ng2-file-upload": "^1.4.0",
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",

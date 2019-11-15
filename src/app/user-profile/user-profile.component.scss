@@ -14,74 +14,14 @@
 	color:white;
 }
 .user-profile-title {
-	font-size: 1.8rem;
+	font-size: 1.5rem;
 }
 ::ng-deep .mat-tooltip {
 	font-size: 14px;
-  }
+}
+.igx-avatar {
+	height: 70px;
+	width: 70px;
+	margin: 1%;
+}
 
-
-
-
-
-
-// .sidenav-container {
-//   width: 100vw;  
-//   border: 1px solid rgba(0, 0, 0, 0.5);
-//   background: transparent;
-//   font-family: capture;
-//   color: white;
-//   font-size: 1.8rem;
-// }
-
-// .sidenav-content {
-//   display: flex;
-//   height: 100%;
-//   align-items: center;
-//   justify-content: center;
-//   position: relative;
-// }
-
-// .sidenav {
-//   padding: 0 16px 20px 0;
-//   background: transparent;
-//   font-family: capture;
-//   color: white;
-//   font-size: 1.8rem;
-//   max-width: 30vw;
-// }
-
-// .toggle-menu-button {
-//   position: absolute;
-//   background: transparent;
-//   color: white;
-//   top: 5px;
-//   right: 2%;
-//   border-radius: 0;
-// }
-
-// .menu-list-item {
-//   font-family: capture;
-//   color: white;
-//   font-size: 1.8rem;
-//   padding: 16px;
-//   border-bottom: 1px solid white;
-// }
-
-// .menu-list-item:hover {
-//   cursor: pointer;
-//   background: white;
-//   color: black; 
-//   opacity: 0.9; 
-// }
-
-// .menu-list-item-active {
-//   background: white;
-//   color: black;  
-// }
-
-// .sidenav-content-section {
-//   padding: 1%;
-//   //min-height: 50vh;
-//   overflow: hidden;
-// }
