@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ProfileManageCategoriesComponent } from '../profile-manage-categories/profile-manage-categories.component';
 import { environment } from '../../environments/environment'
 
 

@@ -11,7 +11,6 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { DataService } from './data.service';
 import { ModalComponent } from './modal/modal.component';
 
-import { BalanceComponent } from './balance/balance.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
@@ -58,14 +57,10 @@ import {
 	MatToolbarModule,
 	MatTooltipModule,
 } from '@angular/material';
-import { ProfileManageCategoriesComponent } from './profile-manage-categories/profile-manage-categories.component';
 import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
 import { IgxAvatarModule } from 'igniteui-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
-import { BalanceManageIncomesComponent } from './balance-manage-incomes/balance-manage-incomes.component';
-import { BalanceViewBalanceComponent } from './balance-view-balance/balance-view-balance.component';
-import { BalanceManageExpensesComponent } from './balance-manage-expenses/balance-manage-expenses.component';
 import { HomeComponent } from './home/home.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 
@@ -76,16 +71,11 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 		CategoryListComponent,
 		AddExpenseComponent,
 		ModalComponent,
-		BalanceComponent,
 		LoginFormComponent,
 		HelloMonneyComponent,
 		ActivateUserComponent,
 		UserProfileComponent,
-		ProfileManageCategoriesComponent,
 		AddCategoryModalComponent,
-		BalanceManageIncomesComponent,
-		BalanceViewBalanceComponent,
-		BalanceManageExpensesComponent,
 		HomeComponent,
 		ModalComponent,
 		TransactionDetailComponent

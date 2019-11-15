@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ModalComponent } from './modal/modal.component';
-import { BalanceComponent } from './balance/balance.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
@@ -21,7 +20,6 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/:category/:action/:categoryId', component: AddExpenseComponent },
     { path: 'login/:userName/:status', component: ModalComponent },
-    { path: 'balance', component: BalanceComponent },
     { path: 'detail/:category', component: TransactionDetailComponent },
     { path: 'activate/:token', component: ActivateUserComponent },
     { path: 'myprofile/:userid', component: UserProfileComponent },
