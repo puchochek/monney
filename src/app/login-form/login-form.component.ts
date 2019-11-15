@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { LoggedUser } from '../interfaces';
 import { environment } from '../../environments/environment';
@@ -42,7 +42,6 @@ export class LoginFormComponent implements OnInit {
 	constructor(
 		private dataService: DataService,
 		private http: HttpClient,
-		private route: ActivatedRoute,
 		private router: Router,
 		private dialog: MatDialog
 		 ) { }
@@ -104,7 +103,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	validateName(nameInput: string) {
-		// allows lowercase and one uppercase letters and numbers from 1 to 40 symbols length
+		/* allows lowercase and one uppercase letters and numbers from 1 to 40 symbols length */
 		let isNameValid = false;
 		const expression = /^([- A-Za-zа-яА-ЯёЁ0-9]+)$/;
 		if (nameInput) {
@@ -128,7 +127,7 @@ export class LoginFormComponent implements OnInit {
 
 	validatePassword(passwordInput: string): boolean {
 		let isPasswordVaild = false;
-		//Password expresion that requires one lower case letter, one upper case letter, one digit, 5-10 length, and no spaces.
+		/*Password expresion that requires one lower case letter, one upper case letter, one digit, 5-10 length, and no spaces.*/
 		const expression = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{5,10}$/;
 		if (passwordInput && (expression.test(String(passwordInput)))) {
 			isPasswordVaild = true;
@@ -197,7 +196,6 @@ export class LoginFormComponent implements OnInit {
 		this.http.get(url, { observe: 'response' }
 		).subscribe(
 			response => {
-				// const currentUser = <LoggedUser>response.body;
 				console.log('---> AUTHORIZED updateToken response ', response);
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.router.navigate(['/myprofile/' + authorizedUser.id]);
@@ -220,12 +218,5 @@ export class LoginFormComponent implements OnInit {
 				message: message
 			}
 		});
-		// this.confirmAuthorisationModal
-		// 	.afterClosed()
-			// .subscribe(isActionConfirmed => {
-			// 	if (isActionConfirmed) {
-			// 		this.openConfirmAuthorisationModal(message);
-			// 	}
-			// });
 	}
 }
