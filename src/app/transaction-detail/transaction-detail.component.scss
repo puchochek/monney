@@ -2,31 +2,31 @@
 	font-family: capture;
 	src: url('../../assets/fonts/capture.ttf') format('opentype');
 }
-.user-expenses-message {
+.user-transaction-message {
     font-family: capture;
     color: white;
     padding: 2%;
     font-size: 1.5rem;
 }
-.user-expenses-greeteng {
+.user-transaction-greeteng {
     font-family: capture;
     color: white;
     font-size: 1.5rem;
     padding: 2% 2% 0 2%;
 }
-.expenses-container {
+.transaction-container {
     background: transparent;
 	border-radius: 8px;
     border: 1px solid white;
     margin: 2%;
     height: 100%;
 }
-.expenses-header-total {
+.transaction-header-total {
     text-align: right;
     text-transform: uppercase;
     padding: 1% 3% 0 1%;
 }
-.expenses-header {
+.transaction-header {
     position: relative;
     display: block;
     display: grid;
@@ -36,14 +36,14 @@
     font-size: 1.5rem;
     color: white;
 }
-.expenses-header-title {
+.transaction-header-title {
     max-height: 15rem;
     overflow-y: auto;
 }
 .mat-datepicker-toggle {
     color: white !important;
 }
-.expenses-date-pagination {
+.transaction-date-pagination {
     display: grid;
     grid-template-columns: 1fr 1fr;
     font-size: 1rem;
@@ -54,50 +54,50 @@
 .placeholder {
     color: white;
 }
-.expenses-name {
+.transaction-name {
     font-family: capture;
     color: white;
     padding: 1% 1% 0 3%;
 }
-.expenses-description {
+.transaction-description {
     color: white;
     padding: 0 1% 1% 3%;
 }
-.expenses-table-container, .expenses-table-header-container {
+.transaction-table-container, .transaction-table-header-container {
     display: grid;
     grid-template-columns: 2fr 3fr 8fr 1fr;
     color: white;
 }
-.expenses-table {
+.transaction-table {
     max-height: 72vh;
     overflow-y: auto;
 }
-.expenses-table-header-container {
+.transaction-table-header-container {
     position: relative;
     border-bottom: 1px solid #757575;
 }
-.expenses-table-header:last-child {
+.transaction-table-header:last-child {
     padding-right: 10px;
 }
-.expenses-table-header:first-child {
+.transaction-table-header:first-child {
     padding-left: 10px;
 }
-.expenses-table-cell {
+.transaction-table-cell {
     font-size: 1.2rem;
 }
-.expenses-table-cell:nth-of-type(1) {
+.transaction-table-cell:nth-of-type(1) {
     padding-left: 10px;
 }
-.expenses-table-header {
+.transaction-table-header {
     display: inline-block;
     text-transform: uppercase;
     font-size: 1.2rem;
 }
-.expenses-table-actions-cell {
+.transaction-table-actions-cell {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.expenses-table-actions-icon:hover {
+.transaction-table-actions-icon:hover {
     cursor: pointer;
     color:#bdbdbd;
 }
@@ -110,10 +110,10 @@
 }
 
 @media (max-width: 800px) {
-    .expenses-table-container, .expenses-table-header-container {
+    .transaction-table-container, .transaction-table-header-container {
         grid-template-columns: 3fr 3fr 5fr 1fr;
     }
-    .expenses-header {
+    .transaction-header {
         grid-template-columns: 6fr 6fr;
     }
     .mat-form-field {
@@ -122,23 +122,23 @@
 }
 
 @media (max-width: 400px) {
-	.expenses-header {
+	.transaction-header {
 		font-size: .8rem;
     }
-    .expenses-table-header {
+    .transaction-table-header {
         font-size: .8rem;
     }
     .placeholder-wrong-date {
         font-size: .8rem;
     }
-    .expenses-table-actions-icon {
+    .transaction-table-actions-icon {
         font-size: 1rem;
     }
-    .expenses-table-cell {
+    .transaction-table-cell {
         font-size: .8rem;
         line-height: 1;
     }
-    .expenses-table-container, .expenses-table-header-container {
+    .transaction-table-container, .transaction-table-header-container {
         grid-template-columns: 4fr 3fr 4fr 1fr;
     }
     .mat-icon {
@@ -147,18 +147,18 @@
     .mat-form-field {
         width: 90px !important;
     }
-    .expenses-from-date {
+    .transaction-from-date {
         padding-right: 10px;
     }
-    .expenses-header-title {
+    .transaction-header-title {
         max-height: 7rem;
         overflow-y: auto;
         line-height: 1.3;
     }
-    .expenses-date-pagination {
+    .transaction-date-pagination {
         font-size: .8rem;
     }
-    .user-expenses-message, .user-expenses-greeteng {
+    .user-transaction-message, .user-transaction-greeteng {
         font-size: 1rem;
     }
     .categories-list-header {

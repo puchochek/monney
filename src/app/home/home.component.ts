@@ -16,6 +16,7 @@ import { ScreenService } from '../screen.service';
 export class HomeComponent implements OnInit {
 
 	currentUser: LoggedUser;
+	incomeId: string;
 
 	constructor(
 		private dataService: DataService,
@@ -33,14 +34,13 @@ export class HomeComponent implements OnInit {
 					response => {
 						this.currentUser = <LoggedUser>response.body;
 						console.log('---> HOME response ', response);
+						this.setIncomeId();
 						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 					},
 					error => {
 						console.log('---> HOME error ', error);
-						//this.dataService.cleanLocalstorage();
-						//this.router.navigate(['/hello-monney']);
-						//   this.errors = error;
+						this.router.navigate(['/hello-monney']);
 					},
 					() => {
 						// 'onCompleted' callback.
@@ -48,6 +48,11 @@ export class HomeComponent implements OnInit {
 					}
 				);
 		}
+	}
+
+	setIncomeId() {
+		this.incomeId = [...this.currentUser.categories].filter(category => category.isIncome)[0].id;
+		console.log('---> this.incomeId ', this.incomeId);
 	}
 
 }

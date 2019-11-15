@@ -1,27 +1,33 @@
-<div class="home-page-container">
+<div class="home-page-container" >
     <div class="home-page-content">
-        <div class="navigation-zone">
+        <div class="navigation-zone" *ngIf="currentUser">
             <div class="manage-incomes-container">
                 <div class="manage-incomes">
                     <div class="manage-incomes-header">
                         <div class="manage-incomes-title">incomes</div>
                     </div>
                     <div>
-                        <div class="manage-incomes-content">
-                            <!-- {{currentIncomesValue}} -->
+                        <div class="manage-incomes-quick-actions">
+                            <div class="add-icome">
+                                <div class="add-income-lbl" routerLink="/categories/Income/new/{{incomeId}}">Add income</div>
+                            </div>
+                            <div class="see-icome-details">
+                                <!-- <div class="income-details-lbl" routerLink="/incomes/{{incomeId}}">Incomes details</div> -->
+                                <div class="income-details-lbl" routerLink="/detail/{{incomeId}}">Incomes details</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="divider"></div>
             <div class="manage-reports-container">
-                reports
-            </div>
-            <div class="divider"></div>
-            <div class="profile-settings-container">
-                profile settings
-            </div>
+                <div class="manage-reports">
+                    <div class="manage-reports-header">
+                        <div class="manage-reports-title">reports</div>
+                    </div>
+                </div>
 
+            </div>
         </div>
         <div class="categories-list-container">
             <app-category-list *ngIf="currentUser" [appUser]="currentUser"></app-category-list>

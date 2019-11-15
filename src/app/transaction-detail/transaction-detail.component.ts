@@ -14,14 +14,12 @@ import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 
-
 @Component({
-	selector: 'app-expense-detail',
-	templateUrl: './expense-detail.component.html',
-	styleUrls: ['./expense-detail.component.scss']
+	selector: 'app-transaction-detail',
+	templateUrl: './transaction-detail.component.html',
+	styleUrls: ['./transaction-detail.component.scss']
 })
-export class ExpenseDetailComponent implements OnInit {
-
+export class TransactionDetailComponent implements OnInit {
 	@Output()
 	dateInput: EventEmitter<MatDatepickerInputEvent<any>>
 
@@ -29,10 +27,10 @@ export class ExpenseDetailComponent implements OnInit {
 	categoryName: string;
 	categoryDescription: string;
 	categoryId: string;
-	expensesTotalLabel: string;
-	expensesTotal: number;
-	expenses: FinanceData[];
-	expensesToDisplay: FinanceData[];
+	transactionsTotalLabel: string;
+	transactionsTotal: number;
+	transactions: FinanceData[];
+	transactionToDisplay: FinanceData[];
 	maxFromDate: Date;
 	maxToDate: Date;
 	minToDate: Date;
@@ -40,8 +38,8 @@ export class ExpenseDetailComponent implements OnInit {
 	toDateValue: FormControl;
 	fromDateValue: FormControl;
 	helloMessage: string;
-	noExpensesMessage = `You do not have
-	expenses for the selected period. You might choose another dates to check.`;
+	noTransactionMessage = `You do not have
+	transactions for the selected period. You might choose another dates to check.`;
 	isAscSorted: boolean;
 	isValidFromDate: boolean;
 	isValidToDate: boolean;
@@ -50,6 +48,7 @@ export class ExpenseDetailComponent implements OnInit {
 
 	private subscription: Subscription;
 	deleteExpenseModal: MatDialogRef<ModalComponent>;
+
 
 	constructor(
 		private http: HttpClient,
@@ -96,18 +95,18 @@ export class ExpenseDetailComponent implements OnInit {
 		const currentCategory = [...this.currentUser.categories].filter(category => category.id === this.categoryId)[0];
 		this.categoryName = currentCategory.name;
 		this.categoryDescription = currentCategory.description;
-		this.expensesTotalLabel = `Selected period total:`;
-		this.expenses = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);
+		this.transactionsTotalLabel = `Selected period total:`;
+		this.transactions = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);
 		const tooday = new Date();
-		if (this.expenses.length !== 0) {
-			this.expensesToDisplay = this.setSelectedPeriodTransactions(new Date(tooday.getFullYear(), tooday.getMonth(), 1), tooday);
+		if (this.transactions.length !== 0) {
+			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(tooday.getFullYear(), tooday.getMonth(), 1), tooday);
 		}
-		this.expensesTotal = this.expensesToDisplay && this.expensesToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.expensesToDisplay) : 0;
+		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay) : 0;
 	}
 
 	setSelectedPeriodTransactions(startDate: Date, endDate: Date): FinanceData[] {
 
-		return [...this.expenses].filter(
+		return [...this.transactions].filter(
 			transaction =>
 				(new Date(new Date(transaction.date).toDateString()) >= new Date(startDate.toDateString()))
 				&& new Date(new Date(transaction.date).toDateString()) <= new Date(endDate.toDateString())
@@ -117,14 +116,14 @@ export class ExpenseDetailComponent implements OnInit {
 	sortExpenses(fieldToSort: string) {
 		const fieldName = fieldToSort.toLowerCase();
 		if (this.isAscSorted) {
-			this.expensesToDisplay = [...this.expensesToDisplay].sort(function (a, b) {
+			this.transactionToDisplay = [...this.transactionToDisplay].sort(function (a, b) {
 				if (a[fieldName] < b[fieldName]) { return 1; }
 				if (a[fieldName] > b[fieldName]) { return -1; }
 				return 0;
 			});
 			this.isAscSorted = false;
 		} else {
-			this.expensesToDisplay = [...this.expensesToDisplay].sort(function (a, b) {
+			this.transactionToDisplay = [...this.transactionToDisplay].sort(function (a, b) {
 				if (a[fieldName] < b[fieldName]) { return -1; }
 				if (a[fieldName] > b[fieldName]) { return 1; }
 				return 0;
@@ -170,12 +169,12 @@ export class ExpenseDetailComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				console.log('---> DELETED EXP upserted ', <FinanceData[]>response.body);
+				console.log('---> TRANSACTION DETAIL EXP upserted ', <FinanceData[]>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.updateExpensesList(<FinanceData[]>response.body);
 			},
 			error => {
-				console.log('---> DELETED EXP ERROR ', error);
+				console.log('---> TRANSACTION DETAIL EXP ERROR ', error);
 				snackMessage = 'Oops!';
 				action = `Try again`;
 				this.snackBar.open(snackMessage, action, {
@@ -194,7 +193,7 @@ export class ExpenseDetailComponent implements OnInit {
 			deletedExpensesList.push(deletedExpense.id);
 			return deletedExpensesList;
 		}, []);
-		this.expensesToDisplay = [...this.expensesToDisplay].filter(expense => !deletedExpensesIds.includes(expense.id));
+		this.transactionToDisplay = [...this.transactionToDisplay].filter(expense => !deletedExpensesIds.includes(expense.id));
 	}
 
 	onDateInputFrom(event) {
@@ -203,7 +202,7 @@ export class ExpenseDetailComponent implements OnInit {
 		this.minToDate = newDate;
 		const isValidDate = this.validateInputDate(newDate);
 		if (isValidDate) {
-			this.expensesToDisplay = this.setSelectedPeriodTransactions(newDate, new Date(this.toDateValue.value));
+			this.transactionToDisplay = this.setSelectedPeriodTransactions(newDate, new Date(this.toDateValue.value));
 		} else {
 			this.isValidFromDate = false;
 		}
@@ -215,7 +214,7 @@ export class ExpenseDetailComponent implements OnInit {
 		this.maxFromDate = newDate;
 		const isValidDate = this.validateInputDate(newDate);
 		if (isValidDate) {
-			this.expensesToDisplay = this.setSelectedPeriodTransactions(new Date(this.fromDateValue.value), newDate);
+			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(this.fromDateValue.value), newDate);
 		} else {
 			this.isValidToDate = false;
 		}

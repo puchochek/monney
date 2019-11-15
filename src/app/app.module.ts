@@ -12,7 +12,6 @@ import { DataService } from './data.service';
 import { ModalComponent } from './modal/modal.component';
 
 import { BalanceComponent } from './balance/balance.component';
-import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HelloMonneyComponent } from './hello-monney/hello-monney.component';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
@@ -68,6 +67,7 @@ import { BalanceManageIncomesComponent } from './balance-manage-incomes/balance-
 import { BalanceViewBalanceComponent } from './balance-view-balance/balance-view-balance.component';
 import { BalanceManageExpensesComponent } from './balance-manage-expenses/balance-manage-expenses.component';
 import { HomeComponent } from './home/home.component';
+import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 
 @NgModule({
 	declarations: [
@@ -77,7 +77,6 @@ import { HomeComponent } from './home/home.component';
 		AddExpenseComponent,
 		ModalComponent,
 		BalanceComponent,
-		ExpenseDetailComponent,
 		LoginFormComponent,
 		HelloMonneyComponent,
 		ActivateUserComponent,
@@ -88,7 +87,8 @@ import { HomeComponent } from './home/home.component';
 		BalanceViewBalanceComponent,
 		BalanceManageExpensesComponent,
 		HomeComponent,
-		ModalComponent
+		ModalComponent,
+		TransactionDetailComponent
 	],
 	imports: [
 		BrowserModule,

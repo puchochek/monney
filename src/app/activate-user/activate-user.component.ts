@@ -43,7 +43,7 @@ export class ActivateUserComponent implements OnInit {
 		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
 		const categoriesToUpsert = [{
 			name: `income`,
-			description: `The category keeps users' incomes data`,
+			description: `Keeps your incomes data.`,
 			user: userId,
 			isActive: true,
 			isIncome: true

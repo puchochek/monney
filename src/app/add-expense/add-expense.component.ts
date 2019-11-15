@@ -122,9 +122,7 @@ export class AddExpenseComponent implements OnInit {
 		const userId = localStorage.getItem('userId');
 		const categoryId = this.route.snapshot.paramMap.get('categoryId');
 		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
-		const navigateUrl = this.transactionName === `income` ?
-			`/balance`
-			: `/home`;
+		const navigateUrl = `/home`;
 		const transactionToSave: FinanceData = {
 			comment: newExpence.comment,
 			id: null,
