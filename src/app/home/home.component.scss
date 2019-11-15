@@ -21,7 +21,7 @@
 	height: 20%;
 }
 .divider {
-	height: 1%;
+	height: 2%;
 }
 .navigation-zone {
 	height: 100%;
@@ -58,6 +58,20 @@
 	border-bottom: 2px solid #8e8e8e;
 }
 
+.balance-info {
+	color: white;
+	text-transform: uppercase;
+	padding: 0 2%;
+}
+.balance-info-header {
+	border-bottom: 1px solid #8e8e8e;
+}
+.expense-value,
+.income-value,
+.balance-value {
+	text-align: right;
+}
+
 @media (max-width: 1000px) {
 	.home-page-content {
 		display: grid;
@@ -81,5 +95,8 @@
 	.add-income-lbl, .income-details-lbl {
 		width: 100%;
 		padding: 3% 1%;
+	}
+	.balance-info {
+		font-size: .8rem;
 	}
 }

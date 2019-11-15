@@ -1,4 +1,4 @@
-<div class="home-page-container" >
+<div class="home-page-container">
     <div class="home-page-content">
         <div class="navigation-zone" *ngIf="currentUser">
             <div class="manage-incomes-container">
@@ -9,11 +9,11 @@
                     <div>
                         <div class="manage-incomes-quick-actions">
                             <div class="add-icome">
-                                <div class="add-income-lbl" routerLink="/categories/Income/new/{{incomeId}}">Add income</div>
+                                <div class="add-income-lbl" routerLink="/categories/Income/new/{{incomeId}}">Add income
+                                </div>
                             </div>
                             <div class="see-icome-details">
-                                <!-- <div class="income-details-lbl" routerLink="/incomes/{{incomeId}}">Incomes details</div> -->
-                                <div class="income-details-lbl" routerLink="/detail/{{incomeId}}">Incomes details</div>
+                                <div class="income-details-lbl" routerLink="/detail/{{incomeId}}">Income details</div>
                             </div>
                         </div>
                     </div>
@@ -26,14 +26,30 @@
                         <div class="manage-reports-title">reports</div>
                     </div>
                 </div>
-
+            </div>
+            <div class="divider"></div>
+            <div class="balance-info-container">
+                <div class="balance-info">
+                    <div class="balance-info-header">
+                        <div class="balance-info-title">This month total</div>
+                    </div>
+                    <div class="balance-info-expense">
+                        <div class="balance-info-title">Expenses:</div>
+                        <div class="expense-value">{{expensesTotal}}</div>
+                    </div>
+                    <div class="balance-info-income">
+                        <div class="balance-info-title">Income:</div>
+                        <div class="income-value">{{incomesTotal}}</div>
+                    </div>
+                    <div class="balance-info-balance">
+                        <div class="balance-info-title">Balance:</div>
+                        <div class="balance-value">{{balanceTotal}}</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="categories-list-container">
             <app-category-list *ngIf="currentUser" [appUser]="currentUser"></app-category-list>
         </div>
-
     </div>
-
-
 </div>

@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
 	currentDate: Date;
 
 	headerMenuItems = [
+		{ name: `Home`, action: this.goHome.bind(this) },
 		{ name: `View Profile`, action: this.goToProfile.bind(this) },
 		{ name: `Log out`, action: this.logOut.bind(this) }
 	];
@@ -67,6 +68,10 @@ export class HeaderComponent implements OnInit {
 
 	goToProfile() {
 		this.router.navigate([`/myprofile/${this.userId}`]);
+	}
+
+	goHome() {
+		this.router.navigate([`/home`]);
 	}
 
 	logOut() {

@@ -136,7 +136,7 @@ export class TransactionDetailComponent implements OnInit {
 		this.deleteExpenseModal = this.dialog.open(ModalComponent, {
 			hasBackdrop: false,
 			data: {
-				message: `Are you sure you want to delete this expense?`
+				message: `Are you sure you want to delete this transaction?`
 			}
 		});
 		this.deleteExpenseModal

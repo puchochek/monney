@@ -17,6 +17,9 @@ export class HomeComponent implements OnInit {
 
 	currentUser: LoggedUser;
 	incomeId: string;
+	incomesTotal: number;
+	expensesTotal: number;
+	balanceTotal: number;
 
 	constructor(
 		private dataService: DataService,
@@ -35,6 +38,7 @@ export class HomeComponent implements OnInit {
 						this.currentUser = <LoggedUser>response.body;
 						console.log('---> HOME response ', response);
 						this.setIncomeId();
+						this.setBalanceInfo();
 						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 					},
@@ -53,6 +57,32 @@ export class HomeComponent implements OnInit {
 	setIncomeId() {
 		this.incomeId = [...this.currentUser.categories].filter(category => category.isIncome)[0].id;
 		console.log('---> this.incomeId ', this.incomeId);
+	}
+
+	setBalanceInfo() {
+		this.expensesTotal = this.setThisMonthExpensesTotal();
+		this.incomesTotal = this.setThisMonthIncomesTotal();
+		this.balanceTotal = this.setThisMonthBalanceTotal();
+	}
+
+	setThisMonthExpensesTotal(): number {
+		const expenseTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category !== this.incomeId);
+		const thisMonthExpenseTransactions = this.dataService.getThisMonthTransactions(expenseTransactions);
+		const thisMonthExpensesTotal = this.dataService.countCategoryTransactionsTotal(thisMonthExpenseTransactions) || 0;
+
+		return thisMonthExpensesTotal;
+	}
+
+	setThisMonthIncomesTotal(): number {
+		const incomeTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category === this.incomeId);
+		const thisMonthIncomeTransactions = this.dataService.getThisMonthTransactions(incomeTransactions);
+		const thisMonthIncomeTotal = this.dataService.countCategoryTransactionsTotal(thisMonthIncomeTransactions) || 0;
+
+		return thisMonthIncomeTotal;
+	}
+
+	setThisMonthBalanceTotal() {
+		return this.incomesTotal - this.expensesTotal;
 	}
 
 }
