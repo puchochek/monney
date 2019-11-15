@@ -2,9 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ModalComponent } from '../modal/modal.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { LoggedUser } from '../interfaces';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
+import { ModalComponent } from '../modal/modal.component';
+
 
 const wrongName = `Name field may only consist of letters or numbers.`;
 const wrongEmail = `Email field must contain @ symbol.`;
@@ -26,32 +28,29 @@ export class LoginFormComponent implements OnInit {
 	mailFieldLabel: string;
 	passwordFieldLabel: string;
 
-	status: string; // FWP?
 	isValidName: boolean; // form validation
 	isEmailValid: boolean; // form validation
 	isPasswordVaild: boolean; // form validation
 	isInvalidInput: boolean; //
 	invalidInputMessage: string;
 	url: string;
-	isModalShown: boolean;
-	isLoginFormShown: boolean;
-	message: string;
 	title: string;
 	isLogin: boolean;
 
+	confirmAuthorisationModal: MatDialogRef<ModalComponent>;
 
 	constructor(
 		private dataService: DataService,
 		private http: HttpClient,
 		private route: ActivatedRoute,
-		private router: Router, ) { }
+		private router: Router,
+		private dialog: MatDialog
+		 ) { }
 
 	ngOnInit() {
 		this.nameFieldLabel = 'name';
 		this.mailFieldLabel = 'e-mail';
 		this.passwordFieldLabel = 'password';
-		this.isLoginFormShown = true;
-		this.isModalShown = false;
 		this.url = this.router.url;
 		this.isLogin = this.url == '/login' ?
 			true
@@ -137,17 +136,6 @@ export class LoginFormComponent implements OnInit {
 		return isPasswordVaild;
 	}
 
-	closeModal(event) {
-		if (event.value === 'error') {
-			this.isLoginFormShown = true;
-			this.isModalShown = false;
-		} else {
-			this.message = 'Please, check your email to continue.';
-			this.isLoginFormShown = false;
-			this.isModalShown = true;
-		}
-	}
-
 	login() {
 		const url = `${environment.apiBaseUrl}/user/register`;
 		this.http.post(url, {
@@ -157,19 +145,13 @@ export class LoginFormComponent implements OnInit {
 		}, { observe: 'response' }).subscribe(
 			response => {
 				console.log('---> LoginFormComponent REGISTRED', response);
-				this.status = 'saved';
-				this.message = 'Congratulations! You were successfully logged in the app. Now check your email to continue.';
-				this.isLoginFormShown = false;
-				this.isModalShown = true;
+				this.openConfirmAuthorisationModal(`Congratulations! You were succesfully logged in. Now check your email to continue.`);
 				const currantUser = <LoggedUser>response.body;
 				this.dataService.updateUserId(currantUser.id);
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);
-				this.status = 'error';
-				this.message = 'Something goes wrong. Try again.';
-				this.isLoginFormShown = false;
-				this.isModalShown = true;
+				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
 			},
 			() => {
@@ -188,21 +170,19 @@ export class LoginFormComponent implements OnInit {
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
-				this.isLoginFormShown = false;
 				const currentUser = <LoggedUser>response.body;
 				console.log('---> AUTHORIZED response ', response);
 				if (currentUser) {
 					this.dataService.updateUserId(currentUser.id);
 					this.updateToken(currentUser);
 					this.router.navigate(['/myprofile/' + currentUser.id]);
+				} else {
+					this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				}
 			},
 			error => {
 				console.log('---> autorize error ', error);
-				this.status = 'error';
-				this.message = 'Something goes wrong. Try again.';
-				this.isLoginFormShown = false;
-				this.isModalShown = true;
+				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
 			},
 			() => {
@@ -223,17 +203,29 @@ export class LoginFormComponent implements OnInit {
 				this.router.navigate(['/myprofile/' + authorizedUser.id]);
 			},
 			error => {
+				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				console.log('---> updateToken autorize error ', error);
-				this.status = 'error';
-				this.message = 'Something goes wrong. Try again.';
-				this.isLoginFormShown = false;
-				this.isModalShown = true;
 			},
 			() => {
 				// 'onCompleted' callback.
 				// No errors, route to new page here
 			}
 		);
+	}
 
+	openConfirmAuthorisationModal(message: string) {
+		this.confirmAuthorisationModal = this.dialog.open(ModalComponent, {
+			hasBackdrop: false,
+			data: {
+				message: message
+			}
+		});
+		// this.confirmAuthorisationModal
+		// 	.afterClosed()
+			// .subscribe(isActionConfirmed => {
+			// 	if (isActionConfirmed) {
+			// 		this.openConfirmAuthorisationModal(message);
+			// 	}
+			// });
 	}
 }

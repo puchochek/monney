@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
-import { MatDialog, MatDialogRef, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
