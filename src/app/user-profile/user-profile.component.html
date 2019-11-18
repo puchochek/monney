@@ -15,16 +15,9 @@
 			<div class="browse-avatar-action">
 				<label class="browse-avatar">
 					<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
-					Browse an avatar
+					Choose your new avatar
 				</label>
 			</div>
-			<div class="upload-avatar-action">
-				<button type="button" class="upload-avatar" (click)="uploader.uploadAll()"
-					[disabled]="!uploader.getNotUploadedItems().length">
-					Upload an Image
-				</button>
-			</div>
-
 		</div>
 	</div>
 

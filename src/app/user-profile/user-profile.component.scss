@@ -38,12 +38,12 @@ input[type="file"] {
     display: none;
 }
 
-.browse-avatar{
+.browse-avatar {
 	border: 1px solid #ccc;
 	display: inline-block;
 	height: 30px;
-	width: 150px;
-	margin: 0 0 1% 2%;
+	width: 200px;
+	margin: 1% 0 0 1%;
 	cursor: pointer;
 	text-align: center;
 	padding-top: 5px;
@@ -51,19 +51,15 @@ input[type="file"] {
 	font-size: 14px;
 }
 
-.upload-avatar {
-	background: transparent;
-	border: 1px solid #ccc;
-	display: inline-block;
-	height: 30px;
-	width: 150px;
-	margin-left: 2%;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 3px;
-	color:white;
-	font-family:  Roboto, "Helvetica Neue", sans-serif;
-	font-size: 14px;
+.browse-avatar:hover {
+	background-color: white;
+	color: black;
+}
+
+@media (max-width: 400px) {
+	.browse-avatar {
+		margin: 8% 0 0 10%;
+	}
 }
 
 

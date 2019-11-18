@@ -65,7 +65,7 @@ export class UserProfileComponent implements OnInit {
 	manageUploader(userId: string) {
 		const UPL_URL = `${environment.apiBaseUrl}/user/avatar/${userId}`;
 		this.uploader = new FileUploader({ url: UPL_URL, itemAlias: 'avatar' });
-		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; this.uploader.uploadAll() };
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			const imageInfo = JSON.parse(response);
 			if (imageInfo.secure_url) {
