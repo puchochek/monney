@@ -4,14 +4,31 @@
 			{{avatarLabel}}
 		</mat-panel-title>
 	</mat-expansion-panel-header>
-	<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
-	</igx-avatar>
-	<ng-template #noAvatar>
-		<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
+	<div class="change-avatar-container">
+		<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
 		</igx-avatar>
-	</ng-template>
-	<input type="file" (change)="onFileChanged($event)">
-	
+		<ng-template #noAvatar>
+			<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
+			</igx-avatar>
+		</ng-template>
+		<div class="change-avatar-actins">
+			<div class="browse-avatar-action">
+				<label class="browse-avatar">
+					<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
+					Browse an avatar
+				</label>
+			</div>
+			<div class="upload-avatar-action">
+				<button type="button" class="upload-avatar" (click)="uploader.uploadAll()"
+					[disabled]="!uploader.getNotUploadedItems().length">
+					Upload an Image
+				</button>
+			</div>
+
+		</div>
+	</div>
+
+
 </mat-expansion-panel>
 
 <mat-expansion-panel class="user-profile">

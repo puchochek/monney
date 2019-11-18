@@ -63,6 +63,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { HomeComponent } from './home/home.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import {  FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from "ng2-file-upload";
 
 @NgModule({
 	declarations: [
@@ -78,7 +80,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 		AddCategoryModalComponent,
 		HomeComponent,
 		ModalComponent,
-		TransactionDetailComponent
+		TransactionDetailComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -125,7 +127,8 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 		MatToolbarModule,
 		MatTooltipModule,
 		BrowserAnimationsModule,
-		IgxAvatarModule
+		IgxAvatarModule,
+		FileUploadModule
 	],
 	providers: [DataService,
 		{
