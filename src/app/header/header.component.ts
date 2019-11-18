@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
 	avatarInitials: string = `AV`;
 	avatarSize: string;
 	currentDate: Date;
+	isMenuAvailable: boolean;
 
 	headerMenuItems = [
 		{ name: `Home`, action: this.goHome.bind(this) },
@@ -42,6 +43,7 @@ export class HeaderComponent implements OnInit {
 			console.log('--->  HEADER FROM SERVICE loggedUser INIT', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
+				this.isMenuAvailable = true;
 				this.setAvatar();
 			}
 		});
@@ -77,5 +79,6 @@ export class HeaderComponent implements OnInit {
 		this.dataService.cleanLocalstorage();
 		this.isAvatar = false;
 		this.avatarInitials = `AV`;
+		this.isMenuAvailable = false;
 	}
 }
