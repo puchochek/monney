@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { MatCardModule, MatButtonModule, throwToolbarMixedModesError } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-// import { HttpService } from '../http.service';
 import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
 import { ScreenService } from '../screen.service';
+import { Category } from '../interfaces';
+
 
 @Component({
 	selector: 'app-home',
@@ -55,8 +56,13 @@ export class HomeComponent implements OnInit {
 	}
 
 	setIncomeId() {
-		this.incomeId = [...this.currentUser.categories].filter(category => category.isIncome)[0].id;
-		console.log('---> this.incomeId ', this.incomeId);
+		if (this.currentUser.categories && this.currentUser.categories.length !== 0) {
+			const incomeCategory = [...this.currentUser.categories].filter(category => category.isIncome)[0];
+			this.incomeId = incomeCategory.id;
+		} else {
+			const userId = localStorage.getItem("userId");
+			this.createIncomeCategoryForNewUser(userId);
+		}
 	}
 
 	setBalanceInfo() {
@@ -83,6 +89,33 @@ export class HomeComponent implements OnInit {
 
 	setThisMonthBalanceTotal() {
 		return this.incomesTotal - this.expensesTotal;
+	}
+
+	createIncomeCategoryForNewUser(userId: string) {
+		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
+		const categoriesToUpsert = [{
+			name: `income`,
+			description: `Keeps your incomes data.`,
+			user: userId,
+			isActive: true,
+			isIncome: true
+		}];
+		this.http.post(requestUrl, {
+			categoriesToUpsert: categoriesToUpsert
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				const incomeCategory = <Category>response.body[0];
+				this.incomeId = incomeCategory.id;
+			},
+			error => {
+				console.log('---> createIncomeCategoryForNewUser ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
 	}
 
 }

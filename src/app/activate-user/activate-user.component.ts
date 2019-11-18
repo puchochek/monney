@@ -25,45 +25,18 @@ export class ActivateUserComponent implements OnInit {
 	}
 
 	activateUser(token: string) {
+		console.log('---> activate user token', token);
 		this.http.post(`${environment.apiBaseUrl}/user/token`, {
 			token: token,
 		}).subscribe((response: LoggedUser) => {
 			console.log('---> activateUser result ', response);
 			if (response) {
 				this.dataService.updateToken(token);
-				this.createIncomeCategoryForNewUser(response.id);
+				this.dataService.updateUserId(response.id);
 				this.router.navigate(['/home']);
 			} else {
 				// TODO add error modal
 			}
 		});
-	}
-
-	createIncomeCategoryForNewUser(userId: string) {
-		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
-		const categoriesToUpsert = [{
-			name: `income`,
-			description: `Keeps your incomes data.`,
-			user: userId,
-			isActive: true,
-			isIncome: true
-		}];
-		this.http.post(requestUrl, {
-			categoriesToUpsert: categoriesToUpsert
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				console.log('---> createIncomeCategoryForNewUser  response ', response);
-			},
-			error => {
-				console.log('---> createIncomeCategoryForNewUser ', error);
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-
-
 	}
 }

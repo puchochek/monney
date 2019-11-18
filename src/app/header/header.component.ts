@@ -43,8 +43,6 @@ export class HeaderComponent implements OnInit {
 			if (response) {
 				this.currentUser = <LoggedUser>response;
 				this.setAvatar();
-			} else {
-				this.router.navigate(['/hello-monney']);
 			}
 		});
 	}
@@ -78,5 +76,6 @@ export class HeaderComponent implements OnInit {
 		this.router.navigate([`/hello-monney`]);
 		this.dataService.cleanLocalstorage();
 		this.isAvatar = false;
+		this.avatarInitials = `AV`;
 	}
 }
