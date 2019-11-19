@@ -132,6 +132,12 @@
 	background-color: rgba(0,0,0,0.3);
 }
 
+@media (max-width: 1370px) {
+    .transaction-to-date {
+        padding-left: 20px;
+    }
+}
+
 @media (max-width: 800px) {
     .transaction-table-container, .transaction-table-header-container {
         grid-template-columns: 3fr 3fr 5fr 1fr;

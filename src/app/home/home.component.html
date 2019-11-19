@@ -2,8 +2,8 @@
     <div class="spinner" *ngIf="isLoading">
         <mat-spinner [diameter]="50"></mat-spinner>
     </div>
-    <div class="home-page-content">
-        <div class="navigation-zone" *ngIf="currentUser">
+    <div class="home-page-content" *ngIf="currentUser">
+        <div class="navigation-zone">
             <div class="manage-incomes-container">
                 <div class="manage-incomes">
                     <div class="manage-incomes-header">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="divider"></div>
+            <div class="balance-divider"></div>
             <div class="balance-info-container">
                 <div class="balance-info">
                     <div class="balance-info-header">

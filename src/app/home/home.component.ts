@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		private userServise: UserService
+		private userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
-						this.userServise.appUser = this.currentUser;
+						this.userService.appUser = {...this.currentUser};
 						console.log('---> HOME response ', response);
 						this.setIncomeId();
 						this.setBalanceInfo();

@@ -1,22 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import { FinanceData } from './interfaces';
 
 @Injectable()
 export class DataService {
-	categoryToUpsert: Observable<any>;
-	private categoryToUpsertSubject = new BehaviorSubject<any>(null);
-
-	constructor(private http: HttpClient, ) {
-		this.categoryToUpsert = this.categoryToUpsertSubject.asObservable();
-	}
-
-	setCategoryToUpsert(data: any) {
-		this.categoryToUpsertSubject.next(data);
-	}
 
 	sortTransactions(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
 		const thisMonthTransactionByType = arrayToSort.reduce((exps, exp) => {

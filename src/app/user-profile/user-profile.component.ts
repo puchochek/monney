@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { DataService } from '../data.service';
@@ -16,6 +16,8 @@ import { UserService } from '../user.service';
 	styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
+	@Input() name: string;
+	@Input() email: string;
 
 	isLoading: boolean = true;
 	currentUser: LoggedUser;
@@ -24,10 +26,13 @@ export class UserProfileComponent implements OnInit {
 	userInfoLabel = `User Info`;
 	currencyLabel = `Currency`;
 	balanceLimitLabel = `Balance limit`;
+	userNameLabel = `Name`;
+	userEmailLabel = `Email`;
 	bgColor = "#8e8e8e";
 	color = "white";
 	avatarSrc: string;
 	avatarInitials: string;
+	isEditAllowed: boolean = false;
 
 	public uploader: FileUploader;
 
@@ -36,7 +41,7 @@ export class UserProfileComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private snackBar: MatSnackBar,
-		public userServise: UserService
+		public userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -49,8 +54,12 @@ export class UserProfileComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
+						if (!this.userService._user.hasOwnProperty('id')) {
+							this.userService.appUser = { ...this.currentUser };
+						}
 						console.log('---> USER PROFILE response ', response);
 						this.setCurrentAvatar();
+						this.setUserDataToEdit();
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						this.isLoading = false;
 					},
@@ -79,7 +88,11 @@ export class UserProfileComponent implements OnInit {
 				this.doUpdateUserCall([userToUpdate]);
 			}
 		};
+	}
 
+	setUserDataToEdit() {
+		this.name = this.currentUser.name;
+		this.email = this.currentUser.email;
 	}
 
 	setCurrentAvatar() {
@@ -107,7 +120,7 @@ export class UserProfileComponent implements OnInit {
 					duration: 5000,
 				});
 				this.currentUser = <LoggedUser>response.body[0];
-				this.userServise.appUser = this.currentUser;
+				this.userService.appUser = this.currentUser;
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.updateUserView();
 				this.isLoading = false;
@@ -131,4 +144,33 @@ export class UserProfileComponent implements OnInit {
 		//TODO update another view settings here
 		this.avatarSrc = this.currentUser.avatar;
 	}
+
+	editUserInfo() {
+		document.getElementById(`name`).style.pointerEvents = "auto";
+		document.getElementById(`email`).focus();
+		document.getElementById(`email`).style.pointerEvents = "auto";
+		this.isEditAllowed = true;
+	}
+
+	resetEdit() {
+		document.getElementById(`name`).style.pointerEvents = "none";
+		document.getElementById(`email`).style.pointerEvents = "none";
+		this.isEditAllowed = false;
+		this.name = this.currentUser.name;
+		this.email = this.currentUser.email;
+	}
+
+	saveChanges() {
+		console.log('---> this.name ', this.name);
+		console.log('---> this.email ', this.email);
+		const editedUser = { ...this.currentUser };
+		editedUser.email = this.email;
+		editedUser.name = this.name;
+		this.isLoading = true;
+		this.doUpdateUserCall([editedUser]);
+		this.isEditAllowed = false;
+		document.getElementById(`name`).style.pointerEvents = "none";
+		document.getElementById(`email`).style.pointerEvents = "none";
+	}
+
 }

@@ -4,16 +4,15 @@ import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
-import { ScreenService } from '../screen.service';
 import { FinanceData } from '../interfaces';
-import { Category } from '../interfaces';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { TransactionService } from '../transaction.service';
+import { UserService } from '../user.service';
+
 
 
 @Component({
@@ -23,7 +22,8 @@ import { TransactionService } from '../transaction.service';
 })
 export class TransactionDetailComponent implements OnInit {
 	@Output()
-	dateInput: EventEmitter<MatDatepickerInputEvent<any>>
+	dateInput: EventEmitter<MatDatepickerInputEvent<any>>;
+	deleteExpenseModal: MatDialogRef<ModalComponent>;
 
 	currentUser: LoggedUser;
 	categoryName: string;
@@ -46,12 +46,7 @@ export class TransactionDetailComponent implements OnInit {
 	isValidFromDate: boolean;
 	isValidToDate: boolean;
 	isLoading: boolean = true;
-
 	headers = [`Date`, `Sum`, `Comment`, `Actions`];
-
-	private subscription: Subscription;
-	deleteExpenseModal: MatDialogRef<ModalComponent>;
-
 
 	constructor(
 		private http: HttpClient,
@@ -60,7 +55,8 @@ export class TransactionDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
-		private transactionService: TransactionService
+		private transactionService: TransactionService,
+		private userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -72,7 +68,9 @@ export class TransactionDetailComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
-						console.log('---> DETAIL response ', response);
+						if (!this.userService._user.hasOwnProperty('id')) {
+							this.userService.appUser = {...this.currentUser};
+						}
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						this.setInitialData();
 						this.isLoading = false;
@@ -155,11 +153,9 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	editExpense(expense: FinanceData) {
-		//this.dataService.setCategoryToUpsert(expense);
 		this.transactionService.currentTransaction = expense;
 		this.router.navigate([`/categories/${this.categoryName}/edit/${this.categoryId}`]);
 	}
-
 
 	doUpdateTransactionCall(expenses: FinanceData[]) {
 		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
