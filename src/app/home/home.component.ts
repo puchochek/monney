@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { MatCardModule, MatButtonModule, throwToolbarMixedModesError } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 import { LoggedUser } from '../interfaces';
 import { ScreenService } from '../screen.service';
 import { Category } from '../interfaces';
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
 	incomesTotal: number;
 	expensesTotal: number;
 	balanceTotal: number;
+	isLoading: boolean = true;
 
 	constructor(
 		private dataService: DataService,
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
 						this.setBalanceInfo();
 						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
+						this.isLoading = false;
 					},
 					error => {
 						console.log('---> HOME error ', error);

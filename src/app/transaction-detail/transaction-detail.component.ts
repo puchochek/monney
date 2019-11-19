@@ -43,6 +43,7 @@ export class TransactionDetailComponent implements OnInit {
 	isAscSorted: boolean;
 	isValidFromDate: boolean;
 	isValidToDate: boolean;
+	isLoading: boolean = true;
 
 	headers = [`Date`, `Sum`, `Comment`, `Actions`];
 
@@ -71,6 +72,7 @@ export class TransactionDetailComponent implements OnInit {
 						console.log('---> DETAIL response ', response);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						this.setInitialData();
+						this.isLoading = false;
 					},
 					error => {
 						console.log('---> DETAIL error ', error);

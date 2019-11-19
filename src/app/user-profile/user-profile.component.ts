@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UserProfileComponent implements OnInit {
 
+	isLoading: boolean = true;
 	currentUser: LoggedUser;
 	avatarLabel = `Avatar`;
 	themeLabel = `App theme`;
@@ -49,6 +50,7 @@ export class UserProfileComponent implements OnInit {
 						console.log('---> USER PROFILE response ', response);
 						this.setCurrentAvatar();
 						this.dataService.updateToken(response.headers.get('Authorization'));
+						this.isLoading = false;
 					},
 					error => {
 						console.log('---> USER PROFILE error ', error);
@@ -68,10 +70,10 @@ export class UserProfileComponent implements OnInit {
 		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; this.uploader.uploadAll() };
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			const imageInfo = JSON.parse(response);
-			console.log('---> imageInfo ', imageInfo);
 			if (imageInfo.secure_url) {
 				const userToUpdate: LoggedUser = { ...this.currentUser };
 				userToUpdate.avatar = imageInfo.secure_url;
+				this.isLoading = true;
 				this.doUpdateUserCall([userToUpdate]);
 			}
 		};
@@ -105,6 +107,7 @@ export class UserProfileComponent implements OnInit {
 				this.currentUser = <LoggedUser>response.body[0];
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.updateUserView();
+				this.isLoading = false;
 			},
 			error => {
 				console.log('---> UPSERT USER ERROR ', error);

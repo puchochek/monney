@@ -1,61 +1,68 @@
-<mat-expansion-panel class="user-profile">
-	<mat-expansion-panel-header>
-		<mat-panel-title class="user-profile-header user-profile-title">
-			{{avatarLabel}}
-		</mat-panel-title>
-	</mat-expansion-panel-header>
-	<div class="change-avatar-container">
-		<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
-		</igx-avatar>
-		<ng-template #noAvatar>
-			<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
-			</igx-avatar>
-		</ng-template>
-		<div class="change-avatar-actins">
-			<div class="browse-avatar-action">
-				<label class="browse-avatar">
-					<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
-					Choose your new avatar
-				</label>
-			</div>
-		</div>
+<div class="user-profile-container">
+	<div class="spinner" *ngIf="isLoading">
+		<mat-spinner [diameter]="50"></mat-spinner>
 	</div>
 
+	<mat-expansion-panel class="user-profile">
+		<mat-expansion-panel-header>
+			<mat-panel-title class="user-profile-header user-profile-title">
+				{{avatarLabel}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		<div class="change-avatar-container">
+			<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
+			</igx-avatar>
+			<ng-template #noAvatar>
+				<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
+				</igx-avatar>
+			</ng-template>
+			<div class="change-avatar-actins">
+				<div class="browse-avatar-action">
+					<label class="browse-avatar">
+						<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
+						Choose your new avatar
+					</label>
+				</div>
+			</div>
+		</div>
 
-</mat-expansion-panel>
 
-<mat-expansion-panel class="user-profile">
-	<mat-expansion-panel-header>
-		<mat-panel-title class="user-profile-header user-profile-title">
-			{{themeLabel}}
-		</mat-panel-title>
-	</mat-expansion-panel-header>
-	in development
-</mat-expansion-panel>
+	</mat-expansion-panel>
 
-<mat-expansion-panel class="user-profile">
-	<mat-expansion-panel-header>
-		<mat-panel-title class="user-profile-header user-profile-title">
-			{{userInfoLabel}}
-		</mat-panel-title>
-	</mat-expansion-panel-header>
-	in development
-</mat-expansion-panel>
+	<mat-expansion-panel class="user-profile">
+		<mat-expansion-panel-header>
+			<mat-panel-title class="user-profile-header user-profile-title">
+				{{themeLabel}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		in development
+	</mat-expansion-panel>
 
-<mat-expansion-panel class="user-profile">
-	<mat-expansion-panel-header>
-		<mat-panel-title class="user-profile-header user-profile-title">
-			{{currencyLabel}}
-		</mat-panel-title>
-	</mat-expansion-panel-header>
-	in development
-</mat-expansion-panel>
+	<mat-expansion-panel class="user-profile">
+		<mat-expansion-panel-header>
+			<mat-panel-title class="user-profile-header user-profile-title">
+				{{userInfoLabel}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		in development
+	</mat-expansion-panel>
 
-<mat-expansion-panel class="user-profile">
-	<mat-expansion-panel-header>
-		<mat-panel-title class="user-profile-header user-profile-title">
-			{{balanceLimitLabel}}
-		</mat-panel-title>
-	</mat-expansion-panel-header>
-	in development
-</mat-expansion-panel>
+	<mat-expansion-panel class="user-profile">
+		<mat-expansion-panel-header>
+			<mat-panel-title class="user-profile-header user-profile-title">
+				{{currencyLabel}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		in development
+	</mat-expansion-panel>
+
+	<mat-expansion-panel class="user-profile">
+		<mat-expansion-panel-header>
+			<mat-panel-title class="user-profile-header user-profile-title">
+				{{balanceLimitLabel}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		in development
+	</mat-expansion-panel>
+
+</div>

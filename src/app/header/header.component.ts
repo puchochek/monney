@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { LoggedUser } from '../interfaces';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 @Component({
 	selector: 'app-header',
@@ -34,19 +36,45 @@ export class HeaderComponent implements OnInit {
 	constructor(
 		private dataService: DataService,
 		private router: Router,
-	) {}
+		private http: HttpClient,
+	) { }
+
+	// ngOnInit() {
+	// 	this.currentDate = new Date();
+	// 	this.userId = localStorage.getItem('userId');
+	// 	this.sbscr = this.dataService.loggedUser.subscribe((response) => {
+	// 		console.log('--->  HEADER FROM SERVICE loggedUser INIT', response);
+	// 		if (response) {
+	// 			this.currentUser = <LoggedUser>response;
+	// 			this.isMenuAvailable = true;
+	// 			this.setAvatar();
+	// 		}
+	// 	});
+	// }
 
 	ngOnInit() {
 		this.currentDate = new Date();
-		this.userId = localStorage.getItem('userId');
-		this.sbscr = this.dataService.loggedUser.subscribe((response) => {
-			console.log('--->  HEADER FROM SERVICE loggedUser INIT', response);
-			if (response) {
-				this.currentUser = <LoggedUser>response;
-				this.isMenuAvailable = true;
-				this.setAvatar();
-			}
-		});
+		const userId = localStorage.getItem("userId");
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
+		if (userId) {
+			this.http.get(url, { observe: 'response' })
+				.subscribe(
+					response => {
+						console.log('---> response ', response );
+						this.currentUser = <LoggedUser>response.body;
+						this.isMenuAvailable = true;
+						this.setAvatar();
+					},
+					error => {
+						console.log('---> HEADER error ', error);
+						this.router.navigate(['/hello-monney']);
+					},
+					() => {
+						// 'onCompleted' callback.
+						// No errors, route to new page here
+					}
+				);
+		}
 	}
 
 	ngOnDestroy() {
