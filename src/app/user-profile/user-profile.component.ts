@@ -63,7 +63,6 @@ export class UserProfileComponent implements OnInit {
 	}
 
 	manageUploader(userId: string) {
-		console.log('---> manageUploader ', userId);
 		const UPL_URL = `${environment.apiBaseUrl}/user/avatar/${userId}`;
 		this.uploader = new FileUploader({ url: UPL_URL, itemAlias: 'avatar' });
 		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; this.uploader.uploadAll() };
