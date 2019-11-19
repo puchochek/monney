@@ -198,7 +198,7 @@ export class LoginFormComponent implements OnInit {
 			response => {
 				console.log('---> AUTHORIZED updateToken response ', response);
 				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.router.navigate(['/myprofile/' + authorizedUser.id]);
+				this.router.navigate(['/home']);
 			},
 			error => {
 				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);

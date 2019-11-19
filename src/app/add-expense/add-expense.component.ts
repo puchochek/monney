@@ -7,6 +7,7 @@ import { FinanceData } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment'
 import { Subscription } from 'rxjs';
+import { TransactionService } from '../transaction.service';
 
 @Component({
 	selector: 'app-add-expense',
@@ -44,14 +45,15 @@ export class AddExpenseComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private snackBar: MatSnackBar,
+		private transactionService: TransactionService
 	) { }
 
 	ngOnInit() {
 		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
 
 		if (this.isEdit) {
-			this.sbscr = this.dataService.categoryToUpsert.subscribe((response) => {
-				console.log('--->  ADD EXPENSE FROM SERVICE categoryToUpsert INIT', response);
+			this.sbscr = this.transactionService._transaction.subscribe((response) => {
+				console.log('--->  ADD EXPENSE _transaction ', response);
 				if (response) {
 					this.transactionToEdit = <FinanceData>response;
 				}

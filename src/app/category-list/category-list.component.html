@@ -8,7 +8,6 @@
 				<mat-menu #rootMenu="matMenu">
 					<button mat-menu-item class="custom-menu" (click)="openAddCategoryModal()">Add new category</button>
 					<button mat-menu-item class="custom-menu" [matMenuTriggerFor]="subMenu">Sort categories by</button>
-
 				</mat-menu>
 
 				<mat-menu #subMenu="matMenu">
@@ -21,7 +20,6 @@
 				</button>
 			</div>
 		</div>
-
 	</div>
 	<div class="categories-list-content" *ngIf="categories?.length > 0 else noCategories">
 		<div class="categories-list" *ngFor="let category of categories">

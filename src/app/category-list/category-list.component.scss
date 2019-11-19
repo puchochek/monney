@@ -16,30 +16,28 @@
 	border-bottom: 1px solid #8e8e8e;
 	font-size: 1.5rem;
 }
-
 .categories-list-header {
 	color: white;
 	width: 100%;
 }
-.categories-list-header-title {
-	position: absolute;
-	bottom: 7px;
-	left: 5%;
+.categories-list-header {
+	display: grid;
+	grid-template-columns: 1fr 11fr;
 }
-
+.categories-list-header-title {
+	padding-top: 7px;
+	padding-left: 10px;
+}
 .categories-list-header-expenses {
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 }
-
 .categories-list-header-actions {
 	text-align: left;
 }
-
 .sort-menu-btn:hover {
 	color: #8e8e8e;
 	cursor: pointer;
 }
-
 .add-category-btn:hover {
 	color: #8e8e8e;
 	cursor: pointer;
@@ -51,29 +49,22 @@
 	height: calc(100% - 3rem);
 	overflow-y: auto;
 }
-
 .header-menu-btn {
 	font-size: 2rem;
-	position: absolute;
-	bottom: 20%;
 }
-
 .category-item {
 	display: inline-block;
 	padding-top: 10%;
 }
-
 .igx-avatar{
 	height: 50px;
 	width: 50px;
 }
-
 .igx-avatar:hover {
 	cursor: pointer;
 	background-color: white !important;
 	color: black !important;
 }
-
 .category-name {
 	padding-top: 2%;
 	display: inline;
@@ -81,35 +72,20 @@
 .category-actions-menu {
 	display: inline;
 }
-
 .custom-menu {
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 	text-transform: uppercase;
 }
-
 .no-categories-message {
 	padding: 5%;
 	font-size: 1.5rem;
 }
-
 ::ng-deep .mat-tooltip {
 	font-size: 14px;
 }
 
-@media (max-width: 1350px) {
-	.categories-list-header-title {
-		left: 6%;
-	}
-}
-
-@media (max-width: 1120px) {
-	.categories-list-header-title {
-		left: 10%;
-	}
-}
 @media (max-width: 750px) {
 	.categories-list-header-title {
-		left: 20%;
 		font-size: 1rem;
 	}
 }
@@ -128,9 +104,6 @@
 		height: calc(100vh - 8rem);
 		overflow-y: scroll;
 	}
-	.categories-list-header-title {
-		left: 15%;
-	}
 	.mat-icon-button {
 		width: 30px;
 	}
@@ -138,7 +111,6 @@
 
 @media (max-width: 375px) {
 	.categories-list-header-title {
-		left: 20%;
 		font-size: .8rem;
 	}
 }

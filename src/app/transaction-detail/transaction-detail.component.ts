@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { TransactionService } from '../transaction.service';
+
 
 @Component({
 	selector: 'app-transaction-detail',
@@ -57,7 +59,8 @@ export class TransactionDetailComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private snackBar: MatSnackBar,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private transactionService: TransactionService
 	) { }
 
 	ngOnInit() {
@@ -152,7 +155,8 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	editExpense(expense: FinanceData) {
-		this.dataService.setCategoryToUpsert(expense);
+		//this.dataService.setCategoryToUpsert(expense);
+		this.transactionService.currentTransaction = expense;
 		this.router.navigate([`/categories/${this.categoryName}/edit/${this.categoryId}`]);
 	}
 
