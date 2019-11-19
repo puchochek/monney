@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { MatCardModule, MatButtonModule, throwToolbarMixedModesError } from '@angular/material';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { LoggedUser } from '../interfaces';
-import { ScreenService } from '../screen.service';
 import { Category } from '../interfaces';
+import { UserService } from '../user.service';
+
 
 
 @Component({
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		private screenService: ScreenService,
+		private userServise: UserService
 	) { }
 
 	ngOnInit() {
@@ -38,10 +39,10 @@ export class HomeComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
+						this.userServise.appUser = this.currentUser;
 						console.log('---> HOME response ', response);
 						this.setIncomeId();
 						this.setBalanceInfo();
-						this.dataService.setLoggedUser(this.currentUser);
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						this.isLoading = false;
 					},

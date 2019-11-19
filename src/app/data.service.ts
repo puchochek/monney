@@ -7,24 +7,12 @@ import { FinanceData } from './interfaces';
 
 @Injectable()
 export class DataService {
-	loggedUser: Observable<any>;
-	private loggedUserSubject = new BehaviorSubject<any>(null);
-
 	categoryToUpsert: Observable<any>;
 	private categoryToUpsertSubject = new BehaviorSubject<any>(null);
 
 	constructor(private http: HttpClient, ) {
-		this.loggedUser = this.loggedUserSubject.asObservable();
 		this.categoryToUpsert = this.categoryToUpsertSubject.asObservable();
 	}
-
-	setLoggedUser(data: any) {
-		this.loggedUserSubject.next(data);
-	}
-
-	// public getValue(): Observable < string > {
-	// 	return this.loggedUserSubject;
-	// }
 
 	setCategoryToUpsert(data: any) {
 		this.categoryToUpsertSubject.next(data);
@@ -80,10 +68,6 @@ export class DataService {
 
 	cleanLocalstorage() {
 		localStorage.clear();
-	}
-
-	test(): string {
-		return `Data servise`;
 	}
 
 }

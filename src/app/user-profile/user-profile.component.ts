@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class UserProfileComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private snackBar: MatSnackBar,
+		public userServise: UserService
 	) { }
 
 	ngOnInit() {
@@ -105,6 +107,7 @@ export class UserProfileComponent implements OnInit {
 					duration: 5000,
 				});
 				this.currentUser = <LoggedUser>response.body[0];
+				this.userServise.appUser = this.currentUser;
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.updateUserView();
 				this.isLoading = false;
