@@ -27,8 +27,9 @@
     font-family: capture;
     color: white;
     font-size: 2rem;
-    padding: 4% 1%;
+    padding: 4% 2%;
     border-radius: 4px;
+    margin: 0 30px;
 }
 .yes-btn:hover, .no-btn:hover {
     cursor: pointer;
@@ -57,14 +58,28 @@
 	height: 100%;
 	background-color: rgba(0,0,0,0.3);
 }
+.hello-monney-container {
+    padding-top: 5%;
+}
 
-@media (max-width: 400px) {
-    .hello-monney-message, 
+@media (max-width: 800px) {
+    .hello-monney-container {
+        padding-top: 25%;
+    }
+    .yes-btn, .no-btn {
+        padding: 8% ;
+    }
+}
+
+@media (max-width: 600px) {
+    .hello-monney-container {
+        padding-top: 45%;
+    }
+    .hello-monney-message,
     .hello-monney-greeting,
     .yes-btn, .no-btn{
         font-size: 1rem;
     }
-
     .hello-monney-actions {
         grid-template-columns: 4fr 2fr 2fr 4fr;
     }
