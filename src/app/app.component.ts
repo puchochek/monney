@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ScreenService } from './screen.service';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,27 +9,11 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent {
 	title = 'monney';
-	private sbscr: Subscription;
-	constructor(private responsiveService: ScreenService) {
+	//private sbscr: Subscription;
+	constructor() {
 	}
 
 	ngOnInit() {
-		// this.responsiveService.getMobileStatus().subscribe(isMobile => {
-		// 	if (isMobile) {
-		// 		console.log('Mobile device detected')
-		// 	}
-		// 	else {
-		// 		console.log('Desktop detected')
-		// 	}
-		// });
-		//this.onResize();
-	}
 
-	// ngOnDestroy() {
-	// 	this.sbscr.unsubscribe();
-	// }
-
-	onResize(event: any) {
-		this.responsiveService.checkWidth();
 	}
 }
