@@ -1,4 +1,7 @@
 <div class="main">
+	<div class="spinner" *ngIf="isLoading">
+		<mat-spinner [diameter]="50"></mat-spinner>
+	</div>
 	<div class="login-form-container">
 		<div class="login-form">
 			<div class="login-mess">{{title}}</div>
@@ -10,7 +13,7 @@
 
 			<div class="login-label">{{mailFieldLabel}}</div>
 			<div class="form-group">
-				<input type="text" autocomplete="off" id="mail-address"name="mailAddress" [(ngModel)]="mailAddress">
+				<input type="text" autocomplete="off" id="mail-address" name="mailAddress" [(ngModel)]="mailAddress">
 			</div>
 
 			<div class="login-label">{{passwordFieldLabel}}</div>

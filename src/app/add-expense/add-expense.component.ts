@@ -111,7 +111,7 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	validateSum(sum: number): boolean {
-		if (isNaN(sum) || (!sum)) {
+		if (isNaN(sum) || (!sum) || (Number(sum) < 0)) {
 			this.isInvalidInput = true;
 			return false;
 		} else {

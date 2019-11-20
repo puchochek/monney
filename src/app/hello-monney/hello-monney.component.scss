@@ -5,40 +5,57 @@
 .main {
     height: 100vh;
 }
-
 .hello-monney-greeting {
     padding-top: 10%;
 }
-
 .hello-monney-message {
-    padding-top: 5%;
+    padding-top: 2%;
 }
-
 .hello-monney-message, .hello-monney-greeting {
     font-family: capture;
     color: white;
     font-size: 2rem;
     text-align: center;
 }
-
 .hello-monney-actions {
     padding-top: 5%;
     display: grid;
     grid-template-columns: 5fr 1fr 1fr 5fr;
     text-align: center;
 }
-
 .yes-btn, .no-btn {
     font-family: capture;
     color: white;
     font-size: 2rem;
-    padding: 1% 0;
+    padding: 4% 1%;
+    border-radius: 4px;
 }
-
 .yes-btn:hover, .no-btn:hover {
     cursor: pointer;
     background-color: #eee;
     color: black;
+}
+.spinner {
+	position: fixed;
+	z-index: 1;
+	height: 2em;
+	width: 2em;
+	overflow: show;
+	margin: auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+.spinner:before {
+	content: '';
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.3);
 }
 
 @media (max-width: 400px) {

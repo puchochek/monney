@@ -1,11 +1,14 @@
 <div class="main" *ngIf='isPageLoad'>
+	<div class="spinner" *ngIf="isLoading">
+		<mat-spinner [diameter]="50"></mat-spinner>
+	</div>
 
 	<div class="hello-monney-container">
 		<div class="hello-monney-greeting">
-			welcome to monney-app
+			{{welcomeMessage}}
 		</div>
 		<div class="hello-monney-message">
-			already have an account here ?
+			{{haveAccountMessage}}
 		</div>
 		<div class="hello-monney-actions">
 			<div class="empty-div"></div>

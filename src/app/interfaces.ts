@@ -2,7 +2,7 @@ export interface FinanceData {
 	comment: string;
 	date: string;
 	id: string;
-	sum: string;
+	sum: number;
 	category: string;
 	userId: string;
 	isDeleted: boolean;

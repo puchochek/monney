@@ -12,6 +12,9 @@ import { environment } from '../../environments/environment'
 })
 export class HelloMonneyComponent implements OnInit {
 	isPageLoad: boolean;
+	isLoading: boolean = true;
+	welcomeMessage: string = `Welcome to the monney-app !`;
+	haveAccountMessage: string = `already have an account here ?`;
 
 	constructor(
 		private http: HttpClient,
@@ -21,7 +24,6 @@ export class HelloMonneyComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		//http://localhost:4200/myprofile/e2c71aff-6861-4fb0-89b6-238df0456031
 		const userId = localStorage.getItem('userId');
 		const token = localStorage.getItem('token');
 		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
@@ -33,9 +35,11 @@ export class HelloMonneyComponent implements OnInit {
 						const currentUser = <LoggedUser>response.body;
 						console.log('---> HELLO-MONNEY response ', response);
 						if (currentUser) {
+							this.isLoading = false;
 							this.router.navigate(['/home']);
 						} else {
 							this.isPageLoad = true;
+							this.isLoading = false;
 						}
 					},
 					error => {
@@ -50,6 +54,7 @@ export class HelloMonneyComponent implements OnInit {
 				);
 		} else {
 			this.isPageLoad = true;
+			this.isLoading = false;
 		}
 	}
 }

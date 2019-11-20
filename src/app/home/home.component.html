@@ -29,7 +29,7 @@
                 </div>
                 <div class="navigation-buttons">
                     <div class="manage-incomes-container-moblie">
-                        <mat-menu #appMenu="matMenu">
+                        <mat-menu #appMenuIncome="matMenu">
                             <button mat-menu-item class="custom-menu"
                                 routerLink="/categories/Income/new/{{incomeId}}">Add
                                 income</button>
@@ -37,19 +37,17 @@
                                 details</button>
                         </mat-menu>
                         <div class="icome-details-mobile">
-                            <div class="income-details-lbl-mobile" [matMenuTriggerFor]="appMenu">Incomes</div>
+                            <div class="income-details-lbl-mobile" [matMenuTriggerFor]="appMenuIncome">Incomes</div>
                         </div>
                     </div>
                     <div class="manage-reports-container-moblie">
-                        <mat-menu #appMenu="matMenu">
+                        <mat-menu #matMenuReport="matMenu">
                             <button mat-menu-item class="custom-menu"
-                                routerLink="/categories/Income/new/{{incomeId}}">Add
-                                income</button>
-                            <button mat-menu-item class="custom-menu" routerLink="/detail/{{incomeId}}">Income
-                                details</button>
+                                routerLink="/home">In development</button>
+                            <button mat-menu-item class="custom-menu" routerLink="/home">In development</button>
                         </mat-menu>
                         <div class="report-details-mobile">
-                            <div class="report-details-lbl-mobile" [matMenuTriggerFor]="appMenu">Reports</div>
+                            <div class="report-details-lbl-mobile" [matMenuTriggerFor]="matMenuReport">Reports</div>
                         </div>
                     </div>
                 </div>

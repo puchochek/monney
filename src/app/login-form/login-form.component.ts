@@ -36,6 +36,7 @@ export class LoginFormComponent implements OnInit {
 	url: string;
 	title: string;
 	isLogin: boolean;
+	isLoading: boolean = false;
 
 	confirmAuthorisationModal: MatDialogRef<ModalComponent>;
 
@@ -136,6 +137,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	login() {
+		this.isLoading = true;
 		const url = `${environment.apiBaseUrl}/user/register`;
 		this.http.post(url, {
 			password: this.password,
@@ -146,10 +148,12 @@ export class LoginFormComponent implements OnInit {
 				console.log('---> LoginFormComponent REGISTRED', response);
 				this.openConfirmAuthorisationModal(`Congratulations! You were succesfully logged in. Now check your email to continue.`);
 				const currantUser = <LoggedUser>response.body;
+				this.isLoading = false;
 				this.dataService.updateUserId(currantUser.id);
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);
+				this.isLoading = false;
 				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
 			},
@@ -161,6 +165,7 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	autorize() {
+		this.isLoading = true;
 		const url = `${environment.apiBaseUrl}/user/autorize`;
 		this.http.post(url, {
 			password: this.password,
@@ -174,6 +179,7 @@ export class LoginFormComponent implements OnInit {
 				if (currentUser) {
 					this.dataService.updateUserId(currentUser.id);
 					this.updateToken(currentUser);
+					this.isLoading = false;
 					this.router.navigate(['/home']);
 				} else {
 					this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
@@ -181,6 +187,7 @@ export class LoginFormComponent implements OnInit {
 			},
 			error => {
 				console.log('---> autorize error ', error);
+				this.isLoading = false;
 				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
 			},
@@ -218,5 +225,6 @@ export class LoginFormComponent implements OnInit {
 				message: message
 			}
 		});
+		this.router.navigate(['/hello-monney']);
 	}
 }
