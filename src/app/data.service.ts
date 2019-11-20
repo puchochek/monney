@@ -1,30 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { FinanceData } from './interfaces';
+import { FinanceData, LoggedUser } from './interfaces';
 
 @Injectable()
 export class DataService {
 
-	sortTransactions(incomeCategoryId: string, arrayToSort: FinanceData[]): {} {
-		const thisMonthTransactionByType = arrayToSort.reduce((exps, exp) => {
-			if (exp.category === incomeCategoryId) {
-				exps['incomes'].push(exp);
-			} else {
-				exps['expenses'].push(exp);
-			}
-			return exps;
-		}, { incomes: [], expenses: [] });
-		return thisMonthTransactionByType;
+	findIncomeId(currentUser: LoggedUser): string {
+		const incomeCategory = [...currentUser.categories].filter(category => category.isIncome)[0];
+		return incomeCategory.id;
 	}
 
 	sortTransactionsByCategoryId(сategoryId: string, arrayToSort: FinanceData[]) {
 		return arrayToSort.filter(expense => expense.category == сategoryId);
-	}
-
-	countBalance(transactionsToSort: any): number {
-		const thsiMonthExpenses = transactionsToSort[`expenses`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
-		const thsiMonthIncomes = transactionsToSort[`incomes`].reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
-		return thsiMonthIncomes - thsiMonthExpenses;
 	}
 
 	countCategoryTransactionsTotal(transactionsToSort: any): number {
@@ -35,14 +22,26 @@ export class DataService {
 	getThisMonthTransactions(transactions: FinanceData[]): FinanceData[] {
 		const currentMonth = new Date().getMonth();
 		return transactions.filter(transaction => new Date(transaction.date).getMonth() == currentMonth);
-
 	}
 
-	orderTransactionsByDate(incomes: FinanceData[]): FinanceData[] {
-		const sortedIncomes = incomes.sort(function (a, b) {
-			return (new Date(b.date) as any) - (new Date(a.date) as any);
-		});
-		return sortedIncomes;
+	setThisMonthExpensesTotal(currentUser: LoggedUser, incomeId: string): number {
+		const expenseTransactions = [...currentUser.transactions].filter(transaction => transaction.category !== incomeId);
+		const thisMonthExpenseTransactions = this.getThisMonthTransactions(expenseTransactions);
+		const thisMonthExpensesTotal = this.countCategoryTransactionsTotal(thisMonthExpenseTransactions) || 0;
+
+		return thisMonthExpensesTotal;
+	}
+
+	setThisMonthIncomesTotal(currentUser: LoggedUser, incomeId: string): number {
+		const incomeTransactions = [...currentUser.transactions].filter(transaction => transaction.category === incomeId);
+		const thisMonthIncomeTransactions = this.getThisMonthTransactions(incomeTransactions);
+		const thisMonthIncomeTotal = this.countCategoryTransactionsTotal(thisMonthIncomeTransactions) || 0;
+
+		return thisMonthIncomeTotal;
+	}
+
+	setThisMonthBalanceTotal(incomesTotal: number, expensesTotal: number): number {
+		return incomesTotal - expensesTotal;
 	}
 
 	updateToken(newToken: string) {

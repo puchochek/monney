@@ -3,11 +3,13 @@ import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { FinanceData } from '../interfaces';
+import { FinanceData, LoggedUser } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment'
 import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
+import { UserService } from '../user.service';
+
 
 @Component({
 	selector: 'app-add-expense',
@@ -19,6 +21,7 @@ export class AddExpenseComponent implements OnInit {
 	@Input() sum: number;
 	@Input() comment: string;
 
+	currentUser: LoggedUser;
 	category: string;
 	status: string;
 	isInvalidInput: boolean;
@@ -30,14 +33,16 @@ export class AddExpenseComponent implements OnInit {
 	addNewAction: string;
 	editAction: string;
 	transactionName: string;
+	invaildSumMessage: string;
 	isEdit: boolean;
 	transactionSum: number;
 	transactionToEdit: FinanceData;
 	date = new FormControl(new Date());
 	serializedDate = new FormControl((new Date()).toISOString());
 	maxDate = new Date();
+	balance: number;
 	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
-	private sbscr: Subscription;
+	private subscription: Subscription;
 
 	constructor(
 		private dataService: DataService,
@@ -45,27 +50,35 @@ export class AddExpenseComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private snackBar: MatSnackBar,
-		private transactionService: TransactionService
+		private transactionService: TransactionService,
+
 	) { }
 
 	ngOnInit() {
-		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
+		const selectedCategory = this.route.snapshot.paramMap.get('category');
+		this.transactionName = selectedCategory === `income` ?
+			`income`
+			: `expense`;
 
+		if (this.transactionName !== `income`) {
+			this.doUserControllerCall();
+		}
+
+		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
 		if (this.isEdit) {
-			this.sbscr = this.transactionService._transaction.subscribe((response) => {
+			this.subscription = this.transactionService._transaction.subscribe((response) => {
 				console.log('--->  ADD EXPENSE _transaction ', response);
 				if (response) {
 					this.transactionToEdit = <FinanceData>response;
+				} else {
+					this.router.navigate([`/home`]);
 				}
 			});
 		}
-		const selectedCategory = this.route.snapshot.paramMap.get('category');
+
 		this.category = selectedCategory;
 		this.addNewAction = `Add new`;
 		this.editAction = `Edit`;
-		this.transactionName = selectedCategory === `Income` ?
-			`income`
-			: `expense`;
 		this.title = this.isEdit ?
 			`${this.editAction} ${this.transactionName}`
 			: `${this.addNewAction} ${this.transactionName}`;
@@ -77,8 +90,8 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	ngOnDestroy() {
-		if (this.sbscr) {
-			this.sbscr.unsubscribe();
+		if (this.subscription) {
+			this.subscription.unsubscribe();
 		}
 	}
 
@@ -113,11 +126,23 @@ export class AddExpenseComponent implements OnInit {
 	validateSum(sum: number): boolean {
 		if (isNaN(sum) || (!sum) || (Number(sum) < 0)) {
 			this.isInvalidInput = true;
+			this.invaildSumMessage = `The Sum field may keep a positive number value only`;
 			return false;
 		} else {
-			this.isInvalidInput = false;
-			return true;
+			if (this.transactionName === `income`) {
+				this.isInvalidInput = false;
+				return true;
+			} else {
+				console.log('---> this.balance ', this.balance);
+				if (sum < this.balance) {
+					this.isInvalidInput = false;
+					return true;
+				}
+			}
 		}
+		this.isInvalidInput = true;
+		this.invaildSumMessage = `You may not spend more money than you have. Check your incomes to continue.`;
+		return false;
 	}
 
 	saveNewExpence(newExpence: any) {
@@ -149,14 +174,10 @@ export class AddExpenseComponent implements OnInit {
 		};
 		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
 		let navigateUrl: string;
-		if (this.transactionName === `income`) {
-			navigateUrl = `/balance`; //TODO Change
-		}
-		if (this.transactionName !== `income` && this.transactionToEdit) {
-			navigateUrl = `/detail/${this.transactionToEdit.category}`;
-		}
 		if (this.transactionName !== `income` && !this.transactionToEdit) {
 			navigateUrl = `/home`;
+		} else {
+			navigateUrl = `/detail/${this.transactionToEdit.category}`;
 		}
 		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
@@ -164,8 +185,6 @@ export class AddExpenseComponent implements OnInit {
 	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
 		let snackMessage: string;
 		let action: string;
-		const userId = localStorage.getItem('userId');
-		const categoryId = this.route.snapshot.paramMap.get('categoryId');
 		const transactionsToUpsert = [transaction];
 		this.http.post(requestUrl, {
 			transactionsToUpsert: transactionsToUpsert
@@ -197,5 +216,36 @@ export class AddExpenseComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
+	}
+
+	doUserControllerCall() {
+		const userId = localStorage.getItem("userId");
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
+		if (userId) {
+			this.http.get(url, { observe: 'response' })
+				.subscribe(
+					response => {
+						this.currentUser = <LoggedUser>response.body;
+						this.setBalanceInfo();
+					},
+					error => {
+						console.log('---> HOME error ', error);
+						this.router.navigate(['/hello-monney']);
+					},
+					() => {
+						// 'onCompleted' callback.
+						// No errors, route to new page here
+					}
+				);
+		}
+	}
+
+	setBalanceInfo() {
+		const incomeId = this.dataService.findIncomeId(this.currentUser);
+		const expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, incomeId);
+		const incomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, incomeId);
+		const balanceTotal = this.dataService.setThisMonthBalanceTotal(incomesTotal, expensesTotal);
+
+		this.balance = balanceTotal;
 	}
 }

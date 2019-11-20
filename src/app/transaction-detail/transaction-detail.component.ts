@@ -117,8 +117,6 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	sortExpenses(fieldToSort: string) {
-		console.log('---> fieldToSort ', fieldToSort);
-		console.log('---> this.transactionToDisplay ', this.transactionToDisplay );
 		const fieldName = fieldToSort.toLowerCase();
 		if (this.isAscSorted) {
 			this.transactionToDisplay = [...this.transactionToDisplay].sort(function (a, b) {

@@ -8,8 +8,6 @@ import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { UserService } from '../user.service';
 
-
-
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
@@ -32,7 +30,7 @@ export class HomeComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		private userService: UserService
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
@@ -64,8 +62,7 @@ export class HomeComponent implements OnInit {
 
 	setIncomeId() {
 		if (this.currentUser.categories && this.currentUser.categories.length !== 0) {
-			const incomeCategory = [...this.currentUser.categories].filter(category => category.isIncome)[0];
-			this.incomeId = incomeCategory.id;
+			this.incomeId = this.dataService.findIncomeId(this.currentUser);
 		} else {
 			const userId = localStorage.getItem("userId");
 			this.createIncomeCategoryForNewUser(userId);
@@ -73,9 +70,9 @@ export class HomeComponent implements OnInit {
 	}
 
 	setBalanceInfo() {
-		this.expensesTotal = this.setThisMonthExpensesTotal();
-		this.incomesTotal = this.setThisMonthIncomesTotal();
-		this.balanceTotal = this.setThisMonthBalanceTotal();
+		this.expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, this.incomeId);
+		this.incomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, this.incomeId);
+		this.balanceTotal = this.dataService.setThisMonthBalanceTotal(this.incomesTotal, this.expensesTotal);
 	}
 
 	setThisMonthExpensesTotal(): number {
