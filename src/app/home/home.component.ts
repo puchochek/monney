@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit {
 	expensesTotal: number;
 	balanceTotal: number;
 	isLoading: boolean = true;
+	incomeMenuItems: [
+		{ name: `Add income`, routerLink: `/categories/Income/new/{{incomeId}}` },
+		{ name: `View incomes`, routerLink: `/detail/{{incomeId}}` }
+	];
 
 	constructor(
 		private dataService: DataService,

@@ -22,6 +22,38 @@
                     </div>
                 </div>
             </div>
+            <div class="navigation-zone-mobile">
+                <div class="balance-info-mobile">
+                    <div class="balance-info-mobile-title">Balance:</div>
+                    <div class="balance-mobile-value">{{balanceTotal}}</div>
+                </div>
+                <div class="navigation-buttons">
+                    <div class="manage-incomes-container-moblie">
+                        <mat-menu #appMenu="matMenu">
+                            <button mat-menu-item class="custom-menu"
+                                routerLink="/categories/Income/new/{{incomeId}}">Add
+                                income</button>
+                            <button mat-menu-item class="custom-menu" routerLink="/detail/{{incomeId}}">Income
+                                details</button>
+                        </mat-menu>
+                        <div class="icome-details-mobile">
+                            <div class="income-details-lbl-mobile" [matMenuTriggerFor]="appMenu">Incomes</div>
+                        </div>
+                    </div>
+                    <div class="manage-reports-container-moblie">
+                        <mat-menu #appMenu="matMenu">
+                            <button mat-menu-item class="custom-menu"
+                                routerLink="/categories/Income/new/{{incomeId}}">Add
+                                income</button>
+                            <button mat-menu-item class="custom-menu" routerLink="/detail/{{incomeId}}">Income
+                                details</button>
+                        </mat-menu>
+                        <div class="report-details-mobile">
+                            <div class="report-details-lbl-mobile" [matMenuTriggerFor]="appMenu">Reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="divider"></div>
             <div class="manage-reports-container">
                 <div class="manage-reports">

@@ -98,6 +98,10 @@
 	background-color: rgba(0,0,0,0.3);
 }
 
+.navigation-zone-mobile {
+	display: none;
+}
+
 @media (max-width: 1000px) {
 	.home-page-content {
 		display: grid;
@@ -145,5 +149,56 @@
 	.manage-incomes-title, .manage-reports-title {
 		padding: 1% 0 0 5%;
 	}
+	.home-page-content {
+		display: block;
+	}
+	.navigation-zone-mobile {
+		display: block;
+	}
+	.manage-reports-container, .manage-incomes-container, .balance-info-container {
+		display: none;
+	}
+	.navigation-buttons {
+		display: grid;
+		grid-template-columns: 6fr 6fr;
+	}
+	.icome-details-mobile, .report-details-mobile {
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		font-family: Roboto, "Helvetica Neue", sans-serif;
+		color: white;
+		width: 95%;
+		text-align: center;
+		text-transform: uppercase;
+		font-size: .8rem;
+		margin: auto;
+		margin-bottom: 10px;
+		box-shadow: 1px 1px;
+	}
+	.icome-details-mobile:hover, .report-details-mobile:hover {
+		background-color: white;
+		color: black;
+		cursor: pointer;
+	}
+	.report-details-mobile {
+		margin-left: 12px;
+	}
+	.balance-info-mobile {
+		text-align: right;
+		margin: auto;
+	}
+	.balance-info-mobile-title, .balance-mobile-value {
+		text-transform: uppercase;
+		font-size: .8rem;
+		color: white;
+		display: inline;
+		text-align: right;
+		padding: 0 5px;
+	}
+	// .categories-list-container {
+	// 	height: 500px;
+	// 	overflow: auto;
+	// }
+
 
 }
