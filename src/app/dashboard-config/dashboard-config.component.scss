@@ -1,0 +1,203 @@
+@font-face {
+    font-family: capture;
+    src: url("../../assets/fonts/capture.ttf") format("opentype");
+}
+.dashboard-config-container {
+    background: transparent;
+	border-radius: 8px;
+    border: 1px solid white;
+    width: 50%;
+    max-height: 90vh;
+	margin: auto;
+    margin-top: 1%;
+    overflow: auto;
+}
+.dashboard-config-title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    padding: 10px;
+    border-bottom: 1px solid #8e8e8e;
+    line-height: 1;
+}
+
+.dashboard-config-type-title,
+.dashboard-config-date-title,
+.dashboard-config-category-title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-family: capture;
+    padding: 10px 20px;
+    line-height: 1;
+}
+.spinner {
+	position: fixed;
+	z-index: 1;
+	height: 2em;
+	width: 2em;
+	overflow: show;
+	margin: auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+.spinner:before {
+	content: '';
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.3);
+}
+.dashboard-config-type-item {
+    border-radius: 4px;
+}
+.dashboard-config-type-item-selected {
+    background-color: white;
+    color: black;
+}
+.dashboard-config-type-item:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+.dashboard-config-type-container {
+    margin: 1% 5%;
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    column-gap: 20px;
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+.dashboard-config-date-container {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    font-size: 1rem;
+    text-align: center;
+    padding: 5px 5px 0 5px;
+    color: white;
+}
+.mat-datepicker-toggle {
+    color: white !important;
+}
+.placeholder {
+    color: white;
+}
+.placeholder-wrong-date {
+    color: red;
+    font-size: 1.2rem;
+}
+.dashboard-config-category-options {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    font-size: 1rem;
+    text-align: center;
+    padding: 5px 5px 0 5px;
+    color: white;
+}
+::ng-deep.mat-checkbox-frame { 
+    border-color: white;
+}
+.dashboard-actions,
+.dashboard-actions-conainer {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+}
+.dashboard-actions-conainer {
+    column-gap: 5px;
+}
+.dashboard-btn {
+    border: 1px solid #ccc;
+	border-radius: 4px;
+	color: white;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: .8rem;
+	margin: 20px;
+	box-shadow: 1px 1px;
+	padding: 2px 3px;
+}
+.dashboard-btn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+.dashboard-config-category-options-custom {
+    padding: 5px 5px 0 5px;
+    height: 150px;
+    overflow-y: auto;
+}
+.dashboard-config-categories-container {
+    border-top: 1px solid #8e8e8e;
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    color: white;
+    font-size: .8rem;
+}
+
+@media (max-width: 1000px) {
+    .dashboard-config-container {
+        width: 80%;
+    }
+    .mat-form-field {
+        width: 130px !important;
+    }
+}
+@media (max-width: 800px) {
+    .dashboard-config-container {
+        width: 90%;
+    }
+    .category-checkbox {
+        font-size: .8rem;
+    }
+    .dashboard-config-category-options {
+        grid-template-columns: 12fr;
+        text-align: left;
+    }
+    .dashboard-actions-conainer {
+        display: inline;
+    }
+    .dashboard-btn {
+        font-size: .6rem;
+        margin: 5px;
+        padding: 0 1px;
+        margin: 10px;
+    }
+    .dashboard-config-category-options-custom {
+        grid-template-columns: 6fr 6fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-config-title,
+    .dashboard-config-type-title,
+    .dashboard-config-date-title,
+    .dashboard-config-category-title {
+        font-size: .8rem;
+        padding: 5px;
+    }
+    .dashboard-config-type-container {
+        font-size: .6rem;
+    }
+    .mat-form-field {
+        width: 100px !important;
+    }
+    .placeholder-wrong-date {
+        font-size: .8rem;
+    }
+    .dashboard-config-date-container {
+        font-size: .8rem;
+    }
+    .dashboard-config-categories-container {
+        grid-template-columns: 4fr 4fr 4fr;
+        color: white;
+        font-size: .6rem;
+    }
+
+}

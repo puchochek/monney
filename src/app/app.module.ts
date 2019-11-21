@@ -65,6 +65,7 @@ import { HomeComponent } from './home/home.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { FileUploadModule } from "ng2-file-upload";
+import { DashboardConfigComponent } from './dashboard-config/dashboard-config.component';
 
 @NgModule({
 	declarations: [
@@ -81,6 +82,7 @@ import { FileUploadModule } from "ng2-file-upload";
 		HomeComponent,
 		ModalComponent,
 		TransactionDetailComponent,
+		DashboardConfigComponent,
 	],
 	imports: [
 		BrowserModule,

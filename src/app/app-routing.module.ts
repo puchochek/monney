@@ -10,6 +10,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { AddCategoryModalComponent } from './add-category-modal/add-category-modal.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import { DashboardConfigComponent } from './dashboard-config/dashboard-config.component';
 
  const routes: Routes = [
     { path: '', redirectTo: 'hello-monney', pathMatch: 'full' },
@@ -25,6 +26,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
     { path: 'myprofile/:userid', component: UserProfileComponent },
     { path: 'category', component: AddCategoryModalComponent },
     { path: 'category/:categoryId', component: AddCategoryModalComponent },
+    { path: 'dashboard/config', component: DashboardConfigComponent },
  ];
 
 @NgModule({
