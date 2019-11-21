@@ -50,12 +50,37 @@ export class HeaderComponent implements OnInit {
 				this.currentUser = <LoggedUser>response;
 				this.isMenuAvailable = true;
 				this.setAvatar();
+			} else {
+				this.doUserControllerCall();
 			}
 		});
 	}
 
 	ngOnDestroy() {
 		this.sbscr.unsubscribe();
+	}
+
+	doUserControllerCall() {
+		const userId = localStorage.getItem("userId");
+		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
+		if (userId) {
+			this.http.get(url, { observe: 'response' })
+				.subscribe(
+					response => {
+						this.currentUser = <LoggedUser>response.body;
+						this.isMenuAvailable = true;
+						this.setAvatar();
+					},
+					error => {
+						console.log('---> HEADER error ', error);
+						this.router.navigate(['/hello-monney']);
+					},
+					() => {
+						// 'onCompleted' callback.
+						// No errors, route to new page here
+					}
+				);
+		}
 	}
 
 	setAvatar() {

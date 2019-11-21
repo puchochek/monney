@@ -2,7 +2,6 @@
     font-family: Pt-Sans-Bold;
     src: url('../../assets/fonts/pt-sans-bold.ttf') format('opentype');
 }
-
 .expense-form {
 	max-width: 500px;
 	padding: 10px 20px;
@@ -98,9 +97,6 @@
 	grid-template-columns: 1fr 1fr;
 }
 .new-expence-category-name {
-	//position: absolute;
-	//bottom: 40%;
-	//left: 35%;
 	text-transform: uppercase;
 	font-size: 1.4em;
 }
@@ -108,12 +104,24 @@
 .new-expence-category {
 	position: relative;
 	padding: 0 5%;
+}
 
+@media (max-width: 550px) {
+	.expense-form {
+		width: 400px;
+	}
+	.expense-form input[type="submit"],
+	.expense-form input[type="button"] {
+		padding: 10px 29px 9px 29px;
+	}
+	.title {
+		padding: 14px 0;
+	}
 }
 
 @media (max-width: 400px) {
 	.expense-form {
-		margin: 5%;
+		width: 300px;
 	}
 	.fieldset-legend {
 		width: 10%;
@@ -129,10 +137,22 @@
 	}
 	.expense-form input[type="submit"],
 	.expense-form input[type="button"] {
-		padding: 10px 39px 9px 39px;
+		padding: 5px 29px 4px 29px;
 	}
 	.title {
-		padding: 14px 0;
+		padding: 8px 0;
+	}
+}
+@media (max-width: 330px) {
+	.expense-form {
+		width: 250px;
+	}
+	.expense-form input[type="submit"],
+	.expense-form input[type="button"] {
+		padding: 3px 29px 2px 29px;
+	}
+	.title {
+		padding: 5px 0;
 	}
 }
 

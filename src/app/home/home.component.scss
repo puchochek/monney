@@ -5,68 +5,24 @@
 .home-page-content {
 	display: grid;
 	grid-template-columns: 2fr 10fr;
-	margin: 1%;
+	grid-column-gap: 10px;
+	width: 98%;
+	margin: auto;
+	margin-top: 1%
 }
 .categories-list-container {
 	background: transparent;
 	border-radius: 8px;
     border: 1px solid white;
 }
-.manage-incomes-container, .manage-reports-container {
-	background: transparent;
-	border-radius: 8px;
-    border: 1px solid white;
-}
-.manage-incomes-container, .manage-reports-container {
-	height: 20%;
-}
-.divider {
-	height: 1%;
-}
 .balance-divider {
-	height: 10%;
-}
-.navigation-zone {
-	height: 100%;
-	margin-right: 2%;
-}
-.manage-incomes, .manage-reports {
-    text-transform: uppercase;
-	background: transparent;
-	font-family: capture;
-}
-.manage-incomes-header, .manage-reports-header {
-    color: white;
-    font-size: 1.5rem;
-}
-.manage-incomes-title, .manage-reports-title {
-	padding: 2% 0 2% 5%;
-}
-.manage-incomes-quick-actions {
-	padding-top: 30px;
-}
-.add-icome, .see-icome-details {
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-	color: white;
-	width: 80%;
-	text-align: center;
-	font-size: .8rem;
-	margin: auto;
-	margin-bottom: 10px;
-}
-.add-icome:hover, .see-icome-details:hover {
-	background-color: white;
-	color: black;
-	cursor: pointer;
+	height: 1%;
 }
 .balance-info {
 	color: white;
 	text-transform: uppercase;
 	padding: 0 2%;
 }
-
 .balance-info-header {
 	border-bottom: 1px solid #8e8e8e;
 }
@@ -97,98 +53,77 @@
 	height: 100%;
 	background-color: rgba(0,0,0,0.3);
 }
-.navigation-zone-mobile {
+.navigation-zone {
+	display: block;
+}
+.manage-incomes-container {
+	display: inline;
+}
+.icome-details, .report-details {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-family: capture;
+	color: white;
+	width: 100%;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	margin: auto;
+	margin-bottom: 10px;
+	box-shadow: 1px 1px;
+	padding: 10px;
+}
+.icome-details:hover, .report-details:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+.balance-info-mobile {
 	display: none;
+}
+.balance-info-mobile-title, .balance-mobile-value {
+	text-transform: uppercase;
+	font-size: .8rem;
+	color: white;
+	display: inline;
+	text-align: right;
+	padding: 0 5px;
+}
+.custom-menu {
+	text-transform: uppercase;
 }
 
 @media (max-width: 1000px) {
 	.home-page-content {
-		display: grid;
-		grid-template-columns: 4fr 8fr;
-	}
-	.manage-incomes-container, .manage-reports-container {
-		height: 15%;
-	}
-	.manage-incomes-quick-actions {
-		padding-top: 10px;
-	}
-}
-@media (max-width: 400px) {
-	.manage-incomes-header, .manage-reports-header {
-		font-size: .8rem;
-	}
-	.manage-incomes-quick-actions {
-		font-size: .7rem;
-	}
-	.add-icome, .see-icome-details {
-		padding: 2px;
-		line-height: 1.3;
-	}
-	.add-income-lbl, .income-details-lbl {
-		width: 100%;
-		padding: 3% 1%;
-	}
-	.balance-info {
-		font-size: .8rem;
-		line-height: 1.3;
-	}
-	.manage-incomes-quick-actions {
-		padding-top: 1px;
-	}
-	.add-icome, .see-icome-details {
-		width: 80%;
-		font-size: .6rem;
-	}
-	.add-icome {
-		margin-bottom: 3px;
-	}
-	.see-icome-details {
-		margin-bottom: 1px;
-	}
-	.manage-incomes-title, .manage-reports-title {
-		padding: 1% 0 0 5%;
-	}
-	.home-page-content {
 		display: block;
 	}
-	.navigation-zone-mobile {
-		display: block;
-	}
-	.manage-reports-container, .manage-incomes-container, .balance-info-container {
+	.balance-info-container {
 		display: none;
 	}
 	.navigation-buttons {
 		display: grid;
 		grid-template-columns: 6fr 6fr;
+		grid-column-gap: 10px;
 	}
-	.icome-details-mobile, .report-details-mobile {
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		font-family: Roboto, "Helvetica Neue", sans-serif;
-		color: white;
-		width: 95%;
-		text-align: center;
-		text-transform: uppercase;
-		font-size: .8rem;
-		margin: auto;
-		margin-bottom: 10px;
-		box-shadow: 1px 1px;
+	.divider {
+		display: none;
 	}
-	.icome-details-mobile:hover, .report-details-mobile:hover {
+	.icome-details, .report-details {
+		padding: 5px 2px;
+	}
+	.icome-details:hover, .report-details:hover {
 		background-color: white;
 		color: black;
 		cursor: pointer;
 	}
-	.report-details-mobile {
-		margin-left: 12px;
-	}
 	.balance-info-mobile {
+		display: block;
 		text-align: right;
 		margin: auto;
 	}
 	.balance-info-mobile-title, .balance-mobile-value {
 		text-transform: uppercase;
-		font-size: .8rem;
+		font-size: 1rem;
 		color: white;
 		display: inline;
 		text-align: right;
@@ -198,5 +133,20 @@
 		text-transform: uppercase;
 	}
 
+	@media (max-width: 750px) {
+		.icome-details, .report-details {
+			font-size: 1rem;
+			padding: 2px;
+		}
+	}
 
+	@media (max-width: 400px) {
+		.icome-details, .report-details {
+			font-size: 1rem;
+			padding: 2px;
+		}
+		.balance-info-mobile-title, .balance-mobile-value {
+			font-size: .8rem;
+		}
+	}
 }

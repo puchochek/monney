@@ -4,59 +4,30 @@
     </div>
     <div class="home-page-content" *ngIf="currentUser">
         <div class="navigation-zone">
-            <div class="manage-incomes-container">
-                <div class="manage-incomes">
-                    <div class="manage-incomes-header">
-                        <div class="manage-incomes-title">incomes</div>
-                    </div>
-                    <div>
-                        <div class="manage-incomes-quick-actions">
-                            <div class="add-icome">
-                                <div class="add-income-lbl" routerLink="/categories/income/new/{{incomeId}}">Add income
-                                </div>
-                            </div>
-                            <div class="see-icome-details">
-                                <div class="income-details-lbl" routerLink="/detail/{{incomeId}}">Income details</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="balance-info-mobile">
+                <div class="balance-info-mobile-title">Balance:</div>
+                <div class="balance-mobile-value">{{balanceTotal}}</div>
             </div>
-            <div class="navigation-zone-mobile">
-                <div class="balance-info-mobile">
-                    <div class="balance-info-mobile-title">Balance:</div>
-                    <div class="balance-mobile-value">{{balanceTotal}}</div>
-                </div>
-                <div class="navigation-buttons">
-                    <div class="manage-incomes-container-moblie">
-                        <mat-menu #appMenuIncome="matMenu">
-                            <button mat-menu-item class="custom-menu"
-                                routerLink="/categories/Income/new/{{incomeId}}">Add
-                                income</button>
-                            <button mat-menu-item class="custom-menu" routerLink="/detail/{{incomeId}}">Income
-                                details</button>
-                        </mat-menu>
-                        <div class="icome-details-mobile">
-                            <div class="income-details-lbl-mobile" [matMenuTriggerFor]="appMenuIncome">Incomes</div>
-                        </div>
-                    </div>
-                    <div class="manage-reports-container-moblie">
-                        <mat-menu #matMenuReport="matMenu">
-                            <button mat-menu-item class="custom-menu"
-                                routerLink="/home">In development</button>
-                            <button mat-menu-item class="custom-menu" routerLink="/home">In development</button>
-                        </mat-menu>
-                        <div class="report-details-mobile">
-                            <div class="report-details-lbl-mobile" [matMenuTriggerFor]="matMenuReport">Reports</div>
-                        </div>
+            <div class="navigation-buttons">
+                <div class="manage-incomes-container">
+                    <mat-menu #appMenuIncome="matMenu">
+                        <button mat-menu-item class="custom-menu" routerLink="/categories/Income/new/{{incomeId}}">Add
+                            income</button>
+                        <button mat-menu-item class="custom-menu" routerLink="/detail/{{incomeId}}">Income
+                            details</button>
+                    </mat-menu>
+                    <div class="icome-details">
+                        <div class="income-details-lbl" [matMenuTriggerFor]="appMenuIncome">Incomes</div>
                     </div>
                 </div>
-            </div>
-            <div class="divider"></div>
-            <div class="manage-reports-container">
-                <div class="manage-reports">
-                    <div class="manage-reports-header">
-                        <div class="manage-reports-title">reports</div>
+                <div class="divider"></div>
+                <div class="manage-reports-container">
+                    <mat-menu #matMenuReport="matMenu">
+                        <button mat-menu-item class="custom-menu" routerLink="/home">In development</button>
+                        <button mat-menu-item class="custom-menu" routerLink="/home">In development</button>
+                    </mat-menu>
+                    <div class="report-details">
+                        <div class="report-details-lbl" [matMenuTriggerFor]="matMenuReport">Reports</div>
                     </div>
                 </div>
             </div>
