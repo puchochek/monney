@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { LoggedUser } from '../interfaces';
 import { environment } from '../../environments/environment';
 import { ModalComponent } from '../modal/modal.component';
+import { HostListener } from '@angular/core';
 
 
 const wrongName = `Name field may only consist of letters or numbers.`;
@@ -19,6 +20,11 @@ At least one upper case letter, one lower case letter and one no-letter characte
 	styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
+	key: any;
+	@HostListener('document:keypress', ['$event'])
+	handleKeyboardEvent(event: KeyboardEvent) {
+		this.key = event.key;
+	}
 
 	@Input() name: string;
 	@Input() mailAddress: string;
@@ -45,7 +51,7 @@ export class LoginFormComponent implements OnInit {
 		private http: HttpClient,
 		private router: Router,
 		private dialog: MatDialog
-		 ) { }
+	) { }
 
 	ngOnInit() {
 		this.nameFieldLabel = 'name';
@@ -58,6 +64,12 @@ export class LoginFormComponent implements OnInit {
 		this.title = this.isLogin ?
 			'sign up'
 			: 'sign in';
+	}
+
+	handleKeyPress(event) {
+		if (event.key === `Enter`) {
+			this.validateInput();
+		}
 	}
 
 	validateInput() {

@@ -3,7 +3,7 @@
 		<mat-spinner [diameter]="50"></mat-spinner>
 	</div>
 	<div class="login-form-container">
-		<div class="login-form">
+		<div class="login-form" (keypress)="handleKeyPress($event)">
 			<div class="login-mess">{{title}}</div>
 
 			<div class="login-label" *ngIf="isLogin">{{nameFieldLabel}}</div>
@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="button-group form-group ">
-				<input type="submit" value="Submit" (click)="validateInput()" />
+				<input type="submit" value="Submit" (click)="validateInput()"   />
 				<span> </span>
 				<input type="button" value="Close" routerLink="/hello-monney" />
 			</div>
