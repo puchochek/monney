@@ -31,6 +31,8 @@ export class DashboardConfigComponent implements OnInit {
 	areaChartLbl: string = `Area chart`;
 	barChartLbl: string = `Bar chart`;
 	pieChartLbl: string = `Pie chart`;
+	isWrongConfig: boolean = false;
+	wrongConfigMessage: string;
 	selectedChartType: string;
 	selectedCategories: string[] = [];
 	isValidFromDate: boolean = true;
@@ -107,7 +109,7 @@ export class DashboardConfigComponent implements OnInit {
 				return categoriesList;
 			}, []);
 		}
-		this.categories.unshift({ name: `Incomes`, isChecked: false });
+		this.categories.unshift({ name: `income`, isChecked: false });
 	}
 
 	onDateInputFrom(event) {
@@ -176,13 +178,22 @@ export class DashboardConfigComponent implements OnInit {
 	}
 
 	collectDashboardData() {
-		this.dashboardConfig = {
-			dashboardType: this.selectedChartType,
-			dashboardPeriod: { from: this.fromDateValue, to: this.toDateValue },
-			dashboardCategories: this.selectedCategories,
-			user: this.currentUser
+		if (!this.selectedChartType) {
+			this.isWrongConfig = true;
+			this.wrongConfigMessage = `Please, specify the chart type.`;
+		} else if (this.selectedCategories.length === 0) {
+			this.isWrongConfig = true;
+			this.wrongConfigMessage = `Please, select a categories to analize.`;
+		} else {
+			this.isWrongConfig = false;
+			this.dashboardConfig = {
+				dashboardType: this.selectedChartType,
+				dashboardPeriod: { from: this.fromDateValue, to: this.toDateValue },
+				dashboardCategories: this.selectedCategories,
+				user: this.currentUser
+			}
+			this.dashboardServise.dashboardConfig = this.dashboardConfig;
+			this.router.navigate([`/dashboard`]);
 		}
-		this.dashboardServise.dashboardConfig = this.dashboardConfig;
-		this.router.navigate([`/dashboard`]);
 	}
 }

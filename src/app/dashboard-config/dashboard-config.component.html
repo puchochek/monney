@@ -92,11 +92,14 @@
                 </ng-template>
             </div>
         </div>
+        <div class="error-message-container" *ngIf="isWrongConfig">
+            {{wrongConfigMessage}}
+        </div>
         <div class="dashboard-actions-conainer">
             <div class="divider"></div>
             <div class="dashboard-actions">
                 <div class="escape-dashboard-btn dashboard-btn" routerLink="/home">Close</div>
-                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData()">Create dashboard</div>
+                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData()" sdfdsgf>Create dashboard</div>
             </div>
         </div>
     </div>

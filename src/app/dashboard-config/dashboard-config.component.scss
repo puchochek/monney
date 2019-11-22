@@ -93,28 +93,36 @@
     color: red;
     font-size: 1.2rem;
 }
+.error-message-container {
+    margin: 2px 10px;
+    color: red;
+    font-size: 1.2rem;
+    text-align: center;
+}
 .dashboard-config-category-options {
     display: grid;
     grid-template-columns: 3fr 3fr 3fr 3fr;
     font-size: 1rem;
     text-align: left;
+    text-transform: capitalize;
     padding: 5px 10px 0 10px;
     color: white;
-    margin: 1% 5%;
+    margin: 1% 2%;
 }
-::ng-deep.mat-checkbox-frame { 
+::ng-deep.mat-checkbox-frame {
     border-color: white;
 }
 .ng-hide.ng-hide-animate {
     display: none !important;
     }
-.dashboard-actions,
-.dashboard-actions-conainer {
+    .dashboard-actions-conainer {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+}
+.dashboard-actions {
+    column-gap: 5px;
     display: grid;
     grid-template-columns: 6fr 6fr;
-}
-.dashboard-actions-conainer {
-    column-gap: 5px;
 }
 .dashboard-btn {
     border: 1px solid #ccc;
@@ -162,7 +170,7 @@
         font-size: .8rem;
         margin: 5px;
         padding: 5px 1px;
-        margin: 10px;
+        margin: 1px;
     }
 }
 

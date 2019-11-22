@@ -5,7 +5,8 @@
 .categories-list-container {
 	font-family: capture;
 	color: white;
-	height: 80vh;
+	max-height: 80vh;
+	overflow-y: auto;
 }
 .categories-list-header-container {
 	position: relative;
@@ -116,7 +117,7 @@
 
 @media (max-width: 400px) {
 	.categories-list-container {
-		height: 60vh;
+		height: 70vh;
 	}
 	.header-menu-btn {
 		font-size: 1.2rem;

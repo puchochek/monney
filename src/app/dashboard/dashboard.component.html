@@ -1,1 +1,5 @@
-<p>dashboard works!</p>
+<div class="chart-container">
+    <div [hidden]="!chart">
+        <canvas id="canvas">{{ chart }}</canvas>
+    </div>
+</div>

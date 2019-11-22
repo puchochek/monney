@@ -104,6 +104,7 @@
 		display: grid;
 		grid-template-columns: 6fr 6fr;
 		grid-column-gap: 10px;
+		padding-top: 5px;
 	}
 	.divider {
 		display: none;
@@ -147,7 +148,7 @@
 		}
 		.balance-info-mobile-title, .balance-mobile-value {
 			font-size: .8rem;
-			margin-bottom: 8px;
+			//margin-bottom: 8px;
 		}
 	}
 }

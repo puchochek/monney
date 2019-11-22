@@ -39,6 +39,7 @@ export class CategoryListComponent implements OnInit {
 	ngOnInit() {
 		console.log('---> appUser CatList ', this.appUser);
 		this.buildCategoriesList();
+		//this.dataService.countElementHeight(`categories-list-container`);
 	}
 
 	buildCategoriesList() {
