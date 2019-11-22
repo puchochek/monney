@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { FinanceData } from './interfaces';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class TransactionService {
-  private readonly transaction = new BehaviorSubject<FinanceData>(null);
+	private readonly transaction = new BehaviorSubject<FinanceData>(null);
 	readonly _transaction = this.transaction.asObservable();
 
 	constructor() { }

@@ -11,31 +11,32 @@
                 {{selectDashboardTypeLbl}}
             </div>
             <div class="dashboard-config-type-container">
-                <div class="dashboard-config-type-item dashboard-config-area-item" id="multiline_chart" (click)="setChartType($event, 'multiline_chart')">
+                <div class="dashboard-config-type-item dashboard-config-area-item" id="multiline_chart"
+                    (click)="setChartType($event)">
                     <div class="dashboard-config-type-item-lbl">
                         {{areaChartLbl}}
                     </div>
-                    <div class="dashboard-config-type-item-icon" (click)="setChartType($event)">
+                    <div class="dashboard-config-type-item-icon">
                         <mat-icon class="chart-type-icon">multiline_chart</mat-icon>
                     </div>
                 </div>
-                <div class="dashboard-config-type-item  dashboard-config-bar-item" id="bar_chart" (click)="setChartType($event, 'bar_chart')">
+                <div class="dashboard-config-type-item  dashboard-config-bar-item" id="bar_chart"
+                    (click)="setChartType($event)">
                     <div class="dashboard-config-type-item-lbl">
                         {{barChartLbl}}
                     </div>
                     <div class="dashboard-config-type-item-icon">
                         <mat-icon class="chart-type-icon">bar_chart</mat-icon>
                     </div>
-
                 </div>
-                <div class="dashboard-config-type-item  dashboard-config-pie-item" id="pie_chart" (click)="setChartType($event, 'pie_chart')">
+                <div class="dashboard-config-type-item  dashboard-config-pie-item" id="pie_chart"
+                    (click)="setChartType($event)">
                     <div class="dashboard-config-type-item-lbl">
                         {{pieChartLbl}}
                     </div>
                     <div class="dashboard-config-type-item-icon">
                         <mat-icon class="chart-type-icon">pie_chart</mat-icon>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -76,17 +77,12 @@
             <div class="dashboard-config-category-title">
                 {{selectDashboardCategoryLbl}}
             </div>
-            <div class="dashboard-config-category-options">
-                <mat-checkbox class="category-checkbox">{{allExpensesLbl}}</mat-checkbox>
-                <mat-checkbox class="category-checkbox">{{allExpensesWithIncomesLbl}}</mat-checkbox>
-                <mat-checkbox class="category-checkbox" (change)='showCustomCategories($event)'>{{customCategoriesLbl}}
+            <div class="dashboard-config-category-options" *ngIf="categories?.length > 0 else noCategories">
+                <mat-checkbox id="All" class="category-checkbox" (change)="toggleAll($event)">All
                 </mat-checkbox>
-            </div>
-            <div class="dashboard-config-category-options-custom" *ngIf="isCustomCategorySet">
-                <div class="dashboard-config-categories-container" *ngIf="categories?.length > 0 else noCategories">
-                    <div class="dashboard-config-categories" *ngFor="let category of categories">
-                        <mat-checkbox class="category-checkbox custom-category-checkbox">{{category}}</mat-checkbox>
-                    </div>
+                <div class="dashboard-config-categories-container" *ngFor="let category of categories">
+                    <mat-checkbox id={{category.name}} class="category-checkbox" (change)="toggle($event)"
+                        [(ngModel)]="category.isChecked">{{category.name}}</mat-checkbox>
                 </div>
                 <ng-template #noCategories>
                     <div class="no-categories-message">
@@ -99,11 +95,9 @@
         <div class="dashboard-actions-conainer">
             <div class="divider"></div>
             <div class="dashboard-actions">
-                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData">Create dashboard</div>
                 <div class="escape-dashboard-btn dashboard-btn" routerLink="/home">Close</div>
+                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData()">Create dashboard</div>
             </div>
         </div>
-
     </div>
-
 </div>

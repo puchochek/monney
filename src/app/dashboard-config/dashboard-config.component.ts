@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../user.service';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { DashboardService } from '../dashboard.service';
+
 
 @Component({
 	selector: 'app-dashboard-config',
@@ -21,17 +23,16 @@ export class DashboardConfigComponent implements OnInit {
 	defineDashboardMessage: string;
 	currentUser: LoggedUser;
 	isLoading: boolean = true;
-	categories: string[] = [];
+	categories: any = [];
+	dashboardConfig: any;
 	selectDashboardTypeLbl: string = `Dashboard type`;
 	selectDashboardDateLbl: string = `Period`;
 	selectDashboardCategoryLbl: string = `Categories`;
-	allExpensesLbl: string = `All expenses`;
-	allExpensesWithIncomesLbl: string = `All expenses with incomes`;
-	customCategoriesLbl: string = `Choose categories`;
 	areaChartLbl: string = `Area chart`;
 	barChartLbl: string = `Bar chart`;
 	pieChartLbl: string = `Pie chart`;
-	isCustomCategorySet: boolean = false;
+	selectedChartType: string;
+	selectedCategories: string[] = [];
 	isValidFromDate: boolean = true;
 	isValidToDate: boolean = true;
 	maxFromDate: Date;
@@ -47,7 +48,9 @@ export class DashboardConfigComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		public userServise: UserService
+		public userServise: UserService,
+		public dashboardServise: DashboardService
+
 	) { }
 
 	ngOnInit() {
@@ -90,11 +93,21 @@ export class DashboardConfigComponent implements OnInit {
 	setInitialData() {
 		const user = { ...this.currentUser };
 		this.defineDashboardMessage = `Hi, ${user.name}! Configure your dashboard options here.`;
-		//this.selectDashboardTypeLbl = 
 		const today = new Date();
 		this.toDateValue = new FormControl(today);
 		this.fromDateValue = new FormControl(new Date(today.getFullYear(), today.getMonth(), 1));
 		this.isLoading = false;
+		this.maxToDate = today;
+		if (this.currentUser.categories) {
+			this.categories = [...this.currentUser.categories].reduce((categoriesList, category) => {
+				const nameToDisplay = category.name.length > 15 ? `${category.name.substring(0, 10)}...` : category.name;
+				if (nameToDisplay !== `income`) {
+					categoriesList.push({ name: nameToDisplay, isChecked: false });
+				}
+				return categoriesList;
+			}, []);
+		}
+		this.categories.unshift({ name: `Incomes`, isChecked: false });
 	}
 
 	onDateInputFrom(event) {
@@ -103,7 +116,7 @@ export class DashboardConfigComponent implements OnInit {
 		this.minToDate = newDate;
 		const isValidDate = this.validateInputDate(newDate);
 		if (isValidDate) {
-			//this.transactionToDisplay = this.setSelectedPeriodTransactions(newDate, new Date(this.toDateValue.value));
+
 		} else {
 			this.isValidFromDate = false;
 		}
@@ -115,11 +128,10 @@ export class DashboardConfigComponent implements OnInit {
 		this.maxFromDate = newDate;
 		const isValidDate = this.validateInputDate(newDate);
 		if (isValidDate) {
-			//this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(this.fromDateValue.value), newDate);
+
 		} else {
 			this.isValidToDate = false;
 		}
-
 	}
 
 	validateInputDate(newDate: Date): boolean {
@@ -130,26 +142,47 @@ export class DashboardConfigComponent implements OnInit {
 		}
 	}
 
-	showCustomCategories(event) {
-		this.isCustomCategorySet = !this.isCustomCategorySet;
-		console.log('---> this.currentUser ', this.currentUser);
-		if (this.isCustomCategorySet && this.currentUser.categories) {
-			this.categories = [...this.currentUser.categories].reduce((categoriesList, category) => {
-				const nameToDisplay = category.name.length > 10 ? `${category.name.substring(0, 10)}...` : category.name
-				categoriesList.push(nameToDisplay);
-				return categoriesList;
-			}, []);
+	setChartType(event) {
+		if (this.selectedChartType) {
+			document.getElementById(this.selectedChartType).classList.remove('dashboard-config-type-item-selected');
+		}
+
+		document.getElementById(event.currentTarget.id).classList.add('dashboard-config-type-item-selected');
+		this.selectedChartType = event.currentTarget.id;
+	}
+
+	toggle(event) {
+		if (event.checked) {
+			this.selectedCategories.push(event.source.id);
+		} else {
+			this.selectedCategories = [...this.selectedCategories].filter(category => category !== event.source.id);
 		}
 	}
 
-	setChartType(event, chartType: string) {
-		// const configTypeItemsList = document.getElementsByClassName('dashboard-config-type-item');
-		// for (var i = 0; i < configTypeItemsList.length; i++) {
-		// 	configTypeItemsList[i].classList.remove('dashboard-config-type-item-selected');
-
-		// }
-		
-		//document.getElementById(chartType).classList.add('dashboard-config-type-item-selected');
+	toggleAll(event) {
+		this.categories = [...this.categories].reduce((categoryList, category) => {
+			category.isChecked = !category.isChecked;
+			categoryList.push(category);
+			return categoryList;
+		}, []);
+		if (event.checked) {
+			this.selectedCategories = [...this.categories].reduce((categoryList, category) => {
+				categoryList.push(category.name);
+				return categoryList;
+			}, []);
+		} else {
+			this.selectedCategories = [];
+		}
 	}
 
+	collectDashboardData() {
+		this.dashboardConfig = {
+			dashboardType: this.selectedChartType,
+			dashboardPeriod: { from: this.fromDateValue, to: this.toDateValue },
+			dashboardCategories: this.selectedCategories,
+			user: this.currentUser
+		}
+		this.dashboardServise.dashboardConfig = this.dashboardConfig;
+		this.router.navigate([`/dashboard`]);
+	}
 }

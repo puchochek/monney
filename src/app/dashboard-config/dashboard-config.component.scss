@@ -95,15 +95,19 @@
 }
 .dashboard-config-category-options {
     display: grid;
-    grid-template-columns: 4fr 4fr 4fr;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
     font-size: 1rem;
-    text-align: center;
-    padding: 5px 5px 0 5px;
+    text-align: left;
+    padding: 5px 10px 0 10px;
     color: white;
+    margin: 1% 5%;
 }
 ::ng-deep.mat-checkbox-frame { 
     border-color: white;
 }
+.ng-hide.ng-hide-animate {
+    display: none !important;
+    }
 .dashboard-actions,
 .dashboard-actions-conainer {
     display: grid;
@@ -119,7 +123,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	font-size: .8rem;
-	margin: 20px;
+	margin: 10px;
 	box-shadow: 1px 1px;
 	padding: 2px 3px;
 }
@@ -128,12 +132,7 @@
     color: black;
     cursor: pointer;
 }
-.dashboard-config-category-options-custom {
-    padding: 5px 5px 0 5px;
-    height: 150px;
-    overflow-y: auto;
-}
-.dashboard-config-categories-container {
+.dashboard-config-categories {
     border-top: 1px solid #8e8e8e;
     display: grid;
     grid-template-columns: 3fr 3fr 3fr 3fr;
@@ -156,21 +155,14 @@
     .category-checkbox {
         font-size: .8rem;
     }
-    .dashboard-config-category-options {
-        grid-template-columns: 12fr;
-        text-align: left;
-    }
     .dashboard-actions-conainer {
         display: inline;
     }
     .dashboard-btn {
-        font-size: .6rem;
+        font-size: .8rem;
         margin: 5px;
-        padding: 0 1px;
+        padding: 5px 1px;
         margin: 10px;
-    }
-    .dashboard-config-category-options-custom {
-        grid-template-columns: 6fr 6fr;
     }
 }
 
@@ -194,10 +186,18 @@
     .dashboard-config-date-container {
         font-size: .8rem;
     }
-    .dashboard-config-categories-container {
+    .dashboard-config-category-options {
         grid-template-columns: 4fr 4fr 4fr;
-        color: white;
-        font-size: .6rem;
+        margin: 1% 2%;
+        padding: 5px 5px 0 5px;
     }
-
+    .dashboard-btn {
+        font-size: .6rem;
+        // margin: 5px;
+        padding: 8px 1px;
+        // margin: 10px;
+    }
+    ::ng-deep.igx-typography {
+        line-height: 1 !important;
+    }
 }
