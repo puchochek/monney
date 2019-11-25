@@ -1,5 +1,8 @@
 <div class="chart-container">
-    <div [hidden]="!chart">
+    <!-- <div [hidden]="!chart">
         <canvas id="canvas">{{ chart }}</canvas>
+    </div> -->
+    <div class="dashboard-pie-chart" *ngIf="isPieChart">
+        <app-pie-chart [chartData]="chartData"></app-pie-chart>
     </div>
 </div>

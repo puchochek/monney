@@ -56,11 +56,12 @@ export class AddExpenseComponent implements OnInit {
 
 	ngOnInit() {
 		const selectedCategory = this.route.snapshot.paramMap.get('category');
-		this.transactionName = selectedCategory === `income` ?
-			`income`
+		this.transactionName = selectedCategory === `Income` ?
+			`Income`
 			: `expense`;
-
-		if (this.transactionName !== `income`) {
+console.log('---> selectedCategory ', selectedCategory);
+console.log('---> this.transactionName ', this.transactionName );
+		if (this.transactionName !== `Income`) {
 			this.doUserControllerCall();
 		}
 
@@ -112,7 +113,7 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	closeModal() {
-		if (this.isEdit && this.transactionName !== `income`) {
+		if (this.isEdit && this.transactionName !== `Income`) {
 			this.router.navigate([`/detail/${this.transactionToEdit.category}`]);
 		} else {
 			this.router.navigate([`/home`]);
@@ -129,7 +130,8 @@ export class AddExpenseComponent implements OnInit {
 			this.invaildSumMessage = `The Sum field may keep a positive number value only`;
 			return false;
 		} else {
-			if (this.transactionName === `income`) {
+			if (this.transactionName === `Income`) {
+				console.log('---> if ', this.transactionName === `Income`);
 				this.isInvalidInput = false;
 				return true;
 			} else {
@@ -140,8 +142,9 @@ export class AddExpenseComponent implements OnInit {
 				}
 			}
 		}
+		console.log('---> after return' );
 		this.isInvalidInput = true;
-		this.invaildSumMessage = `You may not spend more money than you have. Check your incomes to continue.`;
+		this.invaildSumMessage = `You may not spend more money than you have. Check your Incomes to continue.`;
 		return false;
 	}
 
@@ -174,7 +177,7 @@ export class AddExpenseComponent implements OnInit {
 		};
 		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
 		let navigateUrl: string;
-		if (this.transactionName !== `income` && !this.transactionToEdit) {
+		if (this.transactionName !== `Income` && !this.transactionToEdit) {
 			navigateUrl = `/home`;
 		} else {
 			navigateUrl = `/detail/${this.transactionToEdit.category}`;
@@ -241,10 +244,10 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	setBalanceInfo() {
-		const incomeId = this.dataService.findIncomeId(this.currentUser);
-		const expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, incomeId);
-		const incomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, incomeId);
-		const balanceTotal = this.dataService.setThisMonthBalanceTotal(incomesTotal, expensesTotal);
+		const IncomeId = this.dataService.findIncomeId(this.currentUser);
+		const expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, IncomeId);
+		const IncomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, IncomeId);
+		const balanceTotal = this.dataService.setThisMonthBalanceTotal(IncomesTotal, expensesTotal);
 
 		this.balance = balanceTotal;
 	}

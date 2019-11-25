@@ -4,9 +4,8 @@ import { Chart } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { DataService } from '../data.service';
-
-
-
+import { DashboardConfig } from '../interfaces';
+import { ChartData } from '../interfaces';
 
 @Component({
 	selector: 'app-dashboard',
@@ -16,8 +15,10 @@ import { DataService } from '../data.service';
 export class DashboardComponent implements OnInit {
 
 	private sbscr: Subscription;
-	dashboardConfig: any;
+	dashboardConfig: DashboardConfig;
 	chart: any;
+	isPieChart: boolean;
+	chartData: ChartData
 
 	constructor(
 		private router: Router,
@@ -37,7 +38,11 @@ export class DashboardComponent implements OnInit {
 				console.log('---> transactionsForSelectedCategories ', transactionsForSelectedCategories);
 				console.log('---> selectedPeriodTransactions ', selectedPeriodTransactions);
 				//console.log('---> chartLabels ', chartLabels);
-				this.buildChart();
+				this.chartData = {...this.dashboardConfig, transactionsForPeriod : selectedPeriodTransactions};
+				if (this.dashboardConfig.dashboardType === `pie_chart`) {
+					this.isPieChart = true;
+				}
+				//this.buildChart();
 			} else {
 				this.router.navigate(['/dashboard/config']);
 			}
@@ -70,8 +75,8 @@ export class DashboardComponent implements OnInit {
 	}
 
 	defineSelectedPeriodTransactions(transactionsForSelectedCategories: any): any {
-		const fromDate = this.dashboardConfig.dashboardPeriod.from.value;
-		const toDate = this.dashboardConfig.dashboardPeriod.to.value;
+		const fromDate = this.dashboardConfig.dashboardPeriod.from;
+		const toDate = this.dashboardConfig.dashboardPeriod.to;
 		const thisPeriodTransactions = [...transactionsForSelectedCategories].reduce((transactionsList, thisTransaction) => {
 			const transactionsForThisPeriod = [...thisTransaction.transactions].filter(transaction => {
 				return (new Date(transaction.date) >= fromDate) && (new Date(transaction.date) <= toDate);
@@ -87,8 +92,8 @@ export class DashboardComponent implements OnInit {
 	}
 
 	buildChartLabels(): string[] {
-		const fromDate = this.dashboardConfig.dashboardPeriod.from.value;
-		const toDate = this.dashboardConfig.dashboardPeriod.to.value;
+		const fromDate = this.dashboardConfig.dashboardPeriod.from;
+		const toDate = this.dashboardConfig.dashboardPeriod.to;
 		const weeksInDashboardPeriod = Math.floor((new Date(toDate).getTime() - new Date(fromDate).getTime()) / 1000 / 60 / 60 / 24 / 7);
 
 		const datesLabels = [];
@@ -105,41 +110,41 @@ export class DashboardComponent implements OnInit {
 		}, []);
 	}
 
-	buildChart() {
-		let temp_max = [25, 748, 29];
-		let temp_min = [144, 0, 58];
-		this.chart = new Chart('canvas', {
-			type: 'line',
-			data: {
-				labels: [`test 1`, `test2`, `test3`],
-				datasets: [
-					{
-						data: temp_max,
-						borderColor: "#3cba9f",
-						fill: true
-					},
-					{
-						data: temp_min,
-						borderColor: "#ffcc00",
-						fill: true
-					},
-				]
-			},
-			options: {
-				legend: {
-					display: true
-				},
-				scales: {
-					xAxes: [{
-						display: true
-					}],
-					yAxes: [{
-						display: true
-					}],
-				}
-			}
-		});
-	}
+	// buildChart() {
+	// 	let temp_max = [25, 748, 29];
+	// 	let temp_min = [144, 0, 58];
+	// 	this.chart = new Chart('canvas', {
+	// 		type: 'line',
+	// 		data: {
+	// 			labels: [`test 1`, `test2`, `test3`],
+	// 			datasets: [
+	// 				{
+	// 					data: temp_max,
+	// 					borderColor: "#3cba9f",
+	// 					fill: true
+	// 				},
+	// 				{
+	// 					data: temp_min,
+	// 					borderColor: "#ffcc00",
+	// 					fill: true
+	// 				},
+	// 			]
+	// 		},
+	// 		options: {
+	// 			legend: {
+	// 				display: true
+	// 			},
+	// 			scales: {
+	// 				xAxes: [{
+	// 					display: true
+	// 				}],
+	// 				yAxes: [{
+	// 					display: true
+	// 				}],
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 
 

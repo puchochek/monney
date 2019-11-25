@@ -23,7 +23,7 @@ export interface Category {
 export interface TransactionsData {
 	category: string;
 	transactions: FinanceData[];
-	total: number;
+	//total: number;
 }
 
 export interface LoggedUser {
@@ -35,4 +35,24 @@ export interface LoggedUser {
 	isConfirmed: boolean;
 	categories: Category[];
 	transactions: FinanceData[];
+}
+
+export interface DashboardPeriod {
+	from: Date,
+	to: Date
+}
+
+export interface DashboardConfig {
+	dashboardType: string,
+	dashboardPeriod: DashboardPeriod,
+	dashboardCategories: string[],
+	user: LoggedUser
+}
+
+export interface ChartData {
+	dashboardType: string,
+	dashboardPeriod: DashboardPeriod,
+	dashboardCategories: string[],
+	user: LoggedUser,
+	transactionsForPeriod: TransactionsData[]
 }

@@ -9,6 +9,10 @@ import { environment } from '../../environments/environment';
 import { UserService } from '../user.service';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DashboardService } from '../dashboard.service';
+import { DashboardConfig } from '../interfaces';
+import { DashboardPeriod } from '../interfaces';
+
+
 
 
 @Component({
@@ -24,7 +28,7 @@ export class DashboardConfigComponent implements OnInit {
 	currentUser: LoggedUser;
 	isLoading: boolean = true;
 	categories: any = [];
-	dashboardConfig: any;
+	dashboardConfig: DashboardConfig;
 	selectDashboardTypeLbl: string = `Dashboard type`;
 	selectDashboardDateLbl: string = `Period`;
 	selectDashboardCategoryLbl: string = `Categories`;
@@ -185,10 +189,11 @@ export class DashboardConfigComponent implements OnInit {
 			this.isWrongConfig = true;
 			this.wrongConfigMessage = `Please, select a categories to analize.`;
 		} else {
+			const dashboardPeriod: DashboardPeriod = {from : this.fromDateValue.value, to : this.toDateValue.value};
 			this.isWrongConfig = false;
 			this.dashboardConfig = {
 				dashboardType: this.selectedChartType,
-				dashboardPeriod: { from: this.fromDateValue, to: this.toDateValue },
+				dashboardPeriod: dashboardPeriod,
 				dashboardCategories: this.selectedCategories,
 				user: this.currentUser
 			}
