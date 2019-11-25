@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
 	dashboardConfig: DashboardConfig;
 	chart: any;
 	isPieChart: boolean;
+	isAreaChart: boolean;
 	chartData: ChartData
 
 	constructor(
@@ -33,16 +34,16 @@ export class DashboardComponent implements OnInit {
 			if (response) {
 				this.dashboardConfig = response;
 				const chartLabels = this.buildChartLabels();
+				
 				const transactionsForSelectedCategories = this.defineSelectedCategoriesTransactions();
 				const selectedPeriodTransactions = this.defineSelectedPeriodTransactions(transactionsForSelectedCategories);
-				console.log('---> transactionsForSelectedCategories ', transactionsForSelectedCategories);
-				console.log('---> selectedPeriodTransactions ', selectedPeriodTransactions);
-				//console.log('---> chartLabels ', chartLabels);
 				this.chartData = {...this.dashboardConfig, transactionsForPeriod : selectedPeriodTransactions};
 				if (this.dashboardConfig.dashboardType === `pie_chart`) {
 					this.isPieChart = true;
 				}
-				//this.buildChart();
+				if (this.dashboardConfig.dashboardType === `multiline_chart`) {
+					this.isAreaChart = true;
+				}
 			} else {
 				this.router.navigate(['/dashboard/config']);
 			}

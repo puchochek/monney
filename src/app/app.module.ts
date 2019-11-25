@@ -68,6 +68,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { DashboardConfigComponent } from './dashboard-config/dashboard-config.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { AreaChartComponent } from './area-chart/area-chart.component';
 
 @NgModule({
 	declarations: [
@@ -87,6 +88,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 		DashboardConfigComponent,
 		DashboardComponent,
 		PieChartComponent,
+		AreaChartComponent,
 	],
 	imports: [
 		BrowserModule,
