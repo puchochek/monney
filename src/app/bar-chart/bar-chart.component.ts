@@ -4,11 +4,11 @@ import { ChartData } from '../interfaces';
 import { DataService } from '../data.service';
 
 @Component({
-	selector: 'app-pie-chart',
-	templateUrl: './pie-chart.component.html',
-	styleUrls: ['./pie-chart.component.scss']
+	selector: 'app-bar-chart',
+	templateUrl: './bar-chart.component.html',
+	styleUrls: ['./bar-chart.component.scss']
 })
-export class PieChartComponent implements OnInit {
+export class BarChartComponent implements OnInit {
 	@Input() chartData: ChartData;
 	chart: any;
 
@@ -33,24 +33,37 @@ export class PieChartComponent implements OnInit {
 			transactionList.push(transactionsSum);
 			return transactionList;
 		}, []);
-		const chartColors = transactionsForSelectedPeroid.reduce((transactionList, transaction) => {
-			transactionList.push(this.dataService.getRandomColor());
-			return transactionList;
+
+		const chartColors = data.reduce((dataList, dataItem) => {
+			dataList.push(this.dataService.getRandomColor());
+			return dataList;
 		}, []);
 
 		this.chart = new Chart('canvas', {
-			type: 'pie',
+			type: 'bar',
 			data: {
 				labels: labels,
-				datasets: [{
-					data: data,
-					backgroundColor: chartColors,
-					borderWidth: 1
-				}]
+				datasets: [
+					{
+						backgroundColor: chartColors,
+						data: data
+					}
+				]
 			},
 			options: {
+				legend: {
+					display: false
+				},
+				scales: {
+					xAxes: [{
+						display: true
+					}],
+					yAxes: [{
+						display: true
+					}],
+				},
 				responsive: true,
-				maintainAspectRatio: true
+				maintainAspectRatio: true,
 			}
 		});
 	}

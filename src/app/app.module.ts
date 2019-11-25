@@ -69,6 +69,7 @@ import { DashboardConfigComponent } from './dashboard-config/dashboard-config.co
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 @NgModule({
 	declarations: [
@@ -89,6 +90,7 @@ import { AreaChartComponent } from './area-chart/area-chart.component';
 		DashboardComponent,
 		PieChartComponent,
 		AreaChartComponent,
+		BarChartComponent,
 	],
 	imports: [
 		BrowserModule,

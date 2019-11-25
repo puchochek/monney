@@ -1,0 +1,38 @@
+.chart-title {
+    margin: 2% 0;
+}
+.chart-selected-period {
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.chart-diagramm {
+    max-width:1300px;
+    max-height:1300px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.minimum-period-message {
+    color: white;
+    text-align: center;
+    font-size: 1rem;
+}
+
+@media (max-width: 400px){
+	.chart-selected-period {
+        font-size: .8rem;
+    }
+    .chart-title {
+        margin: 5% 0;
+    }
+    // .chart-diagramm {
+    //     width: 600px;
+    //     height: 300px;
+    //     margin: auto;
+    //     overflow: scroll !important;
+    //     font-size: .6rem;
+    // }
+}
