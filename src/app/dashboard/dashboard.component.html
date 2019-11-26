@@ -1,11 +1,11 @@
-<div class="chart-container">
+<div class="chart-container" id="chart-container">
     <div class="chart-title">
         <div class="dashboard-actions-container">
             <div class="back-btn-container">
                 <button class="back-btn" routerLink="/dashboard/config">Back</button>
             </div>
             <div class="to-pdf-btn-container">
-                <button class="to-pdf-btn" routerLink="/dashboard/config">To PDF</button>
+                <button class="to-pdf-btn" (click)="saveDashboardSaPDF()">To PDF</button>
             </div>
         </div>
         <div class="chart-selected-period">

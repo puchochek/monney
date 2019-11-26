@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 import { Router } from '@angular/router';
-import { Chart } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { DataService } from '../data.service';
 import { DashboardConfig } from '../interfaces';
 import { ChartData } from '../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
 	selector: 'app-dashboard',
@@ -28,6 +31,8 @@ export class DashboardComponent implements OnInit {
 		private router: Router,
 		private dashboardServise: DashboardService,
 		private dataService: DataService,
+		private snackBar: MatSnackBar,
+
 
 	) { }
 
@@ -35,9 +40,8 @@ export class DashboardComponent implements OnInit {
 		this.sbscr = this.dashboardServise._dashboardSettings.subscribe((response) => {
 			console.log('---> DASHBOARD  dashboardServise INIT', response);
 			if (response) {
+				console.log('---> if dashboardServise resp');
 				this.dashboardConfig = response;
-				const chartLabels = this.buildChartLabels();
-
 				const transactionsForSelectedCategories = this.defineSelectedCategoriesTransactions();
 				const selectedPeriodTransactions = this.defineSelectedPeriodTransactions(transactionsForSelectedCategories);
 				this.chartData = { ...this.dashboardConfig, transactionsForPeriod: selectedPeriodTransactions };
@@ -98,61 +102,30 @@ export class DashboardComponent implements OnInit {
 		return thisPeriodTransactions;
 	}
 
-	buildChartLabels(): string[] {
-		const fromDate = this.dashboardConfig.dashboardPeriod.from;
-		const toDate = this.dashboardConfig.dashboardPeriod.to;
-		const weeksInDashboardPeriod = Math.floor((new Date(toDate).getTime() - new Date(fromDate).getTime()) / 1000 / 60 / 60 / 24 / 7);
+	saveDashboardSaPDF() {
+		const canvas = document.getElementById('canvas');
+		html2canvas(canvas).then(canvas => {
+			const imgWidth = 600;
+			const pageHeight = 300;
+			const imgHeight = canvas.height * imgWidth / canvas.width;
+			const heightLeft = imgHeight;
+			const contentDataURL = canvas.toDataURL('image/png');
 
-		const datesLabels = [];
-		for (var i = 0; i < weeksInDashboardPeriod; i++) {
-			const lableDate = i * 7;
-			datesLabels.push(new Date(fromDate).setDate(fromDate.getDate() + lableDate))
-		}
-		return [...datesLabels].reduce((datelist, currentDate) => {
-			datelist.push({
-				msDate: currentDate,
-				formattedDate: new Date(currentDate).toLocaleString('en', { year: 'numeric', month: 'short', day: 'numeric' })
-			})
-			return datelist;
-		}, []);
+			const pdf = new jspdf('l', 'px', 'a4'); // A4 size page of PDF
+			const position = 20;
+			const fromDate = new Date(this.dashboardConfig.dashboardPeriod.from).toLocaleString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+			const toDate = new Date(this.dashboardConfig.dashboardPeriod.to).toLocaleString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+			pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+			pdf.text(10, 10, `Transactions for a period from ${fromDate} to ${toDate}.pdf`);
+
+			pdf.save(`Transactions for a period from ${fromDate} to ${toDate}.pdf`, { returnPromise: true }).then(() => {
+				// const snackMessage = 'Done';
+				// const action = `OK`;
+				// this.snackBar.open(snackMessage, action, {
+				// 	duration: 5000,
+				// });
+			}
+			);
+		});
 	}
-
-	// buildChart() {
-	// 	let temp_max = [25, 748, 29];
-	// 	let temp_min = [144, 0, 58];
-	// 	this.chart = new Chart('canvas', {
-	// 		type: 'line',
-	// 		data: {
-	// 			labels: [`test 1`, `test2`, `test3`],
-	// 			datasets: [
-	// 				{
-	// 					data: temp_max,
-	// 					borderColor: "#3cba9f",
-	// 					fill: true
-	// 				},
-	// 				{
-	// 					data: temp_min,
-	// 					borderColor: "#ffcc00",
-	// 					fill: true
-	// 				},
-	// 			]
-	// 		},
-	// 		options: {
-	// 			legend: {
-	// 				display: true
-	// 			},
-	// 			scales: {
-	// 				xAxes: [{
-	// 					display: true
-	// 				}],
-	// 				yAxes: [{
-	// 					display: true
-	// 				}],
-	// 			}
-	// 		}
-	// 	});
-	// }
-
-
-
 }
