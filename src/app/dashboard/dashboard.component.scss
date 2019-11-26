@@ -1,3 +1,63 @@
 .chart-container {
     margin: 10px;
 }
+.chart-title {
+    margin: 2% 0;
+}
+.chart-selected-period {
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.dashboard-actions-container {
+    margin-bottom: 10px;
+}
+.back-btn, .to-pdf-btn {
+    background: transparent;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	color: white;
+	width: 10%;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 1rem;
+    margin: 5px;
+	box-shadow: 1px 1px;
+    padding: 5px;
+}
+.back-btn:hover, .to-pdf-btn:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+.back-btn-container, .to-pdf-btn-container {
+    text-align: center;
+    display: inline;
+}
+@media (max-width: 800px){
+	.back-btn-container, .to-pdf-btn-container {
+        padding-top: 5px;
+    }
+}
+@media (max-width: 400px){
+	.chart-selected-period {
+        font-size: .8rem;
+    }
+    .chart-title {
+        margin: 5% 0;
+    }
+    .back-btn, .to-pdf-btn {
+        font-size: .6rem;
+        width: 90%;
+    }
+    .back-btn-container, .to-pdf-btn-container {
+        padding-top: 2px;
+    }
+    .dashboard-actions-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 5px;
+    }
+}
+

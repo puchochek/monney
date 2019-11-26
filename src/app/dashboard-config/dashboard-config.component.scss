@@ -1,33 +1,29 @@
-@font-face {
-    font-family: capture;
-    src: url("../../assets/fonts/capture.ttf") format("opentype");
-}
+// @font-face {
+//     font-family: capture;
+//     src: url("../../assets/fonts/capture.ttf") format("opentype");
+// }
 .dashboard-config-container {
     background: transparent;
-	border-radius: 8px;
-    border: 1px solid white;
     width: 50%;
     max-height: 90vh;
 	margin: auto;
-    margin-top: 1%;
+    margin-top: 7%;
     overflow: auto;
 }
 .dashboard-config-title {
     color: white;
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     padding: 10px;
     border-bottom: 1px solid #8e8e8e;
     line-height: 1;
 }
-
 .dashboard-config-type-title,
 .dashboard-config-date-title,
 .dashboard-config-category-title {
     color: white;
     text-transform: uppercase;
     font-size: 1.5rem;
-    font-family: capture;
     padding: 10px 20px;
     line-height: 1;
 }
@@ -115,11 +111,12 @@
 .ng-hide.ng-hide-animate {
     display: none !important;
     }
-    .dashboard-actions-conainer {
+.dashboard-actions-conainer {
     display: grid;
     grid-template-columns: 4fr 8fr;
 }
 .dashboard-actions {
+    margin-top: 10%;
     column-gap: 5px;
     display: grid;
     grid-template-columns: 6fr 6fr;
@@ -166,6 +163,9 @@
     .dashboard-actions-conainer {
         display: inline;
     }
+    .dashboard-actions {
+        margin-top: 10%;
+    }
     .dashboard-btn {
         font-size: .8rem;
         margin: 5px;
@@ -201,9 +201,7 @@
     }
     .dashboard-btn {
         font-size: .6rem;
-        // margin: 5px;
         padding: 8px 1px;
-        // margin: 10px;
     }
     ::ng-deep.igx-typography {
         line-height: 1 !important;

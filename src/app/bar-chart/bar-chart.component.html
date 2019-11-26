@@ -1,13 +1,4 @@
 <div class="bar-chart-container">
-        <div class="chart-title">
-            <div class="chart-selected-period">
-                Transactions data from {{ chartData.dashboardPeriod.from | date:'longDate' }} to
-                {{ chartData.dashboardPeriod.to | date:'longDate' }}
-            </div>
-            <!-- <div class="minimum-period-message" *ngIf="moreDatesRequired">
-                {{minimumDatesMessage}}
-            </div> -->
-        </div>
         <div [hidden]="!chart">
             <div class="chart-diagramm">
                 <canvas id="canvas">{{ chart }}</canvas>

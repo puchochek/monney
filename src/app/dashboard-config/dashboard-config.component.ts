@@ -166,11 +166,6 @@ export class DashboardConfigComponent implements OnInit {
 	}
 
 	toggleAll(event) {
-		// this.categories = [...this.categories].reduce((categoryList, category) => {
-		// 	category.isChecked = !category.isChecked;
-		// 	categoryList.push(category);
-		// 	return categoryList;
-		// }, []);
 		if (event.checked) {
 			this.categories = [...this.categories].reduce((categoryList, category) => {
 				category.isChecked = true;
