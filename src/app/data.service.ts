@@ -29,6 +29,9 @@ export class DataService {
 
 	countCategoryTransactionsTotal(transactionsToSort: any): number {
 		const thsiMonthIncomes = transactionsToSort.reduce(function (acc, exp) { return Number(exp.sum) + acc }, 0);
+		if (!Number.isInteger(thsiMonthIncomes)) {
+			return Number(thsiMonthIncomes.toFixed(2));
+		}
 		return thsiMonthIncomes;
 	}
 
