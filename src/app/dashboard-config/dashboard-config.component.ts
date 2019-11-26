@@ -98,13 +98,13 @@ export class DashboardConfigComponent implements OnInit {
 		if (this.currentUser.categories) {
 			this.categories = [...this.currentUser.categories].reduce((categoriesList, category) => {
 				const nameToDisplay = category.name.length > 15 ? `${category.name.substring(0, 10)}...` : category.name;
-				if (nameToDisplay !== `income`) {
+				if (nameToDisplay !== `Income`) {
 					categoriesList.push({ name: nameToDisplay, isChecked: false });
 				}
 				return categoriesList;
 			}, []);
 		}
-		this.categories.unshift({ name: `income`, isChecked: false });
+		this.categories.unshift({ name: `Income`, isChecked: false });
 	}
 
 	handleFromDateChange(newDate) {

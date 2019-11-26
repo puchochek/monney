@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
 	createIncomeCategoryForNewUser(userId: string) {
 		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
 		const categoriesToUpsert = [{
-			name: `income`,
+			name: `Income`,
 			description: `Keeps your incomes data.`,
 			user: userId,
 			isActive: true,
