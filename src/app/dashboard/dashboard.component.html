@@ -22,4 +22,7 @@
     <div class="dashboard-bar-chart" *ngIf="isBarChart">
         <app-bar-chart [chartData]="chartData"></app-bar-chart>
     </div>
+    <div class="dashboard-exel-table" *ngIf="isExelTable">
+        <app-excel-table [chartData]="chartData"></app-excel-table>
+    </div>
 </div>

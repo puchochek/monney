@@ -32,6 +32,7 @@ export class DashboardConfigComponent implements OnInit {
 	areaChartLbl: string = `Area chart`;
 	barChartLbl: string = `Bar chart`;
 	pieChartLbl: string = `Pie chart`;
+	tableChartLbl: string = `Exel table`;
 	isWrongConfig: boolean = false;
 	wrongConfigMessage: string;
 	selectedChartType: string;

@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
 	isPieChart: boolean;
 	isAreaChart: boolean;
 	isBarChart: boolean;
+	isExelTable: boolean;
 	chartData: ChartData;
 	noTransactionsForSelectedPeriod: boolean;
 	noTransactionsMessage: string;
@@ -40,7 +41,6 @@ export class DashboardComponent implements OnInit {
 		this.sbscr = this.dashboardServise._dashboardSettings.subscribe((response) => {
 			console.log('---> DASHBOARD  dashboardServise INIT', response);
 			if (response) {
-				console.log('---> if dashboardServise resp');
 				this.dashboardConfig = response;
 				const transactionsForSelectedCategories = this.defineSelectedCategoriesTransactions();
 				const selectedPeriodTransactions = this.defineSelectedPeriodTransactions(transactionsForSelectedCategories);
@@ -53,6 +53,9 @@ export class DashboardComponent implements OnInit {
 				}
 				if (this.dashboardConfig.dashboardType === `bar_chart`) {
 					this.isBarChart = true;
+				}
+				if (this.dashboardConfig.dashboardType === `table_chart`) {
+					this.isExelTable = true;
 				}
 			} else {
 				this.router.navigate(['/dashboard/config']);

@@ -38,6 +38,15 @@
                         <mat-icon class="chart-type-icon">pie_chart</mat-icon>
                     </div>
                 </div>
+                <div class="dashboard-config-type-item  dashboard-config-pie-item" id="table_chart"
+                    (click)="setChartType($event)">
+                    <div class="dashboard-config-type-item-lbl">
+                        {{tableChartLbl}}
+                    </div>
+                    <div class="dashboard-config-type-item-icon">
+                        <mat-icon class="chart-type-icon">table_chart</mat-icon>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="dashboard-config-date">
@@ -45,7 +54,8 @@
                 {{selectDashboardDateLbl}}
             </div>
             <div class="dashboard-config-date-container">
-                <app-datepicker (fromDateChange)="handleFromDateChange($event)" (toDateChange)="handleToDateChange($event)"></app-datepicker>
+                <app-datepicker (fromDateChange)="handleFromDateChange($event)"
+                    (toDateChange)="handleToDateChange($event)"></app-datepicker>
             </div>
         </div>
         <div class="dashboard-config-category">
@@ -74,7 +84,8 @@
             <div class="divider"></div>
             <div class="dashboard-actions">
                 <div class="escape-dashboard-btn dashboard-btn" routerLink="/home">Back</div>
-                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData()" sdfdsgf>Create dashboard</div>
+                <div class="create-dashboard-btn dashboard-btn" (click)="collectDashboardData()" sdfdsgf>Create
+                    dashboard</div>
             </div>
         </div>
     </div>

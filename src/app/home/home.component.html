@@ -22,12 +22,14 @@
                 </div>
                 <div class="divider"></div>
                 <div class="manage-reports-container">
-                    <mat-menu #matMenuReport="matMenu">
-                        <button mat-menu-item class="custom-menu" routerLink="/dashboard/config">Create dashboard</button>
-                        <button mat-menu-item class="custom-menu" routerLink="/home">In development</button>
-                    </mat-menu>
+                        <!-- <button routerLink="/dashboard/config">Create dashboard</button> -->
+                    <!-- <mat-menu #matMenuReport="matMenu"> -->
+                        <!-- <button mat-menu-item class="custom-menu" routerLink="/dashboard/config">Create dashboard</button> -->
+                        <!-- <button mat-menu-item class="custom-menu" routerLink="/home">All transactions</button> -->
+                    <!-- </mat-menu> -->
                     <div class="report-details">
-                        <div class="report-details-lbl" [matMenuTriggerFor]="matMenuReport">Reports</div>
+                            <!-- <button routerLink="/dashboard/config">Create dashboard</button> -->
+                        <div class="report-details-lbl" routerLink="/dashboard/config">Reports</div>
                     </div>
                 </div>
             </div>

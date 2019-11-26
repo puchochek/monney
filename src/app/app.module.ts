@@ -71,6 +71,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { AreaChartComponent } from './area-chart/area-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
+import { ExcelTableComponent } from './excel-table/excel-table.component';
 
 @NgModule({
 	declarations: [
@@ -93,6 +94,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 		AreaChartComponent,
 		BarChartComponent,
 		DatepickerComponent,
+		ExcelTableComponent,
 	],
 	imports: [
 		BrowserModule,
