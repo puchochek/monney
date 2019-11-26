@@ -21,9 +21,6 @@ import { DashboardPeriod } from '../interfaces';
 	styleUrls: ['./dashboard-config.component.scss']
 })
 export class DashboardConfigComponent implements OnInit {
-	@Output()
-	dateInput: EventEmitter<MatDatepickerInputEvent<any>>;
-
 	defineDashboardMessage: string;
 	currentUser: LoggedUser;
 	isLoading: boolean = true;
@@ -39,14 +36,8 @@ export class DashboardConfigComponent implements OnInit {
 	wrongConfigMessage: string;
 	selectedChartType: string;
 	selectedCategories: string[] = [];
-	isValidFromDate: boolean = true;
-	isValidToDate: boolean = true;
-	maxFromDate: Date;
-	maxToDate: Date;
-	minToDate: Date;
-	minFromDate: Date;
-	toDateValue: FormControl;
-	fromDateValue: FormControl;
+	fromDate: Date;
+	toDate: Date;
 
 	private sbscr: Subscription;
 
@@ -99,11 +90,10 @@ export class DashboardConfigComponent implements OnInit {
 	setInitialData() {
 		const user = { ...this.currentUser };
 		this.defineDashboardMessage = `Hi, ${user.name}! Configure your dashboard options here.`;
-		const today = new Date();
-		this.toDateValue = new FormControl(today);
-		this.fromDateValue = new FormControl(new Date(today.getFullYear(), today.getMonth(), 1));
 		this.isLoading = false;
-		this.maxToDate = today;
+		const today = new Date();
+		this.toDate = today;
+		this.fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
 		if (this.currentUser.categories) {
 			this.categories = [...this.currentUser.categories].reduce((categoriesList, category) => {
 				const nameToDisplay = category.name.length > 15 ? `${category.name.substring(0, 10)}...` : category.name;
@@ -116,36 +106,12 @@ export class DashboardConfigComponent implements OnInit {
 		this.categories.unshift({ name: `income`, isChecked: false });
 	}
 
-	onDateInputFrom(event) {
-		this.isValidFromDate = true;
-		const newDate = event.target.value;
-		this.minToDate = newDate;
-		const isValidDate = this.validateInputDate(newDate);
-		if (isValidDate) {
-
-		} else {
-			this.isValidFromDate = false;
-		}
+	handleFromDateChange(newDate) {
+		this.fromDate = newDate;
 	}
 
-	onDateInputTo(event) {
-		this.isValidToDate = true;
-		const newDate = event.target.value;
-		this.maxFromDate = newDate;
-		const isValidDate = this.validateInputDate(newDate);
-		if (isValidDate) {
-
-		} else {
-			this.isValidToDate = false;
-		}
-	}
-
-	validateInputDate(newDate: Date): boolean {
-		if (newDate instanceof Date && !(newDate > new Date())) {
-			return true;
-		} else {
-			return false;
-		}
+	handleToDateChange(newDate) {
+		this.toDate = newDate;
 	}
 
 	setChartType(event) {
@@ -194,7 +160,7 @@ export class DashboardConfigComponent implements OnInit {
 			this.isWrongConfig = true;
 			this.wrongConfigMessage = `Please, select a categories to analize.`;
 		} else {
-			const dashboardPeriod: DashboardPeriod = {from : this.fromDateValue.value, to : this.toDateValue.value};
+			const dashboardPeriod: DashboardPeriod = {from : this.fromDate, to : this.toDate};
 			this.isWrongConfig = false;
 			this.dashboardConfig = {
 				dashboardType: this.selectedChartType,

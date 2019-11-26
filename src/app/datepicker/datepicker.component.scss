@@ -1,0 +1,35 @@
+.datepicker-date-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+}
+.mat-datepicker-toggle {
+    color: white !important;
+}
+.placeholder {
+    color: white;
+}
+.placeholder-wrong-date {
+    color: red;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+@media (max-width: 1000px) {
+    .datepicker-date-container {
+        font-size: 1rem;
+    }
+    .placeholder-wrong-date {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 600px) {
+    .mat-form-field {
+        width: 110px !important;
+    }
+    .placeholder-wrong-date {
+        font-size: .7rem;
+    }
+    .datepicker-date-container {
+        font-size: .8rem;
+    }
+}

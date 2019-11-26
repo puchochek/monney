@@ -1,19 +1,15 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
 import { FinanceData } from '../interfaces';
-import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
-
-
 
 @Component({
 	selector: 'app-transaction-detail',
@@ -21,8 +17,6 @@ import { UserService } from '../user.service';
 	styleUrls: ['./transaction-detail.component.scss']
 })
 export class TransactionDetailComponent implements OnInit {
-	@Output()
-	dateInput: EventEmitter<MatDatepickerInputEvent<any>>;
 	deleteExpenseModal: MatDialogRef<ModalComponent>;
 
 	currentUser: LoggedUser;
@@ -33,18 +27,12 @@ export class TransactionDetailComponent implements OnInit {
 	transactionsTotal: number;
 	transactions: FinanceData[];
 	transactionToDisplay: FinanceData[];
-	maxFromDate: Date;
-	maxToDate: Date;
-	minToDate: Date;
-	minFromDate: Date;
-	toDateValue: FormControl;
-	fromDateValue: FormControl;
+	fromDate: Date;
+	toDate: Date;
 	helloMessage: string;
 	noTransactionMessage = `You do not have
 	transactions for the selected period. You might choose another dates to check.`;
 	isAscSorted: boolean;
-	isValidFromDate: boolean;
-	isValidToDate: boolean;
 	isLoading: boolean = true;
 	headers = [`Date`, `Sum`, `Comment`, `Actions`];
 
@@ -88,23 +76,19 @@ export class TransactionDetailComponent implements OnInit {
 
 	setInitialData() {
 		this.helloMessage = `Hi, ${this.currentUser.name}!`;
-		this.isValidFromDate = true;
-		this.isValidToDate = true;
 		const today = new Date();
-		this.toDateValue = new FormControl(today);
-		this.fromDateValue = new FormControl(new Date(today.getFullYear(), today.getMonth(), 1));
-		this.maxToDate = today;
-		this.maxFromDate = today;
+		this.toDate = today;
+		this.fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
 		const currentCategory = [...this.currentUser.categories].filter(category => category.id === this.categoryId)[0];
 		this.categoryName = currentCategory.name;
 		this.categoryDescription = currentCategory.description;
 		this.transactionsTotalLabel = `Selected period total:`;
 		this.transactions = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);
-		const tooday = new Date();
+
 		if (this.transactions.length !== 0) {
-			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(tooday.getFullYear(), tooday.getMonth(), 1), tooday);
+			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(today.getFullYear(), today.getMonth(), 1), today);
 		}
-		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay) : 0;
+		this.setTransactionsTotal();
 	}
 
 	setSelectedPeriodTransactions(startDate: Date, endDate: Date): FinanceData[] {
@@ -198,37 +182,19 @@ export class TransactionDetailComponent implements OnInit {
 		this.transactionToDisplay = [...this.transactionToDisplay].filter(expense => !deletedExpensesIds.includes(expense.id));
 	}
 
-	onDateInputFrom(event) {
-		this.isValidFromDate = true;
-		const newDate = event.target.value;
-		this.minToDate = newDate;
-		const isValidDate = this.validateInputDate(newDate);
-		if (isValidDate) {
-			this.transactionToDisplay = this.setSelectedPeriodTransactions(newDate, new Date(this.toDateValue.value));
-		} else {
-			this.isValidFromDate = false;
-		}
+	handleFromDateChange(newDate) {
+		this.transactionToDisplay = this.setSelectedPeriodTransactions(newDate, this.toDate);
+		this.fromDate = newDate;
+		this.setTransactionsTotal();
 	}
 
-	onDateInputTo(event) {
-		this.isValidToDate = true;
-		const newDate = event.target.value;
-		this.maxFromDate = newDate;
-		const isValidDate = this.validateInputDate(newDate);
-		if (isValidDate) {
-			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(this.fromDateValue.value), newDate);
-		} else {
-			this.isValidToDate = false;
-		}
-
+	handleToDateChange(newDate) {
+		this.transactionToDisplay = this.setSelectedPeriodTransactions(this.fromDate, newDate);
+		this.toDate = newDate;
+		this.setTransactionsTotal();
 	}
 
-	validateInputDate(newDate: Date): boolean {
-		if (newDate instanceof Date && !(newDate > new Date())) {
-			return true;
-		} else {
-			return false;
-		}
+	setTransactionsTotal() {
+		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay) : 0;
 	}
-
 }

@@ -49,6 +49,12 @@ export class PieChartComponent implements OnInit {
 				}]
 			},
 			options: {
+				legend: {
+					display: true,
+					// labels: {
+					// 	fontColor: 'white'
+					// }
+				},
 				responsive: true,
 				maintainAspectRatio: true
 			}

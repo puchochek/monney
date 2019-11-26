@@ -24,7 +24,7 @@
 .transaction-header-total {
     text-align: right;
     text-transform: uppercase;
-    padding: 1% 3% 0 1%;
+    padding: 1% 3% 1% 1%;
 }
 .transaction-header {
     position: relative;
@@ -33,26 +33,12 @@
     grid-template-columns: 8fr 4fr;
     width: 100%;
 	border-bottom: 1px solid #8e8e8e;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: white;
 }
 .transaction-header-title {
     max-height: 15rem;
     overflow-y: auto;
-}
-.mat-datepicker-toggle {
-    color: white !important;
-}
-.transaction-date-pagination {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font-size: 1rem;
-    text-align: right;
-    padding: 15px 5px 0 5px;
-    color: white;
-}
-.placeholder {
-    color: white;
 }
 .transaction-name {
     font-family: capture;
@@ -105,10 +91,6 @@
 .mat-icon {
     vertical-align: middle;
 }
-.placeholder-wrong-date {
-    color: red;
-    font-size: 1.2rem;
-}
 .spinner {
 	position: fixed;
 	z-index: 1;
@@ -132,32 +114,27 @@
 	background-color: rgba(0,0,0,0.3);
 }
 
-@media (max-width: 1370px) {
-    .transaction-to-date {
-        padding-left: 20px;
-    }
-}
-
 @media (max-width: 800px) {
+    .transaction-header-total {
+        line-height: 1;
+        padding-bottom: 5px;
+    }
     .transaction-table-container, .transaction-table-header-container {
         grid-template-columns: 3fr 3fr 5fr 1fr;
     }
     .transaction-header {
         grid-template-columns: 6fr 6fr;
     }
-    .mat-form-field {
-        width: 130px !important;
-    }
 }
 
 @media (max-width: 400px) {
+    .transaction-header-total {
+        font-size: .8rem;
+    }
 	.transaction-header {
 		font-size: .8rem;
     }
     .transaction-table-header {
-        font-size: .8rem;
-    }
-    .placeholder-wrong-date {
         font-size: .8rem;
     }
     .transaction-table-actions-icon {
@@ -173,19 +150,10 @@
     .mat-icon {
         padding-top: 4px;
     }
-    .mat-form-field {
-        width: 90px !important;
-    }
-    .transaction-from-date {
-        padding-right: 10px;
-    }
     .transaction-header-title {
         max-height: 7rem;
         overflow-y: auto;
         line-height: 1.3;
-    }
-    .transaction-date-pagination {
-        font-size: .8rem;
     }
     .user-transaction-message, .user-transaction-greeteng {
         font-size: 1rem;
