@@ -166,17 +166,27 @@ export class DashboardConfigComponent implements OnInit {
 	}
 
 	toggleAll(event) {
-		this.categories = [...this.categories].reduce((categoryList, category) => {
-			category.isChecked = !category.isChecked;
-			categoryList.push(category);
-			return categoryList;
-		}, []);
+		// this.categories = [...this.categories].reduce((categoryList, category) => {
+		// 	category.isChecked = !category.isChecked;
+		// 	categoryList.push(category);
+		// 	return categoryList;
+		// }, []);
 		if (event.checked) {
+			this.categories = [...this.categories].reduce((categoryList, category) => {
+				category.isChecked = true;
+				categoryList.push(category);
+				return categoryList;
+			}, []);
 			this.selectedCategories = [...this.categories].reduce((categoryList, category) => {
 				categoryList.push(category.name);
 				return categoryList;
 			}, []);
 		} else {
+			this.categories = [...this.categories].reduce((categoryList, category) => {
+				category.isChecked = false;
+				categoryList.push(category);
+				return categoryList;
+			}, []);
 			this.selectedCategories = [];
 		}
 	}
