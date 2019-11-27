@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
+import { FinanceData } from '../interfaces';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -20,7 +21,8 @@ export class CategoryListComponent implements OnInit {
 	deleteCategoryModal: MatDialogRef<ModalComponent>;
 	thisMonthExpensesTotal: number;
 	categories: Category[];
-
+	lastModifiedLbl: string = `Last: `;
+	categoryTotalLbl: string = `Total: `;
 	expenseMenuItems = [
 		{ name: `Details`, action: this.openExpensesDetailComponent.bind(this) },
 		{ name: `Edit`, action: this.editCategory.bind(this) },
@@ -39,7 +41,6 @@ export class CategoryListComponent implements OnInit {
 	ngOnInit() {
 		console.log('---> appUser CatList ', this.appUser);
 		this.buildCategoriesList();
-		//this.dataService.countElementHeight(`categories-list-container`);
 	}
 
 	buildCategoriesList() {
@@ -47,7 +48,22 @@ export class CategoryListComponent implements OnInit {
 			const userExpenses = this.appUser.categories.filter(category => !category.isIncome);
 			const userCategories = [...userExpenses];
 			const categoriesWithInitials = this.setCategoriesInitials(userCategories);
-			this.categories = categoriesWithInitials;
+			const categoriesWithLastTransactions = categoriesWithInitials.reduce((categoriesList, category) => {
+				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.appUser.transactions);
+				if (thisCategoryTransactions.length !==0 ) {
+					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisCategoryTransactions, `sum`);
+					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
+					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
+					category.lastTransaction = `${lastTransaction.sum}, ${lastTransactionDate}`;
+					category.total = transactionsSum;
+				} else {
+					category.lastTransaction = `-`;
+					category.total = 0;
+				}
+				categoriesList.push(category);
+				return categoriesList;
+			}, []);
+			this.categories = categoriesWithLastTransactions;
 		}
 	}
 
@@ -98,6 +114,15 @@ export class CategoryListComponent implements OnInit {
 		});
 		this.categories = [...sortedCategories];
 		this.updateCategoriesIndexes();
+	}
+
+	getLastTransaction(transactionsToSort: FinanceData[]): FinanceData {
+		const sortedTransactions = transactionsToSort.sort(function compare(a, b) {
+			return (new Date(b.date) as any) - (new Date(a.date) as any);
+		});
+		console.log('---> sortedTransactions ', sortedTransactions );
+		return sortedTransactions[0];
+
 	}
 
 	sortCategoriesBySum() {
