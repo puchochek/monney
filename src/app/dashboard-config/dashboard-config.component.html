@@ -63,7 +63,7 @@
                 {{selectDashboardCategoryLbl}}
             </div>
             <div class="dashboard-config-category-options" *ngIf="categories?.length > 0 else noCategories">
-                <mat-checkbox id="All" class="category-checkbox" (change)="toggleAll($event)">All
+                <mat-checkbox id="All" class="category-checkbox" (change)="toggleAll($event)" [(ngModel)]="isAllCheckboxChecked">All
                 </mat-checkbox>
                 <div class="dashboard-config-categories-container" *ngFor="let category of categories">
                     <mat-checkbox id={{category.name}} class="category-checkbox" (change)="toggle($event)"

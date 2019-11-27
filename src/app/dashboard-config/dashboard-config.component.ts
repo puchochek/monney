@@ -25,6 +25,7 @@ export class DashboardConfigComponent implements OnInit {
 	currentUser: LoggedUser;
 	isLoading: boolean = true;
 	categories: any = [];
+	isAllCheckboxChecked: boolean;
 	dashboardConfig: DashboardConfig;
 	selectDashboardTypeLbl: string = `Dashboard type`;
 	selectDashboardDateLbl: string = `Period`;
@@ -128,6 +129,7 @@ export class DashboardConfigComponent implements OnInit {
 		if (event.checked) {
 			this.selectedCategories.push(event.source.id);
 		} else {
+			this.isAllCheckboxChecked = false;
 			this.selectedCategories = [...this.selectedCategories].filter(category => category !== event.source.id);
 		}
 	}
