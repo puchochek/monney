@@ -1,0 +1,72 @@
+.user-transaction-message {
+    font-family: capture;
+    color: white;
+    padding: 2%;
+    font-size: 1.5rem;
+}
+.user-transaction-greeteng {
+    font-family: capture;
+    color: white;
+    font-size: 1.5rem;
+    padding: 2% 2% 0 2%;
+}
+.transaction-container {
+    background: transparent;
+	border-radius: 8px;
+    border: 1px solid white;
+    margin: 2%;
+    height: 100%;
+}
+.transaction-table-container, .transaction-table-header-container {
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    color: white;
+}
+.transaction-table {
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: 1%;
+}
+.transaction-table-header-container {
+    position: relative;
+    border-bottom: 1px solid #757575;
+}
+.transaction-table-header:first-child {
+    padding-left: 10px;
+}
+.transaction-table-cell {
+    font-size: 1.2rem;
+}
+.transaction-table-header {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 800px) {
+    .transaction-table-container, .transaction-table-header-container {
+        grid-template-columns: 3fr 3fr 5fr 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .transaction-table-header {
+        font-size: .8rem;
+    }
+    .transaction-table-actions-icon {
+        font-size: 1rem;
+    }
+    .transaction-table-cell {
+        font-size: .8rem;
+        line-height: 1;
+    }
+    .transaction-table-container, .transaction-table-header-container {
+        grid-template-columns: 4fr 3fr 4fr 1fr;
+    }
+    .user-transaction-message, .user-transaction-greeteng {
+        font-size: 1rem;
+    }
+}
+
+
+

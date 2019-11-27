@@ -1,1 +1,37 @@
-<p>exel-table works!</p>
+<div class="transaction-container" *ngIf="tableData">
+    <div class="transaction-content" *ngIf="tableData?.length > 0 else noTransactionToDisplay">
+        <div class="transaction-table-header-container">
+            <ng-container *ngFor="let header of headers">
+                <div class="transaction-table-container transaction-table-header">
+                    <div class="transaction-table-header-cell">
+                        {{header}}
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="transaction-table">
+            <ng-container *ngFor="let transaction of tableData">
+                <div class="transaction-table-container">
+                    <div class="transaction-table-cell">
+                        {{transaction.CATEGORY}}
+                    </div>
+                    <div class="transaction-table-cell">
+                        {{ transaction.DATE | date }}
+                    </div>
+
+                    <div class="transaction-table-cell">
+                        {{transaction.SUM}}
+                    </div>
+                    <div class="transaction-table-cell">
+                        {{transaction.TOTAL}}
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </ng-container>
+        </div>
+    </div>
+    <ng-template #noTransactionToDisplay>
+        <div class="user-transaction-greeteng">{{helloMessage}}</div>
+        <div class="user-transaction-message">{{noTransactionMessage}}</div>
+    </ng-template>
+</div>

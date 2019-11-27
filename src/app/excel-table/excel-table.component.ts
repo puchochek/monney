@@ -15,6 +15,10 @@ export class ExcelTableComponent implements OnInit {
 	@Input() chartData: ChartData;
 
 	tableData: any = [];
+	headers: string[] = [`CATEGORY`, `DATE`, `SUM`, `TOTAL`];
+	helloMessage: string;
+	noTransactionMessage = `You do not have
+	transactions for the selected period. You might choose another dates to check.`;
 	private sbscr: Subscription;
 
 	constructor(
@@ -26,6 +30,7 @@ export class ExcelTableComponent implements OnInit {
 	ngOnInit() {
 		if (this.chartData) {
 			console.log('---> EXcEL chartData ', this.chartData);
+			this.helloMessage = `Hi, ${this.chartData.user.name}!`;
 			this.buildTable();
 		}
 		this.sbscr = this.excelService._saveAsExcelEvent.subscribe((response) => {
