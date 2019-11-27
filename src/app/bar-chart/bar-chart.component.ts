@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartData } from '../interfaces';
 import { DataService } from '../data.service';
@@ -10,6 +10,8 @@ import { DataService } from '../data.service';
 })
 export class BarChartComponent implements OnInit {
 	@Input() chartData: ChartData;
+	@Output()
+	onEmptyDashboardData: EventEmitter<any> = new EventEmitter<any>();
 	chart: any;
 
 	constructor(
@@ -24,6 +26,9 @@ export class BarChartComponent implements OnInit {
 
 	buildChart() {
 		const transactionsForSelectedPeroid = [...this.chartData.transactionsForPeriod];
+		if (transactionsForSelectedPeroid.length === 0) {
+			this.onEmptyDashboardData.emit(true);
+		}
 		const labels = transactionsForSelectedPeroid.reduce((transactionList, transaction) => {
 			transactionList.push(transaction.category);
 			return transactionList;
@@ -33,6 +38,11 @@ export class BarChartComponent implements OnInit {
 			transactionList.push(transactionsSum);
 			return transactionList;
 		}, []);
+
+		if (data.reduce(function (acc, exp) { return exp + acc }, 0) === 0) {
+			this.onEmptyDashboardData.emit(true);
+			return;
+		}
 
 		const chartColors = data.reduce((dataList, dataItem) => {
 			dataList.push(this.dataService.getRandomColor());

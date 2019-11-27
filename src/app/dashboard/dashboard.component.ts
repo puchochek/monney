@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit {
 	noTransactionsMessage: string;
 	backBtnLbl: string = `Back`;
 	saveAsBtnLbl: string;
+	emptyDahboardMessage: string = `You do not have
+	transactions for the selected period. You might choose another dates to check.`;
 
 	constructor(
 		private router: Router,
@@ -41,6 +43,7 @@ export class DashboardComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		document.getElementById(`empty-dashboard-message`).style.display = `none`;
 		this.sbscr = this.dashboardServise._dashboardSettings.subscribe((response) => {
 			console.log('---> DASHBOARD  dashboardServise INIT', response);
 			if (response) {
@@ -145,5 +148,12 @@ export class DashboardComponent implements OnInit {
 			}
 			);
 		});
+	}
+
+	handleEmptyDashboardData(isEmptyDashboardData) {
+		if (isEmptyDashboardData) {
+			document.getElementById(`empty-dashboard-message`).style.display = `inline`;
+			document.getElementById(`save-as-btn`).classList.add('save-as-btn-disabled');
+		}
 	}
 }

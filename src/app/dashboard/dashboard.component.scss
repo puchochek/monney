@@ -4,7 +4,7 @@
 .chart-title {
     margin: 2% 0;
 }
-.chart-selected-period {
+.chart-selected-period, .empty-dashboard-message {
     color: white;
     text-transform: uppercase;
     text-align: center;
@@ -13,7 +13,7 @@
 .dashboard-actions-container {
     margin-bottom: 10px;
 }
-.back-btn, .to-pdf-btn {
+.back-btn, .save-as-btn {
     background: transparent;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -26,32 +26,36 @@
 	box-shadow: 1px 1px;
     padding: 5px;
 }
-.back-btn:hover, .to-pdf-btn:hover {
+.back-btn:hover, .save-as-btn:hover {
 	background-color: white;
 	color: black;
 	cursor: pointer;
 }
-.back-btn-container, .to-pdf-btn-container {
+.save-as-btn-disabled {
+    pointer-events: none;
+    opacity: .5;
+}
+.back-btn-container, .save-as-btn-container {
     text-align: center;
     display: inline;
 }
 @media (max-width: 800px){
-	.back-btn-container, .to-pdf-btn-container {
+	.back-btn-container, .save-as-btn-container {
         padding-top: 5px;
     }
 }
 @media (max-width: 400px){
-	.chart-selected-period {
+	.chart-selected-period, .empty-dashboard-message {
         font-size: .8rem;
     }
     .chart-title {
         margin: 5% 0;
     }
-    .back-btn, .to-pdf-btn {
+    .back-btn, .save-as-btn {
         font-size: .6rem;
         width: 90%;
     }
-    .back-btn-container, .to-pdf-btn-container {
+    .back-btn-container, .save-as-btn-container {
         padding-top: 2px;
     }
     .dashboard-actions-container {

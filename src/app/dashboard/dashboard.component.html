@@ -4,8 +4,9 @@
             <div class="back-btn-container">
                 <button class="back-btn" routerLink="/dashboard/config">{{backBtnLbl}}</button>
             </div>
-            <div class="to-pdf-btn-container">
-                <button class="to-pdf-btn" (click)="handleSaveAsBtnClick($event)">{{saveAsBtnLbl}}</button>
+            <div class="save-as-btn-container">
+                <button class="save-as-btn" id="save-as-btn"
+                    (click)="handleSaveAsBtnClick($event)">{{saveAsBtnLbl}}</button>
             </div>
         </div>
         <div class="chart-selected-period">
@@ -13,16 +14,23 @@
             {{ chartData.dashboardPeriod.to | date:'longDate' }}
         </div>
     </div>
+    <div class="empty-dashboard-message" id="empty-dashboard-message">
+        <div>{{emptyDahboardMessage}}</div>
+    </div>
     <div class="dashboard-pie-chart" *ngIf="isPieChart">
-        <app-pie-chart [chartData]="chartData"></app-pie-chart>
+        <app-pie-chart [chartData]="chartData" (onEmptyDashboardData)="handleEmptyDashboardData($event)">
+        </app-pie-chart>
     </div>
     <div class="dashboard-area-chart" *ngIf="isAreaChart">
-        <app-area-chart [chartData]="chartData"></app-area-chart>
+        <app-area-chart [chartData]="chartData" (onEmptyDashboardData)="handleEmptyDashboardData($event)">
+        </app-area-chart>
     </div>
     <div class="dashboard-bar-chart" *ngIf="isBarChart">
-        <app-bar-chart [chartData]="chartData"></app-bar-chart>
+        <app-bar-chart [chartData]="chartData" (onEmptyDashboardData)="handleEmptyDashboardData($event)">
+        </app-bar-chart>
     </div>
     <div class="dashboard-exel-table" *ngIf="isExelTable">
-        <app-excel-table [chartData]="chartData"></app-excel-table>
+        <app-excel-table [chartData]="chartData" (onEmptyDashboardData)="handleEmptyDashboardData($event)">
+        </app-excel-table>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ChartData } from '../interfaces';
 import { ExcelService } from '../excel.service';
 import { DataService } from '../data.service';
@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class ExcelTableComponent implements OnInit {
 	@Input() chartData: ChartData;
+	@Output()
+	onEmptyDashboardData: EventEmitter<any> = new EventEmitter<any>();
 
 	tableData: any = [];
 	headers: string[] = [`CATEGORY`, `DATE`, `SUM`, `TOTAL`];
@@ -82,6 +84,9 @@ export class ExcelTableComponent implements OnInit {
 			return tableDataList;
 		}, []);
 		console.log('---> this.tableData ', this.tableData);
+		if (this.tableData.length === 0) {
+			this.onEmptyDashboardData.emit(true);
+		}
 	}
 
 	exportAsXLSX() {

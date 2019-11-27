@@ -45,7 +45,6 @@ export class DatepickerComponent implements OnInit {
 		} else {
 			this.isValidFromDate = false;
 		}
-		console.log('---> onDateInputFrom ', newDate);
 	}
 
 	onDateInputTo(event) {
@@ -58,7 +57,6 @@ export class DatepickerComponent implements OnInit {
 		} else {
 			this.isValidToDate = false;
 		}
-		console.log('---> onDateInputTo ', newDate);
 	}
 
 	validateInputDate(newDate: Date): boolean {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartData } from '../interfaces';
 import { DataService } from '../data.service';
@@ -10,6 +10,8 @@ import { DataService } from '../data.service';
 })
 export class AreaChartComponent implements OnInit {
 	@Input() chartData: ChartData;
+	@Output()
+	onEmptyDashboardData: EventEmitter<any> = new EventEmitter<any>();
 	chart: any;
 	moreDatesRequired: boolean;
 	minimumDatesMessage: string;
@@ -47,6 +49,9 @@ export class AreaChartComponent implements OnInit {
 
 	buildChart() {
 		const transactionsForSelectedPeroid = [...this.chartData.transactionsForPeriod];
+		if (transactionsForSelectedPeroid.length === 0) {
+			this.onEmptyDashboardData.emit(true);
+		}
 		const selectedPeriodEdgeDates = [...this.buildChartLabels()];
 		const labels = selectedPeriodEdgeDates.reduce((dateList, date) => {
 			dateList.push(new Date(date).toLocaleString('en', { year: 'numeric', month: 'short', day: 'numeric' }));
@@ -74,7 +79,6 @@ export class AreaChartComponent implements OnInit {
 			transactionsList.push({ category: transaction.category, transactions: transactionsSums });
 			return transactionsList;
 		}, []);
-		console.log('---> transactionsWithSumBySubperiods ', transactionsWithSumBySubperiods);
 
 		const datasets = transactionsWithSumBySubperiods.reduce((dataList, transaction) => {
 			dataList.push({
@@ -86,6 +90,16 @@ export class AreaChartComponent implements OnInit {
 			});
 			return dataList;
 		}, []);
+
+		const dataToCheckEmptySum = datasets.reduce((tableDataList, tableDataItem) => {
+			tableDataList = [...tableDataList, ...tableDataItem.data];
+			return tableDataList;
+		}, []);
+
+		if (dataToCheckEmptySum.reduce(function (acc, exp) { return exp + acc }, 0) === 0) {
+			this.onEmptyDashboardData.emit(true);
+			return;
+		}
 
 		this.chart = new Chart('canvas', {
 			type: 'line',
