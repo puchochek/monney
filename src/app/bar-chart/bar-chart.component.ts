@@ -29,7 +29,7 @@ export class BarChartComponent implements OnInit {
 			return transactionList;
 		}, []);
 		const data = transactionsForSelectedPeroid.reduce((transactionList, transaction) => {
-			const transactionsSum = this.dataService.countCategoryTransactionsTotal(transaction.transactions);
+			const transactionsSum = this.dataService.countCategoryTransactionsTotal(transaction.transactions, `sum`);
 			transactionList.push(transactionsSum);
 			return transactionList;
 		}, []);

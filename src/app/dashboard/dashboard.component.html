@@ -2,10 +2,10 @@
     <div class="chart-title">
         <div class="dashboard-actions-container">
             <div class="back-btn-container">
-                <button class="back-btn" routerLink="/dashboard/config">Back</button>
+                <button class="back-btn" routerLink="/dashboard/config">{{backBtnLbl}}</button>
             </div>
             <div class="to-pdf-btn-container">
-                <button class="to-pdf-btn" (click)="saveDashboardSaPDF()">To PDF</button>
+                <button class="to-pdf-btn" (click)="handleSaveAsBtnClick($event)">{{saveAsBtnLbl}}</button>
             </div>
         </div>
         <div class="chart-selected-period">

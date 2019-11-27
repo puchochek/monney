@@ -105,7 +105,7 @@ export class CategoryListComponent implements OnInit {
 		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.appUser.transactions]);
 		const expensesByCategory = expenseCategories.reduce((expensesList, currentCategory) => {
 			const thisCategoryExpenses = thisMonthExpenses.filter(expense => expense.category === currentCategory.id);
-			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses);
+			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses, `sum`);
 			const espensesByCategory = {
 				categoryId: currentCategory.id,
 				categoryExpenses: thisCategoryExpenses,

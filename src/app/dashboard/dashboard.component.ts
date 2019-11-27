@@ -8,6 +8,8 @@ import { DataService } from '../data.service';
 import { DashboardConfig } from '../interfaces';
 import { ChartData } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ExcelService } from '../excel.service';
+
 
 
 @Component({
@@ -27,14 +29,15 @@ export class DashboardComponent implements OnInit {
 	chartData: ChartData;
 	noTransactionsForSelectedPeriod: boolean;
 	noTransactionsMessage: string;
+	backBtnLbl: string = `Back`;
+	saveAsBtnLbl: string;
 
 	constructor(
 		private router: Router,
 		private dashboardServise: DashboardService,
 		private dataService: DataService,
 		private snackBar: MatSnackBar,
-
-
+		private excelService: ExcelService,
 	) { }
 
 	ngOnInit() {
@@ -47,15 +50,19 @@ export class DashboardComponent implements OnInit {
 				this.chartData = { ...this.dashboardConfig, transactionsForPeriod: selectedPeriodTransactions };
 				if (this.dashboardConfig.dashboardType === `pie_chart`) {
 					this.isPieChart = true;
+					this.saveAsBtnLbl = `Save as PDF`;
 				}
 				if (this.dashboardConfig.dashboardType === `multiline_chart`) {
 					this.isAreaChart = true;
+					this.saveAsBtnLbl = `Save as PDF`;
 				}
 				if (this.dashboardConfig.dashboardType === `bar_chart`) {
 					this.isBarChart = true;
+					this.saveAsBtnLbl = `Save as PDF`;
 				}
 				if (this.dashboardConfig.dashboardType === `table_chart`) {
 					this.isExelTable = true;
+					this.saveAsBtnLbl = `Save as Excel`;
 				}
 			} else {
 				this.router.navigate(['/dashboard/config']);
@@ -105,6 +112,14 @@ export class DashboardComponent implements OnInit {
 		return thisPeriodTransactions;
 	}
 
+	handleSaveAsBtnClick(event) {
+		if (event.target.innerHTML === `Save as Excel` ) {
+			this.excelService.isSaveAsExcelClicked = true;
+		} else {
+			this.saveDashboardSaPDF();
+		}
+	}
+
 	saveDashboardSaPDF() {
 		const canvas = document.getElementById('canvas');
 		html2canvas(canvas).then(canvas => {
@@ -122,11 +137,11 @@ export class DashboardComponent implements OnInit {
 			pdf.text(10, 10, `Transactions for a period from ${fromDate} to ${toDate}.pdf`);
 
 			pdf.save(`Transactions for a period from ${fromDate} to ${toDate}.pdf`, { returnPromise: true }).then(() => {
-				// const snackMessage = 'Done';
-				// const action = `OK`;
-				// this.snackBar.open(snackMessage, action, {
-				// 	duration: 5000,
-				// });
+				const snackMessage = 'Done';
+				const action = `OK`;
+				this.snackBar.open(snackMessage, action, {
+					duration: 5000,
+				});
 			}
 			);
 		});

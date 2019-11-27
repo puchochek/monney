@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
 	setThisMonthExpensesTotal(): number {
 		const expenseTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category !== this.incomeId);
 		const thisMonthExpenseTransactions = this.dataService.getThisMonthTransactions(expenseTransactions);
-		const thisMonthExpensesTotal = this.dataService.countCategoryTransactionsTotal(thisMonthExpenseTransactions) || 0;
+		const thisMonthExpensesTotal = this.dataService.countCategoryTransactionsTotal(thisMonthExpenseTransactions, `sum`) || 0;
 
 		return thisMonthExpensesTotal;
 	}
@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
 	setThisMonthIncomesTotal(): number {
 		const incomeTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category === this.incomeId);
 		const thisMonthIncomeTransactions = this.dataService.getThisMonthTransactions(incomeTransactions);
-		const thisMonthIncomeTotal = this.dataService.countCategoryTransactionsTotal(thisMonthIncomeTransactions) || 0;
+		const thisMonthIncomeTotal = this.dataService.countCategoryTransactionsTotal(thisMonthIncomeTransactions, `sum`) || 0;
 
 		return thisMonthIncomeTotal;
 	}

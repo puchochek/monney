@@ -67,7 +67,7 @@ export class AreaChartComponent implements OnInit {
 		}, []);
 		const transactionsWithSumBySubperiods = transactionsBySubperiods.reduce((transactionsList, transaction) => {
 			const transactionsSums = transaction.transactions.reduce((transactionsList, transaction) => {
-				transactionsList.push(this.dataService.countCategoryTransactionsTotal(transaction));
+				transactionsList.push(this.dataService.countCategoryTransactionsTotal(transaction, `sum`));
 				return transactionsList;
 			}, []);
 

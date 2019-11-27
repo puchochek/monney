@@ -195,6 +195,6 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	setTransactionsTotal() {
-		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay) : 0;
+		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay, `sum`) : 0;
 	}
 }

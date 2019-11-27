@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
@@ -9,8 +10,18 @@ const EXCEL_EXTENSION = '.xlsx';
 	providedIn: 'root'
 })
 export class ExcelService {
+	private readonly saveAsExcelEvent = new BehaviorSubject<any>(null);
+	readonly _saveAsExcelEvent = this.saveAsExcelEvent.asObservable();
 
 	constructor() { }
+
+	get isSaveAsExcelClicked(): any {
+		return this.saveAsExcelEvent.getValue();
+	}
+
+	set isSaveAsExcelClicked(isSaveAsExcelClicked: any) {
+		this.saveAsExcelEvent.next(isSaveAsExcelClicked);
+	}
 
 	public exportAsExcelFile(json: any[], excelFileName: string) {
 		const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
@@ -21,7 +32,7 @@ export class ExcelService {
 	}
 	private saveAsExcelFile(buffer: any, fileName: string) {
 		const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-		FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+		FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
 	}
 
 }
