@@ -63,7 +63,11 @@ export class CategoryListComponent implements OnInit {
 				categoriesList.push(category);
 				return categoriesList;
 			}, []);
-			this.categories = categoriesWithLastTransactions;
+			this.categories = [...categoriesWithLastTransactions].sort(function (a, b) {
+				if (a.categoryIndex > b.categoryIndex) { return 1; }
+				if (a.categoryIndex < b.categoryIndex) { return -1; }
+				return 0;
+			});
 		}
 	}
 

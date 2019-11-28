@@ -122,6 +122,9 @@ export class AddCategoryModalComponent implements OnInit {
 					console.log('---> ADD CATEGORY error ', error);
 					snackMessage = 'Oops!';
 					action = `Try again`;
+					this.snackBar.open(snackMessage, action, {
+						duration: 5000,
+					});
 				},
 				() => {
 					// 'onCompleted' callback.
