@@ -33,7 +33,7 @@
 	margin: 1% 5%;
 }
 .category-item {
-	border-top: 1px solid #8e8e8e;
+	//border-top: 1px solid #8e8e8e;
 }
 .category-item-name {
 	color: white;
@@ -82,7 +82,7 @@
 	text-transform: uppercase;
 	font-size: .8rem;
 }
-.category-menu-btn >div {
+.category-menu-btn > div {
 	margin-top: 5px;
 	width: 20%;
 	height: 25px;
@@ -144,8 +144,8 @@
 	.category-menu {
 		font-size: .6rem;
 	}
-	.category-menu-btn >div {
-		margin-top: 2px;
+	.category-menu-btn > div {
+		margin-top: 3px;
 	}
 	.no-categories-message {
 		font-size: 1rem;

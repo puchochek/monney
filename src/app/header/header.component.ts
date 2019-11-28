@@ -29,8 +29,7 @@ export class HeaderComponent implements OnInit {
 	isMenuAvailable: boolean;
 
 	headerMenuItems = [
-		{ name: `Home`, action: this.goHome.bind(this) },
-		{ name: `View Profile`, action: this.goToProfile.bind(this) },
+		{ name: `Profile settings`, action: this.goToProfile.bind(this) },
 		{ name: `Log out`, action: this.logOut.bind(this) }
 	];
 

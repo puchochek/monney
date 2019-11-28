@@ -9,7 +9,7 @@
                     (click)="handleSaveAsBtnClick($event)">{{saveAsBtnLbl}}</button>
             </div>
         </div>
-        <div class="chart-selected-period">
+        <div class="chart-selected-period" *ngIf="chartData">
             Transactions data from {{ chartData.dashboardPeriod.from | date:'longDate' }} to
             {{ chartData.dashboardPeriod.to | date:'longDate' }}
         </div>

@@ -7,8 +7,9 @@
 	grid-template-columns: 3fr 9fr;
 	border-bottom: 1px solid #8e8e8e;
 }
-.header-avatar {
+.user-info {
 	text-align: left;
+	display: inline-flex;
 }
 .igx-avatar {
 	height: 45px;
@@ -23,14 +24,24 @@
 	padding: 2% 2% 0 0;
 	font-family: capture;
 }
-.profile-menu-btn {
+.profile-menu-btn, .home-btn {
 	color: white;
-	font-size: 2.5rem;
+	font-size: 1rem;
+	padding-top: 20px;
+	padding-left: 15px;
+	text-transform: uppercase;
+}
+.profile-menu-btn:hover, .home-btn:hover {
+	cursor: pointer;
+	opacity: .8;
 }
 .custom-menu {
 	display: inline;
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 	text-transform: uppercase;
+}
+mat-icon {
+	padding-top: 10px;
 }
 @media (max-width: 800px) {
 	.date {
@@ -45,9 +56,10 @@
 	}
 	.date {
 		font-size: .8rem;
-		padding: 3% 3% 0 0;
+		padding: 8% 3% 0 0;
 	}
-	.profile-menu-btn {
-		font-size: 1.5rem;
+	.profile-menu-btn, .home-btn {
+		font-size: .6rem;
+		padding-left: 10px;
 	}
 }
