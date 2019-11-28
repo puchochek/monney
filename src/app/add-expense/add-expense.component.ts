@@ -59,8 +59,7 @@ export class AddExpenseComponent implements OnInit {
 		this.transactionName = selectedCategory === `Income` ?
 			`Income`
 			: `expense`;
-console.log('---> selectedCategory ', selectedCategory);
-console.log('---> this.transactionName ', this.transactionName );
+
 		if (this.transactionName !== `Income`) {
 			this.doUserControllerCall();
 		}
@@ -131,18 +130,15 @@ console.log('---> this.transactionName ', this.transactionName );
 			return false;
 		} else {
 			if (this.transactionName === `Income`) {
-				console.log('---> if ', this.transactionName === `Income`);
 				this.isInvalidInput = false;
 				return true;
 			} else {
-				console.log('---> this.balance ', this.balance);
 				if (sum < this.balance) {
 					this.isInvalidInput = false;
 					return true;
 				}
 			}
 		}
-		console.log('---> after return' );
 		this.isInvalidInput = true;
 		this.invaildSumMessage = `You may not spend more money than you have. Check your Incomes to continue.`;
 		return false;

@@ -50,7 +50,7 @@ export class CategoryListComponent implements OnInit {
 			const categoriesWithInitials = this.setCategoriesInitials(userCategories);
 			const categoriesWithLastTransactions = categoriesWithInitials.reduce((categoriesList, category) => {
 				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.appUser.transactions);
-				if (thisCategoryTransactions.length !==0 ) {
+				if (thisCategoryTransactions.length !== 0) {
 					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisCategoryTransactions, `sum`);
 					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
 					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
@@ -120,9 +120,8 @@ export class CategoryListComponent implements OnInit {
 		const sortedTransactions = transactionsToSort.sort(function compare(a, b) {
 			return (new Date(b.date) as any) - (new Date(a.date) as any);
 		});
-		console.log('---> sortedTransactions ', sortedTransactions );
-		return sortedTransactions[0];
 
+		return sortedTransactions[0];
 	}
 
 	sortCategoriesBySum() {

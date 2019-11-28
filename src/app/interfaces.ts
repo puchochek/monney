@@ -18,6 +18,7 @@ export interface Category {
 	updatedAt: string;
 	isActive: boolean;
 	isIncome: boolean;
+	icon: string;
 }
 
 export interface TransactionsData {

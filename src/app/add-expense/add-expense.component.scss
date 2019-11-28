@@ -55,7 +55,7 @@
 .expense-form input[type="button"] {
 	position: relative;
 	display: block;
-	padding: 19px 39px 18px 39px;
+	padding: 10px 29px 9px 29px;
 	color: #FFF;
 	margin: 0 auto;
 	background: #616161;
@@ -66,6 +66,7 @@
 	border: 1px solid #373737;
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
+	border-radius: 4px;
 }
 .expense-form input[type="submit"]:hover,
 .expense-form input[type="button"]:hover {
@@ -75,7 +76,7 @@
 .title {
 	position: relative;
 	display: block;
-	padding: 19px 0;
+	padding: 10px 0;
 	color: #FFF;
 	margin: 0 auto;
 	background: #616161;
@@ -110,13 +111,6 @@
 	.expense-form {
 		width: 400px;
 	}
-	.expense-form input[type="submit"],
-	.expense-form input[type="button"] {
-		padding: 10px 29px 9px 29px;
-	}
-	.title {
-		padding: 14px 0;
-	}
 }
 
 @media (max-width: 400px) {
@@ -134,10 +128,6 @@
 	}
 	.mat-form-field {
         width: 130px !important;
-	}
-	.expense-form input[type="submit"],
-	.expense-form input[type="button"] {
-		padding: 5px 29px 4px 29px;
 	}
 	.title {
 		padding: 8px 0;

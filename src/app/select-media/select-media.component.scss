@@ -1,0 +1,51 @@
+.select-icon-container {
+    height: 85vh;
+    width: 800px;
+    background: #8e8e8e;
+    color: white;
+    border-radius: 4px;
+    border: 1px solid white;
+    overflow-y: auto ;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+.mat-icons-list {
+    border-radius: 4px;
+    text-align: center;
+    padding: 8%;
+}
+.mat-icons-list:hover {
+    color: #8e8e8e;
+    background-color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 1050px) {
+    .select-icon-container {
+        height: 80vh;
+        width: 500px;
+        grid-template-columns: repeat(6, 2fr);
+    }
+}
+@media (max-width: 700px) {
+    .select-icon-container {
+        height: 80vh;
+        width: 300px;
+        grid-template-columns: repeat(6, 2fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .select-icon-container {
+        width: 240px;
+        grid-template-columns: repeat(6, 2fr);
+        height: 85vh;
+    }
+}
+@media (max-width: 350px) {
+    .select-icon-container {
+        width: 150px;
+        grid-template-columns: repeat(3, 4fr);
+        height: 80vh;
+    }
+}

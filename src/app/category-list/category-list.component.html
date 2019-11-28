@@ -26,7 +26,13 @@
 					{{category.name}}
 				</div>
 				<div class="category-item-icon" *ngIf="category.icon else noCategoryIconSelected">
-					<mat-icon>{{category.icon}}</mat-icon>
+					<div class="category-item-icon-container">
+						<div class="category-item-noicon" routerLink="/categories/{{category.name}}/new/{{category.id}}"
+							matTooltip="Add new expense">
+							<mat-icon>{{category.icon}}</mat-icon>
+							<mat-icon class="badge-icon">add_circle</mat-icon>
+						</div>
+					</div>
 				</div>
 				<ng-template #noCategoryIconSelected>
 					<div class="category-item-icon-container">
@@ -48,7 +54,7 @@
 						<button mat-menu-item class="custom-menu" *ngFor="let menuItem of expenseMenuItems"
 							(click)="menuItem.action(category)">{{menuItem.name}}</button>
 					</mat-menu>
-					<div [matMenuTriggerFor]="appMenu" class="category-menu-btn" >
+					<div [matMenuTriggerFor]="appMenu" class="category-menu-btn">
 						<div matTooltip="Manage the category">more</div>
 					</div>
 				</div>
@@ -63,7 +69,3 @@
 		</div>
 	</ng-template>
 </div>
-
-
-
-

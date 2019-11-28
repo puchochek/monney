@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Category } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../environments/environment'
+import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { SelectMediaComponent } from '../select-media/select-media.component';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -16,8 +19,13 @@ export class AddCategoryModalComponent implements OnInit {
 	@Input() name: string;
 	@Input() description: string;
 
+	mediaIconDialogRef: MatDialogRef<SelectMediaComponent>;
+
 	title: string;
+	icon: string;
+	noIconMessage: string = `No icon selected`;
 	categoryToUpdate: Category;
+	categoryIconName: string;
 
 	constructor(
 		private dataService: DataService,
@@ -25,6 +33,7 @@ export class AddCategoryModalComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private snackBar: MatSnackBar,
+		private dialog: MatDialog
 	) { }
 
 	ngOnInit() {
@@ -47,10 +56,12 @@ export class AddCategoryModalComponent implements OnInit {
 		if (this.categoryToUpdate.description) {
 			this.description = this.categoryToUpdate.description;
 		}
+		if (this.categoryToUpdate.icon) {
+			this.icon = this.categoryToUpdate.icon;
+		}
 	}
 
 	onSubmit() {
-		console.log('---> this.categoryToUpsert ', this.categoryToUpdate);
 		if (this.categoryToUpdate) {
 			const categoryToUpsert = {
 				user: this.categoryToUpdate.user,
@@ -59,20 +70,33 @@ export class AddCategoryModalComponent implements OnInit {
 				name: this.name,
 				categoryIndex: this.categoryToUpdate.categoryIndex,
 				isActive: this.categoryToUpdate.isActive,
-				isIncome: this.categoryToUpdate.isIncome
+				isIncome: this.categoryToUpdate.isIncome,
+				icon: this.categoryIconName
 			}
 			this.upsertCategory(categoryToUpsert);
 		} else {
-			console.log('---> else');
 			const categoryToUpsert = {
 				user: localStorage.getItem(`userId`),
 				description: this.description,
 				name: this.name,
 				isActive: true,
-				isIncome: false
+				isIncome: false,
+				icon: this.categoryIconName
 			}
 			this.upsertCategory(categoryToUpsert);
 		}
+	}
+
+	openSelectIconComponent() {
+		this.mediaIconDialogRef = this.dialog.open(SelectMediaComponent);
+		this.mediaIconDialogRef
+			.afterClosed()
+			.subscribe(name => {
+				if (name) {
+					this.categoryIconName = name;
+					this.icon = name;
+				}
+			});
 	}
 
 	upsertCategory(categoryToUpsert: any) {

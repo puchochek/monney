@@ -1,11 +1,23 @@
-<div class="form-container" >
-    <div class="category-form">
+<div class="form-container">
+    <div class="category-form" *ngIf="title">
         <div class="title">{{title}}</div>
         <form id="category-form">
             <fieldset>
                 <input type="text" name="name" placeholder="Category name" [(ngModel)]="name">
-                    <textarea name="description" placeholder="Add a description" [(ngModel)]="description"></textarea>
+                <textarea name="description" placeholder="Add a description" [(ngModel)]="description"></textarea>
             </fieldset>
+            <div class="add-icon-container">
+                <div class="divider"></div>
+                <div class="category-icon" *ngIf="icon else noCategoryIconSelected">
+                    <mat-icon class="icon">{{icon}}</mat-icon>
+                </div>
+                <ng-template #noCategoryIconSelected>
+                    <div class="no-icon-selected">
+                        {{noIconMessage}}
+                    </div>
+                </ng-template>
+                <div class="add-icon-btn" (click)="openSelectIconComponent()">Select icon</div>
+            </div>
             <input type="submit" value="Save" (click)="onSubmit()" />
             <input type="button" value="Close" routerLink="/home" />
         </form>

@@ -72,6 +72,7 @@ import { AreaChartComponent } from './area-chart/area-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { ExcelTableComponent } from './excel-table/excel-table.component';
+import { SelectMediaComponent } from './select-media/select-media.component';
 
 @NgModule({
 	declarations: [
@@ -95,6 +96,7 @@ import { ExcelTableComponent } from './excel-table/excel-table.component';
 		BarChartComponent,
 		DatepickerComponent,
 		ExcelTableComponent,
+		SelectMediaComponent,
 	],
 	imports: [
 		BrowserModule,

@@ -12,6 +12,8 @@ import { AddCategoryModalComponent } from './add-category-modal/add-category-mod
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { DashboardConfigComponent } from './dashboard-config/dashboard-config.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SelectMediaComponent } from './select-media/select-media.component';
+
 
 
 const routes: Routes = [
@@ -29,7 +31,9 @@ const routes: Routes = [
 	{ path: 'category', component: AddCategoryModalComponent },
 	{ path: 'category/:categoryId', component: AddCategoryModalComponent },
 	{ path: 'dashboard/config', component: DashboardConfigComponent },
-	{ path: 'dashboard', component: DashboardComponent }
+	{ path: 'dashboard', component: DashboardComponent },
+	{ path: 'media/icon', component: SelectMediaComponent },
+	// { path: 'media/theme', component: SelectMediaComponent }  FFU
 ];
 
 @NgModule({
