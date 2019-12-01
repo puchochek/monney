@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
 	isMenuAvailable: boolean;
 
 	headerMenuItems = [
-		{ name: `Profile settings`, action: this.goToProfile.bind(this) },
+		{ name: `User info`, action: this.goToProfile.bind(this) },
 		{ name: `Log out`, action: this.logOut.bind(this) }
 	];
 

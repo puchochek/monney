@@ -1,26 +1,19 @@
 <div class="header-container" id="header">
-	<div class="user-info-conteiner">
-		<div class="user-info">
-			<igx-avatar *ngIf="isAvatar else noAvatar" [src]="avatarSrc" roundShape="true">
-			</igx-avatar>
-			<ng-template #noAvatar>
-				<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
-				</igx-avatar>
-			</ng-template>
-			<mat-menu #appMenu="matMenu">
-				<button mat-menu-item class="custom-menu" *ngFor="let menuItem of headerMenuItems"
-					(click)="menuItem.action()">{{menuItem.name}}</button>
-			</mat-menu>
-			<div class="profile-menu-btn" [matMenuTriggerFor]="appMenu" matTooltip="Profile settings"
-				*ngIf="isMenuAvailable">
-				profile
-			</div>
-			<div>
-				<div class="home-btn"  routerLink="/home">home</div>
-			</div>
-		</div>
+	<div class="app-home-navigation" routerLink="/home">
+		monney
 	</div>
-	<div class="date">
-		{{ currentDate | date:'fullDate' }}
+	<div class="user-avatar" *ngIf="isMenuAvailable">
+		<mat-menu #appMenu="matMenu">
+			<button mat-menu-item class="custom-menu" *ngFor="let menuItem of headerMenuItems"
+				(click)="menuItem.action()">{{menuItem.name}}</button>
+		</mat-menu>
+		<igx-avatar class="avatar" *ngIf="isAvatar else noAvatar" [src]="avatarSrc" roundShape="true"
+			[matMenuTriggerFor]="appMenu" matTooltip="Profile settings">
+		</igx-avatar>
+		<ng-template #noAvatar>
+			<igx-avatar class="avatar" initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color"
+				[matMenuTriggerFor]="appMenu" matTooltip="Profile settings">
+			</igx-avatar>
+		</ng-template>
 	</div>
 </div>

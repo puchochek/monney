@@ -45,6 +45,7 @@ export class HelloMonneyComponent implements OnInit {
 					error => {
 						console.log('---> HELLO-MONNEY error ', error);
 						this.isPageLoad = true;
+						this.isLoading = false;
 						this.dataService.cleanLocalstorage();
 					},
 					() => {
