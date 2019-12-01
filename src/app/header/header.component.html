@@ -2,6 +2,9 @@
 	<div class="app-home-navigation" routerLink="/home">
 		monney
 	</div>
+	<div class="date">
+		{{ currentDate | date }}
+	</div>
 	<div class="user-avatar" *ngIf="isMenuAvailable">
 		<mat-menu #appMenu="matMenu">
 			<button mat-menu-item class="custom-menu" *ngFor="let menuItem of headerMenuItems"

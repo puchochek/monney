@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
 	incomesTotal: number;
 	expensesTotal: number;
 	balanceTotal: number;
+	currentDate: Date;
 	isLoading: boolean = true;
 	incomeMenuItems: [
 		{ name: `Add income`, routerLink: `/categories/Income/new/{{incomeId}}` },
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.currentDate = new Date();
 		const userId = localStorage.getItem("userId");
 		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
 		if (userId) {

@@ -4,11 +4,11 @@
 }
 .header-container {
 	display: grid;
-	grid-template-columns: 6fr 6fr;
+	grid-template-columns: 6fr 5fr 1fr;
 	border-bottom: 1px solid #8e8e8e;
 }
 .user-avatar {
-	text-align: right;
+	text-align: center;
 }
 .igx-avatar {
 	height: 45px;
@@ -29,6 +29,17 @@
 	font-family:  Roboto, "Helvetica Neue", sans-serif;
 	text-transform: uppercase;
 }
+.date {
+	color:white;
+	text-transform: uppercase;
+	text-align: right;
+	padding-top: 20px;
+}
+@media (max-width: 800px){
+    .header-container {
+		grid-template-columns: 4fr 7fr 1fr;
+	}
+}
 @media (max-width: 400px){
     .igx-avatar {
         height: 35px;
@@ -37,5 +48,10 @@
 	.app-home-navigation {
 		font-size: 1rem;
 		padding: 10px;
+	}
+	.date {
+		font-size: .8rem;
+		padding-top: 15px;
+		line-height: 1;
 	}
 }

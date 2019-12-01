@@ -4,10 +4,6 @@
     </div>
     <div class="home-page-content" *ngIf="currentUser">
         <div class="navigation-zone">
-            <div class="balance-info-mobile">
-                <div class="balance-info-mobile-title">Balance:</div>
-                <div class="balance-mobile-value">{{balanceTotal}}</div>
-            </div>
             <div class="navigation-buttons">
                 <div class="manage-incomes-container">
                     <mat-menu #appMenuIncome="matMenu">
@@ -22,34 +18,25 @@
                 </div>
                 <div class="divider"></div>
                 <div class="manage-reports-container">
-                        <!-- <button routerLink="/dashboard/config">Create dashboard</button> -->
-                    <!-- <mat-menu #matMenuReport="matMenu"> -->
-                        <!-- <button mat-menu-item class="custom-menu" routerLink="/dashboard/config">Create dashboard</button> -->
-                        <!-- <button mat-menu-item class="custom-menu" routerLink="/home">All transactions</button> -->
-                    <!-- </mat-menu> -->
                     <div class="report-details">
-                            <!-- <button routerLink="/dashboard/config">Create dashboard</button> -->
                         <div class="report-details-lbl" routerLink="/dashboard/config">Reports</div>
                     </div>
                 </div>
             </div>
-            <div class="balance-divider"></div>
             <div class="balance-info-container">
+                <div class="divider"></div>
                 <div class="balance-info">
                     <div class="balance-info-header">
                         <div class="balance-info-title">This month total</div>
                     </div>
                     <div class="balance-info-expense">
-                        <div class="balance-info-title">Expenses:</div>
-                        <div class="expense-value">{{expensesTotal}}</div>
+                        <div class="balance-info-title">Expenses: {{expensesTotal}}</div>
                     </div>
                     <div class="balance-info-income">
-                        <div class="balance-info-title">Income:</div>
-                        <div class="income-value">{{incomesTotal}}</div>
+                        <div class="balance-info-title">Income: {{incomesTotal}}</div>
                     </div>
                     <div class="balance-info-balance">
-                        <div class="balance-info-title">Balance:</div>
-                        <div class="balance-value">{{balanceTotal}}</div>
+                        <div class="balance-info-title">Balance: {{balanceTotal}}</div>
                     </div>
                 </div>
             </div>
