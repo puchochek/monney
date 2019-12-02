@@ -238,7 +238,7 @@ export class CategoryListComponent implements OnInit {
 
 	openExpensesDetailComponent(category: Category) {
 		if (category) {
-			this.router.navigate([`/detail/${category.id}`]);
+			this.router.navigate([`/detail/${category.name}`]);
 		}
 	}
 

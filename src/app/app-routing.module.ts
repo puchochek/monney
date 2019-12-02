@@ -27,10 +27,10 @@ const routes: Routes = [
 	{ path: 'login/:userName/:status', component: ModalComponent },
 	{ path: 'detail/:category', component: TransactionDetailComponent },
 	{ path: 'activate/:token', component: ActivateUserComponent },
-	{ path: 'myprofile/:userid', component: UserProfileComponent },
+	{ path: 'myprofile/:userName', component: UserProfileComponent },
 	{ path: ':action/category', component: AddCategoryModalComponent },
 	{ path: ':action/:category', component: AddCategoryModalComponent },
-	{ path: 'dashboard/config', component: DashboardConfigComponent },
+	{ path: 'dashboard-config', component: DashboardConfigComponent },
 	{ path: 'dashboard', component: DashboardComponent },
 	{ path: 'media/icon', component: SelectMediaComponent },
 	// { path: 'media/theme', component: SelectMediaComponent }  FFU

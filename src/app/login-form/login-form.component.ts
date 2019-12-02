@@ -192,7 +192,6 @@ export class LoginFormComponent implements OnInit {
 					this.dataService.updateUserId(currentUser.id);
 					this.updateToken(currentUser);
 					this.isLoading = false;
-					this.router.navigate(['/home']);
 				} else {
 					this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				}

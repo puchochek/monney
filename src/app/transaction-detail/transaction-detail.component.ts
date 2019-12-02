@@ -23,6 +23,7 @@ export class TransactionDetailComponent implements OnInit {
 	categoryName: string;
 	categoryDescription: string;
 	categoryId: string;
+	//categoryName: string;
 	transactionsTotalLabel: string;
 	transactionsTotal: number;
 	transactions: FinanceData[];
@@ -48,10 +49,13 @@ export class TransactionDetailComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.categoryId = this.route.snapshot.paramMap.get('category');
-		const userId = localStorage.getItem("userId");
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
+		//this.categoryId = this.route.snapshot.paramMap.get('category');
+		this.categoryName = this.route.snapshot.paramMap.get('category');
+
+		const token = localStorage.getItem("token");
+		if (token) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
@@ -79,8 +83,8 @@ export class TransactionDetailComponent implements OnInit {
 		const today = new Date();
 		this.toDate = today;
 		this.fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
-		const currentCategory = [...this.currentUser.categories].filter(category => category.id === this.categoryId)[0];
-		this.categoryName = currentCategory.name;
+		const currentCategory = [...this.currentUser.categories].filter(category => category.name === this.categoryName)[0];
+		//this.categoryName = currentCategory.name;
 		this.categoryDescription = currentCategory.description;
 		this.transactionsTotalLabel = `Selected period total:`;
 		this.transactions = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);

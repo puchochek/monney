@@ -41,6 +41,7 @@ export class AddExpenseComponent implements OnInit {
 	serializedDate = new FormControl((new Date()).toISOString());
 	maxDate = new Date();
 	balance: number;
+	selectedCategory: string;
 	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
 	private subscription: Subscription;
 
@@ -55,8 +56,9 @@ export class AddExpenseComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		const selectedCategory = this.route.snapshot.paramMap.get('category');
-		this.transactionName = selectedCategory === `Income` ?
+		console.log('---> AddExpenseComponent' );
+		this.selectedCategory = this.route.snapshot.paramMap.get('category');
+		this.transactionName = this.selectedCategory === `Income` ?
 			`Income`
 			: `expense`;
 
@@ -76,7 +78,7 @@ export class AddExpenseComponent implements OnInit {
 			});
 		}
 
-		this.category = selectedCategory;
+		this.category = this.selectedCategory;
 		this.addNewAction = `Add new`;
 		this.editAction = `Edit`;
 		this.title = this.isEdit ?
@@ -113,7 +115,7 @@ export class AddExpenseComponent implements OnInit {
 
 	closeModal() {
 		if (this.isEdit && this.transactionName !== `Income`) {
-			this.router.navigate([`/detail/${this.transactionToEdit.category}`]);
+			this.router.navigate([`/detail/${this.selectedCategory}`]);
 		} else {
 			this.router.navigate([`/home`]);
 		}
@@ -176,7 +178,7 @@ export class AddExpenseComponent implements OnInit {
 		if (this.transactionName !== `Income` && !this.transactionToEdit) {
 			navigateUrl = `/home`;
 		} else {
-			navigateUrl = `/detail/${this.transactionToEdit.category}`;
+			navigateUrl = `/detail/${this.selectedCategory}`;
 		}
 		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
@@ -218,9 +220,10 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	doUserControllerCall() {
-		const userId = localStorage.getItem("userId");
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
+		const token = localStorage.getItem("token");
+		if (token) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {

@@ -45,15 +45,15 @@ export class UserProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		const userId = localStorage.getItem("userId");
-		this.manageUploader(userId);
-
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
+		const token = localStorage.getItem("token");
+		if (token) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
+						this.manageUploader(this.currentUser.id);
 						if (!this.userService._user.hasOwnProperty('id')) {
 							this.userService.appUser = { ...this.currentUser };
 						}

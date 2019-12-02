@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 	isLoading: boolean = true;
 	incomeMenuItems: [
 		{ name: `Add income`, routerLink: `/categories/Income/new/{{incomeId}}` },
-		{ name: `View incomes`, routerLink: `/detail/{{incomeId}}` }
+		{ name: `View incomes`, routerLink: `/detail/{{Income}}` }
 	];
 
 	constructor(
@@ -36,9 +36,10 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit() {
 		this.currentDate = new Date();
-		const userId = localStorage.getItem("userId");
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
+		const token = localStorage.getItem("token");
+		if (token) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {

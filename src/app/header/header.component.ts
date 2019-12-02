@@ -60,9 +60,10 @@ export class HeaderComponent implements OnInit {
 	}
 
 	doUserControllerCall() {
-		const userId = localStorage.getItem("userId");
-		const url = `${environment.apiBaseUrl}/user/user-by-id/${userId}`;
-		if (userId) {
+		const token = localStorage.getItem("token");
+		if (token) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
@@ -96,7 +97,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	goToProfile() {
-		this.router.navigate([`/myprofile/${this.userId}`]);
+		this.router.navigate([`/myprofile/${this.currentUser.name}`]);
 	}
 
 	goHome() {
