@@ -51,7 +51,8 @@ export class CategoryListComponent implements OnInit {
 			const categoriesWithLastTransactions = categoriesWithInitials.reduce((categoriesList, category) => {
 				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.appUser.transactions);
 				if (thisCategoryTransactions.length !== 0) {
-					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisCategoryTransactions, `sum`);
+					const thisMonthTransactions = this.dataService.getThisMonthTransactions(thisCategoryTransactions);
+					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisMonthTransactions, `sum`);
 					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
 					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
 					category.lastTransaction = `${lastTransaction.sum}, ${lastTransactionDate}`;
@@ -91,7 +92,7 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	openAddCategoryModal() {
-		this.router.navigate(['/category']);
+		this.router.navigate(['/new/category']);
 	}
 
 	sortCategoriesByField(fieldName: string) {
@@ -195,7 +196,7 @@ export class CategoryListComponent implements OnInit {
 
 	editCategory(categoryToEdit: Category) {
 		if (categoryToEdit) {
-			this.router.navigate([`/category/${categoryToEdit.id}`]);
+			this.router.navigate([`/edit/${categoryToEdit.name}`]);
 		}
 	}
 

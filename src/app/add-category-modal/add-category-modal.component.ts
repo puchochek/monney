@@ -37,15 +37,16 @@ export class AddCategoryModalComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		const categoryToEditId = this.route.snapshot.paramMap.get('categoryId');
-		if (categoryToEditId) {
-			this.http.get(`${environment.apiBaseUrl}/category/` + categoryToEditId).subscribe((response: Category) => {
+		const isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
+		if (isEdit) {
+			const categoryToEdit = this.route.snapshot.paramMap.get('category');
+			this.http.get(`${environment.apiBaseUrl}/category/` + categoryToEdit).subscribe((response: Category) => {
 				this.categoryToUpdate = <Category>response;
 				this.title = `Edit category`;
 				this.setInitialCategoryValues();
 			});
 		} else {
-			this.title = `Add a new expense category`;
+			this.title = `Add an expense category`;
 		}
 	}
 
