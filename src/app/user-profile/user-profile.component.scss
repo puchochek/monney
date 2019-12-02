@@ -1,63 +1,7 @@
-.user-profile {
-	background: transparent;
-	color: white;
-}
-.user-profile-header {
+@font-face {
 	font-family: capture;
-   	color: white;
+	src: url("../../assets/fonts/capture.ttf") format("opentype");
 }
-.mat-expansion-panel-header-description {
-	display: flex;
-	justify-content: flex-end;
-}
- ::ng-deep .mat-expansion-indicator::after{
-	color:white;
-}
-.user-profile-title {
-	font-size: 1.5rem;
-}
-::ng-deep .mat-tooltip {
-	font-size: 14px;
-}
-.igx-avatar {
-	height: 70px;
-	width: 70px;
-	margin: 1%;
-}
-
-.change-avatar-container {
-	display: grid;
-	grid-template-columns: 1fr 11fr;
-}
-
-.change-avatar-actins {
-	text-align: left;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.browse-avatar {
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	text-transform: uppercase;
-	display: inline-block;
-	height: 30px;
-	width: 200px;
-	margin: 1% 0 0 1%;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 5px;
-	font-family:  Roboto, "Helvetica Neue", sans-serif;
-	font-size: .8rem;
-}
-
-.browse-avatar:hover {
-	background-color: white;
-	color: black;
-}
-
 .spinner {
 	position: fixed;
 	z-index: 1;
@@ -70,88 +14,168 @@ input[type="file"] {
 	bottom: 0;
 	right: 0;
 }
-
 .spinner:before {
-	content: '';
+	content: "";
 	display: block;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.3);
+	background-color: rgba(0, 0, 0, 0.3);
 }
-
-.user-profile-info {
-	display: grid;
-	grid-template-columns: 5fr 7fr;
+.user-info {
+	border-top: 1px solid #8e8e8e;
+	border-bottom: 1px solid #8e8e8e;
 }
-
-.user-name-label, .user-email-label {
-	text-transform: uppercase;
-	font-size: 1.2rem;
-	padding-bottom: 10px;
-}
-
-.edit-user-actions {
+.content-zone-title {
+	color: white;
+	font-family: capture;
 	text-align: left;
+	font-size: 1.2rem;
+	padding: 5px 0 5px 10px;
 }
-
-.edit-changes-btn, .save-changes-btn, .reset-changes-icon {
-	text-transform: uppercase;
-	font-size: .8rem;
-	width: 120px;
-	border: 1px solid white;
+.user-avatar,
+.user-name,
+.user-email {
+	display: grid;
+	grid-template-columns: 1fr 5fr 6fr;
+	margin: auto;
+	padding: 5px 0;
+}
+.user-avatar-label,
+.user-name-label,
+.user-email-label {
+	color: white;
+	font-family: capture;
+	font-size: 1rem;
+	padding: 5px 10px;
+}
+.user-avatar-label {
+	color: white;
+	font-family: capture;
+	font-size: 1rem;
+	padding: 15px 10px 5px 10px;
+}
+::ng-deep .mat-tooltip {
+	font-size: 14px;
+}
+.igx-avatar {
+	height: 50px;
+	width: 50px;
+	margin: 1%;
+}
+input[type="file"] {
+	display: none;
+}
+.browse-avatar,
+.edit-user-info-btn {
+	border: 1px solid #ccc;
 	border-radius: 4px;
-	text-align: center;
-	padding: 2px 0;
-	margin: 0 0 10px 10px;
-}
-
-.edit-changes-btn:hover, .save-changes-btn:hover, .reset-changes-icon:hover {
-	color: black;
-	background-color: white;
+	text-transform: uppercase;
 	cursor: pointer;
+	text-align: center;
+	color: white;
+	padding: 3px;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-size: 0.8rem;
+	width: 130px;
+	height: 35px;
+	margin-top: 10px;
 }
-
-.user-profile-info input[type="text"] {
-	font-family:  Roboto, "Helvetica Neue", sans-serif;
+.browse-avatar:hover,
+.edit-user-info-btn:hover {
+	background-color: white;
+	color: black;
+}
+input[type="text"] {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
 	background: transparent;
 	border: none;
 	border-radius: 4px;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	margin: 0;
 	outline: 0;
-	padding: 10px 0;
-	width: 100%;
-	color:white;
-	margin-bottom: 30px;
-	pointer-events: none;
-	padding-left: 5px;
+	width: 90%;
+	color: white;
 	border-bottom: 1px dashed #8e8e8e;
 }
-.user-profile-info input[type="text"]:focus {
-	background: #d2d9dd;
-	color: black;
+.media-select-theme {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-column-gap: 10px;
+	text-align: center;
+}
+.backgroung-carousel > img {
+	height: 70px;
+	width: 70px;
+	margin: auto;
+	border-radius: 4px;
+}
+.backgroung-carousel > img:hover {
+	opacity: .8;
+	border: 1px solid white;
 }
 
-@media (max-width: 400px) {
-	.browse-avatar {
-		margin: 8% 0 0 10%;
+@media (max-width: 800px) {
+	.user-avatar,
+	.user-name,
+	.user-email {
+		grid-template-columns: 2fr 6fr 4fr;
+		padding: 2px;
 	}
-	.user-profile-info {
-		grid-template-columns: 10fr 2fr;
+	.igx-avatar {
+		height: 40px;
+		width: 40px;
+		margin: 1%;
 	}
-	.user-name-label, .user-email-label {
-		font-size: .8rem;
-	}
-	.user-profile-info input[type="text"] {
+	.content-zone-title {
 		font-size: 1rem;
 	}
-	.edit-changes-btn, .save-changes-btn, .reset-changes-icon {
-		font-size: .6rem;
+	.user-avatar-label,
+	.user-name-label,
+	.user-email-label {
+		width: 70px;
+		font-size: 0.8rem;
+	}
+	input[type="text"] {
+		padding-left: 10px;
+	}
+	.media-select-theme {
+		grid-template-columns: repeat(6, 2fr);
+	}
+}
+@media (max-width: 500px) {
+	input[type="text"] {
+		font-size: 0.8rem;
+		margin: 0;
+		outline: 0;
+		width: 90%;
+		color: white;
+		border-bottom: 1px dashed #8e8e8e;
+	}
+	.browse-avatar,
+	.edit-user-info-btn {
+		padding: 2px;
+		font-family: Roboto, "Helvetica Neue", sans-serif;
+		font-size: 0.6rem;
 		width: 100px;
+		height: 30px;
+	}
+	.backgroung-carousel > img {
+		height: 40px;
+		width: 40px;
 	}
 }
 
-
+@media (max-width: 320px) {
+	.user-avatar,
+	.user-name,
+	.user-email {
+		grid-template-columns: 2fr 7fr 3fr;
+	}
+	.browse-avatar,
+	.edit-user-info-btn {
+		margin-right: 3px;
+	}
+}

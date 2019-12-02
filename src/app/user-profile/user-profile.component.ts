@@ -32,7 +32,15 @@ export class UserProfileComponent implements OnInit {
 	color = "white";
 	avatarSrc: string;
 	avatarInitials: string;
-	isEditAllowed: boolean = false;
+	assetsList: string[] = [
+		`../assets/images/dark-theme.jpg`,
+		`../assets/images/blue-theme.jpg`,
+		`../assets/images/castle-theme.jpg`,
+		`../assets/images/grey-theme.jpg`,
+		`../assets/images/paper-theme.jpg`,
+		`../assets/images/swing-theme.jpg`,
+		`../assets/images/wooden-theme.jpg`
+	];
 
 	public uploader: FileUploader;
 
@@ -73,6 +81,7 @@ export class UserProfileComponent implements OnInit {
 					}
 				);
 		}
+
 	}
 
 	manageUploader(userId: string) {
@@ -145,32 +154,19 @@ export class UserProfileComponent implements OnInit {
 		this.avatarSrc = this.currentUser.avatar;
 	}
 
-	editUserInfo() {
-		document.getElementById(`name`).style.pointerEvents = "auto";
-		document.getElementById(`email`).focus();
-		document.getElementById(`email`).style.pointerEvents = "auto";
-		this.isEditAllowed = true;
-	}
-
-	resetEdit() {
-		document.getElementById(`name`).style.pointerEvents = "none";
-		document.getElementById(`email`).style.pointerEvents = "none";
-		this.isEditAllowed = false;
-		this.name = this.currentUser.name;
-		this.email = this.currentUser.email;
-	}
-
-	saveChanges() {
-		console.log('---> this.name ', this.name);
-		console.log('---> this.email ', this.email);
+	updateUserInfo() {
 		const editedUser = { ...this.currentUser };
 		editedUser.email = this.email;
 		editedUser.name = this.name;
 		this.isLoading = true;
 		this.doUpdateUserCall([editedUser]);
-		this.isEditAllowed = false;
-		document.getElementById(`name`).style.pointerEvents = "none";
-		document.getElementById(`email`).style.pointerEvents = "none";
+	}
+
+	selectBackground(event) {
+		const selectedImgSrc =  event.explicitOriginalTarget.currentSrc;
+		const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
+		const pointIndex = selectedImgSrc.indexOf(`.`);
+		const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
 	}
 
 }

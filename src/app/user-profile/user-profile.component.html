@@ -2,96 +2,58 @@
 	<div class="spinner" *ngIf="isLoading">
 		<mat-spinner [diameter]="50"></mat-spinner>
 	</div>
-
-	<mat-expansion-panel class="user-profile">
-		<mat-expansion-panel-header>
-			<mat-panel-title class="user-profile-header user-profile-title">
-				{{avatarLabel}}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		<div class="change-avatar-container">
-			<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
-			</igx-avatar>
-			<ng-template #noAvatar>
-				<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
-				</igx-avatar>
-			</ng-template>
-			<div class="change-avatar-actins">
-				<div class="browse-avatar-action">
-					<label class="browse-avatar">
-						<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
-						Choose your new avatar
-					</label>
+	<div class="user-profile-content">
+		<div class="content-zone-title">
+			{{userInfoLabel}}
+		</div>
+		<div class="user-info">
+			<div class="user-avatar">
+				<div class="user-avatar-label">
+					{{avatarLabel}}
+				</div>
+				<div class="user-avatar-img">
+					<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
+					</igx-avatar>
+					<ng-template #noAvatar>
+						<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
+						</igx-avatar>
+					</ng-template>
+				</div>
+				<label class="browse-avatar">
+					<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
+					Update avatar
+				</label>
+			</div>
+			<div class="user-name">
+				<div class="user-name-label">
+					{{userNameLabel}}
+				</div>
+				<div class="user-name-value">
+					<input type="text" id="name" name="name" [(ngModel)]="name">
+				</div>
+				<div class="edit-user-info-btn" (click)="updateUserInfo()">
+					Update user info
+				</div>
+			</div>
+			<div class="user-email">
+				<div class="user-email-label">
+					{{userEmailLabel}}
+				</div>
+				<div class="user-email-value">
+					<input type="text" id="email" name="email" [(ngModel)]="email">
+				</div>
+				<div class="divider">
 				</div>
 			</div>
 		</div>
-	</mat-expansion-panel>
-
-	<mat-expansion-panel class="user-profile">
-		<mat-expansion-panel-header>
-			<mat-panel-title class="user-profile-header user-profile-title">
-				{{themeLabel}}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		in development
-	</mat-expansion-panel>
-
-	<mat-expansion-panel class="user-profile">
-		<mat-expansion-panel-header>
-			<mat-panel-title class="user-profile-header user-profile-title">
-				{{userInfoLabel}}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		<div class="user-profile-info">
-			<div class="user-info-form">
-				<div class="user-name">
-					<div class="user-name-label">
-						{{userNameLabel}}
-					</div>
-					<div class="user-name-value">
-						<input type="text" id="name" name="name" [(ngModel)]="name">
-					</div>
-				</div>
-				<div class="user-email">
-					<div class="user-email-label">
-						{{userEmailLabel}}
-					</div>
-					<div class="user-email-value">
-						<input type="text" id="email" name="email" [(ngModel)]="email">
-					</div>
-				</div>
-			</div>
-			<div class="edit-user-actions">
-				<div class="edit-changes-btn" (click)="editUserInfo()">
-					edit user info
-				</div>
-				<div class="save-changes-btn" *ngIf="isEditAllowed" (click)="saveChanges()">
-					Save changes
-				</div>
-				<div class="reset-changes-icon" *ngIf="isEditAllowed" (click)="resetEdit()">
-					reset changes
-				</div>
-			</div>
-
+		<div class="content-zone-title">
+			{{themeLabel}}
 		</div>
-	</mat-expansion-panel>
-
-	<mat-expansion-panel class="user-profile">
-		<mat-expansion-panel-header>
-			<mat-panel-title class="user-profile-header user-profile-title">
-				{{currencyLabel}}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		in development
-	</mat-expansion-panel>
-
-	<mat-expansion-panel class="user-profile">
-		<mat-expansion-panel-header>
-			<mat-panel-title class="user-profile-header user-profile-title">
-				{{balanceLimitLabel}}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		in development
-	</mat-expansion-panel>
-
-</div>
+		<div class="media-select-theme">
+			<div *ngFor="let asset of assetsList">
+				<div class="backgroung-carousel" (click)="selectBackground($event)">
+					<img src={{asset}} alt="Random first slide">
+				</div>
+			</div>
+		</div>
+	</div>
