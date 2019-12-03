@@ -100,6 +100,11 @@
 .new-expence-category-name {
 	text-transform: uppercase;
 	font-size: 1.4em;
+	max-width: 200px;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden
 }
 
 .new-expence-category {
@@ -111,14 +116,14 @@
 	.expense-form {
 		width: 400px;
 	}
+	.new-expence-category-name{
+		max-width: 100px;
+	}
 }
 
 @media (max-width: 400px) {
 	.expense-form {
 		width: 300px;
-	}
-	.fieldset-legend {
-		width: 10%;
 	}
 	.new-expence-category-name {
 		font-size: 1em;
@@ -143,6 +148,9 @@
 	}
 	.title {
 		padding: 5px 0;
+	}
+	.new-expence-category-name{
+		max-width: 80px;
 	}
 }
 

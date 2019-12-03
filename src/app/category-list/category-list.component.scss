@@ -101,6 +101,9 @@
 }
 
 @media (max-width: 1000px) {
+	.categories-list-content {
+		grid-template-columns: 3fr 3fr 3fr 3fr;
+	}
 	.categories-list-container {
 		max-height: 80vh;
 	}
@@ -110,6 +113,10 @@
 	.category-item-last-transaction, .category-item-total {
 		font-size: .8rem;
 	}
+	.category-item-name {
+		max-width: 150px;
+		//overflow: ellipsis;
+	}
 }
 
 @media (max-width: 750px) {
@@ -118,17 +125,20 @@
 	}
 	.category-item-name {
 		font-size: .8rem;
-		max-width: 180px;
+		max-width: 100px;
 	}
 }
 @media (max-width: 400px) {
+	.categories-list-container {
+		max-height: 70vh;
+	}
 	.categories-list-content {
 		display: grid;
 		grid-template-columns: 4fr 4fr 4fr;
 	}
-	.category-item-name {
-		max-width: 100px;
-	}
+	// .category-item-name {
+	// 	max-width: 100px;
+	// }
 	.category-item-noicon {
 		height: 30px;
 		width: 30px;
