@@ -27,7 +27,7 @@
 				</div>
 				<div class="category-item-icon" *ngIf="category.icon else noCategoryIconSelected">
 					<div class="category-item-icon-container">
-						<div class="category-item-noicon" routerLink="/categories/{{category.name}}/new/{{category.id}}"
+						<div class="category-item-noicon" routerLink="/transaction/new/{{category.name}}"
 							matTooltip="Add new expense">
 							<mat-icon>{{category.icon}}</mat-icon>
 							<mat-icon class="badge-icon">add_circle</mat-icon>
@@ -36,7 +36,7 @@
 				</div>
 				<ng-template #noCategoryIconSelected>
 					<div class="category-item-icon-container">
-						<div class="category-item-noicon" routerLink="/categories/{{category.name}}/new/{{category.id}}"
+						<div class="category-item-noicon" routerLink="/transaction/new/{{category.name}}"
 							matTooltip="Add new expense">
 							{{category.initials}}
 							<mat-icon class="badge-icon">add_circle</mat-icon>

@@ -23,7 +23,7 @@ const routes: Routes = [
 	{ path: 'autorize', component: LoginFormComponent },
 	{ path: 'home', component: HomeComponent },
 	{ path: 'categories', component: CategoryListComponent },
-	{ path: 'categories/:category/:action/:categoryId', component: AddExpenseComponent },
+	{ path: 'transaction/:action/:category', component: AddExpenseComponent },
 	{ path: 'login/:userName/:status', component: ModalComponent },
 	{ path: 'detail/:category', component: TransactionDetailComponent },
 	{ path: 'activate/:token', component: ActivateUserComponent },

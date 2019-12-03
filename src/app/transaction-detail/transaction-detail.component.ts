@@ -142,7 +142,7 @@ export class TransactionDetailComponent implements OnInit {
 
 	editExpense(expense: FinanceData) {
 		this.transactionService.currentTransaction = expense;
-		this.router.navigate([`/categories/${this.categoryName}/edit/${this.categoryId}`]);
+		this.router.navigate([`/transaction/edit/${this.categoryName}`]);
 	}
 
 	doUpdateTransactionCall(expenses: FinanceData[]) {

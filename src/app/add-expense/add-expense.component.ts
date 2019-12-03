@@ -148,14 +148,14 @@ export class AddExpenseComponent implements OnInit {
 
 	saveNewExpence(newExpence: any) {
 		const userId = localStorage.getItem('userId');
-		const categoryId = this.route.snapshot.paramMap.get('categoryId');
+		const categoryName = this.route.snapshot.paramMap.get('category');
 		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
 		const navigateUrl = `/home`;
 		const transactionToSave: FinanceData = {
 			comment: newExpence.comment,
 			id: null,
 			sum: newExpence.sum,
-			category: categoryId,
+			category: categoryName,
 			userId: userId,
 			isDeleted: false,
 			date: newExpence.date

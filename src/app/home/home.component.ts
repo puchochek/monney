@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 	currentDate: Date;
 	isLoading: boolean = true;
 	incomeMenuItems: [
-		{ name: `Add income`, routerLink: `/categories/Income/new/{{incomeId}}` },
+		{ name: `Add income`, routerLink:  `/transaction/new/Income` },
 		{ name: `View incomes`, routerLink: `/detail/{{Income}}` }
 	];
 
