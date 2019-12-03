@@ -18,18 +18,25 @@ import { UserService } from '../user.service';
 export class UserProfileComponent implements OnInit {
 	@Input() name: string;
 	@Input() email: string;
+	@Input() balanceEdge: string;
 
 	isLoading: boolean = true;
+	isInvalidInput: boolean;
 	currentUser: LoggedUser;
-	avatarLabel = `Avatar`;
-	themeLabel = `App theme`;
-	userInfoLabel = `User Info`;
-	currencyLabel = `Currency`;
-	balanceLimitLabel = `Balance limit`;
-	userNameLabel = `Name`;
-	userEmailLabel = `Email`;
-	bgColor = "#8e8e8e";
-	color = "white";
+	invaildEdgeMessage: string;
+	avatarLabel: string = `Avatar`;
+	themeLabel: string = `App theme`;
+	userInfoLabel: string = `User Info`;
+	currencyLabel: string = `Currency`;
+	balanceLimitLabel: string = `Balance limit`;
+	userNameLabel: string = `Name`;
+	userEmailLabel: string = `Email`;
+	limitLabel: string = `Low balance limit`;
+	balanceEdgeLbl: string = `Balance limit`;
+	lowBalanceDescription: string = `Here you can specify an
+	edge value to warn you if a balance is too low. By default it is set to zero.`;
+	bgColor: string = "#8e8e8e";
+	color: string = "white";
 	avatarSrc: string;
 	avatarInitials: string;
 	assetsList: string[] = [
@@ -37,9 +44,14 @@ export class UserProfileComponent implements OnInit {
 		`../assets/images/blue-theme.jpg`,
 		`../assets/images/castle-theme.jpg`,
 		`../assets/images/grey-theme.jpg`,
+		`../assets/images/leaf-theme.jpg`,
 		`../assets/images/paper-theme.jpg`,
 		`../assets/images/swing-theme.jpg`,
-		`../assets/images/wooden-theme.jpg`
+		`../assets/images/red-theme.jpg`,
+		`../assets/images/blue-pattern.jpg`,
+		`../assets/images/purple-theme.jpg`,
+		`../assets/images/wooden-theme.jpg`,
+		`../assets/images/space-theme.jpg`
 	];
 
 	public uploader: FileUploader;
@@ -49,7 +61,7 @@ export class UserProfileComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private snackBar: MatSnackBar,
-		public userService: UserService
+		private userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -102,6 +114,7 @@ export class UserProfileComponent implements OnInit {
 	setUserDataToEdit() {
 		this.name = this.currentUser.name;
 		this.email = this.currentUser.email;
+		this.balanceEdge = String(this.currentUser.balanceEdge) || `0`;
 	}
 
 	setCurrentAvatar() {
@@ -162,11 +175,46 @@ export class UserProfileComponent implements OnInit {
 		this.doUpdateUserCall([editedUser]);
 	}
 
+	updateBalanceEdge() {
+		const isbalanceEdgeValid = this.validateBalanceEdge(this.balanceEdge);
+		if (isbalanceEdgeValid) {
+			this.isInvalidInput = false;
+			const editedUser = { ...this.currentUser };
+			editedUser.balanceEdge = Number(this.balanceEdge);
+			this.isLoading = true;
+			this.doUpdateUserCall([editedUser]);
+		} else {
+			this.isInvalidInput = true;
+			this.invaildEdgeMessage = `The Sum field may keep a positive number value only.`;
+		}
+	}
+
+	hideErrorMessage() {
+		this.isInvalidInput = false;
+	}
+
+	validateBalanceEdge(balanceEdge: string): boolean {
+		const balanceEdgeToNum = Number(balanceEdge);
+		if (isNaN(balanceEdgeToNum) || (!balanceEdgeToNum) || (Number(balanceEdgeToNum) < 0)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	selectBackground(event) {
-		const selectedImgSrc =  event.explicitOriginalTarget.currentSrc;
-		const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
-		const pointIndex = selectedImgSrc.indexOf(`.`);
-		const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
+		const selectedImgSrc = event.explicitOriginalTarget.currentSrc;
+		if (selectedImgSrc) {
+			const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
+			const pointIndex = selectedImgSrc.indexOf(`.`);
+			const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
+			console.log('---> selectedAssetName ', selectedAssetName);
+			const userToUpdate: LoggedUser = { ...this.currentUser };
+			userToUpdate.theme = selectedAssetName;
+			this.isLoading = true;
+			this.doUpdateUserCall([userToUpdate]);
+			this.userService.appUser = this.currentUser;
+		}
 	}
 
 }

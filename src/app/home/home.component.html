@@ -36,7 +36,7 @@
                         <div class="balance-info-title">Income: {{incomesTotal}}</div>
                     </div>
                     <div class="balance-info-balance">
-                        <div class="balance-info-title">Balance: {{balanceTotal}}</div>
+                        <div [ngClass]="balanceInfoClass">Balance: {{balanceTotal}}</div>
                     </div>
                 </div>
             </div>

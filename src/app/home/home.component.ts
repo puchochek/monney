@@ -14,6 +14,7 @@ import { UserService } from '../user.service';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+	@Input() balanceInfoClass: string = `balance-info-title`;
 
 	currentUser: LoggedUser;
 	incomeId: string;
@@ -44,7 +45,7 @@ export class HomeComponent implements OnInit {
 				.subscribe(
 					response => {
 						this.currentUser = <LoggedUser>response.body;
-						this.userService.appUser = {...this.currentUser};
+						this.userService.appUser = { ...this.currentUser };
 						console.log('---> HOME response ', response);
 						this.setIncomeId();
 						this.setBalanceInfo();
@@ -76,6 +77,9 @@ export class HomeComponent implements OnInit {
 		this.expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, this.incomeId);
 		this.incomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, this.incomeId);
 		this.balanceTotal = this.dataService.setThisMonthBalanceTotal(this.incomesTotal, this.expensesTotal);
+		if (this.balanceTotal < this.currentUser.balanceEdge) {
+			this.balanceInfoClass = `low-balance-info-title`;
+		}
 	}
 
 	setThisMonthExpensesTotal(): number {

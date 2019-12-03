@@ -24,7 +24,6 @@ export interface Category {
 export interface TransactionsData {
 	category: string;
 	transactions: FinanceData[];
-	//total: number;
 }
 
 export interface LoggedUser {
@@ -36,6 +35,8 @@ export interface LoggedUser {
 	isConfirmed: boolean;
 	categories: Category[];
 	transactions: FinanceData[];
+	theme: string;
+	balanceEdge: number;
 }
 
 export interface DashboardPeriod {

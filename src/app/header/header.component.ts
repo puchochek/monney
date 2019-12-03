@@ -37,13 +37,13 @@ export class HeaderComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		public userServise: UserService
+		private userService: UserService
 	) { }
 
 	ngOnInit() {
 		this.currentDate = new Date();
 		this.userId = localStorage.getItem('userId');
-		this.sbscr = this.userServise._user.subscribe((response) => {
+		this.sbscr = this.userService._user.subscribe((response) => {
 			console.log('--->  HEADER userServise INIT', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;

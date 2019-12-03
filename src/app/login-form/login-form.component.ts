@@ -34,6 +34,8 @@ export class LoginFormComponent implements OnInit {
 	mailFieldLabel: string;
 	passwordFieldLabel: string;
 
+	DEFAULT_APP_THEME: string =  `../assets/images/wooden-theme.jpg`;
+
 	isValidName: boolean; // form validation
 	isEmailValid: boolean; // form validation
 	isPasswordVaild: boolean; // form validation
@@ -154,7 +156,8 @@ export class LoginFormComponent implements OnInit {
 		this.http.post(url, {
 			password: this.password,
 			name: this.name,
-			email: this.mailAddress
+			email: this.mailAddress,
+			theme: this.DEFAULT_APP_THEME
 		}, { observe: 'response' }).subscribe(
 			response => {
 				console.log('---> LoginFormComponent REGISTRED', response);
