@@ -6,6 +6,8 @@ import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../environments/environment';
 import { Router } from '@angular/router';
+import { ThemeService } from './theme.service';
+
 
 @Component({
 	selector: 'app-root',
@@ -23,6 +25,8 @@ export class AppComponent {
 		private http: HttpClient,
 		public userService: UserService,
 		private router: Router,
+		private themeService: ThemeService,
+
 	) { }
 
 	ngOnInit() {
@@ -64,7 +68,7 @@ export class AppComponent {
 					}
 				);
 		} else {
-			document.getElementById('monney-app').style.backgroundImage = this.DEFAULT_THEME;
+			document.getElementById('monney-app').style.backgroundImage = this.themeService.DEFAULT_THEME;
 			this.router.navigate(['/hello-monney']);
 		}
 
@@ -72,6 +76,10 @@ export class AppComponent {
 
 	setAppBackground() {
 		console.log('---> setAppBackground ', this.currentUser.theme);
-		document.getElementById('monney-app').style.backgroundImage = `url(../assets/images/${this.currentUser.theme}.jpg)`;
+		if (this.themeService.checkIfThemeExist(this.currentUser.theme)) {
+			document.getElementById('monney-app').style.backgroundImage = `url(../assets/images/${this.currentUser.theme}.jpg)`;
+		} else {
+			document.getElementById('monney-app').style.backgroundImage = `url(../assets/images/${this.themeService.DEFAULT_THEME}.jpg)`;
+		}
 	}
 }

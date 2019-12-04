@@ -8,6 +8,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../user.service';
+import { ThemeService } from '../theme.service';
 
 
 @Component({
@@ -39,20 +40,21 @@ export class UserProfileComponent implements OnInit {
 	color: string = "white";
 	avatarSrc: string;
 	avatarInitials: string;
-	assetsList: string[] = [
-		`../assets/images/dark-theme.jpg`,
-		`../assets/images/blue-theme.jpg`,
-		`../assets/images/castle-theme.jpg`,
-		`../assets/images/grey-theme.jpg`,
-		`../assets/images/leaf-theme.jpg`,
-		`../assets/images/paper-theme.jpg`,
-		`../assets/images/swing-theme.jpg`,
-		`../assets/images/red-theme.jpg`,
-		`../assets/images/blue-pattern.jpg`,
-		`../assets/images/purple-theme.jpg`,
-		`../assets/images/wooden-theme.jpg`,
-		`../assets/images/space-theme.jpg`
-	];
+	// assetsList: string[] = [
+	// 	`../assets/images/dark-theme.jpg`,
+	// 	`../assets/images/blue-theme.jpg`,
+	// 	`../assets/images/castle-theme.jpg`,
+	// 	`../assets/images/grey-theme.jpg`,
+	// 	`../assets/images/leaf-theme.jpg`,
+	// 	`../assets/images/paper-theme.jpg`,
+	// 	`../assets/images/swing-theme.jpg`,
+	// 	`../assets/images/red-theme.jpg`,
+	// 	`../assets/images/blue-pattern.jpg`,
+	// 	`../assets/images/purple-theme.jpg`,
+	// 	`../assets/images/wooden-theme.jpg`,
+	// 	`../assets/images/space-theme.jpg`
+	// ];
+	assetsList: string[];
 
 	public uploader: FileUploader;
 
@@ -61,10 +63,12 @@ export class UserProfileComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private snackBar: MatSnackBar,
-		private userService: UserService
+		private userService: UserService,
+		private themeService: ThemeService,
 	) { }
 
 	ngOnInit() {
+		this.assetsList = [...this.themeService.ASSETS_LIST];
 		const token = localStorage.getItem("token");
 		if (token) {
 			const tokenisedId = localStorage.getItem("token").split(" ")[1];
@@ -204,16 +208,19 @@ export class UserProfileComponent implements OnInit {
 
 	selectBackground(event) {
 		const selectedImgSrc = event.explicitOriginalTarget.currentSrc;
+		console.log('--selectedImgSrc ', selectedImgSrc);
 		if (selectedImgSrc) {
 			const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
 			const pointIndex = selectedImgSrc.indexOf(`.`);
 			const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
 			console.log('---> selectedAssetName ', selectedAssetName);
-			const userToUpdate: LoggedUser = { ...this.currentUser };
-			userToUpdate.theme = selectedAssetName;
-			this.isLoading = true;
-			this.doUpdateUserCall([userToUpdate]);
-			this.userService.appUser = this.currentUser;
+			if (this.themeService.checkIfThemeExist(selectedAssetName)) {
+				const userToUpdate: LoggedUser = { ...this.currentUser };
+				userToUpdate.theme = selectedAssetName;
+				this.isLoading = true;
+				this.doUpdateUserCall([userToUpdate]);
+				this.userService.appUser = this.currentUser;
+			}
 		}
 	}
 
