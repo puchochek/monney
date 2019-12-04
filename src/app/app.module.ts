@@ -73,6 +73,8 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { ExcelTableComponent } from './excel-table/excel-table.component';
 import { SelectMediaComponent } from './select-media/select-media.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -144,7 +146,8 @@ import { SelectMediaComponent } from './select-media/select-media.component';
 		MatTooltipModule,
 		BrowserAnimationsModule,
 		IgxAvatarModule,
-		FileUploadModule
+		FileUploadModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [DataService,
 		{

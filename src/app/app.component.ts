@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	title = 'monney';
+	TITLE = `monney`;
+	DEFAULT_THEME = `url(../assets/images/dark-theme.jpg)`;
 	currentUser: LoggedUser;
 	private sbscr: Subscription;
 
@@ -62,11 +63,15 @@ export class AppComponent {
 						// No errors, route to new page here
 					}
 				);
+		} else {
+			document.getElementById('monney-app').style.backgroundImage = this.DEFAULT_THEME;
+			this.router.navigate(['/hello-monney']);
 		}
+
 	}
 
 	setAppBackground() {
 		console.log('---> setAppBackground ', this.currentUser.theme);
 		document.getElementById('monney-app').style.backgroundImage = `url(../assets/images/${this.currentUser.theme}.jpg)`;
 	}
- }
+}

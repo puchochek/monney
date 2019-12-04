@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.0.3",
     "@angular/platform-browser-dynamic": "~8.0.3",
     "@angular/router": "~8.0.3",
+    "@angular/service-worker": "~8.0.3",
     "@cloudinary/angular-5.x": "^1.0.3",
     "@types/hammerjs": "^2.0.36",
     "angular2-jwt": "^0.2.3",
