@@ -20,10 +20,12 @@ export class AppComponent {
 	constructor(
 		// private dataService: DataService,
 		// private http: HttpClient,
-		// public userService: UserService,
+		public userService: UserService,
 		// private router: Router,
 		// private themeService: ThemeService,
 
-	) { }
+	) {
+		this.userService.doUserControllerCall();
+	}
 
 }

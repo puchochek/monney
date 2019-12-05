@@ -9,6 +9,8 @@ import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../user.service';
 import { ThemeService } from '../theme.service';
+import { Subscription } from 'rxjs';
+
 
 
 @Component({
@@ -20,6 +22,9 @@ export class UserProfileComponent implements OnInit {
 	@Input() name: string;
 	@Input() email: string;
 	@Input() balanceEdge: string;
+
+	private subscription: Subscription;
+
 
 	isLoading: boolean = true;
 	isInvalidInput: boolean;
@@ -53,35 +58,19 @@ export class UserProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						this.manageUploader(this.currentUser.id);
-						if (!this.userService._user.hasOwnProperty('id')) {
-							this.userService.appUser = { ...this.currentUser };
-						}
-						console.log('---> USER PROFILE response ', response);
-						this.setCurrentAvatar();
-						this.setUserDataToEdit();
-						this.dataService.updateToken(response.headers.get('Authorization'));
-						this.isLoading = false;
-					},
-					error => {
-						console.log('---> USER PROFILE error ', error);
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
-
+		this.subscription = this.userService._user.subscribe((response) => {
+			console.log('---> USER_PROFILE _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				this.manageUploader(this.currentUser.id);
+				this.setCurrentAvatar();
+				this.setUserDataToEdit();
+				this.isLoading = false;
+			} else {
+				console.log('---> USER PROFILE error ');
+				this.router.navigate([`/home`]);
+			}
+		});
 	}
 
 	manageUploader(userId: string) {

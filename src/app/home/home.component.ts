@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment';
 import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { UserService } from '../user.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
 	selector: 'app-home',
@@ -24,9 +26,11 @@ export class HomeComponent implements OnInit {
 	currentDate: Date;
 	isLoading: boolean = true;
 	incomeMenuItems: [
-		{ name: `Add income`, routerLink:  `/transaction/new/Income` },
+		{ name: `Add income`, routerLink: `/transaction/new/Income` },
 		{ name: `View incomes`, routerLink: `/detail/{{Income}}` }
 	];
+	private subscription: Subscription;
+
 
 	constructor(
 		private dataService: DataService,
@@ -37,30 +41,21 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit() {
 		this.currentDate = new Date();
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						this.userService.appUser = { ...this.currentUser };
-						console.log('---> HOME response ', response);
-						this.setIncomeId();
-						this.setBalanceInfo();
-						this.dataService.updateToken(response.headers.get('Authorization'));
-						this.isLoading = false;
-					},
-					error => {
-						console.log('---> HOME error ', error);
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
+		this.subscription = this.userService._user.subscribe((response) => {
+			console.log('---> HOME _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				this.setIncomeId();
+				this.setBalanceInfo();
+				this.isLoading = false;
+			} else {
+				this.router.navigate([`/hello-monney`]);
+			}
+		});
+	}
+	ngOnDestroy() {
+		if (this.subscription) {
+			this.subscription.unsubscribe();
 		}
 	}
 

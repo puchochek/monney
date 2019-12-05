@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		document.getElementById(`empty-dashboard-message`).style.display = `none`;
 		this.sbscr = this.dashboardServise._dashboardSettings.subscribe((response) => {
-			console.log('---> DASHBOARD  dashboardServise INIT', response);
+			console.log('---> DASHBOARD  _dashboardSettings ', response);
 			if (response) {
 				this.dashboardConfig = response;
 				const transactionsForSelectedCategories = this.defineSelectedCategoriesTransactions();
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
 					this.saveAsBtnLbl = `Save as Excel`;
 				}
 			} else {
-				this.router.navigate(['/dashboard/config']);
+				this.router.navigate(['/dashboard-config']);
 			}
 		});
 	}

@@ -4,7 +4,6 @@ import { DataService } from '../data.service';
 import { LoggedUser } from '../interfaces';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { UserService } from '../user.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
 	public bgColor = "#8e8e8e";
 	public color = "white";
-	private sbscr: Subscription;
+	private subscription: Subscription;
 
 	userId: string;
 	currentUser: LoggedUser;
@@ -43,44 +42,18 @@ export class HeaderComponent implements OnInit {
 	ngOnInit() {
 		this.currentDate = new Date();
 		this.userId = localStorage.getItem('userId');
-		this.sbscr = this.userService._user.subscribe((response) => {
-			console.log('--->  HEADER userServise INIT', response);
+		this.subscription = this.userService._user.subscribe((response) => {
+			console.log('--->  HEADER _user ', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
 				this.isMenuAvailable = true;
 				this.setAvatar();
-			} else {
-				this.doUserControllerCall();
-			}
+			 }
 		});
 	}
 
 	ngOnDestroy() {
-		this.sbscr.unsubscribe();
-	}
-
-	doUserControllerCall() {
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						this.isMenuAvailable = true;
-						this.setAvatar();
-					},
-					error => {
-						console.log('---> HEADER error ', error);
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
+		this.subscription.unsubscribe();
 	}
 
 	setAvatar() {

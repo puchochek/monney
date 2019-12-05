@@ -10,6 +10,7 @@ import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-transaction-detail',
@@ -36,6 +37,7 @@ export class TransactionDetailComponent implements OnInit {
 	isAscSorted: boolean;
 	isLoading: boolean = true;
 	headers = [`Date`, `Sum`, `Comment`, `Actions`];
+	private subscription: Subscription;
 
 	constructor(
 		private http: HttpClient,
@@ -49,33 +51,20 @@ export class TransactionDetailComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		//this.categoryId = this.route.snapshot.paramMap.get('category');
 		this.categoryName = this.route.snapshot.paramMap.get('category');
 
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						if (!this.userService._user.hasOwnProperty('id')) {
-							this.userService.appUser = {...this.currentUser};
-						}
-						this.dataService.updateToken(response.headers.get('Authorization'));
-						this.setInitialData();
-						this.isLoading = false;
-					},
-					error => {
-						console.log('---> DETAIL error ', error);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
+		this.subscription = this.userService._user.subscribe((response) => {
+			console.log('--->  TRANSACTION DETAIL _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				this.setInitialData();
+				this.isLoading = false;
+			}
+		});
+	}
+
+	ngOnDestroy() {
+		this.subscription.unsubscribe();
 	}
 
 	setInitialData() {
@@ -87,12 +76,19 @@ export class TransactionDetailComponent implements OnInit {
 		//this.categoryName = currentCategory.name;
 		this.categoryDescription = currentCategory.description;
 		this.transactionsTotalLabel = `Selected period total:`;
-		this.transactions = this.dataService.sortTransactionsByCategoryId(currentCategory.id, this.currentUser.transactions);
+		this.setTransactionsToDiaplay(this.currentUser.transactions);
+		this.setTransactionsTotal();
+	}
+
+	setTransactionsToDiaplay(transactions: FinanceData[]) {
+		const today = new Date();
+		const currentCategory = [...this.currentUser.categories].filter(category => category.name === this.categoryName)[0];
+		this.transactions = this.dataService.sortTransactionsByCategoryId(currentCategory.id, transactions);
 
 		if (this.transactions.length !== 0) {
-			this.transactionToDisplay = this.setSelectedPeriodTransactions(new Date(today.getFullYear(), today.getMonth(), 1), today);
+			const thisPeriodTransactions = this.setSelectedPeriodTransactions(new Date(today.getFullYear(), today.getMonth(), 1), today);
+			this.transactionToDisplay = this.filterDeletedTransactions(thisPeriodTransactions);
 		}
-		this.setTransactionsTotal();
 	}
 
 	setSelectedPeriodTransactions(startDate: Date, endDate: Date): FinanceData[] {
@@ -178,12 +174,23 @@ export class TransactionDetailComponent implements OnInit {
 		);
 	}
 
-	updateExpensesList(deletedExpenses: FinanceData[]) {
-		const deletedExpensesIds = deletedExpenses.reduce((deletedExpensesList, deletedExpense) => {
-			deletedExpensesList.push(deletedExpense.id);
-			return deletedExpensesList;
-		}, []);
-		this.transactionToDisplay = [...this.transactionToDisplay].filter(expense => !deletedExpensesIds.includes(expense.id));
+	updateExpensesList(updatedExpences: FinanceData[]) {
+		const currentUser = { ...this.currentUser };
+		const transactionsList = [...currentUser.transactions];
+		updatedExpences.forEach(transactionToUpdate => {
+			const updatedTransactionIndex = transactionsList.findIndex(transaction => transaction.id === transactionToUpdate.id);
+			if (updatedTransactionIndex) {
+				transactionsList[updatedTransactionIndex] = transactionToUpdate
+			}
+		});
+		this.setTransactionsToDiaplay(transactionsList);
+		currentUser.transactions = transactionsList;
+		//TODO DOES NOT UPDATE Obs in another cmps
+		this.userService.appUser = currentUser;
+	}
+
+	filterDeletedTransactions(transactions: FinanceData[]): FinanceData[] {
+		return transactions.filter(transaction => !transaction.isDeleted);
 	}
 
 	handleFromDateChange(newDate) {

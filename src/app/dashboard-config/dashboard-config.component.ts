@@ -41,7 +41,7 @@ export class DashboardConfigComponent implements OnInit {
 	fromDate: Date;
 	toDate: Date;
 
-	private sbscr: Subscription;
+	private subscription: Subscription;
 
 	constructor(
 		private dataService: DataService,
@@ -53,42 +53,16 @@ export class DashboardConfigComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		console.log('---> DASHBOARD init' );
-		this.sbscr = this.userServise._user.subscribe((response) => {
-			console.log('---> DASHBOARD userServise INIT', response);
+		this.subscription = this.userServise._user.subscribe((response) => {
+			console.log('---> DASHBOARD _user', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
 				this.setInitialData();
-			} else {
-				this.doUserControllerCall();
 			}
 		});
 	}
 	ngOnDestroy() {
-		this.sbscr.unsubscribe();
-	}
-
-	doUserControllerCall() {
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						this.setInitialData();
-					},
-					error => {
-						console.log('---> DASHBOARD error ', error);
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
+		this.subscription.unsubscribe();
 	}
 
 	setInitialData() {
