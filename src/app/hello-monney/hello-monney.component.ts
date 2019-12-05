@@ -31,6 +31,7 @@ export class HelloMonneyComponent implements OnInit {
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
+						localStorage.setItem("token", response.headers.get('Authorization').split(" ")[1])
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						const currentUser = <LoggedUser>response.body;
 						console.log('---> HELLO-MONNEY response ', response);

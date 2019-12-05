@@ -46,13 +46,10 @@ export class CategoryListComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		console.log('---> currentUser CatList ', this.currentUser);
 		this.subscription = this.userService._user.subscribe((response) => {
 			console.log('---> CATEGORY LIST _user ', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
-				//this.buildCategoriesList();
-				//this.setBalanceInfo();
 			} else {
 				console.log('---> CATEGORY LIST error ');
 				this.router.navigate([`/home`]);
@@ -67,7 +64,6 @@ export class CategoryListComponent implements OnInit {
 	}
 
 	buildCategoriesList() {
-		console.log('---> buildCategoriesList ' );
 		if (this.currentUser.categories) {
 			const userExpenses = this.currentUser.categories.filter(category => !category.isIncome);
 			const userCategories = [...userExpenses];
@@ -77,7 +73,6 @@ export class CategoryListComponent implements OnInit {
 				if (thisCategoryTransactions.length !== 0) {
 					const thisMonthTransactions = this.dataService.getThisMonthTransactions(thisCategoryTransactions);
 					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisMonthTransactions, `sum`);
-					console.log('---> transactionsSum ', transactionsSum );
 					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
 					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
 					category.lastTransaction = `${lastTransaction.sum}, ${lastTransactionDate}`;
@@ -200,7 +195,7 @@ export class CategoryListComponent implements OnInit {
 				this.snackBar.open(snackMessage, action, {
 					duration: 5000,
 				});
-				const upsertedCategories = <Category>response.body;
+				this.userService.updateUserCategories(<Category[]>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
 			},
 			error => {
@@ -266,5 +261,4 @@ export class CategoryListComponent implements OnInit {
 			this.router.navigate([`/detail/${category.name}`]);
 		}
 	}
-
 }

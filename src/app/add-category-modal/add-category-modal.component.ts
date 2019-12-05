@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SelectMediaComponent } from '../select-media/select-media.component';
 import { environment } from '../../environments/environment';
+import { UserService } from '../user.service';
+
 
 
 @Component({
@@ -33,7 +35,8 @@ export class AddCategoryModalComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private snackBar: MatSnackBar,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
@@ -116,6 +119,7 @@ export class AddCategoryModalComponent implements OnInit {
 						duration: 5000,
 					});
 					const upsertedCategory = <Category>response.body;
+					this.userService.updateUserCategories(<Category[]>response.body);
 					this.dataService.updateToken(response.headers.get('Authorization'));
 					this.router.navigate(['/home']);
 				},

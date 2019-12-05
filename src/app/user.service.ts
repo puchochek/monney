@@ -30,24 +30,29 @@ export class UserService {
 
 	doUserControllerCall() {
 		console.log('---> doUserControllerCall');
-		const tokenisedId = localStorage.getItem("token").split(" ")[1];
-		const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-		this.http.get(url, { observe: 'response' })
-			.subscribe(
-				response => {
-					this.appUser = <LoggedUser>response.body;
-					this.dataService.updateToken(response.headers.get('Authorization'));
-					console.log('---> USER SERVICE response ', response);
-				},
-				error => {
-					console.log('---> USER SERVICE error ', error);
-					this.router.navigate(['/hello-monney']);
-				},
-				() => {
-					// 'onCompleted' callback.
-					// No errors, route to new page here
-				}
-			);
+		if (localStorage.getItem("token")) {
+			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
+			this.http.get(url, { observe: 'response' })
+				.subscribe(
+					response => {
+						this.appUser = <LoggedUser>response.body;
+						this.dataService.updateToken(response.headers.get('Authorization'));
+						console.log('---> USER SERVICE response ', response);
+					},
+					error => {
+						console.log('---> USER SERVICE error ', error);
+						this.router.navigate(['/hello-monney']);
+					},
+					() => {
+						// 'onCompleted' callback.
+						// No errors, route to new page here
+					}
+				);
+		} else {
+			this.router.navigate(['/hello-monney']);
+		}
+
 	}
 
 	updateUserTransactions(updatedTransactions: FinanceData[]) {
@@ -66,6 +71,19 @@ export class UserService {
 	}
 
 	updateUserCategories(updatedCategories: Category[]) {
+		console.log('---> updatedCategories ', updatedCategories);
+		const currentUser = { ...this.appUser };
+		const categoriesList = [...currentUser.categories];
+		updatedCategories.forEach(categoryToUpdate => {
+			const updatedTransactionIndex = categoriesList.findIndex(transaction => transaction.id === categoryToUpdate.id);
+			if (updatedTransactionIndex > 0) {
+				categoriesList[updatedTransactionIndex] = categoryToUpdate
+			} else {
+				categoriesList.push(categoryToUpdate);
+			}
+		});
+		currentUser.categories = categoriesList;
+		this.appUser = currentUser;
 
 	}
 }
