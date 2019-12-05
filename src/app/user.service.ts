@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { LoggedUser } from './interfaces';
+import { LoggedUser, FinanceData, Category } from './interfaces';
 import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
@@ -48,5 +48,24 @@ export class UserService {
 					// No errors, route to new page here
 				}
 			);
+	}
+
+	updateUserTransactions(updatedTransactions: FinanceData[]) {
+		const currentUser = { ...this.appUser };
+		const transactionsList = [...currentUser.transactions];
+		updatedTransactions.forEach(transactionToUpdate => {
+			const updatedTransactionIndex = transactionsList.findIndex(transaction => transaction.id === transactionToUpdate.id);
+			if (updatedTransactionIndex > 0) {
+				transactionsList[updatedTransactionIndex] = transactionToUpdate
+			} else {
+				transactionsList.push(transactionToUpdate);
+			}
+		});
+		currentUser.transactions = transactionsList;
+		this.appUser = currentUser;
+	}
+
+	updateUserCategories(updatedCategories: Category[]) {
+
 	}
 }

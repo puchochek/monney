@@ -9,6 +9,10 @@ import { environment } from '../../environments/environment';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import { UserService } from '../user.service';
+
+
 
 @Component({
 	selector: 'app-category-list',
@@ -17,7 +21,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CategoryListComponent implements OnInit {
 	@Input() appUser: LoggedUser;
+	private subscription: Subscription;
 
+	currentUser: LoggedUser;
 	deleteCategoryModal: MatDialogRef<ModalComponent>;
 	thisMonthExpensesTotal: number;
 	categories: Category[];
@@ -35,24 +41,43 @@ export class CategoryListComponent implements OnInit {
 		private router: Router,
 		private dataService: DataService,
 		private snackBar: MatSnackBar,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
-		console.log('---> appUser CatList ', this.appUser);
+		console.log('---> currentUser CatList ', this.currentUser);
+		this.subscription = this.userService._user.subscribe((response) => {
+			console.log('---> CATEGORY LIST _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				//this.buildCategoriesList();
+				//this.setBalanceInfo();
+			} else {
+				console.log('---> CATEGORY LIST error ');
+				this.router.navigate([`/home`]);
+			}
+		});
 		this.buildCategoriesList();
+	}
+	ngOnDestroy() {
+		if (this.subscription) {
+			this.subscription.unsubscribe();
+		}
 	}
 
 	buildCategoriesList() {
-		if (this.appUser.categories) {
-			const userExpenses = this.appUser.categories.filter(category => !category.isIncome);
+		console.log('---> buildCategoriesList ' );
+		if (this.currentUser.categories) {
+			const userExpenses = this.currentUser.categories.filter(category => !category.isIncome);
 			const userCategories = [...userExpenses];
 			const categoriesWithInitials = this.setCategoriesInitials(userCategories);
 			const categoriesWithLastTransactions = categoriesWithInitials.reduce((categoriesList, category) => {
-				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.appUser.transactions);
+				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.currentUser.transactions);
 				if (thisCategoryTransactions.length !== 0) {
 					const thisMonthTransactions = this.dataService.getThisMonthTransactions(thisCategoryTransactions);
 					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisMonthTransactions, `sum`);
+					console.log('---> transactionsSum ', transactionsSum );
 					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
 					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
 					category.lastTransaction = `${lastTransaction.sum}, ${lastTransactionDate}`;
@@ -131,7 +156,7 @@ export class CategoryListComponent implements OnInit {
 
 	sortCategoriesBySum() {
 		const expenseCategories = [...this.categories];
-		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.appUser.transactions]);
+		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.currentUser.transactions]);
 		const expensesByCategory = expenseCategories.reduce((expensesList, currentCategory) => {
 			const thisCategoryExpenses = thisMonthExpenses.filter(expense => expense.category === currentCategory.id);
 			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses, `sum`);

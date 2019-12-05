@@ -157,7 +157,7 @@ export class TransactionDetailComponent implements OnInit {
 				});
 				console.log('---> TRANSACTION DETAIL EXP upserted ', <FinanceData[]>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.updateExpensesList(<FinanceData[]>response.body);
+				this.userService.updateUserTransactions(<FinanceData[]>response.body);
 			},
 			error => {
 				console.log('---> TRANSACTION DETAIL EXP ERROR ', error);
@@ -172,21 +172,6 @@ export class TransactionDetailComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
-	}
-
-	updateExpensesList(updatedExpences: FinanceData[]) {
-		const currentUser = { ...this.currentUser };
-		const transactionsList = [...currentUser.transactions];
-		updatedExpences.forEach(transactionToUpdate => {
-			const updatedTransactionIndex = transactionsList.findIndex(transaction => transaction.id === transactionToUpdate.id);
-			if (updatedTransactionIndex) {
-				transactionsList[updatedTransactionIndex] = transactionToUpdate
-			}
-		});
-		this.setTransactionsToDiaplay(transactionsList);
-		currentUser.transactions = transactionsList;
-		//TODO DOES NOT UPDATE Obs in another cmps
-		this.userService.appUser = currentUser;
 	}
 
 	filterDeletedTransactions(transactions: FinanceData[]): FinanceData[] {

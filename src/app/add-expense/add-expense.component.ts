@@ -44,6 +44,7 @@ export class AddExpenseComponent implements OnInit {
 	selectedCategory: string;
 	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
 	private subscription: Subscription;
+	private userSubscription: Subscription;
 
 	constructor(
 		private dataService: DataService,
@@ -52,21 +53,32 @@ export class AddExpenseComponent implements OnInit {
 		private router: Router,
 		private snackBar: MatSnackBar,
 		private transactionService: TransactionService,
+		private userService: UserService,
 
 	) { }
 
 	ngOnInit() {
-		console.log('---> AddExpenseComponent' );
+		console.log('---> AddExpenseComponent');
 		this.selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.transactionName = this.selectedCategory === `Income` ?
 			`Income`
 			: `expense`;
 
 		if (this.transactionName !== `Income`) {
-			this.doUserControllerCall();
+			this.userSubscription = this.userService._user.subscribe((response) => {
+				console.log('---> ADD EXPENSE _user ', response);
+				if (response) {
+					this.currentUser = <LoggedUser>response;
+					this.setBalanceInfo();
+				} else {
+					console.log('--->ADD EXPENSE error ');
+					this.router.navigate([`/home`]);
+				}
+			});
 		}
 
 		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
+
 		if (this.isEdit) {
 			this.subscription = this.transactionService._transaction.subscribe((response) => {
 				console.log('--->  ADD EXPENSE _transaction ', response);
@@ -94,6 +106,9 @@ export class AddExpenseComponent implements OnInit {
 	ngOnDestroy() {
 		if (this.subscription) {
 			this.subscription.unsubscribe();
+		}
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
 		}
 	}
 
@@ -201,6 +216,7 @@ export class AddExpenseComponent implements OnInit {
 				this.savedExpense = <FinanceData>response.body;
 				console.log('---> ADD EXP savedExpense ', this.savedExpense);
 				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.userService.updateUserTransactions(<FinanceData[]>response.body);
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
