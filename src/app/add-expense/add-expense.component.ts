@@ -58,24 +58,23 @@ export class AddExpenseComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		console.log('---> AddExpenseComponent');
 		this.selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.transactionName = this.selectedCategory === `Income` ?
 			`Income`
 			: `expense`;
 
-		if (this.transactionName !== `Income`) {
-			this.userSubscription = this.userService._user.subscribe((response) => {
-				console.log('---> ADD EXPENSE _user ', response);
-				if (response) {
-					this.currentUser = <LoggedUser>response;
+		this.userSubscription = this.userService._user.subscribe((response) => {
+			console.log('---> ADD EXPENSE _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+				if (this.transactionName !== `Income`) {
 					this.setBalanceInfo();
-				} else {
-					console.log('--->ADD EXPENSE error ');
-					this.router.navigate([`/home`]);
 				}
-			});
-		}
+			} else {
+				console.log('--->ADD EXPENSE error ');
+				this.router.navigate([`/home`]);
+			}
+		});
 
 		this.isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
 
@@ -162,7 +161,7 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	saveNewExpence(newExpence: any) {
-		const userId = localStorage.getItem('userId');
+		const userId =this.currentUser.id;
 		const categoryName = this.route.snapshot.paramMap.get('category');
 		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
 		const navigateUrl = `/home`;
@@ -175,6 +174,7 @@ export class AddExpenseComponent implements OnInit {
 			isDeleted: false,
 			date: newExpence.date
 		};
+		console.log('---> transactionToSave ', transactionToSave);
 		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
 

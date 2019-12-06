@@ -62,9 +62,6 @@ export class HomeComponent implements OnInit {
 	setIncomeId() {
 		if (this.currentUser.categories && this.currentUser.categories.length !== 0) {
 			this.incomeId = this.dataService.findIncomeId(this.currentUser);
-		} else {
-			const userId = localStorage.getItem("userId");
-			this.createIncomeCategoryForNewUser(userId);
 		}
 	}
 
@@ -96,32 +93,4 @@ export class HomeComponent implements OnInit {
 	setThisMonthBalanceTotal() {
 		return this.incomesTotal - this.expensesTotal;
 	}
-
-	createIncomeCategoryForNewUser(userId: string) {
-		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
-		const categoriesToUpsert = [{
-			name: `Income`,
-			description: `Keeps your incomes data.`,
-			user: userId,
-			isActive: true,
-			isIncome: true
-		}];
-		this.http.post(requestUrl, {
-			categoriesToUpsert: categoriesToUpsert
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				const incomeCategory = <Category>response.body[0];
-				this.incomeId = incomeCategory.id;
-			},
-			error => {
-				console.log('---> createIncomeCategoryForNewUser ', error);
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-	}
-
 }

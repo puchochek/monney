@@ -5,19 +5,6 @@ import { FinanceData, LoggedUser } from './interfaces';
 @Injectable()
 export class DataService {
 
-	countElementHeight(element: string) {
-		console.log('---> HH scrollHeight ', document.getElementById('header').scrollHeight);
-		console.log('---> HH offsetHeight ', document.getElementById('header').offsetHeight);
-		console.log('---> HH clientHeight ', document.getElementById('header').clientHeight);
-
-		console.log('---> window.screen.height ', window.screen.height);
-		console.log('---> window.innerHeight ', window.innerHeight);
-		const elementHeight = (window.innerHeight - 80);
-		console.log('---> elementHeight ', elementHeight);
-		document.getElementById(element).style.height = String(elementHeight);
-		//console.log('---> HH clientHeight ', document.getElementById('header').clientHeight);
-	}
-
 	findIncomeId(currentUser: LoggedUser): string {
 		const incomeCategory = [...currentUser.categories].filter(category => category.isIncome)[0];
 		return incomeCategory.id;

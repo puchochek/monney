@@ -73,6 +73,12 @@ export class UserProfileComponent implements OnInit {
 		});
 	}
 
+	ngOnDestroy() {
+		if (this.subscription) {
+			this.subscription.unsubscribe();
+		}
+	}
+
 	manageUploader(userId: string) {
 		const UPL_URL = `${environment.apiBaseUrl}/user/avatar/${userId}`;
 		this.uploader = new FileUploader({ url: UPL_URL, itemAlias: 'avatar' });

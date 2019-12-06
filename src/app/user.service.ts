@@ -29,9 +29,8 @@ export class UserService {
 	}
 
 	doUserControllerCall() {
-		console.log('---> doUserControllerCall');
 		if (localStorage.getItem("token")) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
+			const tokenisedId = this.parseToken(localStorage.getItem("token"));
 			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
@@ -49,10 +48,15 @@ export class UserService {
 						// No errors, route to new page here
 					}
 				);
-		} else {
-			this.router.navigate(['/hello-monney']);
 		}
+	}
 
+	parseToken(token: string): string {
+		if (token.includes(`Bearer`)) {
+			return token.split(" ")[1];
+		} else {
+			return token;
+		}
 	}
 
 	updateUserTransactions(updatedTransactions: FinanceData[]) {
@@ -71,7 +75,6 @@ export class UserService {
 	}
 
 	updateUserCategories(updatedCategories: Category[]) {
-		console.log('---> updatedCategories ', updatedCategories);
 		const currentUser = { ...this.appUser };
 		const categoriesList = [...currentUser.categories];
 		updatedCategories.forEach(categoryToUpdate => {
@@ -84,6 +87,5 @@ export class UserService {
 		});
 		currentUser.categories = categoriesList;
 		this.appUser = currentUser;
-
 	}
 }

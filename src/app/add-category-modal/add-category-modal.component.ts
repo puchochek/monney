@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Category } from '../interfaces';
+import { Category, LoggedUser } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -28,6 +28,9 @@ export class AddCategoryModalComponent implements OnInit {
 	noIconMessage: string = `No icon selected`;
 	categoryToUpdate: Category;
 	categoryIconName: string;
+	private userSubscription: Subscription;
+	currentUser: LoggedUser;
+
 
 	constructor(
 		private dataService: DataService,
@@ -40,6 +43,15 @@ export class AddCategoryModalComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.userSubscription = this.userService._user.subscribe((response) => {
+			console.log('---> ADD CATEGORY _user ', response);
+			if (response) {
+				this.currentUser = <LoggedUser>response;
+			} else {
+				console.log('--->ADD CATEGORY error ');
+				this.router.navigate([`/home`]);
+			}
+		});
 		const isEdit = this.route.snapshot.paramMap.get('action') === `edit` ? true : false;
 		if (isEdit) {
 			const categoryToEdit = this.route.snapshot.paramMap.get('category');
@@ -50,6 +62,12 @@ export class AddCategoryModalComponent implements OnInit {
 			});
 		} else {
 			this.title = `Add an expense category`;
+		}
+	}
+
+	ngOnDestroy() {
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
 		}
 	}
 
@@ -80,7 +98,7 @@ export class AddCategoryModalComponent implements OnInit {
 			this.upsertCategory(categoryToUpsert);
 		} else {
 			const categoryToUpsert = {
-				user: localStorage.getItem(`userId`),
+				user: this.currentUser.id,
 				description: this.description,
 				name: this.name,
 				isActive: true,
