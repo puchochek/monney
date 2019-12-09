@@ -3,12 +3,14 @@ import { DataService } from '../data.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { FinanceData, LoggedUser } from '../interfaces';
+import { FinanceData, LoggedUser, Category } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment'
 import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
+import { CategoryService } from '../category.service';
+
 
 
 @Component({
@@ -54,10 +56,13 @@ export class AddExpenseComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		private transactionService: TransactionService,
 		private userService: UserService,
+		private categoryService: CategoryService,
 
 	) { }
 
 	ngOnInit() {
+		this.categoryService.checkIncomeCategory();
+
 		this.selectedCategory = this.route.snapshot.paramMap.get('category');
 		this.transactionName = this.selectedCategory === `Income` ?
 			`Income`
@@ -161,7 +166,7 @@ export class AddExpenseComponent implements OnInit {
 	}
 
 	saveNewExpence(newExpence: any) {
-		const userId =this.currentUser.id;
+		const userId = this.currentUser.id;
 		const categoryName = this.route.snapshot.paramMap.get('category');
 		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
 		const navigateUrl = `/home`;
@@ -233,29 +238,6 @@ export class AddExpenseComponent implements OnInit {
 				// No errors, route to new page here
 			}
 		);
-	}
-
-	doUserControllerCall() {
-		const token = localStorage.getItem("token");
-		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.currentUser = <LoggedUser>response.body;
-						this.setBalanceInfo();
-					},
-					error => {
-						console.log('---> HOME error ', error);
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
-		}
 	}
 
 	setBalanceInfo() {

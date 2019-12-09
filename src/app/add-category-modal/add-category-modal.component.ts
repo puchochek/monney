@@ -121,6 +121,18 @@ export class AddCategoryModalComponent implements OnInit {
 			});
 	}
 
+	createIncomeCategory(userId: string) {
+			const categoryToUpsert = {
+			name: `Income`,
+			description: `Keeps your incomes data.`,
+			user: userId,
+			isActive: true,
+			isIncome: true
+		};
+		this.upsertCategory(categoryToUpsert);
+
+	}
+
 	upsertCategory(categoryToUpsert: any) {
 		let snackMessage: string;
 		let action: string;
@@ -137,6 +149,7 @@ export class AddCategoryModalComponent implements OnInit {
 						duration: 5000,
 					});
 					const upsertedCategory = <Category>response.body;
+					console.log('---> upsertedCategory ', upsertedCategory);
 					this.userService.updateUserCategories(<Category[]>response.body);
 					this.dataService.updateToken(response.headers.get('Authorization'));
 					this.router.navigate(['/home']);

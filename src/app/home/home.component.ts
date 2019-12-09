@@ -8,7 +8,7 @@ import { LoggedUser } from '../interfaces';
 import { Category } from '../interfaces';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
-
+import { CategoryService } from '../category.service';
 
 @Component({
 	selector: 'app-home',
@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
 		private router: Router,
 		private http: HttpClient,
 		private userService: UserService,
+		private categoryService: CategoryService,
 	) { }
 
 	ngOnInit() {
@@ -60,8 +61,11 @@ export class HomeComponent implements OnInit {
 	}
 
 	setIncomeId() {
+		console.log('this.currentUser.categories.length ', this.currentUser.categories.length)
 		if (this.currentUser.categories && this.currentUser.categories.length !== 0) {
 			this.incomeId = this.dataService.findIncomeId(this.currentUser);
+		} else {
+			this.categoryService.checkIncomeCategory();
 		}
 	}
 
