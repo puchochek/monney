@@ -131,7 +131,10 @@ export class TransactionDetailComponent implements OnInit {
 			.subscribe(isActionConfirmed => {
 				if (isActionConfirmed) {
 					expense.isDeleted = true;
-					this.doUpdateTransactionCall([expense]);
+					const transaction = expense;
+					const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
+					const navigateUrl = `/detail/:${this.categoryName}`;
+					this.transactionService.doTransactionControllerCall(transaction, requestUrl, navigateUrl);
 				}
 			});
 	}
@@ -139,39 +142,6 @@ export class TransactionDetailComponent implements OnInit {
 	editExpense(expense: FinanceData) {
 		this.transactionService.currentTransaction = expense;
 		this.router.navigate([`/transaction/edit/${this.categoryName}`]);
-	}
-
-	doUpdateTransactionCall(expenses: FinanceData[]) {
-		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
-		let snackMessage: string;
-		let action: string;
-		this.http.post(requestUrl, {
-			transactionsToUpsert: expenses
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				snackMessage = 'Done';
-				action = `OK`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-				console.log('---> TRANSACTION DETAIL EXP upserted ', <FinanceData[]>response.body);
-				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.userService.updateUserTransactions(<FinanceData[]>response.body);
-			},
-			error => {
-				console.log('---> TRANSACTION DETAIL EXP ERROR ', error);
-				snackMessage = 'Oops!';
-				action = `Try again`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
 	}
 
 	filterDeletedTransactions(transactions: FinanceData[]): FinanceData[] {

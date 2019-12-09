@@ -64,7 +64,7 @@ export class UserService {
 		const transactionsList = [...currentUser.transactions];
 		updatedTransactions.forEach(transactionToUpdate => {
 			const updatedTransactionIndex = transactionsList.findIndex(transaction => transaction.id === transactionToUpdate.id);
-			if (updatedTransactionIndex > 0) {
+			if (updatedTransactionIndex >= 0) {
 				transactionsList[updatedTransactionIndex] = transactionToUpdate
 			} else {
 				transactionsList.push(transactionToUpdate);
@@ -79,7 +79,7 @@ export class UserService {
 		const categoriesList = [...currentUser.categories];
 		updatedCategories.forEach(categoryToUpdate => {
 			const updatedTransactionIndex = categoriesList.findIndex(transaction => transaction.id === categoryToUpdate.id);
-			if (updatedTransactionIndex > 0) {
+			if (updatedTransactionIndex >= 0) {
 				categoriesList[updatedTransactionIndex] = categoryToUpdate
 			} else {
 				categoriesList.push(categoryToUpdate);

@@ -31,28 +31,6 @@ export class HelloMonneyComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		// this.subscription = this.userService._user.subscribe((response) => {
-		// 	console.log('---> HELLO-MONNEY _user', response);
-		// 	if (response) {
-		// 		const currentUser = <LoggedUser>response;
-		// 		if (currentUser) {
-		// 			this.isLoading = false;
-		// 			this.router.navigate(['/home']);
-		// 		} else {
-		// 			this.dataService.cleanLocalstorage();
-		// 			this.isPageLoad = true;
-		// 			this.isLoading = false;
-		// 		}
-		// 	} else {
-		// 		this.isPageLoad = true;
-		// 		this.isLoading = false;
-		// 	}
-		// });
-
-
-
-
-
 		const token = localStorage.getItem("token");
 		if (token) {
 			const tokenisedId = localStorage.getItem("token").split(" ")[1];
@@ -65,7 +43,7 @@ export class HelloMonneyComponent implements OnInit {
 						const currentUser = <LoggedUser>response.body;
 						console.log('---> HELLO-MONNEY response ', response);
 						if (currentUser) {
-							//this.userService.appUser = currentUser;
+							this.userService.appUser = currentUser;
 							this.isLoading = false;
 							this.router.navigate(['/home']);
 						} else {

@@ -180,7 +180,7 @@ export class AddExpenseComponent implements OnInit {
 			date: newExpence.date
 		};
 		console.log('---> transactionToSave ', transactionToSave);
-		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
+		this.transactionService.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
 
 	editTransaction(transaction: any) {
@@ -200,44 +200,7 @@ export class AddExpenseComponent implements OnInit {
 		} else {
 			navigateUrl = `/detail/${this.selectedCategory}`;
 		}
-		this.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
-	}
-
-	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
-		let snackMessage: string;
-		let action: string;
-		const transactionsToUpsert = [transaction];
-		this.http.post(requestUrl, {
-			transactionsToUpsert: transactionsToUpsert
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				this.status = 'Done';
-				snackMessage = this.status;
-				action = `OK`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-				this.savedExpense = <FinanceData>response.body;
-				console.log('---> ADD EXP savedExpense ', this.savedExpense);
-				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.userService.updateUserTransactions(<FinanceData[]>response.body);
-				this.router.navigate([navigateUrl]);
-			},
-			error => {
-				console.log('---> SAVE EXPENSE ERROR ', error);
-				this.status = 'Oops!';
-				snackMessage = this.status;
-				action = `Try again`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
+		this.transactionService.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
 	}
 
 	setBalanceInfo() {
