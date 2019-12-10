@@ -21,10 +21,6 @@ export class TransactionService {
 		private dataService: DataService,
 		private router: Router,
 		private userService: UserService,
-
-
-
-
 	) { }
 
 	get currentTransaction(): FinanceData {
@@ -36,8 +32,6 @@ export class TransactionService {
 	}
 
 	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
-		let snackMessage: string;
-		let action: string;
 		const transactionsToUpsert = [transaction];
 		this.http.post(requestUrl, {
 			transactionsToUpsert: transactionsToUpsert

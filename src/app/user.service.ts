@@ -31,7 +31,7 @@ export class UserService {
 	doUserControllerCall() {
 		if (localStorage.getItem("token")) {
 			const tokenisedId = this.parseToken(localStorage.getItem("token"));
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
+			const url = `${environment.apiBaseUrl}/user/user-by-token`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {

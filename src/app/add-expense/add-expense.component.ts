@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinanceData, LoggedUser, Category } from '../interfaces';
@@ -50,7 +50,7 @@ export class AddExpenseComponent implements OnInit {
 
 	constructor(
 		private dataService: DataService,
-		private http: HttpClient,
+		// private http: HttpClient,
 		private route: ActivatedRoute,
 		private router: Router,
 		private snackBar: MatSnackBar,

@@ -34,7 +34,7 @@ export class HelloMonneyComponent implements OnInit {
 		const token = localStorage.getItem("token");
 		if (token) {
 			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token/${tokenisedId}`;
+			const url = `${environment.apiBaseUrl}/user/user-by-token`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {

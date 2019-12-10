@@ -7,6 +7,8 @@ import { LoggedUser } from '../interfaces';
 import { environment } from '../../environments/environment';
 import { ModalComponent } from '../modal/modal.component';
 import { HostListener } from '@angular/core';
+import { UserService } from '../user.service';
+
 
 
 const wrongName = `Name field may only consist of letters or numbers.`;
@@ -52,7 +54,9 @@ export class LoginFormComponent implements OnInit {
 		private dataService: DataService,
 		private http: HttpClient,
 		private router: Router,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private userService: UserService,
+
 	) { }
 
 	ngOnInit() {
@@ -192,8 +196,10 @@ export class LoginFormComponent implements OnInit {
 				const currentUser = <LoggedUser>response.body;
 				console.log('---> AUTHORIZED response ', response);
 				if (currentUser) {
+					this.userService.appUser = currentUser;
 					this.dataService.updateUserId(currentUser.id);
 					this.updateToken(currentUser);
+					//this.dataService.updateToken(response.headers.get('Authorization'));
 					this.isLoading = false;
 				} else {
 					this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
