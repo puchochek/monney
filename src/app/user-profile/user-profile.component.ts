@@ -89,7 +89,7 @@ export class UserProfileComponent implements OnInit {
 				const userToUpdate: LoggedUser = { ...this.currentUser };
 				userToUpdate.avatar = imageInfo.secure_url;
 				this.isLoading = true;
-				this.doUpdateUserCall([userToUpdate]);
+				this.userService.patchUser([userToUpdate]);
 			}
 		};
 	}
@@ -112,50 +112,12 @@ export class UserProfileComponent implements OnInit {
 		}
 	}
 
-	doUpdateUserCall(user: LoggedUser[]) {
-		const requestUrl = `${environment.apiBaseUrl}/user/update`;
-		this.http.post(requestUrl, {
-			user: user
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				const snackMessage = 'Done';
-				const action = `OK`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-				this.currentUser = <LoggedUser>response.body[0];
-				this.userService.appUser = this.currentUser;
-				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.updateUserView();
-				this.isLoading = false;
-			},
-			error => {
-				console.log('---> UPSERT USER ERROR ', error);
-				const snackMessage = 'Oops!';
-				const action = `Try again`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-	}
-
-	updateUserView() {
-		//TODO update another view settings here
-		this.avatarSrc = this.currentUser.avatar;
-	}
-
 	updateUserInfo() {
 		const editedUser = { ...this.currentUser };
 		editedUser.email = this.email;
 		editedUser.name = this.name;
 		this.isLoading = true;
-		this.doUpdateUserCall([editedUser]);
+		this.userService.patchUser([editedUser]);
 	}
 
 	updateBalanceEdge() {
@@ -165,7 +127,7 @@ export class UserProfileComponent implements OnInit {
 			const editedUser = { ...this.currentUser };
 			editedUser.balanceEdge = Number(this.balanceEdge);
 			this.isLoading = true;
-			this.doUpdateUserCall([editedUser]);
+			this.userService.patchUser([editedUser]);
 		} else {
 			this.isInvalidInput = true;
 			this.invaildEdgeMessage = `The Sum field may keep a positive number value only.`;

@@ -14,7 +14,7 @@ export class AppComponent {
 	constructor(
 		private userService: UserService,
 
-	) { this.userService.doUserControllerCall(); }
+	) { this.userService.getUser(); }
 
 	ngOnInit() {
 

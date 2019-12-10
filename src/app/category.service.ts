@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
 import { Category, LoggedUser } from './interfaces';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { environment } from './../environments/environment';
 
@@ -16,8 +17,7 @@ export class CategoryService {
 		private userService: UserService,
 		private http: HttpClient,
 		private dataService: DataService,
-
-
+		private router: Router,
 	) { }
 
 	checkIncomeCategory() {
@@ -30,11 +30,11 @@ export class CategoryService {
 				isActive: true,
 				isIncome: true
 			}
-			this.upsertCategory(categoryToUpsert);
+			this.upsertCategory(categoryToUpsert, '');
 		}
 	}
 
-	upsertCategory(categoryToUpsert: any) {
+	upsertCategory(categoryToUpsert: any, navigateLink: string) {
 		const url = `${environment.apiBaseUrl}/category/upsert`;
 		const categoryToUpsertBulk = [categoryToUpsert];
 		this.http.post(url, {
@@ -46,6 +46,10 @@ export class CategoryService {
 					console.log('---> CATEGORY SERVICE upsertedCategory ', upsertedCategory);
 					this.userService.updateUserCategories(<Category[]>response.body);
 					this.dataService.updateToken(response.headers.get('Authorization'));
+					if (navigateLink.length !== 0) {
+						// this.router.navigate(['/home']);
+						this.router.navigate([`${navigateLink}`]);
+					}
 				},
 				error => {
 					console.log('---> ADD CATEGORY error ', error);

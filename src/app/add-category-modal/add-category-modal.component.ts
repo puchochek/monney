@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { SelectMediaComponent } from '../select-media/select-media.component';
 import { environment } from '../../environments/environment';
 import { UserService } from '../user.service';
+import { CategoryService } from '../category.service';
 
 
 
@@ -30,6 +31,7 @@ export class AddCategoryModalComponent implements OnInit {
 	categoryIconName: string;
 	private userSubscription: Subscription;
 	currentUser: LoggedUser;
+	navigateLink: string = `/home`;
 
 
 	constructor(
@@ -40,6 +42,7 @@ export class AddCategoryModalComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
 		private userService: UserService,
+		private categoryService: CategoryService,
 	) { }
 
 	ngOnInit() {
@@ -95,7 +98,7 @@ export class AddCategoryModalComponent implements OnInit {
 				isIncome: this.categoryToUpdate.isIncome,
 				icon: this.categoryIconName
 			}
-			this.upsertCategory(categoryToUpsert);
+			this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
 		} else {
 			const categoryToUpsert = {
 				user: this.currentUser.id,
@@ -105,7 +108,7 @@ export class AddCategoryModalComponent implements OnInit {
 				isIncome: false,
 				icon: this.categoryIconName
 			}
-			this.upsertCategory(categoryToUpsert);
+			this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
 		}
 	}
 
@@ -122,50 +125,13 @@ export class AddCategoryModalComponent implements OnInit {
 	}
 
 	createIncomeCategory(userId: string) {
-			const categoryToUpsert = {
+		const categoryToUpsert = {
 			name: `Income`,
 			description: `Keeps your incomes data.`,
 			user: userId,
 			isActive: true,
 			isIncome: true
 		};
-		this.upsertCategory(categoryToUpsert);
-
-	}
-
-	upsertCategory(categoryToUpsert: any) {
-		let snackMessage: string;
-		let action: string;
-		const url = `${environment.apiBaseUrl}/category/upsert`;
-		const categoryToUpsertBulk = [categoryToUpsert];
-		this.http.post(url, {
-			categoriesToUpsert: categoryToUpsertBulk
-		}, { observe: 'response' })
-			.subscribe(
-				response => {
-					snackMessage = 'Done';
-					action = `OK`;
-					this.snackBar.open(snackMessage, action, {
-						duration: 5000,
-					});
-					const upsertedCategory = <Category>response.body;
-					console.log('---> upsertedCategory ', upsertedCategory);
-					this.userService.updateUserCategories(<Category[]>response.body);
-					this.dataService.updateToken(response.headers.get('Authorization'));
-					this.router.navigate(['/home']);
-				},
-				error => {
-					console.log('---> ADD CATEGORY error ', error);
-					snackMessage = 'Oops!';
-					action = `Try again`;
-					this.snackBar.open(snackMessage, action, {
-						duration: 5000,
-					});
-				},
-				() => {
-					// 'onCompleted' callback.
-					// No errors, route to new page here
-				}
-			);
+		this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
 	}
 }

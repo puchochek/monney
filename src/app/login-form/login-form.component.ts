@@ -156,7 +156,7 @@ export class LoginFormComponent implements OnInit {
 
 	login() {
 		this.isLoading = true;
-		const url = `${environment.apiBaseUrl}/user/register`;
+		const url = `${environment.apiBaseUrl}/user`;
 		this.http.post(url, {
 			password: this.password,
 			name: this.name,

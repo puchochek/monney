@@ -28,7 +28,7 @@ export class UserService {
 		this.user.next(user);
 	}
 
-	doUserControllerCall() {
+	getUser() {
 		if (localStorage.getItem("token")) {
 			const tokenisedId = this.parseToken(localStorage.getItem("token"));
 			const url = `${environment.apiBaseUrl}/user/user-by-token`;
@@ -49,6 +49,26 @@ export class UserService {
 					}
 				);
 		}
+	}
+
+	patchUser(user: LoggedUser[]) {
+		const requestUrl = `${environment.apiBaseUrl}/user`;
+		this.http.patch(requestUrl, {
+			user: user
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				this.appUser = <LoggedUser>response.body[0];
+				this.dataService.updateToken(response.headers.get('Authorization'));
+			},
+			error => {
+				console.log('---> UPSERT USER ERROR ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
 	}
 
 	parseToken(token: string): string {
