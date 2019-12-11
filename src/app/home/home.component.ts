@@ -24,13 +24,11 @@ export class HomeComponent implements OnInit {
 	expensesTotal: number;
 	balanceTotal: number;
 	currentDate: Date;
-	isLoading: boolean = true;
 	incomeMenuItems: [
 		{ name: `Add income`, routerLink: `/transaction/new/Income` },
 		{ name: `View incomes`, routerLink: `/detail/{{Income}}` }
 	];
 	private subscription: Subscription;
-
 
 	constructor(
 		private dataService: DataService,
@@ -48,7 +46,6 @@ export class HomeComponent implements OnInit {
 				this.currentUser = <LoggedUser>response;
 				this.setIncomeId();
 				this.setBalanceInfo();
-				this.isLoading = false;
 			} else {
 				this.router.navigate([`/hello-monney`]);
 			}
@@ -61,7 +58,6 @@ export class HomeComponent implements OnInit {
 	}
 
 	setIncomeId() {
-		console.log('this.currentUser.categories.length ', this.currentUser.categories.length)
 		if (this.currentUser.categories && this.currentUser.categories.length !== 0) {
 			this.incomeId = this.dataService.findIncomeId(this.currentUser);
 		} else {

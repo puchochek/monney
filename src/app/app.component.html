@@ -2,6 +2,7 @@
     <div class="header">
         <app-header></app-header>
     </div>
+    <app-spinner *ngIf="isLoading"></app-spinner>
     <div class="app-body">
         <router-outlet></router-outlet>
     </div>

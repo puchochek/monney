@@ -5,7 +5,7 @@ import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,7 +17,9 @@ export class UserService {
 	constructor(
 		private http: HttpClient,
 		private dataService: DataService,
-		private router: Router
+		private router: Router,
+		private spinnerService: SpinnerService,
+
 	) { }
 
 	get appUser(): LoggedUser {
@@ -29,7 +31,9 @@ export class UserService {
 	}
 
 	getUser() {
+		console.log('---> this.appUser token ', localStorage.getItem("token"))
 		if (localStorage.getItem("token")) {
+			this.spinnerService.isLoading = true;
 			const tokenisedId = this.parseToken(localStorage.getItem("token"));
 			const url = `${environment.apiBaseUrl}/user/user-by-token`;
 			this.http.get(url, { observe: 'response' })
@@ -38,9 +42,11 @@ export class UserService {
 						this.appUser = <LoggedUser>response.body;
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						console.log('---> USER SERVICE response ', response);
+						this.spinnerService.isLoading = false;
 					},
 					error => {
 						console.log('---> USER SERVICE error ', error);
+						this.spinnerService.isLoading = false;
 						this.router.navigate(['/hello-monney']);
 					},
 					() => {
@@ -52,16 +58,18 @@ export class UserService {
 	}
 
 	patchUser(user: LoggedUser[]) {
+		this.spinnerService.isLoading = true;
 		const requestUrl = `${environment.apiBaseUrl}/user`;
-		this.http.patch(requestUrl, {
-			user: user
-		}, { observe: 'response' }
+		this.http.patch(requestUrl, user, { observe: 'response' }
 		).subscribe(
 			response => {
 				this.appUser = <LoggedUser>response.body[0];
+				console.log('---> UPSERT USER ', <LoggedUser>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.spinnerService.isLoading = false;
 			},
 			error => {
+				this.spinnerService.isLoading = false;
 				console.log('---> UPSERT USER ERROR ', error);
 			},
 			() => {

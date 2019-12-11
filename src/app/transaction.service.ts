@@ -5,9 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from './user.service';
-
-
-
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -21,6 +19,7 @@ export class TransactionService {
 		private dataService: DataService,
 		private router: Router,
 		private userService: UserService,
+		private spinnerService: SpinnerService,
 	) { }
 
 	get currentTransaction(): FinanceData {
@@ -32,6 +31,7 @@ export class TransactionService {
 	}
 
 	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
+		this.spinnerService.isLoading = true;
 		const transactionsToUpsert = [transaction];
 		this.http.post(requestUrl, {
 			transactionsToUpsert: transactionsToUpsert
@@ -40,10 +40,12 @@ export class TransactionService {
 			response => {
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.userService.updateUserTransactions(<FinanceData[]>response.body);
+				this.spinnerService.isLoading = false;
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> SAVE EXPENSE ERROR ', error);
+				this.spinnerService.isLoading = false;
 			},
 			() => {
 				// 'onCompleted' callback.

@@ -57,6 +57,7 @@ export class DataService {
     }
 
 	updateToken(newToken: string) {
+		console.log('---> update token ', newToken);
 		localStorage.setItem('token', newToken);
 	}
 

@@ -75,6 +75,7 @@ import { ExcelTableComponent } from './excel-table/excel-table.component';
 import { SelectMediaComponent } from './select-media/select-media.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
 	declarations: [
@@ -99,6 +100,7 @@ import { environment } from '../environments/environment';
 		DatepickerComponent,
 		ExcelTableComponent,
 		SelectMediaComponent,
+		SpinnerComponent,
 	],
 	imports: [
 		BrowserModule,

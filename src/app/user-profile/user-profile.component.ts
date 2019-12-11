@@ -24,9 +24,6 @@ export class UserProfileComponent implements OnInit {
 	@Input() balanceEdge: string;
 
 	private subscription: Subscription;
-
-
-	isLoading: boolean = true;
 	isInvalidInput: boolean;
 	currentUser: LoggedUser;
 	invaildEdgeMessage: string;
@@ -65,7 +62,6 @@ export class UserProfileComponent implements OnInit {
 				this.manageUploader(this.currentUser.id);
 				this.setCurrentAvatar();
 				this.setUserDataToEdit();
-				this.isLoading = false;
 			} else {
 				console.log('---> USER PROFILE error ');
 				this.router.navigate([`/home`]);
@@ -88,7 +84,6 @@ export class UserProfileComponent implements OnInit {
 			if (imageInfo.secure_url) {
 				const userToUpdate: LoggedUser = { ...this.currentUser };
 				userToUpdate.avatar = imageInfo.secure_url;
-				this.isLoading = true;
 				this.userService.patchUser([userToUpdate]);
 			}
 		};
@@ -116,7 +111,6 @@ export class UserProfileComponent implements OnInit {
 		const editedUser = { ...this.currentUser };
 		editedUser.email = this.email;
 		editedUser.name = this.name;
-		this.isLoading = true;
 		this.userService.patchUser([editedUser]);
 	}
 
@@ -126,7 +120,6 @@ export class UserProfileComponent implements OnInit {
 			this.isInvalidInput = false;
 			const editedUser = { ...this.currentUser };
 			editedUser.balanceEdge = Number(this.balanceEdge);
-			this.isLoading = true;
 			this.userService.patchUser([editedUser]);
 		} else {
 			this.isInvalidInput = true;

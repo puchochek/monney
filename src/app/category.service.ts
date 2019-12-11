@@ -5,6 +5,8 @@ import { DataService } from './data.service';
 import { Category, LoggedUser } from './interfaces';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from './../environments/environment';
+import { SpinnerService } from './spinner.service';
+
 
 @Injectable({
 	providedIn: 'root'
@@ -16,6 +18,7 @@ export class CategoryService {
 		private http: HttpClient,
 		private dataService: DataService,
 		private router: Router,
+		private spinnerService: SpinnerService,
 	) { }
 
 	checkIncomeCategory() {
@@ -33,6 +36,7 @@ export class CategoryService {
 	}
 
 	createCategory(category: any, navigateLink: string) {
+		this.spinnerService.isLoading = true;
 		const url = `${environment.apiBaseUrl}/category`;
 		this.http.post(url,
 			category
@@ -46,9 +50,11 @@ export class CategoryService {
 					if (navigateLink.length !== 0) {
 						this.router.navigate([`${navigateLink}`]);
 					}
+					this.spinnerService.isLoading = false;
 				},
 				error => {
 					console.log('---> CATEGORY createdCategory error ', error);
+					this.spinnerService.isLoading = false;
 				},
 				() => {
 					// 'onCompleted' callback.
@@ -58,6 +64,7 @@ export class CategoryService {
 	}
 
 	updateCategory(categoriesToUpdate: Category[], navigateLink: string) {
+		this.spinnerService.isLoading = true;
 		const url = `${environment.apiBaseUrl}/category`;
 		this.http.patch(url, categoriesToUpdate, { observe: 'response' })
 			.subscribe(
@@ -69,9 +76,11 @@ export class CategoryService {
 					if (navigateLink.length !== 0) {
 						this.router.navigate([`${navigateLink}`]);
 					}
+					this.spinnerService.isLoading = false;
 				},
 				error => {
 					console.log('--->CATEGORY updatedCategory error ', error);
+					this.spinnerService.isLoading = false;
 				},
 				() => {
 					// 'onCompleted' callback.
@@ -81,6 +90,7 @@ export class CategoryService {
 	}
 
 	deleteCategory(categoryToDelete: any, navigateLink: string) {
+		this.spinnerService.isLoading = true;
 		const url = `${environment.apiBaseUrl}/category/${categoryToDelete.name}`;
 		this.http.delete(url, { observe: 'response' })
 			.subscribe(
@@ -92,9 +102,11 @@ export class CategoryService {
 					if (navigateLink.length !== 0) {
 						this.router.navigate([`${navigateLink}`]);
 					}
+					this.spinnerService.isLoading = false;
 				},
 				error => {
 					console.log('---> CATEGORY deleteCategory error ', error);
+					this.spinnerService.isLoading = false;
 				},
 				() => {
 					// 'onCompleted' callback.

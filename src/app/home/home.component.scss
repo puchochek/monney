@@ -34,28 +34,6 @@
 .low-balance-info-title {
 	color: red;
 }
-.spinner {
-	position: fixed;
-	z-index: 1;
-	height: 2em;
-	width: 2em;
-	overflow: show;
-	margin: auto;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-}
-.spinner:before {
-	content: '';
-	display: block;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,0.3);
-}
 .navigation-zone {
 	display: block;
 }
@@ -84,7 +62,6 @@
 .custom-menu {
 	text-transform: uppercase;
 }
-
 @media (max-width: 1000px) {
 	.balance-info, .date {
 		font-size: 1rem;
