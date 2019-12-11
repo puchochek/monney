@@ -14,8 +14,8 @@ export interface Category {
 	id: string;
 	name: string;
 	categoryIndex: number;
-	createdAt: string;
-	updatedAt: string;
+	createdAt?: string;
+	updatedAt?: string;
 	isActive: boolean;
 	isIncome: boolean;
 	icon: string;

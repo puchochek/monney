@@ -98,7 +98,7 @@ export class AddCategoryModalComponent implements OnInit {
 				isIncome: this.categoryToUpdate.isIncome,
 				icon: this.categoryIconName
 			}
-			this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
+			this.categoryService.updateCategory([categoryToUpsert], this.navigateLink);
 		} else {
 			const categoryToUpsert = {
 				user: this.currentUser.id,
@@ -108,7 +108,7 @@ export class AddCategoryModalComponent implements OnInit {
 				isIncome: false,
 				icon: this.categoryIconName
 			}
-			this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
+			this.categoryService.createCategory(categoryToUpsert, this.navigateLink);
 		}
 	}
 
@@ -132,6 +132,6 @@ export class AddCategoryModalComponent implements OnInit {
 			isActive: true,
 			isIncome: true
 		};
-		this.categoryService.upsertCategory(categoryToUpsert, this.navigateLink);
+		this.categoryService.createCategory(categoryToUpsert, this.navigateLink);
 	}
 }

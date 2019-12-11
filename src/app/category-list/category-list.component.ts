@@ -11,8 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
-
-
+import { CategoryService } from '../category.service';
 
 @Component({
 	selector: 'app-category-list',
@@ -29,6 +28,7 @@ export class CategoryListComponent implements OnInit {
 	categories: Category[];
 	lastModifiedLbl: string = `Last: `;
 	categoryTotalLbl: string = `Total: `;
+	navigateLink: string = `/home`;
 	expenseMenuItems = [
 		{ name: `Details`, action: this.openExpensesDetailComponent.bind(this) },
 		{ name: `Edit`, action: this.editCategory.bind(this) },
@@ -43,6 +43,7 @@ export class CategoryListComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
 		private userService: UserService,
+		private categoryService: CategoryService,
 	) { }
 
 	ngOnInit() {
@@ -180,38 +181,8 @@ export class CategoryListComponent implements OnInit {
 			category.categoryIndex = index;
 		});
 		const categoriesToUpsert = [...this.categories];
-		this.doUpsertCategoriesCall(categoriesToUpsert);
-	}
 
-	doUpsertCategoriesCall(categoriesToUpsert: Category[]) {
-		const requestUrl = `${environment.apiBaseUrl}/category/upsert`;
-		this.http.post(requestUrl, {
-			categoriesToUpsert: categoriesToUpsert
-		}, { observe: 'response' }
-		).subscribe(
-			response => {
-				const snackMessage = 'Done';
-				const action = `OK`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-				this.userService.updateUserCategories(<Category[]>response.body);
-				this.dataService.updateToken(response.headers.get('Authorization'));
-			},
-			error => {
-				console.log('---> UPSERT CAT ', error);
-				const snackMessage = 'Oops!';
-				const action = `Try again`;
-				this.snackBar.open(snackMessage, action, {
-					duration: 5000,
-				});
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-
+		this.categoryService.updateCategory(categoriesToUpsert, this.navigateLink);
 	}
 
 	editCategory(categoryToEdit: Category) {
@@ -237,7 +208,7 @@ export class CategoryListComponent implements OnInit {
 		}, []);
 
 		this.categories = categoriesToUpsert.filter(category => category.id != categoryToDelete.id);
-		this.doUpsertCategoriesCall(categoriesToUpsert);
+		this.categoryService.deleteCategory(categoryToDelete, this.navigateLink);
 	}
 
 	openDeleteCategoryDialog(categoryToDelete: Category) {
