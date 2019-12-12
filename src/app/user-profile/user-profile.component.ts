@@ -132,8 +132,8 @@ export class UserProfileComponent implements OnInit {
 	}
 
 	validateBalanceEdge(balanceEdge: string): boolean {
-		const balanceEdgeToNum = Number(balanceEdge);
-		if (isNaN(balanceEdgeToNum) || (!balanceEdgeToNum) || (Number(balanceEdgeToNum) < 0)) {
+		const balanceEdgeToNum = !balanceEdge ? 0 : Number(balanceEdge);
+		if (isNaN(balanceEdgeToNum) || (Number(balanceEdgeToNum) < 0)) {
 			return false;
 		} else {
 			return true;

@@ -31,7 +31,6 @@ export class UserService {
 	}
 
 	getUser() {
-		console.log('---> this.appUser token ', localStorage.getItem("token"))
 		if (localStorage.getItem("token")) {
 			this.spinnerService.isLoading = true;
 			const tokenisedId = this.parseToken(localStorage.getItem("token"));

@@ -1,11 +1,11 @@
 export interface FinanceData {
 	comment: string;
 	date: string;
-	id: string;
+	id?: string;
 	sum: number;
 	category: string;
 	userId: string;
-	isDeleted: boolean;
+	isDeleted?: boolean;
 }
 
 export interface Category {

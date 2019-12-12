@@ -1,17 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-// import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { FinanceData, LoggedUser, Category } from '../interfaces';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../environments/environment'
 import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
-
-
 
 @Component({
 	selector: 'app-add-expense',
@@ -47,13 +42,12 @@ export class AddExpenseComponent implements OnInit {
 	// minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth(), 1);
 	private subscription: Subscription;
 	private userSubscription: Subscription;
+	navigateUrl = `/home`;
 
 	constructor(
 		private dataService: DataService,
-		// private http: HttpClient,
 		private route: ActivatedRoute,
 		private router: Router,
-		private snackBar: MatSnackBar,
 		private transactionService: TransactionService,
 		private userService: UserService,
 		private categoryService: CategoryService,
@@ -77,7 +71,7 @@ export class AddExpenseComponent implements OnInit {
 				}
 			} else {
 				console.log('--->ADD EXPENSE error ');
-				this.router.navigate([`/home`]);
+				this.router.navigate([`${this.navigateUrl}`]);
 			}
 		});
 
@@ -89,7 +83,7 @@ export class AddExpenseComponent implements OnInit {
 				if (response) {
 					this.transactionToEdit = <FinanceData>response;
 				} else {
-					this.router.navigate([`/home`]);
+					this.router.navigate([`${this.navigateUrl}`]);
 				}
 			});
 		}
@@ -136,7 +130,7 @@ export class AddExpenseComponent implements OnInit {
 		if (this.isEdit && this.transactionName !== `Income`) {
 			this.router.navigate([`/detail/${this.selectedCategory}`]);
 		} else {
-			this.router.navigate([`/home`]);
+			this.router.navigate([`${this.navigateUrl}`]);
 		}
 	}
 
@@ -162,25 +156,22 @@ export class AddExpenseComponent implements OnInit {
 		}
 		this.isInvalidInput = true;
 		this.invaildSumMessage = `You may not spend more money than you have. Check your Incomes to continue.`;
+
 		return false;
 	}
 
 	saveNewExpence(newExpence: any) {
 		const userId = this.currentUser.id;
 		const categoryName = this.route.snapshot.paramMap.get('category');
-		const requestUrl = `${environment.apiBaseUrl}/transaction/create`;
-		const navigateUrl = `/home`;
 		const transactionToSave: FinanceData = {
 			comment: newExpence.comment,
-			id: null,
 			sum: newExpence.sum,
 			category: categoryName,
 			userId: userId,
-			isDeleted: false,
 			date: newExpence.date
 		};
-		console.log('---> transactionToSave ', transactionToSave);
-		this.transactionService.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
+
+		this.transactionService.createTransaction(transactionToSave, this.navigateUrl);
 	}
 
 	editTransaction(transaction: any) {
@@ -190,17 +181,17 @@ export class AddExpenseComponent implements OnInit {
 			sum: transaction.sum,
 			category: this.transactionToEdit.category,
 			userId: this.transactionToEdit.userId,
-			isDeleted: this.transactionToEdit.isDeleted,
-			date: transaction.date
+			date: transaction.date,
+			isDeleted: false
 		};
-		const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
 		let navigateUrl: string;
 		if (this.transactionName !== `Income` && !this.transactionToEdit) {
 			navigateUrl = `/home`;
 		} else {
 			navigateUrl = `/detail/${this.selectedCategory}`;
 		}
-		this.transactionService.doTransactionControllerCall(transactionToSave, requestUrl, navigateUrl);
+
+		this.transactionService.updateTransaction(transactionToSave, navigateUrl);
 	}
 
 	setBalanceInfo() {

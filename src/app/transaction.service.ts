@@ -6,6 +6,8 @@ import { DataService } from './data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from './user.service';
 import { SpinnerService } from './spinner.service';
+import { environment } from './../environments/environment';
+
 
 @Injectable({
 	providedIn: 'root'
@@ -13,6 +15,8 @@ import { SpinnerService } from './spinner.service';
 export class TransactionService {
 	private readonly transaction = new BehaviorSubject<FinanceData>(null);
 	readonly _transaction = this.transaction.asObservable();
+
+	url: string = `${environment.apiBaseUrl}/transaction`;
 
 	constructor(
 		private http: HttpClient,
@@ -30,21 +34,64 @@ export class TransactionService {
 		this.transaction.next(transaction);
 	}
 
-	doTransactionControllerCall(transaction: FinanceData, requestUrl: string, navigateUrl: string) {
+	createTransaction(transaction: FinanceData, navigateUrl: string) {
 		this.spinnerService.isLoading = true;
-		const transactionsToUpsert = [transaction];
-		this.http.post(requestUrl, {
-			transactionsToUpsert: transactionsToUpsert
-		}, { observe: 'response' }
+		this.http.post(this.url, transaction, { observe: 'response' }
 		).subscribe(
 			response => {
+				const newTransaction = <FinanceData>response.body;
 				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.userService.updateUserTransactions(<FinanceData[]>response.body);
+				this.userService.updateUserTransactions([newTransaction]);
 				this.spinnerService.isLoading = false;
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> SAVE EXPENSE ERROR ', error);
+				this.spinnerService.isLoading = false;
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+	}
+
+	updateTransaction(transaction: FinanceData, navigateUrl: string) {
+		this.spinnerService.isLoading = true;
+		this.http.patch(this.url, transaction, { observe: 'response' }
+		).subscribe(
+			response => {
+				const updatedTransaction = <FinanceData>response.body;
+				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.userService.updateUserTransactions([updatedTransaction]);
+				this.spinnerService.isLoading = false;
+				this.router.navigate([navigateUrl]);
+			},
+			error => {
+				console.log('---> UPDATE EXPENSE ERROR ', error);
+				this.spinnerService.isLoading = false;
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+	}
+
+	deleteTransaction(transaction: FinanceData, navigateUrl: string) {
+		this.spinnerService.isLoading = true;
+		const requestUrl = `${this.url}/${transaction.id}`;
+		this.http.delete(requestUrl, { observe: 'response' }
+		).subscribe(
+			response => {
+				const deletedTransaction = <FinanceData>response.body;
+				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.userService.updateUserTransactions([deletedTransaction]);
+				this.spinnerService.isLoading = false;
+				this.router.navigate([navigateUrl]);
+			},
+			error => {
+				console.log('---> DELETE EXPENSE ERROR ', error);
 				this.spinnerService.isLoading = false;
 			},
 			() => {

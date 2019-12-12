@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment'
 import { LoggedUser } from '../interfaces';
 import { FinanceData } from '../interfaces';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { TransactionService } from '../transaction.service';
@@ -24,7 +21,6 @@ export class TransactionDetailComponent implements OnInit {
 	categoryName: string;
 	categoryDescription: string;
 	categoryId: string;
-	//categoryName: string;
 	transactionsTotalLabel: string;
 	transactionsTotal: number;
 	transactions: FinanceData[];
@@ -40,11 +36,9 @@ export class TransactionDetailComponent implements OnInit {
 	private subscription: Subscription;
 
 	constructor(
-		private http: HttpClient,
 		private dataService: DataService,
 		private router: Router,
 		private route: ActivatedRoute,
-		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
 		private transactionService: TransactionService,
 		private userService: UserService
@@ -73,7 +67,6 @@ export class TransactionDetailComponent implements OnInit {
 		this.toDate = today;
 		this.fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
 		const currentCategory = [...this.currentUser.categories].filter(category => category.name === this.categoryName)[0];
-		//this.categoryName = currentCategory.name;
 		this.categoryDescription = currentCategory.description;
 		this.transactionsTotalLabel = `Selected period total:`;
 		this.setTransactionsToDiaplay(this.currentUser.transactions);
@@ -131,10 +124,8 @@ export class TransactionDetailComponent implements OnInit {
 			.subscribe(isActionConfirmed => {
 				if (isActionConfirmed) {
 					expense.isDeleted = true;
-					const transaction = expense;
-					const requestUrl = `${environment.apiBaseUrl}/transaction/edit`;
 					const navigateUrl = `/detail/:${this.categoryName}`;
-					this.transactionService.doTransactionControllerCall(transaction, requestUrl, navigateUrl);
+					this.transactionService.deleteTransaction(expense, navigateUrl);
 				}
 			});
 	}
