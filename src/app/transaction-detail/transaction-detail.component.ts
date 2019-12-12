@@ -31,7 +31,6 @@ export class TransactionDetailComponent implements OnInit {
 	noTransactionMessage = `You do not have
 	transactions for the selected period. You might choose another dates to check.`;
 	isAscSorted: boolean;
-	isLoading: boolean = true;
 	headers = [`Date`, `Sum`, `Comment`, `Actions`];
 	private subscription: Subscription;
 
@@ -52,7 +51,8 @@ export class TransactionDetailComponent implements OnInit {
 			if (response) {
 				this.currentUser = <LoggedUser>response;
 				this.setInitialData();
-				this.isLoading = false;
+			} else {
+				this.router.navigate([`/home`]);
 			}
 		});
 	}

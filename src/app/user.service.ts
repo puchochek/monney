@@ -30,11 +30,27 @@ export class UserService {
 		this.user.next(user);
 	}
 
+	activateUser(token: string) {
+		this.http.post(`${environment.apiBaseUrl}/user/activate`, {
+			token: token,
+		}).subscribe((response: LoggedUser) => {
+			console.log('---> activateUser result ', response);
+			if (response) {
+				this.appUser = response[0];
+				this.dataService.updateToken(token);
+				this.dataService.updateUserId(response.id);
+				this.router.navigate(['/home']);
+			} else {
+				// TODO add error modal
+			}
+		});
+	}
+
 	getUser() {
 		if (localStorage.getItem("token")) {
 			this.spinnerService.isLoading = true;
 			const tokenisedId = this.parseToken(localStorage.getItem("token"));
-			const url = `${environment.apiBaseUrl}/user/user-by-token`;
+			const url = `${environment.apiBaseUrl}/user/token`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {

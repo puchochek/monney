@@ -23,7 +23,6 @@ import { DashboardPeriod } from '../interfaces';
 export class DashboardConfigComponent implements OnInit {
 	defineDashboardMessage: string;
 	currentUser: LoggedUser;
-	isLoading: boolean = true;
 	categories: any = [];
 	isAllCheckboxChecked: boolean;
 	dashboardConfig: DashboardConfig;
@@ -68,7 +67,6 @@ export class DashboardConfigComponent implements OnInit {
 	setInitialData() {
 		const user = { ...this.currentUser };
 		this.defineDashboardMessage = `Hi, ${user.name}! Configure your dashboard options here.`;
-		this.isLoading = false;
 		const today = new Date();
 		this.toDate = today;
 		this.fromDate = new Date(today.getFullYear(), today.getMonth(), 1);

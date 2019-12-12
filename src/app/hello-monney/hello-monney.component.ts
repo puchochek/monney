@@ -17,7 +17,6 @@ import { UserService } from '../user.service';
 })
 export class HelloMonneyComponent implements OnInit {
 	isPageLoad: boolean;
-	isLoading: boolean = true;
 	welcomeMessage: string = `Welcome to the monney-app !`;
 	haveAccountMessage: string = `already have an account here ?`;
 	private subscription: Subscription;
@@ -34,7 +33,7 @@ export class HelloMonneyComponent implements OnInit {
 		const token = localStorage.getItem("token");
 		if (token) {
 			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/user-by-token`;
+			const url = `${environment.apiBaseUrl}/user/token`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(
 					response => {
@@ -44,17 +43,14 @@ export class HelloMonneyComponent implements OnInit {
 						console.log('---> HELLO-MONNEY response ', response);
 						if (currentUser) {
 							this.userService.appUser = currentUser;
-							this.isLoading = false;
 							this.router.navigate(['/home']);
 						} else {
 							this.isPageLoad = true;
-							this.isLoading = false;
 						}
 					},
 					error => {
 						console.log('---> HELLO-MONNEY error ', error);
 						this.isPageLoad = true;
-						this.isLoading = false;
 						this.dataService.cleanLocalstorage();
 					},
 					() => {
@@ -64,7 +60,6 @@ export class HelloMonneyComponent implements OnInit {
 				);
 		} else {
 			this.isPageLoad = true;
-			this.isLoading = false;
 		}
 	}
 }

@@ -36,7 +36,7 @@ export class LoginFormComponent implements OnInit {
 	mailFieldLabel: string;
 	passwordFieldLabel: string;
 
-	DEFAULT_APP_THEME: string =  `../assets/images/wooden-theme.jpg`;
+	DEFAULT_APP_THEME: string = `../assets/images/wooden-theme.jpg`;
 
 	isValidName: boolean; // form validation
 	isEmailValid: boolean; // form validation
@@ -46,7 +46,6 @@ export class LoginFormComponent implements OnInit {
 	url: string;
 	title: string;
 	isLogin: boolean;
-	isLoading: boolean = false;
 
 	confirmAuthorisationModal: MatDialogRef<ModalComponent>;
 
@@ -155,7 +154,6 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	login() {
-		this.isLoading = true;
 		const url = `${environment.apiBaseUrl}/user`;
 		this.http.post(url, {
 			password: this.password,
@@ -166,13 +164,11 @@ export class LoginFormComponent implements OnInit {
 			response => {
 				console.log('---> LoginFormComponent REGISTRED', response);
 				this.openConfirmAuthorisationModal(`Congratulations! You were succesfully logged in. Now check your email to continue.`);
-				const currantUser = <LoggedUser>response.body;
-				this.isLoading = false;
-				this.dataService.updateUserId(currantUser.id);
+				const currentUser = <LoggedUser>response.body;
+				this.dataService.updateToken(currentUser.temporaryToken);
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);
-				this.isLoading = false;
 				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
 			},
@@ -184,7 +180,6 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	autorize() {
-		this.isLoading = true;
 		const url = `${environment.apiBaseUrl}/user/autorize`;
 		this.http.post(url, {
 			password: this.password,
@@ -197,39 +192,16 @@ export class LoginFormComponent implements OnInit {
 				console.log('---> AUTHORIZED response ', response);
 				if (currentUser) {
 					this.userService.appUser = currentUser;
-					this.dataService.updateUserId(currentUser.id);
-					this.updateToken(currentUser);
-					//this.dataService.updateToken(response.headers.get('Authorization'));
-					this.isLoading = false;
+					this.dataService.updateToken(currentUser.temporaryToken);
+					this.router.navigate(['/home']);
 				} else {
 					this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				}
 			},
 			error => {
 				console.log('---> autorize error ', error);
-				this.isLoading = false;
 				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
 				this.dataService.cleanLocalstorage();
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-	}
-
-	updateToken(authorizedUser: LoggedUser) {
-		const url = `${environment.apiBaseUrl}/user/user-token/${authorizedUser.id}`;
-		this.http.get(url, { observe: 'response' }
-		).subscribe(
-			response => {
-				console.log('---> AUTHORIZED updateToken response ', response);
-				this.dataService.updateToken(response.headers.get('Authorization'));
-				this.router.navigate(['/home']);
-			},
-			error => {
-				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
-				console.log('---> updateToken autorize error ', error);
 			},
 			() => {
 				// 'onCompleted' callback.

@@ -37,6 +37,7 @@ export interface LoggedUser {
 	transactions: FinanceData[];
 	theme: string;
 	balanceEdge: number;
+	temporaryToken?: string;
 }
 
 export interface DashboardPeriod {
