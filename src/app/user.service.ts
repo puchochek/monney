@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoggedUser, FinanceData, Category } from './interfaces';
 import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -70,6 +70,15 @@ export class UserService {
 						// No errors, route to new page here
 					}
 				);
+		}
+	}
+
+	getUserFromDB(): Observable<any> {
+		if (localStorage.getItem("token")) {
+			const url = `${environment.apiBaseUrl}/user/token`;
+			return this.http.get(url)
+		} else {
+			this.router.navigate(['/hello-monney']);
 		}
 	}
 

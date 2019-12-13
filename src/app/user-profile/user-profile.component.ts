@@ -25,7 +25,9 @@ export class UserProfileComponent implements OnInit {
 		this.key = event.key;
 	}
 
-	private subscription: Subscription;
+	private appUserSubscription: Subscription;
+	private dbUserSubscription: Subscription;
+
 	isInvalidInput: boolean;
 	currentUser: LoggedUser;
 	invaildEdgeMessage: string;
@@ -54,7 +56,7 @@ export class UserProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.subscription = this.userService._user.subscribe((response) => {
+		this.appUserSubscription = this.userService._user.subscribe(response => {
 			console.log('---> USER_PROFILE _user ', response);
 			if (response) {
 				this.currentUser = <LoggedUser>response;
@@ -62,15 +64,35 @@ export class UserProfileComponent implements OnInit {
 				this.setCurrentAvatar();
 				this.setUserDataToEdit();
 			} else {
-				console.log('---> USER PROFILE error ');
-				this.router.navigate([`/home`]);
+				this.getUserFromDB();
 			}
 		});
 	}
 
+	getUserFromDB() {
+		if (localStorage.getItem('token')) {
+			this.dbUserSubscription = this.userService.getUserFromDB().subscribe(response => {
+				console.log('---> USER_PROFILE DB user ', response);
+				if (response) {
+					this.currentUser = <LoggedUser>response;
+					this.manageUploader(this.currentUser.id);
+					this.setCurrentAvatar();
+					this.setUserDataToEdit();
+				} else {
+					this.router.navigate([`/home`]);
+				}
+			});
+		} else {
+			this.router.navigate([`/hello-monney`]);
+		}
+	}
+
 	ngOnDestroy() {
-		if (this.subscription) {
-			this.subscription.unsubscribe();
+		if (this.appUserSubscription) {
+			this.appUserSubscription.unsubscribe();
+		}
+		if (this.dbUserSubscription) {
+			this.dbUserSubscription.unsubscribe();
 		}
 	}
 
