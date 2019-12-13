@@ -50,7 +50,6 @@ export class UserService {
 	getUser() {
 		if (localStorage.getItem("token")) {
 			this.spinnerService.isLoading = true;
-			const tokenisedId = this.parseToken(localStorage.getItem("token"));
 			const url = `${environment.apiBaseUrl}/user/token`;
 			this.http.get(url, { observe: 'response' })
 				.subscribe(

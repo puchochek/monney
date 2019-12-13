@@ -9,9 +9,11 @@
 	font-size: 1.2rem;
 	padding: 5px 0 5px 10px;
 }
-.user-avatar {
+.user-avatar,
+.user-info,
+.balance-edge-form {
 	display: grid;
-	grid-template-columns: 1fr 11fr;
+	grid-template-columns: 2fr 10fr;
 }
 .user-avatar-img {
 	margin: 5px 20px;
@@ -28,7 +30,8 @@ input[type="file"] {
 	display: none;
 }
 .user-avatar-action,
-.edit-user-info-btn {
+.edit-user-info-btn,
+.edit-balance-edge-btn {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	text-transform: uppercase;
@@ -40,7 +43,7 @@ input[type="file"] {
 	font-size: 0.8rem;
 	width: 130px;
 	height: 35px;
-	margin-top: 20px;
+	margin: auto;
 }
 .user-avatar-action:hover,
 .edit-user-info-btn:hover {
@@ -48,39 +51,20 @@ input[type="file"] {
 	color: black;
 }
 .user-info {
-	display: grid;
-	grid-template-columns: 6fr 6fr;
 	padding-bottom: 5px;
 }
-.user-info-edit-form {
+.user-info-edit-form,
+.balance-edge-form-content {
 	padding-left: 20px;
 }
-.user-name-label, .user-email-label, .balance-edge-label {
+.user-name-label,
+.user-email-label,
+.balance-edge-label {
 	color: white;
 }
 .balance-edge-description {
-	color:white;
-	font-size: 1.2rem;
-}
-.edit-balance-edge-btn {
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	text-transform: uppercase;
-	cursor: pointer;
-	text-align: center;
 	color: white;
-	padding: 3px;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-	font-size: 0.8rem;
-	width: 150px;
-	height: 35px;
-}
-.balance-edge {
-	padding-left: 20px;
-}
-.balance-edge-form {
-	display: grid;
-	grid-template-columns: 3fr 9fr;
+	font-size: 1.2rem;
 }
 input[type="text"] {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -90,7 +74,7 @@ input[type="text"] {
 	font-size: 1.2rem;
 	margin: 0;
 	outline: 0;
-	width: 90%;
+	width: 50%;
 	color: white;
 	border-bottom: 1px dashed #8e8e8e;
 }
@@ -108,7 +92,7 @@ input[type="text"] {
 	border-radius: 4px;
 }
 .backgroung-carousel > img:hover {
-	opacity: .8;
+	opacity: 0.8;
 	border: 1px solid white;
 }
 .invalid-input-message {
@@ -117,6 +101,14 @@ input[type="text"] {
 }
 
 @media (max-width: 800px) {
+	.balance-edge-description {
+		line-height: 1.2;
+	}
+	.user-avatar-action,
+	.edit-user-info-btn,
+	.edit-balance-edge-btn {
+		margin-left: 10px;
+	}
 	.igx-avatar {
 		height: 40px;
 		width: 40px;
@@ -148,30 +140,19 @@ input[type="text"] {
 		border-bottom: 1px dashed #8e8e8e;
 	}
 	.user-avatar-action,
-	.edit-user-info-btn {
-		padding: 2px;
-		font-size: 0.6rem;
-		width: 100px;
-		height: 30px;
-	}
+	.edit-user-info-btn,
 	.edit-balance-edge-btn {
 		padding: 2px;
 		font-size: 0.6rem;
-		width: 130px;
+		width: 100px;
 		height: 30px;
 	}
 	.backgroung-carousel > img {
 		height: 40px;
 		width: 40px;
 	}
-	.balance-edge-description {
-		font-size: .8rem;
-	}
-	.balance-edge-form {
-		grid-template-columns: 6fr 6fr;
-	}
 	.invalid-input-message {
-		font-size: .8rem;
+		font-size: 0.8rem;
 		line-height: 1.2;
 	}
 }
@@ -181,8 +162,5 @@ input[type="text"] {
 	.edit-user-info-btn,
 	.edit-balance-edge-btn {
 		margin-right: 3px;
-	}
-	.balance-edge-description {
-		font-size: .6rem;
 	}
 }

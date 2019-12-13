@@ -4,6 +4,10 @@
 			{{avatarLabel}}
 		</div>
 		<div class="user-avatar">
+			<label class="user-avatar-action">
+				<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
+				Update avatar
+			</label>
 			<div class="user-avatar-img">
 				<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
 				</igx-avatar>
@@ -12,15 +16,14 @@
 					</igx-avatar>
 				</ng-template>
 			</div>
-			<label class="user-avatar-action">
-				<input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
-				Update avatar
-			</label>
 		</div>
 		<div class="content-zone-title">
 			{{userInfoLabel}}
 		</div>
 		<div class="user-info">
+			<div class="edit-user-info-btn" (click)="updateUserInfo()">
+				Update user info
+			</div>
 			<div class="user-info-edit-form">
 				<div class="user-name">
 					<div class="user-name-label">
@@ -39,27 +42,27 @@
 					</div>
 				</div>
 			</div>
-			<div class="edit-user-info-btn" (click)="updateUserInfo()">
-				Update user info
-			</div>
 		</div>
 		<div class="content-zone-title">
 			{{limitLabel}}
 		</div>
 		<div class="balance-edge">
-			<div class="balance-edge-description">
-				{{lowBalanceDescription}}
-			</div>
-			<div class="balance-edge-label">
-				{{balanceEdgeLbl}}
-			</div>
 			<div class="balance-edge-form">
-				<div class="balance-edge-value">
-					<input type="text" id="balanceEdge" name="balanceEdge" [(ngModel)]="balanceEdge" (keyup)="hideErrorMessage()">
-					<div class="invalid-input-message" *ngIf="isInvalidInput">{{invaildEdgeMessage}}</div>
-				</div>
 				<div class="edit-balance-edge-btn" (click)="updateBalanceEdge()">
-					Update balance edge
+					Update edge
+				</div>
+				<div class="balance-edge-form-content">
+					<div class="balance-edge-description">
+						{{lowBalanceDescription}}
+					</div>
+					<div class="balance-edge-label">
+						{{balanceEdgeLbl}}
+					</div>
+					<div class="balance-edge-value">
+						<input type="text" id="balanceEdge" name="balanceEdge" [(ngModel)]="balanceEdge"
+							(keyup)="hideErrorMessage()">
+						<div class="invalid-input-message" *ngIf="isInvalidInput">{{invaildEdgeMessage}}</div>
+					</div>
 				</div>
 			</div>
 		</div>

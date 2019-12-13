@@ -38,10 +38,10 @@ export class UserProfileComponent implements OnInit {
 	balanceLimitLabel: string = `Balance limit`;
 	userNameLabel: string = `Name`;
 	userEmailLabel: string = `Email`;
-	limitLabel: string = `Low balance limit`;
+	limitLabel: string = `Balance limit`;
 	balanceEdgeLbl: string = `Balance limit`;
 	lowBalanceDescription: string = `Here you can specify an
-	edge value to warn you if a balance is too low. By default it is set to zero.`;
+	edge value to warn you if a balance is too low.`;
 	bgColor: string = "#8e8e8e";
 	color: string = "white";
 	avatarSrc: string;
