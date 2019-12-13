@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from './data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { SpinnerService } from './spinner.service';
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserService {
 		private dataService: DataService,
 		private router: Router,
 		private spinnerService: SpinnerService,
-
+		private snackBarService: SnackBarService
 	) { }
 
 	get appUser(): LoggedUser {
@@ -82,9 +83,11 @@ export class UserService {
 				console.log('---> UPSERT USER ', <LoggedUser>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `User info updated.`
 			},
 			error => {
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Something was wrong. Try again.`;
 				console.log('---> UPSERT USER ERROR ', error);
 			},
 			() => {

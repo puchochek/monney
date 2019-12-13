@@ -7,7 +7,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from './user.service';
 import { SpinnerService } from './spinner.service';
 import { environment } from './../environments/environment';
-
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,6 +24,7 @@ export class TransactionService {
 		private router: Router,
 		private userService: UserService,
 		private spinnerService: SpinnerService,
+		private snackBarService: SnackBarService
 	) { }
 
 	get currentTransaction(): FinanceData {
@@ -43,11 +44,13 @@ export class TransactionService {
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.userService.updateUserTransactions([newTransaction]);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Transaction saved.`;
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> SAVE EXPENSE ERROR ', error);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Oops! ${error.error.message}`;
 			},
 			() => {
 				// 'onCompleted' callback.
@@ -65,11 +68,13 @@ export class TransactionService {
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.userService.updateUserTransactions([updatedTransaction]);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Transaction updated.`;
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> UPDATE EXPENSE ERROR ', error);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Oops! ${error.error.message}`;
 			},
 			() => {
 				// 'onCompleted' callback.
@@ -88,11 +93,13 @@ export class TransactionService {
 				this.dataService.updateToken(response.headers.get('Authorization'));
 				this.userService.updateUserTransactions([deletedTransaction]);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Transaction deleted.`;
 				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> DELETE EXPENSE ERROR ', error);
 				this.spinnerService.isLoading = false;
+				this.snackBarService.snackBarMessage = `Oops! ${error.message}`;
 			},
 			() => {
 				// 'onCompleted' callback.

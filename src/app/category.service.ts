@@ -6,7 +6,7 @@ import { Category, LoggedUser } from './interfaces';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from './../environments/environment';
 import { SpinnerService } from './spinner.service';
-
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,6 +19,7 @@ export class CategoryService {
 		private dataService: DataService,
 		private router: Router,
 		private spinnerService: SpinnerService,
+		private snackBarService: SnackBarService
 	) { }
 
 	checkIncomeCategory() {
@@ -51,10 +52,15 @@ export class CategoryService {
 						this.router.navigate([`${navigateLink}`]);
 					}
 					this.spinnerService.isLoading = false;
+					const createdCategoryName = createdCategories[0].name;
+					if (createdCategoryName !== `Income`) {
+						this.snackBarService.snackBarMessage = `${createdCategoryName} category created`;
+					}
 				},
 				error => {
 					console.log('---> CATEGORY createdCategory error ', error);
 					this.spinnerService.isLoading = false;
+					this.snackBarService.snackBarMessage = `Oops! ${error.error.message}`;
 				},
 				() => {
 					// 'onCompleted' callback.
@@ -77,10 +83,12 @@ export class CategoryService {
 						this.router.navigate([`${navigateLink}`]);
 					}
 					this.spinnerService.isLoading = false;
+					this.snackBarService.snackBarMessage = `${upsertedCategory[0].name} category updated.`;
 				},
 				error => {
 					console.log('--->CATEGORY updatedCategory error ', error);
 					this.spinnerService.isLoading = false;
+					this.snackBarService.snackBarMessage = `Oops! ${error.error.message}`;
 				},
 				() => {
 					// 'onCompleted' callback.
@@ -103,10 +111,12 @@ export class CategoryService {
 						this.router.navigate([`${navigateLink}`]);
 					}
 					this.spinnerService.isLoading = false;
+					this.snackBarService.snackBarMessage = `${deletedCategory[0].name} category deleted.`;
 				},
 				error => {
 					console.log('---> CATEGORY deleteCategory error ', error);
 					this.spinnerService.isLoading = false;
+					this.snackBarService.snackBarMessage = `Oops! ${error.error.message}`;
 				},
 				() => {
 					// 'onCompleted' callback.
