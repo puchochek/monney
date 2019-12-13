@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	goToProfile() {
-		this.router.navigate([`/myprofile/${this.currentUser.name}`]);
+		this.router.navigate([`/myprofile`]);
 	}
 
 	goHome() {

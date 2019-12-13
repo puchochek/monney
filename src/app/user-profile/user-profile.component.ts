@@ -1,12 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { LoggedUser } from '../interfaces';
-import { DataService } from '../data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../user.service';
 import { ThemeService } from '../theme.service';
 import { Subscription } from 'rxjs';
@@ -22,6 +19,11 @@ export class UserProfileComponent implements OnInit {
 	@Input() name: string;
 	@Input() email: string;
 	@Input() balanceEdge: string;
+	key: any;
+	@HostListener('document:keypress', ['$event'])
+	handleKeyboardEvent(event: KeyboardEvent) {
+		this.key = event.key;
+	}
 
 	private subscription: Subscription;
 	isInvalidInput: boolean;
@@ -46,10 +48,7 @@ export class UserProfileComponent implements OnInit {
 	public uploader: FileUploader;
 
 	constructor(
-		private http: HttpClient,
-		private dataService: DataService,
 		private router: Router,
-		private snackBar: MatSnackBar,
 		private userService: UserService,
 		private themeService: ThemeService,
 	) { }
@@ -137,6 +136,20 @@ export class UserProfileComponent implements OnInit {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	handleKeyPress(event) {
+		if (event.key === `Enter`) {
+			if ((this.name !== this.currentUser.name) || (this.email !== this.currentUser.email)) {
+				this.updateUserInfo();
+			}
+			const isbalanceEdgeValid = this.validateBalanceEdge(this.balanceEdge);
+			if (isbalanceEdgeValid) {
+				if (Number(this.balanceEdge) !== Number(this.currentUser.balanceEdge)) {
+					this.updateBalanceEdge();
+				}
+			}
 		}
 	}
 

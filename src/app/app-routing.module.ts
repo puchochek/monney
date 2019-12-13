@@ -27,7 +27,7 @@ const routes: Routes = [
 	{ path: 'login/:userName/:status', component: ModalComponent },
 	{ path: 'detail/:category', component: TransactionDetailComponent },
 	{ path: 'activate/:token', component: ActivateUserComponent },
-	{ path: 'myprofile/:userName', component: UserProfileComponent },
+	{ path: 'myprofile', component: UserProfileComponent },
 	{ path: ':action/category', component: AddCategoryModalComponent },
 	{ path: ':action/:category', component: AddCategoryModalComponent },
 	{ path: 'dashboard-config', component: DashboardConfigComponent },
