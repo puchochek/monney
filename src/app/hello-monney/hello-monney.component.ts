@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LoggedUser } from '../interfaces';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
-
-
-
 
 @Component({
 	selector: 'app-hello-monney',
@@ -19,11 +13,10 @@ export class HelloMonneyComponent implements OnInit {
 	isPageLoad: boolean;
 	welcomeMessage: string = `Welcome to the monney-app !`;
 	haveAccountMessage: string = `already have an account here ?`;
-	private subscription: Subscription;
 
+	private dbUserSubscription: Subscription;
 
 	constructor(
-		private http: HttpClient,
 		private router: Router,
 		private dataService: DataService,
 		private userService: UserService,
@@ -32,34 +25,24 @@ export class HelloMonneyComponent implements OnInit {
 	ngOnInit() {
 		const token = localStorage.getItem("token");
 		if (token) {
-			const tokenisedId = localStorage.getItem("token").split(" ")[1];
-			const url = `${environment.apiBaseUrl}/user/token`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						localStorage.setItem("token", response.headers.get('Authorization').split(" ")[1])
-						this.dataService.updateToken(response.headers.get('Authorization'));
-						const currentUser = <LoggedUser>response.body;
-						console.log('---> HELLO-MONNEY response ', response);
-						if (currentUser) {
-							this.userService.appUser = currentUser;
-							this.router.navigate(['/home']);
-						} else {
-							this.isPageLoad = true;
-						}
-					},
-					error => {
-						console.log('---> HELLO-MONNEY error ', error);
-						this.isPageLoad = true;
-						this.dataService.cleanLocalstorage();
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
+			this.dbUserSubscription = this.userService.getUserFromDB().subscribe(response => {
+				console.log('--->  HELLO-MONNEY DB user ', response);
+				if (response) {
+					this.userService.appUser = response;
+					this.router.navigate(['/home']);
+				} else {
+					this.isPageLoad = true;
+					this.dataService.cleanLocalstorage();
+				}
+			});
 		} else {
 			this.isPageLoad = true;
+		}
+	}
+
+	ngOnDestroy() {
+		if (this.dbUserSubscription) {
+			this.dbUserSubscription.unsubscribe();
 		}
 	}
 }
