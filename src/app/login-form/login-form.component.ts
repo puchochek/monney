@@ -169,7 +169,7 @@ export class LoginFormComponent implements OnInit {
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);
-				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
+				this.openConfirmAuthorisationModal(error.error.message);
 				this.dataService.cleanLocalstorage();
 			},
 			() => {
@@ -200,7 +200,7 @@ export class LoginFormComponent implements OnInit {
 			},
 			error => {
 				console.log('---> autorize error ', error);
-				this.openConfirmAuthorisationModal(`Something goes wrong. Please, try again.`);
+				this.openConfirmAuthorisationModal(error.error.message);
 				this.dataService.cleanLocalstorage();
 			},
 			() => {

@@ -1,19 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from '../data.service';
-import { FormControl } from '@angular/forms';
 import { LoggedUser } from '../interfaces';
 import { Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { UserService } from '../user.service';
-import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DashboardService } from '../dashboard.service';
 import { DashboardConfig } from '../interfaces';
 import { DashboardPeriod } from '../interfaces';
-
-
-
 
 @Component({
 	selector: 'app-dashboard-config',
@@ -43,9 +35,7 @@ export class DashboardConfigComponent implements OnInit {
 	private subscription: Subscription;
 
 	constructor(
-		private dataService: DataService,
 		private router: Router,
-		private http: HttpClient,
 		public userServise: UserService,
 		public dashboardServise: DashboardService
 
@@ -60,6 +50,7 @@ export class DashboardConfigComponent implements OnInit {
 			}
 		});
 	}
+
 	ngOnDestroy() {
 		this.subscription.unsubscribe();
 	}
@@ -82,11 +73,11 @@ export class DashboardConfigComponent implements OnInit {
 		this.categories.unshift({ name: `Income`, isChecked: false });
 	}
 
-	handleFromDateChange(newDate) {
+	handleFromDateChange(newDate: Date) {
 		this.fromDate = newDate;
 	}
 
-	handleToDateChange(newDate) {
+	handleToDateChange(newDate: Date) {
 		this.toDate = newDate;
 	}
 
@@ -137,7 +128,7 @@ export class DashboardConfigComponent implements OnInit {
 			this.isWrongConfig = true;
 			this.wrongConfigMessage = `Please, select a categories to analize.`;
 		} else {
-			const dashboardPeriod: DashboardPeriod = {from : this.fromDate, to : this.toDate};
+			const dashboardPeriod: DashboardPeriod = { from: this.fromDate, to: this.toDate };
 			this.isWrongConfig = false;
 			this.dashboardConfig = {
 				dashboardType: this.selectedChartType,

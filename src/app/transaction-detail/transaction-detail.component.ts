@@ -139,13 +139,13 @@ export class TransactionDetailComponent implements OnInit {
 		return transactions.filter(transaction => !transaction.isDeleted);
 	}
 
-	handleFromDateChange(newDate) {
+	handleFromDateChange(newDate: Date) {
 		this.transactionToDisplay = this.setSelectedPeriodTransactions(newDate, this.toDate);
 		this.fromDate = newDate;
 		this.setTransactionsTotal();
 	}
 
-	handleToDateChange(newDate) {
+	handleToDateChange(newDate: Date) {
 		this.transactionToDisplay = this.setSelectedPeriodTransactions(this.fromDate, newDate);
 		this.toDate = newDate;
 		this.setTransactionsTotal();
