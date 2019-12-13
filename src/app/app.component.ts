@@ -15,6 +15,7 @@ export class AppComponent {
 	isLoading: boolean;
 	private spinnerSubscription: Subscription;
 	private snackBarSubscription: Subscription;
+	backgroungImg: string = `../assets/images/wooden-theme.jpg`;
 
 	constructor(
 		private userService: UserService,

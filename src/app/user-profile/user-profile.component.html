@@ -9,10 +9,10 @@
 				Update avatar
 			</label>
 			<div class="user-avatar-img">
-				<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true">
+				<igx-avatar *ngIf="avatarSrc else noAvatar" [src]="avatarSrc" roundShape="true" alt="User avatar">
 				</igx-avatar>
 				<ng-template #noAvatar>
-					<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color">
+					<igx-avatar initials={{avatarInitials}} roundShape="true" [bgColor]="bgColor" [color]="color" alt="User avatar">
 					</igx-avatar>
 				</ng-template>
 			</div>
@@ -63,6 +63,16 @@
 							(keyup)="hideErrorMessage()">
 						<div class="invalid-input-message" *ngIf="isInvalidInput">{{invaildEdgeMessage}}</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content-zone-title">
+			{{themeLabel}}
+		</div>
+		<div class="media-select-theme">
+			<div *ngFor="let asset of assetsList">
+				<div class="backgroung-carousel" (click)="selectBackground($event)">
+					<img src={{asset}} alt="Background theme">
 				</div>
 			</div>
 		</div>

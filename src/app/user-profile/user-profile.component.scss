@@ -74,7 +74,7 @@ input[type="text"] {
 	font-size: 1.2rem;
 	margin: 0;
 	outline: 0;
-	width: 50%;
+	width: 60%;
 	color: white;
 	border-bottom: 1px dashed #8e8e8e;
 }
@@ -126,13 +126,16 @@ input[type="text"] {
 	.user-avatar-action {
 		margin-top: 10px;
 	}
+	.user-name-label,
+	.user-email-label,
+	.balance-edge-label,
 	.balance-edge-description {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
 }
 @media (max-width: 500px) {
 	input[type="text"] {
-		font-size: 0.8rem;
+		font-size: 1rem;
 		margin: 0;
 		outline: 0;
 		width: 90%;

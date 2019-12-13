@@ -39,13 +39,14 @@ export class UserProfileComponent implements OnInit {
 	userNameLabel: string = `Name`;
 	userEmailLabel: string = `Email`;
 	limitLabel: string = `Balance limit`;
-	balanceEdgeLbl: string = `Balance limit`;
+	balanceEdgeLbl: string = `Low balance limit`;
 	lowBalanceDescription: string = `Here you can specify an
 	edge value to warn you if a balance is too low.`;
 	bgColor: string = "#8e8e8e";
 	color: string = "white";
 	avatarSrc: string;
 	avatarInitials: string;
+	assetsList: string[];
 
 	public uploader: FileUploader;
 
@@ -56,6 +57,7 @@ export class UserProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.assetsList = this.themeService.ASSETS_LIST;
 		this.appUserSubscription = this.userService._user.subscribe(response => {
 			console.log('---> USER_PROFILE _user ', response);
 			if (response) {
@@ -171,6 +173,23 @@ export class UserProfileComponent implements OnInit {
 				if (Number(this.balanceEdge) !== Number(this.currentUser.balanceEdge)) {
 					this.updateBalanceEdge();
 				}
+			}
+		}
+	}
+
+	selectBackground(event) {
+		const selectedImgSrc = event.explicitOriginalTarget.currentSrc;
+		console.log('--selectedImgSrc ', selectedImgSrc);
+		if (selectedImgSrc) {
+			const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
+			const pointIndex = selectedImgSrc.indexOf(`.`);
+			const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
+			console.log('---> selectedAssetName ', selectedAssetName);
+			if (this.themeService.checkIfThemeExist(selectedAssetName)) {
+				const userToUpdate: LoggedUser = { ...this.currentUser };
+				userToUpdate.theme = selectedAssetName;
+				this.userService.patchUser([userToUpdate])
+				//this.userService.appUser = this.currentUser;
 			}
 		}
 	}
