@@ -7,6 +7,7 @@ import { DataService } from './data.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { SpinnerService } from './spinner.service';
 import { SnackBarService } from './snack-bar.service';
+import { ThemeService } from './theme.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,7 +21,9 @@ export class UserService {
 		private dataService: DataService,
 		private router: Router,
 		private spinnerService: SpinnerService,
-		private snackBarService: SnackBarService
+		private snackBarService: SnackBarService,
+		private themeService: ThemeService,
+
 	) { }
 
 	get appUser(): LoggedUser {
@@ -57,6 +60,7 @@ export class UserService {
 						this.appUser = <LoggedUser>response.body;
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						console.log('---> USER SERVICE response ', response);
+						this.themeService.appTheme = this.appUser.theme ? this.appUser.theme : this.themeService.DEFAULT_THEME;
 						this.spinnerService.isLoading = false;
 					},
 					error => {
@@ -90,6 +94,7 @@ export class UserService {
 				this.appUser = <LoggedUser>response.body[0];
 				console.log('---> UPSERT USER ', <LoggedUser>response.body);
 				this.dataService.updateToken(response.headers.get('Authorization'));
+				this.themeService.appTheme = this.appUser.theme ? this.appUser.theme : this.themeService.DEFAULT_THEME;
 				this.spinnerService.isLoading = false;
 				this.snackBarService.snackBarMessage = `User info updated.`
 			},

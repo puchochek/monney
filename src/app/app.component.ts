@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { Subscription } from 'rxjs';
 import { SpinnerService } from './spinner.service';
 import { SnackBarService } from './snack-bar.service';
+import { ThemeService } from './theme.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -15,13 +16,17 @@ export class AppComponent {
 	isLoading: boolean;
 	private spinnerSubscription: Subscription;
 	private snackBarSubscription: Subscription;
-	backgroungImg: string = `../assets/images/wooden-theme.jpg`;
+	private themeSubscription: Subscription;
+
+	//backgroungImg: string = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1576564427/purple-wall_ferxf4.jpg`;
+	backgroungImg: string;
 
 	constructor(
 		private userService: UserService,
 		private spinnerService: SpinnerService,
 		private snackBar: MatSnackBar,
-		private snackBarService: SnackBarService
+		private snackBarService: SnackBarService,
+		private themeService: ThemeService,
 	) {
 		this.userService.getUser();
 	}
@@ -30,6 +35,14 @@ export class AppComponent {
 		this.spinnerSubscription = this.spinnerService._spinner.subscribe((response) => {
 			console.log('---> APP _SPINNER ', response);
 			this.isLoading = response;
+		});
+		this.themeSubscription = this.themeService._theme.subscribe(response => {
+			if (response) {
+				console.log('---> backgroungImg ', response);
+				this.backgroungImg = response;
+			} else {
+				this.backgroungImg = this.themeService.DEFAULT_THEME;
+			}
 		});
 		this.snackBarSubscription = this.snackBarService._snackMessage.subscribe((response) => {
 			if (response) {
@@ -48,6 +61,9 @@ export class AppComponent {
 		}
 		if (this.snackBarSubscription) {
 			this.snackBarSubscription.unsubscribe();
+		}
+		if (this.themeSubscription) {
+			this.themeSubscription.unsubscribe();
 		}
 	}
 

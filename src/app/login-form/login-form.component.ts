@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { ModalComponent } from '../modal/modal.component';
 import { HostListener } from '@angular/core';
 import { UserService } from '../user.service';
-
+import { ThemeService } from '../theme.service';
 
 
 const wrongName = `Name field may only consist of letters or numbers.`;
@@ -55,7 +55,7 @@ export class LoginFormComponent implements OnInit {
 		private router: Router,
 		private dialog: MatDialog,
 		private userService: UserService,
-
+		private themeService: ThemeService,
 	) { }
 
 	ngOnInit() {
@@ -192,6 +192,7 @@ export class LoginFormComponent implements OnInit {
 				console.log('---> AUTHORIZED response ', response);
 				if (currentUser) {
 					this.userService.appUser = currentUser;
+					this.themeService.appTheme = currentUser.theme ? currentUser.theme : this.themeService.DEFAULT_THEME;
 					this.dataService.updateToken(currentUser.temporaryToken);
 					this.router.navigate(['/home']);
 				} else {

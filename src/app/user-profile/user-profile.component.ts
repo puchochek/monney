@@ -181,15 +181,10 @@ export class UserProfileComponent implements OnInit {
 		const selectedImgSrc = event.explicitOriginalTarget.currentSrc;
 		console.log('--selectedImgSrc ', selectedImgSrc);
 		if (selectedImgSrc) {
-			const lastSlashIndex = selectedImgSrc.lastIndexOf(`/`);
-			const pointIndex = selectedImgSrc.indexOf(`.`);
-			const selectedAssetName = selectedImgSrc.substring((lastSlashIndex + 1), pointIndex);
-			console.log('---> selectedAssetName ', selectedAssetName);
-			if (this.themeService.checkIfThemeExist(selectedAssetName)) {
+			if (this.themeService.checkIfThemeExist(selectedImgSrc)) {
 				const userToUpdate: LoggedUser = { ...this.currentUser };
-				userToUpdate.theme = selectedAssetName;
+				userToUpdate.theme = selectedImgSrc;
 				this.userService.patchUser([userToUpdate])
-				//this.userService.appUser = this.currentUser;
 			}
 		}
 	}

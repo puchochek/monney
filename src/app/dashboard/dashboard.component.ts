@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit {
 	}
 
 	handleSaveAsBtnClick(event) {
-		if (event.target.innerHTML === `Save as Excel` ) {
+		if (event.target.innerHTML === `Save as Excel`) {
 			this.excelService.isSaveAsExcelClicked = true;
 		} else {
 			this.saveDashboardSaPDF();
