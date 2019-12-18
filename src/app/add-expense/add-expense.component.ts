@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
+import { BalanceService } from '../balance.service';
 
 @Component({
 	selector: 'app-add-expense',
@@ -51,7 +52,7 @@ export class AddExpenseComponent implements OnInit {
 		private transactionService: TransactionService,
 		private userService: UserService,
 		private categoryService: CategoryService,
-
+		private balanceService: BalanceService,
 	) { }
 
 	ngOnInit() {
@@ -196,9 +197,9 @@ export class AddExpenseComponent implements OnInit {
 
 	setBalanceInfo() {
 		const IncomeId = this.dataService.findIncomeId(this.currentUser);
-		const expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, IncomeId);
-		const IncomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, IncomeId);
-		const balanceTotal = this.dataService.setThisMonthBalanceTotal(IncomesTotal, expensesTotal);
+		const expensesTotal = this.balanceService.countThisMonthExpensesSum(this.currentUser, IncomeId);
+		const IncomesTotal = this.balanceService.countThisMonthIncomesSum(this.currentUser, IncomeId);
+		const balanceTotal = this.balanceService.countThisMonthBalanceSum(IncomesTotal, expensesTotal);
 
 		this.balance = balanceTotal;
 	}

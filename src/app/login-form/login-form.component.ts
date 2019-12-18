@@ -35,9 +35,6 @@ export class LoginFormComponent implements OnInit {
 	nameFieldLabel: string;
 	mailFieldLabel: string;
 	passwordFieldLabel: string;
-
-	DEFAULT_APP_THEME: string = `../assets/images/wooden-theme.jpg`;
-
 	isValidName: boolean; // form validation
 	isEmailValid: boolean; // form validation
 	isPasswordVaild: boolean; // form validation
@@ -159,13 +156,13 @@ export class LoginFormComponent implements OnInit {
 			password: this.password,
 			name: this.name,
 			email: this.mailAddress,
-			theme: this.DEFAULT_APP_THEME
+			theme: this.themeService.DEFAULT_THEME,
 		}, { observe: 'response' }).subscribe(
 			response => {
 				console.log('---> LoginFormComponent REGISTRED', response);
 				this.openConfirmAuthorisationModal(`Congratulations! You were succesfully logged in. Now check your email to continue.`);
 				const currentUser = <LoggedUser>response.body;
-				this.dataService.updateToken(currentUser.temporaryToken);
+				//this.dataService.updateToken(currentUser.temporaryToken);
 			},
 			error => {
 				console.log('---> LoginFormComponent error ', error);

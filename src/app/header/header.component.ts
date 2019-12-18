@@ -5,6 +5,8 @@ import { LoggedUser } from '../interfaces';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
+import { ThemeService } from '../theme.service';
+
 
 @Component({
 	selector: 'app-header',
@@ -36,7 +38,8 @@ export class HeaderComponent implements OnInit {
 		private dataService: DataService,
 		private router: Router,
 		private http: HttpClient,
-		private userService: UserService
+		private userService: UserService,
+		private themeService: ThemeService,
 	) { }
 
 	ngOnInit() {
@@ -83,5 +86,8 @@ export class HeaderComponent implements OnInit {
 		this.isAvatar = false;
 		this.avatarInitials = `AV`;
 		this.isMenuAvailable = false;
+		localStorage.setItem("userTheme", this.themeService.DEFAULT_THEME);
+		this.themeService.appTheme = this.themeService.DEFAULT_THEME;
+
 	}
 }

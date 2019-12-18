@@ -1,14 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-import { MatCardModule, MatButtonModule } from '@angular/material';
+// import { MatCardModule, MatButtonModule } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { LoggedUser } from '../interfaces';
-import { Category } from '../interfaces';
+import { LoggedUser, FinanceData } from '../interfaces';
+// import { Category } from '../interfaces';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../category.service';
+import { TransactionService } from '../transaction.service';
+
+import { BalanceService } from '../balance.service';
+
 
 @Component({
 	selector: 'app-home',
@@ -36,6 +40,8 @@ export class HomeComponent implements OnInit {
 		private http: HttpClient,
 		private userService: UserService,
 		private categoryService: CategoryService,
+		private balanceService: BalanceService,
+		private transactionService: TransactionService,
 	) { }
 
 	ngOnInit() {
@@ -46,6 +52,9 @@ export class HomeComponent implements OnInit {
 				this.currentUser = <LoggedUser>response;
 				this.setIncomeId();
 				this.setBalanceInfo();
+				//this.checkLastBalanceResetDate();
+				this.checkLastBalanceReset();
+				
 			} else {
 				this.router.navigate([`/hello-monney`]);
 			}
@@ -54,6 +63,24 @@ export class HomeComponent implements OnInit {
 	ngOnDestroy() {
 		if (this.subscription) {
 			this.subscription.unsubscribe();
+		}
+	}
+
+	checkLastBalanceReset() {
+		const currentMonth = new Date().getMonth() + 1;
+		const lastBalanceResetMonth = { ...this.currentUser }.lastBalanceReset;
+		if (lastBalanceResetMonth < currentMonth) {
+			const navigateUrl = `/home`;
+			const userId = this.currentUser.id;
+			const transactionToSave: FinanceData = {
+				comment: `Last month surplus.`,
+				sum: this.balanceService.countLastMonthBalance(this.currentUser, this.incomeId),
+				category: `Income`,
+				userId: userId,
+				date: new Date().toISOString()
+			};
+
+			this.transactionService.createTransaction(transactionToSave, navigateUrl);
 		}
 	}
 
@@ -66,31 +93,31 @@ export class HomeComponent implements OnInit {
 	}
 
 	setBalanceInfo() {
-		this.expensesTotal = this.dataService.setThisMonthExpensesTotal(this.currentUser, this.incomeId);
-		this.incomesTotal = this.dataService.setThisMonthIncomesTotal(this.currentUser, this.incomeId);
-		this.balanceTotal = this.dataService.setThisMonthBalanceTotal(this.incomesTotal, this.expensesTotal);
+		this.expensesTotal = this.countThisMonthExpensesSum();
+		this.incomesTotal = this.countThisMonthIncomesSum();
+		this.balanceTotal = this.countThisMonthBalanceSum();
 		if (this.balanceTotal < this.currentUser.balanceEdge) {
 			this.balanceInfoClass = `low-balance-info-title`;
 		}
 	}
 
-	setThisMonthExpensesTotal(): number {
+	countThisMonthExpensesSum(): number {
 		const expenseTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category !== this.incomeId);
 		const thisMonthExpenseTransactions = this.dataService.getThisMonthTransactions(expenseTransactions);
-		const thisMonthExpensesTotal = this.dataService.countCategoryTransactionsTotal(thisMonthExpenseTransactions, `sum`) || 0;
+		const thisMonthExpensesTotal = this.balanceService.countCategoryTransactionsSum(thisMonthExpenseTransactions, `sum`) || 0;
 
 		return thisMonthExpensesTotal;
 	}
 
-	setThisMonthIncomesTotal(): number {
+	countThisMonthIncomesSum(): number {
 		const incomeTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category === this.incomeId);
 		const thisMonthIncomeTransactions = this.dataService.getThisMonthTransactions(incomeTransactions);
-		const thisMonthIncomeTotal = this.dataService.countCategoryTransactionsTotal(thisMonthIncomeTransactions, `sum`) || 0;
+		const thisMonthIncomeTotal = this.balanceService.countCategoryTransactionsSum(thisMonthIncomeTransactions, `sum`) || 0;
 
 		return thisMonthIncomeTotal;
 	}
 
-	setThisMonthBalanceTotal() {
+	countThisMonthBalanceSum() {
 		return this.incomesTotal - this.expensesTotal;
 	}
 }

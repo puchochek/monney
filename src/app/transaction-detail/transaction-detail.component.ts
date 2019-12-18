@@ -8,6 +8,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
+import { BalanceService } from '../balance.service';
+
 
 @Component({
 	selector: 'app-transaction-detail',
@@ -40,7 +42,9 @@ export class TransactionDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private dialog: MatDialog,
 		private transactionService: TransactionService,
-		private userService: UserService
+		private userService: UserService,
+		private balanceService: BalanceService,
+
 	) { }
 
 	ngOnInit() {
@@ -152,6 +156,6 @@ export class TransactionDetailComponent implements OnInit {
 	}
 
 	setTransactionsTotal() {
-		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.dataService.countCategoryTransactionsTotal(this.transactionToDisplay, `sum`) : 0;
+		this.transactionsTotal = this.transactionToDisplay && this.transactionToDisplay.length !== 0 ? this.balanceService.countCategoryTransactionsSum(this.transactionToDisplay, `sum`) : 0;
 	}
 }

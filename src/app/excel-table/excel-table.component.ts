@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ChartData } from '../interfaces';
 import { ExcelService } from '../excel.service';
 import { DataService } from '../data.service';
-
+import { BalanceService } from '../balance.service';
 import { Subscription } from 'rxjs';
 
 
@@ -26,6 +26,8 @@ export class ExcelTableComponent implements OnInit {
 	constructor(
 		private excelService: ExcelService,
 		private dataService: DataService,
+		private balanceService: BalanceService,
+
 
 	) { }
 
@@ -65,7 +67,7 @@ export class ExcelTableComponent implements OnInit {
 		}, []);
 
 		const tableDataOjectsWithTotal = tableDataOjects.reduce((tableDataList, tableDataItems) => {
-			const transactionsSum = this.dataService.countCategoryTransactionsTotal(tableDataItems, 'SUM');
+			const transactionsSum = this.balanceService.countCategoryTransactionsSum(tableDataItems, 'SUM');
 			const transactionsWithTotal = tableDataItems.reduce((tableDataItemsList, tableDataItemValue, index) => {
 				const lastTableDataItemIndex = tableDataItems.length - 1;
 				if (index === lastTableDataItemIndex) {

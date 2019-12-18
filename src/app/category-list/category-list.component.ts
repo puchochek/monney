@@ -12,6 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
+import { BalanceService } from '../balance.service';
+
 
 @Component({
 	selector: 'app-category-list',
@@ -44,6 +46,8 @@ export class CategoryListComponent implements OnInit {
 		private dialog: MatDialog,
 		private userService: UserService,
 		private categoryService: CategoryService,
+		private balanceService: BalanceService,
+
 	) { }
 
 	ngOnInit() {
@@ -73,7 +77,7 @@ export class CategoryListComponent implements OnInit {
 				const thisCategoryTransactions = this.dataService.sortTransactionsByCategoryId(category.id, this.currentUser.transactions);
 				if (thisCategoryTransactions.length !== 0) {
 					const thisMonthTransactions = this.dataService.getThisMonthTransactions(thisCategoryTransactions);
-					const transactionsSum = this.dataService.countCategoryTransactionsTotal(thisMonthTransactions, `sum`);
+					const transactionsSum = this.balanceService.countCategoryTransactionsSum(thisMonthTransactions, `sum`);
 					const lastTransaction = this.getLastTransaction(thisCategoryTransactions);
 					const lastTransactionDate = new Date(lastTransaction.date).toLocaleString('en', { month: 'short', day: 'numeric' });
 					category.lastTransaction = `${lastTransaction.sum}, ${lastTransactionDate}`;
@@ -155,7 +159,7 @@ export class CategoryListComponent implements OnInit {
 		const thisMonthExpenses = this.dataService.getThisMonthTransactions([...this.currentUser.transactions]);
 		const expensesByCategory = expenseCategories.reduce((expensesList, currentCategory) => {
 			const thisCategoryExpenses = thisMonthExpenses.filter(expense => expense.category === currentCategory.id);
-			const expensesSum = this.dataService.countCategoryTransactionsTotal(thisCategoryExpenses, `sum`);
+			const expensesSum = this.balanceService.countCategoryTransactionsSum(thisCategoryExpenses, `sum`);
 			const espensesByCategory = {
 				categoryId: currentCategory.id,
 				categoryExpenses: thisCategoryExpenses,

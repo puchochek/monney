@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartData } from '../interfaces';
 import { DataService } from '../data.service';
+import { BalanceService } from '../balance.service';
+
 
 @Component({
 	selector: 'app-area-chart',
@@ -18,6 +20,8 @@ export class AreaChartComponent implements OnInit {
 
 	constructor(
 		private dataService: DataService,
+		private balanceService: BalanceService,
+
 	) { }
 
 	ngOnInit() {
@@ -72,7 +76,7 @@ export class AreaChartComponent implements OnInit {
 		}, []);
 		const transactionsWithSumBySubperiods = transactionsBySubperiods.reduce((transactionsList, transaction) => {
 			const transactionsSums = transaction.transactions.reduce((transactionsList, transaction) => {
-				transactionsList.push(this.dataService.countCategoryTransactionsTotal(transaction, `sum`));
+				transactionsList.push(this.balanceService.countCategoryTransactionsSum(transaction, `sum`));
 				return transactionsList;
 			}, []);
 

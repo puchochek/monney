@@ -38,6 +38,7 @@ export interface LoggedUser {
 	theme: string;
 	balanceEdge: number;
 	temporaryToken?: string;
+	lastBalanceReset?: number;
 }
 
 export interface DashboardPeriod {

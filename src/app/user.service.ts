@@ -61,11 +61,13 @@ export class UserService {
 						this.dataService.updateToken(response.headers.get('Authorization'));
 						console.log('---> USER SERVICE response ', response);
 						this.themeService.appTheme = this.appUser.theme ? this.appUser.theme : this.themeService.DEFAULT_THEME;
+						localStorage.setItem("userTheme", this.themeService.appTheme);
 						this.spinnerService.isLoading = false;
 					},
 					error => {
 						console.log('---> USER SERVICE error ', error);
 						this.spinnerService.isLoading = false;
+						this.dataService.cleanLocalstorage();
 						this.router.navigate(['/hello-monney']);
 					},
 					() => {
@@ -126,9 +128,13 @@ export class UserService {
 			if (updatedTransactionIndex >= 0) {
 				transactionsList[updatedTransactionIndex] = transactionToUpdate
 			} else {
+				if (transactionToUpdate.comment === `Last month surplus.`) {
+					currentUser.lastBalanceReset = new Date().getMonth() + 1;
+				}
 				transactionsList.push(transactionToUpdate);
 			}
 		});
+		console.log('transactionsList ', transactionsList)
 		currentUser.transactions = transactionsList;
 		this.appUser = currentUser;
 	}

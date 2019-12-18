@@ -14,37 +14,14 @@ export class DataService {
 		return arrayToSort.filter(expense => expense.category == сategoryId);
 	}
 
-	countCategoryTransactionsTotal(transactionsToSort: any, fieldName: string): number {
-		const thsiMonthIncomes = transactionsToSort.reduce(function (acc, exp) { return Number(exp[fieldName]) + acc }, 0);
-		if (!Number.isInteger(thsiMonthIncomes)) {
-			return Number(thsiMonthIncomes.toFixed(2));
-		}
-		return thsiMonthIncomes;
-	}
-
 	getThisMonthTransactions(transactions: FinanceData[]): FinanceData[] {
 		const currentMonth = new Date().getMonth();
 		return transactions.filter(transaction => new Date(transaction.date).getMonth() == currentMonth);
 	}
 
-	setThisMonthExpensesTotal(currentUser: LoggedUser, incomeId: string): number {
-		const expenseTransactions = [...currentUser.transactions].filter(transaction => transaction.category !== incomeId);
-		const thisMonthExpenseTransactions = this.getThisMonthTransactions(expenseTransactions);
-		const thisMonthExpensesTotal = this.countCategoryTransactionsTotal(thisMonthExpenseTransactions, `sum`) || 0;
-
-		return thisMonthExpensesTotal;
-	}
-
-	setThisMonthIncomesTotal(currentUser: LoggedUser, incomeId: string): number {
-		const incomeTransactions = [...currentUser.transactions].filter(transaction => transaction.category === incomeId);
-		const thisMonthIncomeTransactions = this.getThisMonthTransactions(incomeTransactions);
-		const thisMonthIncomeTotal = this.countCategoryTransactionsTotal(thisMonthIncomeTransactions, `sum`) || 0;
-
-		return thisMonthIncomeTotal;
-	}
-
-	setThisMonthBalanceTotal(incomesTotal: number, expensesTotal: number): number {
-		return incomesTotal - expensesTotal;
+	getLastMonthTransactions(transactions: FinanceData[]): FinanceData[] {
+		const currentMonth = new Date().getMonth() - 1;
+		return transactions.filter(transaction => new Date(transaction.date).getMonth() == currentMonth);
 	}
 
 	getRandomColor() {
@@ -57,7 +34,6 @@ export class DataService {
     }
 
 	updateToken(newToken: string) {
-		console.log('---> update token ', newToken);
 		localStorage.setItem('token', newToken);
 	}
 

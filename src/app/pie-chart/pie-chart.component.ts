@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartData } from '../interfaces';
 import { DataService } from '../data.service';
+import { BalanceService } from '../balance.service';
+
 
 @Component({
 	selector: 'app-pie-chart',
@@ -16,6 +18,8 @@ export class PieChartComponent implements OnInit {
 
 	constructor(
 		private dataService: DataService,
+		private balanceService: BalanceService,
+
 	) { }
 
 	ngOnInit() {
@@ -31,7 +35,7 @@ export class PieChartComponent implements OnInit {
 			return transactionList;
 		}, []);
 		const data = transactionsForSelectedPeroid.reduce((transactionList, transaction) => {
-			const transactionsSum = this.dataService.countCategoryTransactionsTotal(transaction.transactions, `sum`);
+			const transactionsSum = this.balanceService.countCategoryTransactionsSum(transaction.transactions, `sum`);
 			transactionList.push(transactionsSum);
 			return transactionList;
 		}, []);
