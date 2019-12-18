@@ -123,6 +123,7 @@ export class UserService {
 	updateUserTransactions(updatedTransactions: FinanceData[]) {
 		const currentUser = { ...this.appUser };
 		const transactionsList = [...currentUser.transactions];
+
 		updatedTransactions.forEach(transactionToUpdate => {
 			const updatedTransactionIndex = transactionsList.findIndex(transaction => transaction.id === transactionToUpdate.id);
 			if (updatedTransactionIndex >= 0) {
@@ -134,7 +135,7 @@ export class UserService {
 				transactionsList.push(transactionToUpdate);
 			}
 		});
-		console.log('transactionsList ', transactionsList)
+
 		currentUser.transactions = transactionsList;
 		this.appUser = currentUser;
 	}

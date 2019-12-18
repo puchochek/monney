@@ -1,18 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
-// import { MatCardModule, MatButtonModule } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { LoggedUser, FinanceData } from '../interfaces';
-// import { Category } from '../interfaces';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../category.service';
 import { TransactionService } from '../transaction.service';
-
 import { BalanceService } from '../balance.service';
-
 
 @Component({
 	selector: 'app-home',
@@ -37,7 +31,6 @@ export class HomeComponent implements OnInit {
 	constructor(
 		private dataService: DataService,
 		private router: Router,
-		private http: HttpClient,
 		private userService: UserService,
 		private categoryService: CategoryService,
 		private balanceService: BalanceService,
@@ -52,9 +45,8 @@ export class HomeComponent implements OnInit {
 				this.currentUser = <LoggedUser>response;
 				this.setIncomeId();
 				this.setBalanceInfo();
-				//this.checkLastBalanceResetDate();
 				this.checkLastBalanceReset();
-				
+
 			} else {
 				this.router.navigate([`/hello-monney`]);
 			}
@@ -93,31 +85,11 @@ export class HomeComponent implements OnInit {
 	}
 
 	setBalanceInfo() {
-		this.expensesTotal = this.countThisMonthExpensesSum();
-		this.incomesTotal = this.countThisMonthIncomesSum();
-		this.balanceTotal = this.countThisMonthBalanceSum();
+		this.expensesTotal = this.balanceService.countThisMonthExpensesSum(this.currentUser, this.incomeId);
+		this.incomesTotal = this.balanceService.countThisMonthIncomesSum(this.currentUser, this.incomeId);
+		this.balanceTotal = this.balanceService.countThisMonthBalanceSum(this.incomesTotal, this.expensesTotal);
 		if (this.balanceTotal < this.currentUser.balanceEdge) {
 			this.balanceInfoClass = `low-balance-info-title`;
 		}
-	}
-
-	countThisMonthExpensesSum(): number {
-		const expenseTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category !== this.incomeId);
-		const thisMonthExpenseTransactions = this.dataService.getThisMonthTransactions(expenseTransactions);
-		const thisMonthExpensesTotal = this.balanceService.countCategoryTransactionsSum(thisMonthExpenseTransactions, `sum`) || 0;
-
-		return thisMonthExpensesTotal;
-	}
-
-	countThisMonthIncomesSum(): number {
-		const incomeTransactions = [...this.currentUser.transactions].filter(transaction => transaction.category === this.incomeId);
-		const thisMonthIncomeTransactions = this.dataService.getThisMonthTransactions(incomeTransactions);
-		const thisMonthIncomeTotal = this.balanceService.countCategoryTransactionsSum(thisMonthIncomeTransactions, `sum`) || 0;
-
-		return thisMonthIncomeTotal;
-	}
-
-	countThisMonthBalanceSum() {
-		return this.incomesTotal - this.expensesTotal;
 	}
 }
