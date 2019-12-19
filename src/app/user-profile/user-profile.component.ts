@@ -78,6 +78,7 @@ export class UserProfileComponent implements OnInit {
 				if (response) {
 					this.currentUser = <LoggedUser>response;
 					this.userService.appUser = this.currentUser;
+					this.themeService.appTheme = this.currentUser.theme;
 					this.manageUploader(this.currentUser.id);
 					this.setCurrentAvatar();
 					this.setUserDataToEdit();
