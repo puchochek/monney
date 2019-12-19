@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
 import { ThemeService } from '../theme.service';
 
-
 @Component({
 	selector: 'app-header',
 	templateUrl: './header.component.html',
@@ -20,7 +19,6 @@ export class HeaderComponent implements OnInit {
 	public color = "white";
 	private subscription: Subscription;
 
-	userId: string;
 	currentUser: LoggedUser;
 	isAvatar: boolean;
 	avatarSrc: string;
@@ -37,14 +35,12 @@ export class HeaderComponent implements OnInit {
 	constructor(
 		private dataService: DataService,
 		private router: Router,
-		private http: HttpClient,
 		private userService: UserService,
 		private themeService: ThemeService,
 	) { }
 
 	ngOnInit() {
 		this.currentDate = new Date();
-		this.userId = localStorage.getItem('userId');
 		this.subscription = this.userService._user.subscribe((response) => {
 			console.log('--->  HEADER _user ', response);
 			if (response) {

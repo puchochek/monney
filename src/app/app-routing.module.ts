@@ -14,10 +14,8 @@ import { DashboardConfigComponent } from './dashboard-config/dashboard-config.co
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SelectMediaComponent } from './select-media/select-media.component';
 
-
-
 const routes: Routes = [
-	{ path: '', redirectTo: 'hello-monney', pathMatch: 'full' },
+	{ path: '', redirectTo: 'home', pathMatch: 'full' },
 	{ path: 'hello-monney', component: HelloMonneyComponent },
 	{ path: 'login', component: LoginFormComponent },
 	{ path: 'autorize', component: LoginFormComponent },
@@ -33,7 +31,6 @@ const routes: Routes = [
 	{ path: 'dashboard-config', component: DashboardConfigComponent },
 	{ path: 'dashboard', component: DashboardComponent },
 	{ path: 'media/icon', component: SelectMediaComponent },
-	// { path: 'media/theme', component: SelectMediaComponent }  FFU
 ];
 
 @NgModule({

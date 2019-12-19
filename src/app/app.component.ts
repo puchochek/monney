@@ -26,7 +26,7 @@ export class AppComponent  {
 		private snackBarService: SnackBarService,
 		private themeService: ThemeService,
 	) {
-		 this.userService.getUser();
+		//  this.userService.getUser();
 	}
 
 	ngOnInit() {

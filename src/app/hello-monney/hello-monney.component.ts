@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
-import { ThemeService } from '../theme.service';
 
 @Component({
 	selector: 'app-hello-monney',
@@ -21,8 +20,6 @@ export class HelloMonneyComponent implements OnInit {
 		private router: Router,
 		private dataService: DataService,
 		private userService: UserService,
-		private themeService: ThemeService,
-
 	) { }
 
 	ngOnInit() {

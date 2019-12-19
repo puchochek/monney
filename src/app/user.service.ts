@@ -23,7 +23,6 @@ export class UserService {
 		private spinnerService: SpinnerService,
 		private snackBarService: SnackBarService,
 		private themeService: ThemeService,
-
 	) { }
 
 	get appUser(): LoggedUser {
@@ -38,11 +37,9 @@ export class UserService {
 		this.http.post(`${environment.apiBaseUrl}/user/activate`, {
 			token: token,
 		}).subscribe((response: LoggedUser) => {
-			console.log('---> activateUser result ', response);
 			if (response) {
-				this.appUser = response[0];
+				this.appUser = response;
 				this.dataService.updateToken(token);
-				this.dataService.updateUserId(response.id);
 				this.router.navigate(['/home']);
 			} else {
 				// TODO add error modal
@@ -51,31 +48,36 @@ export class UserService {
 	}
 
 	getUser() {
-		if (localStorage.getItem("token")) {
-			this.spinnerService.isLoading = true;
-			const url = `${environment.apiBaseUrl}/user/token`;
-			this.http.get(url, { observe: 'response' })
-				.subscribe(
-					response => {
-						this.appUser = <LoggedUser>response.body;
-						this.dataService.updateToken(response.headers.get('Authorization'));
-						console.log('---> USER SERVICE response ', response);
-						this.themeService.appTheme = this.appUser.theme ? this.appUser.theme : this.themeService.DEFAULT_THEME;
-						localStorage.setItem("userTheme", this.themeService.appTheme);
-						this.spinnerService.isLoading = false;
-					},
-					error => {
-						console.log('---> USER SERVICE error ', error);
-						this.spinnerService.isLoading = false;
-						this.dataService.cleanLocalstorage();
-						this.router.navigate(['/hello-monney']);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
-					}
-				);
+		console.log('---> USER SERVICE app user before req ', this.appUser);
+		if (!this.appUser) {
+			if (localStorage.getItem("token")) {
+				this.spinnerService.isLoading = true;
+				const url = `${environment.apiBaseUrl}/user/token`;
+				this.http.get(url, { observe: 'response' })
+					.subscribe(
+						response => {
+							this.appUser = <LoggedUser>response.body;
+							this.dataService.updateToken(response.headers.get('Authorization'));
+							console.log('---> USER SERVICE response ', response);
+							this.themeService.appTheme = this.appUser.theme ? this.appUser.theme : this.themeService.DEFAULT_THEME;
+							localStorage.setItem("userTheme", this.themeService.appTheme);
+							this.spinnerService.isLoading = false;
+						},
+						error => {
+							console.log('---> USER SERVICE error ', error);
+							this.spinnerService.isLoading = false;
+							this.dataService.cleanLocalstorage();
+							this.router.navigate(['/hello-monney']);
+						},
+						() => {
+							// 'onCompleted' callback.
+							// No errors, route to new page here
+						}
+					);
+			}
+
 		}
+
 	}
 
 	getUserFromDB(): Observable<any> {

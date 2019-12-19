@@ -35,7 +35,9 @@ export class HomeComponent implements OnInit {
 		private categoryService: CategoryService,
 		private balanceService: BalanceService,
 		private transactionService: TransactionService,
-	) { }
+	) {
+		this.userService.getUser();
+	 }
 
 	ngOnInit() {
 		this.currentDate = new Date();
@@ -46,7 +48,6 @@ export class HomeComponent implements OnInit {
 				this.setIncomeId();
 				this.setBalanceInfo();
 				this.checkLastBalanceReset();
-
 			} else {
 				this.router.navigate([`/hello-monney`]);
 			}

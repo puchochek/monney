@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { FinanceData, LoggedUser } from './interfaces';
 
 @Injectable()
@@ -35,10 +34,6 @@ export class DataService {
 
 	updateToken(newToken: string) {
 		localStorage.setItem('token', newToken);
-	}
-
-	updateUserId(userId: string) {
-		localStorage.setItem('userId', userId);
 	}
 
 	cleanLocalstorage() {
