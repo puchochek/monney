@@ -11,7 +11,6 @@ export class ThemeService {
 	public DEFAULT_THEME = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1576561300/wooden-theme_slzmx2.jpg`;
 	public ASSETS_LIST: string[] = [
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576564427/purple-wall_ferxf4.jpg`,
-		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576564288/green-wall_d3o2ya.jpg`,
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576563871/red-black-theme_i1acig.jpg`,
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576563687/blue-water-theme_kwyjqe.jpg`,
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576563248/color-blob-theme_rrgtlp.jpg`,
@@ -21,7 +20,8 @@ export class ThemeService {
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576562090/dark-blue-blob-theme_lprpkz.jpg`,
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576561779/leaf-theme_j3wlsb.jpg`,
 		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576561414/dark-theme_izpgl6.jpg`,
-		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576561300/wooden-theme_slzmx2.jpg`
+		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576561300/wooden-theme_slzmx2.jpg`,
+		`https://res.cloudinary.com/dsiwkaugw/image/upload/v1576735894/dark-teal_sr9ify.jpg`,
 	];
 
 	constructor() { }

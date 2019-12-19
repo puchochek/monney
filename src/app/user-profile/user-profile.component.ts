@@ -77,6 +77,7 @@ export class UserProfileComponent implements OnInit {
 				console.log('---> USER_PROFILE DB user ', response);
 				if (response) {
 					this.currentUser = <LoggedUser>response;
+					this.userService.appUser = this.currentUser;
 					this.manageUploader(this.currentUser.id);
 					this.setCurrentAvatar();
 					this.setUserDataToEdit();
@@ -178,8 +179,7 @@ export class UserProfileComponent implements OnInit {
 	}
 
 	selectBackground(event) {
-		const selectedImgSrc = event.explicitOriginalTarget.currentSrc;
-		console.log('--selectedImgSrc ', selectedImgSrc);
+		const selectedImgSrc = event.srcElement.src;
 		if (selectedImgSrc) {
 			if (this.themeService.checkIfThemeExist(selectedImgSrc)) {
 				const userToUpdate: LoggedUser = { ...this.currentUser };
@@ -188,5 +188,4 @@ export class UserProfileComponent implements OnInit {
 			}
 		}
 	}
-
 }
