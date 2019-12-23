@@ -1,0 +1,40 @@
+<div class="login-container">
+    <div class="login-form">
+        <div class="login-form-title">
+            {{loginFormLbl}}
+        </div>
+        <div class="user-name" *ngIf="isNewUser">
+            <div class="form-group">
+                <div class="user-name-label">
+                    {{userNameLbl}}
+                </div>
+                <div class="user-name-input">
+                    <input type="text" class="form-control" id="name"  [(ngModel)]="name">
+                </div>
+            </div>
+        </div>
+        <div class="user-email">
+            <div class="form-group">
+                <div class="user-email-label">
+                    {{userEmailLbl}}
+                </div>
+                <div class="user-email-input">
+                    <input type="text" class="form-control" id="email"  [(ngModel)]="email">
+                </div>
+            </div>
+        </div>
+        <div class="user-password">
+            <div class="form-group">
+                <div class="user-password-label">
+                    {{userPasswordLbl}}
+                </div>
+                <div class="user-password-input">
+                    <input type="text" class="form-control" id="password"  [(ngModel)]="password">
+                </div>
+            </div>
+        </div>
+        <div class="login-form-submit">
+            <button type="submit" class="btn btn-submit" (click)="submitForm()">{{loginActionBtnLbl}}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+.login-form {
+	width: 50%;
+	margin: 200px auto auto auto;
+	border: 1px solid white;
+    padding: 10px;
+    line-height: 1.5;
+}
+.login-form-title {
+	font-family: "capture";
+	color: white;
+	font-size: 1.3rem;
+}
+.form-group {
+	width: 95%;
+	margin: auto;
+}
+.user-name,
+.user-email,
+.user-password {
+	margin: 5px 0;
+}
+.user-name-label,
+.user-email-label,
+.user-password-label,
+.form-control {
+	font-family: "sans";
+	color: white;
+	font-size: 1.3rem;
+}
+.form-control {
+	width: 100%;
+	background: transparent;
+	border: none;
+	border-bottom: 1px dashed white;
+}
+.login-form-submit {
+	margin: 15px 0 5px 0;
+	text-align: right;
+}
+.btn-submit {
+	font-family: "sans";
+	font-size: 1rem;
+	padding: 5px 15px;
+	background: transparent;
+	color: white;
+	border: 1px solid white;
+	margin-right: 2.5%;
+}
+.btn-submit:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+
+@media (max-width: 800px) {
+	.login-form {
+		width: 80%;
+		margin-top: 100px;
+	}
+}
+
+@media (max-width: 600px) {}
+
+@media (max-width: 400px) {
+	.user-name-label,
+	.user-email-label,
+	.user-password-label,
+    .form-control,
+    .login-form-title {
+		font-size: 1rem;
+	}
+}

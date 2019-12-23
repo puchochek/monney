@@ -8,8 +8,8 @@
         </div>
         <ng-template #loginUser>
             <div class="login-actions">
-                <div class="sing-in-action" (click)="goToLoginCmp()">{{singInLbl}}</div>
-                <div class="sing-up-action"(click)="goToLoginCmp()">{{singUpLbl}}</div>
+                <div class="sing-in-action" [routerLink] = "'/singin'">{{singInLbl}}</div>
+                <div class="sing-up-action" [routerLink] = "'/singup'">{{singUpLbl}}</div>
             </div>
         </ng-template>
     </div>
