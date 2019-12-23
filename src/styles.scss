@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+	font-family: "capture";
+	src: url('/assets/fonts/Capture_it-webfont.ttf');
+}
+@font-face {
+	font-family: "sans";
+	src: url('/assets/fonts/ABeeZee-Regular.otf');
+}
+@font-face {
+	font-family: "sans-italic";
+	src: url('/assets/fonts/ABeeZee-Italic.otf');
+}
+body {
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,17 @@
+<div class="header-container">
+    <div class="app-name">
+        {{monneyLogoLbl}}
+    </div>
+    <div class="user">
+        <div calss="user-avatar" *ngIf="isUserAuthorised; else loginUser">
+
+        </div>
+        <ng-template #loginUser>
+            <div class="login-actions">
+                <div class="sing-in-action" (click)="goToLoginCmp()">{{singInLbl}}</div>
+                <div class="sing-up-action"(click)="goToLoginCmp()">{{singUpLbl}}</div>
+            </div>
+        </ng-template>
+    </div>
+
+</div>

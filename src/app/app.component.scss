@@ -1,0 +1,17 @@
+.app-container {
+    background-color: #202124;
+    height: 100vh;
+}
+.app-header {
+    height: 50px;
+}
+@media (max-width: 800px) {
+	.app-header {
+		height: 40px;
+	}
+}
+@media (max-width: 500px) {
+	.app-header {
+		height: 30px;
+	}
+}
