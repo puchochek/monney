@@ -8,7 +8,8 @@
 .login-form-title {
 	font-family: "capture";
 	color: white;
-	font-size: 1.3rem;
+    font-size: 1.3rem;
+    margin-left: 2.5%;
 }
 .form-group {
 	width: 95%;
@@ -51,6 +52,18 @@
 	color: black;
 	cursor: pointer;
 }
+.user-forgot-password {
+    font-family: "sans";
+    color: white;
+    font-size: .8rem;
+    line-height: 1;
+    margin: 10px 0 0 2.5%;
+}
+.user-forgot-password:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #e0e0e0;
+}
 
 @media (max-width: 800px) {
 	.login-form {
@@ -68,5 +81,15 @@
     .form-control,
     .login-form-title {
 		font-size: 1rem;
-	}
+    }
+    .login-form-submit {
+        margin: 0;
+    }
+    .btn-submit {
+        font-size: .8rem;
+    }
+    .user-forgot-password {
+        font-size: .6rem;
+        text-decoration: underline;
+    }
 }

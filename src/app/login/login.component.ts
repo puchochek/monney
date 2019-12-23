@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
+import { UserService } from '../user.service';
+import { ApplicationUser } from '../interfaces';
 
 @Component({
 	selector: 'app-login',
@@ -13,14 +15,20 @@ export class LoginComponent implements OnInit {
 
 	isNewUser: boolean;
 	loginFormLbl: string;
+	isEmailValid: boolean;
+	isPasswordValid: boolean;
+	isNameValid: boolean;
+
 	userNameLbl: string = `name`;
 	userEmailLbl: string = `email`;
 	userPasswordLbl: string = `password`;
 	loginActionBtnLbl: string = `submit`;
+	forgotPasswordLbl: string = `I forgot my password`;
 
 	constructor(
 		private route: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
@@ -40,8 +48,30 @@ export class LoginComponent implements OnInit {
 		console.log('---> ', this.name);
 		console.log('---> ', this.email);
 		console.log('---> ', this.password);
-		
-	
+		this.isNameValid = this.validateUserName(this.name);
+		this.isEmailValid = this.validateUserEmail(this.email);
+		this.isPasswordValid = this.validateUserPassword(this.password);
+		if (this.isNameValid && this.isEmailValid && this.isPasswordValid) {
+			const newUser: ApplicationUser = {
+				name: this.name,
+				email: this.email,
+				password: this.password,
+				isConfirmed: false
+			};
+			this.userService.createNewUser(newUser);
+		}
+	}
+
+	validateUserName(name: string): boolean {
+		return true; //HARDCODED FOR NOW
+	}
+
+	validateUserEmail(email: string): boolean {
+		return true; //HARDCODED FOR NOW
+	}
+
+	validateUserPassword(password: string): boolean {
+		return true; //HARDCODED FOR NOW
 	}
 
 }
