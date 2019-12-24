@@ -63,15 +63,27 @@ export class LoginComponent implements OnInit {
 	}
 
 	validateUserName(name: string): boolean {
-		return true; //HARDCODED FOR NOW
+		const usernameRegexp = new RegExp('[0-9a-zA-Z]{3,30}');
+		const isUsernameValid = usernameRegexp.test(name);
+
+		return true; //HARDCODED FOR NOW; have to return isUsernameValid;
 	}
 
 	validateUserEmail(email: string): boolean {
-		return true; //HARDCODED FOR NOW
+		const emailRegexp = new RegExp(
+			'^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
+			']{1,3})(\\]?)$',
+		);
+		const isEmailValid = emailRegexp.test(email);
+
+		return true; //HARDCODED FOR NOW; have to return isEmailValid
 	}
 
 	validateUserPassword(password: string): boolean {
-		return true; //HARDCODED FOR NOW
+		const passwordRegexp = new RegExp('[0-9a-zA-Z]{6,30}');
+		const isPasswordValid = passwordRegexp.test(password);
+
+		return true; //HARDCODED FOR NOW; have to return isPasswordValid
 	}
 
 }

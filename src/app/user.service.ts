@@ -11,6 +11,7 @@ import { catchError, retry } from 'rxjs/operators';
 	providedIn: 'root'
 })
 export class UserService {
+	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
 
 	constructor(
 		private http: HttpClient
@@ -18,9 +19,8 @@ export class UserService {
 
 
 	createNewUser(user: ApplicationUser) {
-		const requestUrl = `${environment.apiBaseUrl}/user`;
+		const requestUrl = `${this.userBaseUrl}/register`;
 		console.log('---> requestUrl ', requestUrl);
-
 		this.http.post(requestUrl, user, { observe: 'response' }
 		).subscribe(
 			response => {
