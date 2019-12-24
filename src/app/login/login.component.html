@@ -9,7 +9,7 @@
                     {{userNameLbl}}
                 </div>
                 <div class="user-name-input">
-                    <input type="text" class="form-control" id="name"  [(ngModel)]="name">
+                    <input type="text" class="form-control" id="name" [(ngModel)]="name">
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                     {{userEmailLbl}}
                 </div>
                 <div class="user-email-input">
-                    <input type="text" class="form-control" id="email"  [(ngModel)]="email">
+                    <input type="text" class="form-control" id="email" [(ngModel)]="email">
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     {{userPasswordLbl}}
                 </div>
                 <div class="user-password-input">
-                    <input type="text" class="form-control" id="password"  [(ngModel)]="password">
+                    <input type="text" class="form-control" id="password" [(ngModel)]="password">
                 </div>
             </div>
         </div>
@@ -38,6 +38,11 @@
         </div>
         <div class="login-form-submit">
             <button type="submit" class="btn btn-submit" (click)="submitForm()">{{loginActionBtnLbl}}</button>
+        </div>
+        <div class="google-auth" *ngIf="isNewUser">
+            <div class="google-auth-link" (click)="singInWithGoogle()">
+                {{googleAuthLbl}}
+            </div>
         </div>
     </div>
 </div>

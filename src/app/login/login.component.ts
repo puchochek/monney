@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 	userPasswordLbl: string = `password`;
 	loginActionBtnLbl: string = `submit`;
 	forgotPasswordLbl: string = `I forgot my password`;
+	googleAuthLbl: string = `or sing in with google`;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -84,6 +85,10 @@ export class LoginComponent implements OnInit {
 		const isPasswordValid = passwordRegexp.test(password);
 
 		return true; //HARDCODED FOR NOW; have to return isPasswordValid
+	}
+
+	singInWithGoogle() {
+		this.userService.singInWithGoogle();
 	}
 
 }

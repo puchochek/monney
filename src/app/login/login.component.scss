@@ -59,7 +59,16 @@
     line-height: 1;
     margin: 10px 0 0 2.5%;
 }
-.user-forgot-password:hover {
+.google-auth-link {
+	font-family: "sans";
+    color: white;
+    font-size: 1.3rem;
+    line-height: 1;
+	margin-left: 2.5%;
+	text-align: center;
+}
+.user-forgot-password:hover,
+.google-auth-link:hover {
     text-decoration: underline;
     cursor: pointer;
     color: #e0e0e0;

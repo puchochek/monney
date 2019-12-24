@@ -4,8 +4,9 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 //import { Headers, RequestOptions, Response } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+// import { Observable, throwError } from 'rxjs';
+// import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,7 +15,8 @@ export class UserService {
 	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private router: Router,
 	) { }
 
 
@@ -34,6 +36,12 @@ export class UserService {
 				// No errors, route to new page here
 			}
 		);
+	}
 
+	singInWithGoogle() {
+		// const requestUrl = `${environment.apiBaseUrl}/auth/google`;
+		this.router.navigate(['/externalRedirect', { externalUrl: `${environment.apiBaseUrl}/auth/google` }], {
+			skipLocationChange: true,
+		});
 	}
 }
