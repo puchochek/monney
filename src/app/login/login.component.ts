@@ -57,9 +57,10 @@ export class LoginComponent implements OnInit {
 				name: this.name,
 				email: this.email,
 				password: this.password,
-				isConfirmed: false
+				isConfirmed: false,
+				provider: `self-registerd`
 			};
-			this.userService.createNewUser(newUser);
+			this.userService.createSelfRegistredUser(newUser);
 		}
 	}
 
@@ -87,8 +88,8 @@ export class LoginComponent implements OnInit {
 		return true; //HARDCODED FOR NOW; have to return isPasswordValid
 	}
 
-	singInWithGoogle() {
-		this.userService.singInWithGoogle();
+	authoriseWithGoogle() {
+		this.userService.authoriseWithGoogle();
 	}
 
 }

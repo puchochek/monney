@@ -20,7 +20,7 @@ export class UserService {
 	) { }
 
 
-	createNewUser(user: ApplicationUser) {
+	createSelfRegistredUser(user: ApplicationUser) {
 		const requestUrl = `${this.userBaseUrl}/register`;
 		console.log('---> requestUrl ', requestUrl);
 		this.http.post(requestUrl, user, { observe: 'response' }
@@ -38,7 +38,7 @@ export class UserService {
 		);
 	}
 
-	singInWithGoogle() {
+	authoriseWithGoogle() {
 		this.router.navigate(['/externalRedirect', { externalUrl: `${environment.apiBaseUrl}/user/google` }], {
 			skipLocationChange: true,
 		});

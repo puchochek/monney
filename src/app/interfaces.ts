@@ -4,4 +4,5 @@ export interface ApplicationUser {
 	name: string;
 	email: string;
 	isConfirmed: boolean;
+	provider: string;
 }

@@ -3,6 +3,7 @@ import { Routes, RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { HomeComponent } from '../app/home/home.component';
 import { LoginComponent } from '../app/login/login.component';
 import { AuthComponent } from '../app/auth/auth.component';
+import { ExternalRedirectComponent } from '../app/external-redirect/external-redirect.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -11,8 +12,8 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'singin', component: LoginComponent },
     { path: 'singup', component: LoginComponent },
-    { path: 'auth', component: AuthComponent},
-    { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: HomeComponent },
+    { path: 'auth/:token', component: AuthComponent},
+    { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: ExternalRedirectComponent },
 ];
 
 @NgModule({
@@ -28,14 +29,6 @@ const routes: Routes = [
                 window.open(externalUrl, '_self');
             },
         },
-        //   {
-        //     provide: deactivateGuard,
-        //     useValue: () => {
-        //       console.log('Guard function is called!')
-
-        //       return false;
-        //     }
-        //   },
     ],
 })
 
