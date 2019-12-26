@@ -39,8 +39,7 @@ export class UserService {
 	}
 
 	singInWithGoogle() {
-		// const requestUrl = `${environment.apiBaseUrl}/auth/google`;
-		this.router.navigate(['/externalRedirect', { externalUrl: `${environment.apiBaseUrl}/auth/google` }], {
+		this.router.navigate(['/externalRedirect', { externalUrl: `${environment.apiBaseUrl}/user/google` }], {
 			skipLocationChange: true,
 		});
 	}
