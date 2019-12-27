@@ -9,7 +9,10 @@
                     {{userNameLbl}}
                 </div>
                 <div class="user-name-input">
-                    <input type="text" class="form-control" id="name" [(ngModel)]="name">
+                    <input type="text" class="form-control" id="name" [(ngModel)]="name" (keypress)="hideInvalidInputMessage($event)">
+                </div>
+                <div class="invalid-input" *ngIf="isInvalidNameMessage">
+                    {{invalidNameMessage}}
                 </div>
             </div>
         </div>
@@ -19,7 +22,10 @@
                     {{userEmailLbl}}
                 </div>
                 <div class="user-email-input">
-                    <input type="text" class="form-control" id="email" [(ngModel)]="email">
+                    <input type="text" class="form-control" id="email" [(ngModel)]="email" (keypress)="hideInvalidInputMessage($event)">
+                </div>
+                <div class="invalid-input" *ngIf="isInvalidEmailMessage">
+                    {{invalidEmailMessage}}
                 </div>
             </div>
         </div>
@@ -29,7 +35,10 @@
                     {{userPasswordLbl}}
                 </div>
                 <div class="user-password-input">
-                    <input type="text" class="form-control" id="password" [(ngModel)]="password">
+                    <input type="password" class="form-control" id="password" [(ngModel)]="password" (keypress)="hideInvalidInputMessage($event)">
+                </div>
+                <div class="invalid-input" *ngIf="isInvalidPasswordMessage">
+                    {{invalidPasswordMessage}}
                 </div>
             </div>
         </div>

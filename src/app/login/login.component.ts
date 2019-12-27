@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from '../user.service';
 import { ApplicationUser } from '../interfaces';
@@ -12,12 +12,20 @@ export class LoginComponent implements OnInit {
 	@Input() name: string;
 	@Input() email: string;
 	@Input() password: string;
+	key: any;
+	@HostListener('document:keypress', ['$event'])
+	handleKeyboardEvent(event: KeyboardEvent) {
+		this.key = event.key;
+	}
 
 	isNewUser: boolean;
 	loginFormLbl: string;
 	isEmailValid: boolean;
 	isPasswordValid: boolean;
 	isNameValid: boolean;
+	isInvalidNameMessage: boolean;
+	isInvalidEmailMessage: boolean;
+	isInvalidPasswordMessage: boolean;
 
 	userNameLbl: string = `name`;
 	userEmailLbl: string = `email`;
@@ -25,6 +33,9 @@ export class LoginComponent implements OnInit {
 	loginActionBtnLbl: string = `submit`;
 	forgotPasswordLbl: string = `I forgot my password`;
 	googleAuthLbl: string = `or sing in with google`;
+	invalidNameMessage: string = `name has to contain at least 3 symbols`;
+	invalidEmailMessage: string = `email has to contain @ symbol`;
+	invalidPasswordMessage: string = `password has to contain 1 uppercase letter and 1 non-letter character at least`;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -46,9 +57,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	submitForm() {
-		console.log('---> ', this.name);
-		console.log('---> ', this.email);
-		console.log('---> ', this.password);
 		this.isNameValid = this.validateUserName(this.name);
 		this.isEmailValid = this.validateUserEmail(this.email);
 		this.isPasswordValid = this.validateUserPassword(this.password);
@@ -67,8 +75,11 @@ export class LoginComponent implements OnInit {
 	validateUserName(name: string): boolean {
 		const usernameRegexp = new RegExp('[0-9a-zA-Z]{3,30}');
 		const isUsernameValid = usernameRegexp.test(name);
-
-		return true; //HARDCODED FOR NOW; have to return isUsernameValid;
+		console.log('---> isUsernameValid ', isUsernameValid);
+		if (!isUsernameValid) {
+			this.isInvalidNameMessage = true;
+		}
+		return isUsernameValid;
 	}
 
 	validateUserEmail(email: string): boolean {
@@ -77,15 +88,38 @@ export class LoginComponent implements OnInit {
 			']{1,3})(\\]?)$',
 		);
 		const isEmailValid = emailRegexp.test(email);
+		console.log('---> isEmailValid ', isEmailValid);
+		if (!isEmailValid) {
+			this.isInvalidEmailMessage = true;
+		}
 
-		return true; //HARDCODED FOR NOW; have to return isEmailValid
+		return isEmailValid;
 	}
 
 	validateUserPassword(password: string): boolean {
 		const passwordRegexp = new RegExp('[0-9a-zA-Z]{6,30}');
 		const isPasswordValid = passwordRegexp.test(password);
+		console.log('---> isPasswordValid ', isPasswordValid);
+		if (!isPasswordValid) {
+			this.isInvalidPasswordMessage = true;
+		}
+		return isPasswordValid;
+	}
 
-		return true; //HARDCODED FOR NOW; have to return isPasswordValid
+	hideInvalidInputMessage(event) {
+		const inputId = event.srcElement.id;
+		console.log('---> i ', inputId);
+		switch (inputId) {
+			case `name`:
+				this.isInvalidNameMessage = false;
+				break;
+			case `email`:
+				this.isInvalidEmailMessage = false;
+				break;
+			case `password`:
+				this.isInvalidPasswordMessage = false;
+				break;
+		}
 	}
 
 	authoriseWithGoogle() {
