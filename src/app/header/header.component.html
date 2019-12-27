@@ -4,12 +4,17 @@
     </div>
     <div class="user">
         <div calss="user-avatar" *ngIf="isUserAuthorised; else loginUser">
-
+            <mat-menu #appMenu="matMenu" xPosition="before">
+                <button mat-menu-item class="custom-menu" *ngFor="let menuItem of headerMenuItems"
+                    (click)="menuItem.action()">{{menuItem.name}}</button>
+            </mat-menu>
+            <img mat-card-image  [src]="avatarSrc"
+                [matMenuTriggerFor]="appMenu" matTooltip="Profile" alt="user avatar">
         </div>
         <ng-template #loginUser>
             <div class="login-actions">
-                <div class="sing-in-action" [routerLink] = "'/singin'">{{singInLbl}}</div>
-                <div class="sing-up-action" [routerLink] = "'/singup'">{{singUpLbl}}</div>
+                <div class="sing-in-action" [routerLink]="'/singin'">{{singInLbl}}</div>
+                <div class="sing-up-action" [routerLink]="'/singup'">{{singUpLbl}}</div>
             </div>
         </ng-template>
     </div>

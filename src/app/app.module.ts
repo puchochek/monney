@@ -11,29 +11,35 @@ import { AuthComponent } from './auth/auth.component';
 import { ExternalRedirectComponent } from './external-redirect/external-redirect.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		HeaderComponent,
-		LoginComponent,
-		HomeComponent,
-		AuthComponent,
-		ExternalRedirectComponent
-	],
-	imports: [
-		BrowserModule,
-		HttpClientModule,
-		AppRoutingModule,
-		FormsModule
-	],
-	providers: [
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: TokenInterceptor,
-			multi: true
-		}
-	],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    LoginComponent,
+    HomeComponent,
+    AuthComponent,
+    ExternalRedirectComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatButtonModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -3,6 +3,7 @@ import { ApplicationUser } from './interfaces';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 //import { Headers, RequestOptions, Response } from '@angular/common/http';
 //import { HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../app/storage.service';
@@ -13,6 +14,9 @@ import { StorageService } from '../app/storage.service';
 	providedIn: 'root'
 })
 export class UserService {
+	private readonly user = new BehaviorSubject<ApplicationUser>(null);
+	readonly _user = this.user.asObservable();
+
 	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
 
 	constructor(
@@ -20,6 +24,14 @@ export class UserService {
 		private router: Router,
 		private storageService: StorageService,
 	) { }
+
+	get appUser(): ApplicationUser {
+		return this.user.getValue();
+	}
+
+	set appUser(user: ApplicationUser) {
+		this.user.next(user);
+	}
 
 
 	createSelfRegistredUser(user: ApplicationUser) {
@@ -67,7 +79,7 @@ export class UserService {
 			this.http.get(this.userBaseUrl, { observe: 'response' })
 				.subscribe(
 					response => {
-
+						this.appUser = <ApplicationUser>response.body;
 						this.storageService.updateToken(response.headers.get('Authorization'));
 						console.log('---> USER SERVICE response ', response);
 						console.log('---> response.headers ', response.headers.get('Authorization'));

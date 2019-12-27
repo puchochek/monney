@@ -7,54 +7,62 @@
 }
 .app-name {
 	font-family: "capture";
-	margin: auto;
 	font-size: 1.5rem;
+	padding: 10px 0 0 20px;
+}
+.login-actions {
+	padding: 10px 20px 0 0;
 }
 .sing-in-action,
 .sing-up-action {
 	display: inline;
-	margin: 10px;
+}
+.sing-in-action {
+	margin: 0 15px;
 }
 .sing-in-action:hover,
 .sing-up-action:hover,
 .app-name:hover {
-    cursor: pointer;
-    color: #e0e0e0;
+	cursor: pointer;
+	color: #e0e0e0;
 }
 .user {
 	font-family: "sans";
-    font-size: 1.3rem;
+	font-size: 1.3rem;
 	text-align: right;
-	padding: 20px 20px 0 0;
 }
-@media (max-width: 1300px) {
-	.header-container {
-		grid-template-columns: 2fr 10fr;
+img {
+	height: 50px;
+	width: 80px;
+	border-radius: 50%;
+	padding: 3px 20px;
+}
+img:hover {
+	cursor: pointer;
+}
+
+@media (max-width: 800px) {
+	img {
+		height: 40px;
+		width: 55px;
+		padding: 3px 10px;
 	}
-	.user {
-		padding-top: 15px;
+	.login-actions {
+		padding: 5px 10px 0 0;
+	}
+	.app-name {
+		font-size: 1.3rem;
+		padding: 5px 0 0 10px;
 	}
 }
 
 @media (max-width: 600px) {
-	.app-name {
-		font-size: 1.3rem;
-	}
-	.user {
-		padding: 10px 10px 0 0;
-	}
 }
 
 @media (max-width: 500px) {
-	.app-name {
-		font-size: 1rem;
-	}
 	.user {
-		font-size: 0.6rem;
+		font-size: 0.8rem;
 	}
 }
 @media (max-width: 400px) {
-	.header-container {
-		grid-template-columns: 3fr 9fr;
-	}
 }

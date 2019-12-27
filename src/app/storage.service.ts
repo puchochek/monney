@@ -10,4 +10,8 @@ export class StorageService {
 	updateToken(token: string) {
 		localStorage.setItem('token', token);
 	}
+
+	cleanStorage() {
+		localStorage.clear();
+	}
 }
