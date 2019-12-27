@@ -12,7 +12,6 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('---> interceptor works!' );
         const bearerToken = localStorage.getItem('token');
         if (bearerToken) {
             request = request.clone({
@@ -20,7 +19,9 @@ export class TokenInterceptor implements HttpInterceptor {
                     Authorization: bearerToken
                 }
             });
-            console.log('---> request ', request);
+            console.log('---> INTERCEPTOR request ', request);
+            return next.handle(request);
+        } else {
             return next.handle(request);
         }
     }

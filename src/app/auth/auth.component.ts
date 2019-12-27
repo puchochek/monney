@@ -16,7 +16,6 @@ export class AuthComponent implements OnInit {
 
 	ngOnInit() {
 		const token = this.route.snapshot.paramMap.get('token');
-		console.log('---> token ', token);
 		if (token) {
 			this.userService.activateUser(token);
 		}
