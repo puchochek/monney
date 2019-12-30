@@ -40,6 +40,13 @@ img {
 img:hover {
 	cursor: pointer;
 }
+::ng-deep.mat-menu-panel {
+	margin-right: 20px !important;
+}
+.custom-menu {
+	text-transform: uppercase;
+	font-family: "sans";
+}
 
 @media (max-width: 800px) {
 	img {

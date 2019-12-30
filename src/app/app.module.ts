@@ -13,6 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatButtonModule } from '@angular/material';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatMenuModule, MatButtonModule } from '@angular/material';
     LoginComponent,
     HomeComponent,
     AuthComponent,
-    ExternalRedirectComponent
+    ExternalRedirectComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
