@@ -8,7 +8,10 @@ export class StorageService {
 	constructor() { }
 
 	updateToken(token: string) {
-		localStorage.setItem('token', token);
+		console.log('---> StorageService token ', token);
+		if (token) {
+			localStorage.setItem('token', token);
+		}
 	}
 
 	cleanStorage() {

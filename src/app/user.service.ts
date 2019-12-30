@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser } from './interfaces';
+import { ApplicationUser, Category } from './interfaces';
+import { LoginUser } from './interfaces';
 import { HttpClient, HttpRequest } from '@angular/common/http';
-//import { Headers, RequestOptions, Response } from '@angular/common/http';
-//import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../app/storage.service';
-// import { Observable, throwError } from 'rxjs';
-// import { catchError, retry } from 'rxjs/operators';
+import { CategoryService } from '../app/category.service';
+import { Subscription } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,6 +22,7 @@ export class UserService {
 		private http: HttpClient,
 		private router: Router,
 		private storageService: StorageService,
+		private categoryService: CategoryService,
 	) { }
 
 	get appUser(): ApplicationUser {
@@ -33,10 +33,8 @@ export class UserService {
 		this.user.next(user);
 	}
 
-
 	createSelfRegistredUser(user: ApplicationUser) {
-		const requestUrl = `${this.userBaseUrl}/register`;
-		console.log('---> requestUrl ', requestUrl);
+		const requestUrl = `${this.userBaseUrl}/singin`;
 		this.http.post(requestUrl, user, { observe: 'response' }
 		).subscribe(
 			response => {
@@ -50,6 +48,30 @@ export class UserService {
 				// No errors, route to new page here
 			}
 		);
+	}
+
+	loginSelfRegistredUser(loginUser: LoginUser) {
+		console.log('---> loginSelfRegistredUser ');
+		const requestUrl = `${this.userBaseUrl}/singup`;
+		this.http.post(requestUrl, {
+			password: loginUser.password,
+			email: loginUser.email
+		}, { observe: 'response' }
+		).subscribe(
+			response => {
+				this.appUser = <ApplicationUser>response.body;
+				this.storageService.updateToken(response.headers.get('Authorization'));
+				this.router.navigate(['/home']);
+			},
+			error => {
+				console.log('---> login error ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+
 	}
 
 	authoriseWithGoogle() {
@@ -82,7 +104,6 @@ export class UserService {
 						this.appUser = <ApplicationUser>response.body;
 						this.storageService.updateToken(response.headers.get('Authorization'));
 						console.log('---> USER SERVICE response ', response);
-						console.log('---> response.headers ', response.headers.get('Authorization'));
 					},
 					error => {
 						console.log('---> USER SERVICE error ', error);
@@ -94,5 +115,11 @@ export class UserService {
 					}
 				);
 		}
+	}
+
+	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {
+		const currentCategories = userToUpdate.categories;
+		currentCategories.push(createdCategory);
+		this.appUser = userToUpdate;
 	}
 }

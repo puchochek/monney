@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.userSubscription = this.userService._user.subscribe(response => {
-			console.log('---> USER_HEADER _user ', response);
+			console.log('---> HEADER _user ', response);
 			if (response) {
 				this.currentUser = response;
 				this.isUserAuthorised = true;
