@@ -4,7 +4,6 @@ import { HomeComponent } from '../app/home/home.component';
 import { LoginComponent } from '../app/login/login.component';
 import { AuthComponent } from '../app/auth/auth.component';
 import { ExternalRedirectComponent } from '../app/external-redirect/external-redirect.component';
-import { CategoryComponent } from '../app/category/category.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -13,8 +12,6 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'singin', component: LoginComponent },
     { path: 'singup', component: LoginComponent },
-    { path: 'category/add', component: CategoryComponent },
-    { path: 'category/edit/:id', component: CategoryComponent },
     { path: 'auth/:token', component: AuthComponent},
     { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: ExternalRedirectComponent },
 ];

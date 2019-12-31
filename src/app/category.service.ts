@@ -28,11 +28,6 @@ export class CategoryService {
 		this.category.next(category);
 	}
 
-	getExpencesCategories(categories: Category[]): Category[] {
-
-		return categories.filter(category => !category.isIncome);
-	}
-
 	checkIncomeCategory(user: ApplicationUser) {
 		if (user.categories.length === 0) {
 			const category = {
