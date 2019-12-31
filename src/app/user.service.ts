@@ -59,9 +59,11 @@ export class UserService {
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
-				this.appUser = <ApplicationUser>response.body;
-				this.storageService.updateToken(response.headers.get('Authorization'));
-				this.router.navigate(['/home']);
+				// this.appUser = <ApplicationUser>response.body;
+				// this.storageService.updateToken(response.headers.get('Authorization'));
+				// this.router.navigate(['/home']);
+				const loggedUser = <ApplicationUser>response.body;
+				this.getUserById(loggedUser.id);
 			},
 			error => {
 				console.log('---> login error ', error);
@@ -114,6 +116,22 @@ export class UserService {
 					}
 				);
 		}
+	}
+
+	getUserById(id: string) {
+		this.http.post(`${this.userBaseUrl}/token`, {
+			id: id
+		}, { observe: 'response' }
+		).subscribe(response => {
+			console.log('---> getUserById result ', response);
+			if (response) {
+				this.appUser = <ApplicationUser>response.body;
+				this.storageService.updateToken(response.headers.get('Authorization'));
+				this.router.navigate(['/home']);
+			} else {
+				// TODO add error modal
+			}
+		});
 	}
 
 	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {
