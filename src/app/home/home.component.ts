@@ -12,6 +12,9 @@ import { ApplicationUser, Category } from '../interfaces';
 export class HomeComponent implements OnInit {
 
 	currentUser: ApplicationUser;
+
+	homeMessage: string = `Hello and welcome to Monney - a simple app to track and keep your expences in order.
+	If You still dont have an account here - You may start from singing in. Otherwise - sing up and enjoy.`
 	private userSubscription: Subscription;
 	private categorySubscription: Subscription;
 
@@ -19,7 +22,7 @@ export class HomeComponent implements OnInit {
 		private userService: UserService,
 		private categoryService: CategoryService
 	) {
-		this.userService.getUser();
+		this.userService.getUserByToken();
 	}
 
 	ngOnInit() {

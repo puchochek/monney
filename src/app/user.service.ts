@@ -81,7 +81,7 @@ export class UserService {
 	}
 
 	activateUser(token: string) {
-		this.http.post(`${environment.apiBaseUrl}/user/activate`, {
+		this.http.post(`${this.userBaseUrl}/activate`, {
 			token: token,
 		}).subscribe((response: ApplicationUser) => {
 			console.log('---> activateUser result ', response);
@@ -95,9 +95,8 @@ export class UserService {
 		});
 	}
 
-	getUser() {
+	getUserByToken() {
 		if (localStorage.getItem('token')) {
-			const url = `${environment.apiBaseUrl}`;
 			this.http.get(this.userBaseUrl, { observe: 'response' })
 				.subscribe(
 					response => {

@@ -14,6 +14,7 @@ import { TokenInterceptor } from '././token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HomeComponent,
     AuthComponent,
     ExternalRedirectComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,

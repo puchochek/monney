@@ -1,3 +1,18 @@
 <div class="home-container">
-    Hello! You are at home
+    <div class="home-content" *ngIf="currentUser; else unauthorisedUser">
+        <div class="home-top">
+            <div class="home-actions">In  development</div>
+            <div class="home-balance">In  development</div>
+        </div>
+        <div class="home-categories">
+            <app-categories [currentUser]="currentUser"></app-categories>
+        </div>
+    </div>
+    <ng-template #unauthorisedUser>
+        <div class="no-user-home-content">
+            <div class="no-user-home-message">
+                {{homeMessage}}
+            </div>
+        </div>
+    </ng-template>
 </div>
