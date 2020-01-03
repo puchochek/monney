@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 		private userService: UserService,
 		private categoryService: CategoryService
 	) {
-		this.userService.getUser();
+		this.userService.getUserByToken();
 	}
 
 	ngOnInit() {

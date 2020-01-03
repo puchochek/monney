@@ -12,8 +12,9 @@ import { ExternalRedirectComponent } from './external-redirect/external-redirect
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatButtonModule } from '@angular/material';
+import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HomeComponent,
     AuthComponent,
     ExternalRedirectComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     FormsModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
