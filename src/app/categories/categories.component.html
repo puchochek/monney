@@ -1,7 +1,44 @@
 <div class="categories-list-container">
     <div class="categories-list-content" *ngIf="categories?.length > 0 else noCategories">
-        <div class="categories-list" *ngFor="let category of categories">
+        <div class="categories-list-actions-container">
+            <div class="grid-divider"></div>
+            <div class="categories-list-actions">
+                <mat-icon class="category-icon">add</mat-icon>
+                <mat-icon class="category-icon">view_list</mat-icon>
+                <mat-icon class="category-icon">sort</mat-icon>
+            </div>
+        </div>
 
+        <div class="categories-list" *ngFor="let category of categories">
+            <div class="category-card">
+                <mat-card class="category-card-item">
+                    <div class="category-avatar-icon">
+                        <igx-avatar roundShape="true" bgColor="#8e8e8e" color="white" class="category-avatar"
+                            matTooltip="Expense category" (click)="openAddIconDialog()">
+                            <mat-icon>{{category.icon}}</mat-icon>
+                        </igx-avatar>
+                    </div>
+
+                    <div class="header">{{category.name}}</div>
+
+                    <mat-card-content class="card-content">
+                        <div class="last-expence">
+                            <div class="last-expence-label">{{lastExpenceLbl}}</div>
+                            <div class="last-expence-value">{{lastExpenceValue}}</div>
+                        </div>
+                        <div class="expence-total">
+                            <div class="expence-total-label">{{expenceTotalLbl}}</div>
+                            <div class="expence-total-value">{{expenceTotalValue}}</div>
+                        </div>
+                    </mat-card-content>
+
+                    <mat-card-actions class="card-actions">
+                        <mat-icon class="card-action-icon" matTooltip="Add category">add</mat-icon>
+                        <mat-icon class="card-action-icon" matTooltip="All category expences">view_list</mat-icon>
+                        <mat-icon class="card-action-icon" matTooltip="Edit category">edit</mat-icon>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
         </div>
     </div>
     <ng-template #noCategories>
@@ -14,5 +51,4 @@
             </div>
         </div>
     </ng-template>
-
 </div>

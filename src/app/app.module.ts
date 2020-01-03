@@ -12,7 +12,15 @@ import { ExternalRedirectComponent } from './external-redirect/external-redirect
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatDialogModule } from '@angular/material';
+import {
+	MatMenuModule,
+	MatButtonModule,
+	MatProgressSpinnerModule,
+	MatIconModule,
+	MatDialogModule,
+	MatCardModule,
+	MatTooltipModule
+} from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
@@ -44,6 +52,8 @@ import { SelectIconComponent } from './select-icon/select-icon.component';
 		MatProgressSpinnerModule,
 		MatIconModule,
 		MatDialogModule,
+		MatCardModule,
+		MatTooltipModule,
 		IgxAvatarModule
 	],
 	providers: [

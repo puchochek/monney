@@ -43,6 +43,9 @@ img:hover {
 ::ng-deep.mat-menu-panel {
 	margin-right: 20px !important;
 }
+.mat-card-image {
+	margin: 0;
+}
 .custom-menu {
 	text-transform: uppercase;
 	font-family: "sans";

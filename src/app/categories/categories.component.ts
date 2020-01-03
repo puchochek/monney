@@ -13,8 +13,12 @@ export class CategoriesComponent implements OnInit {
 
 	categories: Category[];
 	noCategoriesMessage: string;
+	lastExpenceValue: number;
+	expenceTotalValue: number;
 
 	addCategoryBtn: string = `add category`;
+	lastExpenceLbl: string = `last:`;
+	expenceTotalLbl: string = `total: `;
 
 	constructor(
 		private categoryService: CategoryService,
