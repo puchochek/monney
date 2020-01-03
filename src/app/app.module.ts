@@ -12,41 +12,49 @@ import { ExternalRedirectComponent } from './external-redirect/external-redirect
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '././token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
+import { IgxAvatarModule } from 'igniteui-angular';
+import { SelectIconComponent } from './select-icon/select-icon.component';
+
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    LoginComponent,
-    HomeComponent,
-    AuthComponent,
-    ExternalRedirectComponent,
-    SpinnerComponent,
-    CategoriesComponent,
-    CategoryComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatProgressSpinnerModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		HeaderComponent,
+		LoginComponent,
+		HomeComponent,
+		AuthComponent,
+		ExternalRedirectComponent,
+		SpinnerComponent,
+		CategoriesComponent,
+		CategoryComponent,
+		SelectIconComponent
+	],
+	imports: [
+		BrowserModule,
+		HttpClientModule,
+		AppRoutingModule,
+		FormsModule,
+		BrowserAnimationsModule,
+		MatMenuModule,
+		MatButtonModule,
+		MatProgressSpinnerModule,
+		MatIconModule,
+		MatDialogModule,
+		IgxAvatarModule
+	],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptor,
+			multi: true
+		}
+	],
+	bootstrap: [AppComponent],
+	entryComponents: [SelectIconComponent]
 })
 export class AppModule {
 }
