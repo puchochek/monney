@@ -1,43 +1,51 @@
 <div class="categories-list-container">
     <div class="categories-list-content" *ngIf="categories?.length > 0 else noCategories">
-        <div class="categories-list-actions-container">
-            <div class="grid-divider"></div>
+        <div class="categories-list-header">
+            <div class="categories-list-label">{{categoriesHeaderLbl}}</div>
             <div class="categories-list-actions">
-                <mat-icon class="category-icon">add</mat-icon>
-                <mat-icon class="category-icon">view_list</mat-icon>
-                <mat-icon class="category-icon">sort</mat-icon>
+                <mat-menu #appMenu="matMenu" xPosition="before">
+                    <button mat-menu-item class="custom-menu" *ngFor="let menuItem of categoryMenuItems"
+                        (click)="menuItem.action()">{{menuItem.name}}</button>
+                </mat-menu>
+                <mat-icon class="category-menu-icon" [matMenuTriggerFor]="appMenu" matTooltip="Category menu">menu
+                </mat-icon>
             </div>
         </div>
+        <div class="categories-list">
+            <div class="categories-list-content" *ngFor="let category of categories">
+                <div class="category-card">
+                    <div class="category-card-item">
+                        <div class="category-avatar-icon">
+                            <igx-avatar roundShape="true" bgColor="#8e8e8e" color="white" class="category-avatar"
+                                matTooltip="Expense category" (click)="openAddIconDialog()">
+                                <mat-icon>{{category.icon}}</mat-icon>
+                            </igx-avatar>
+                        </div>
 
-        <div class="categories-list" *ngFor="let category of categories">
-            <div class="category-card">
-                <mat-card class="category-card-item">
-                    <div class="category-avatar-icon">
-                        <igx-avatar roundShape="true" bgColor="#8e8e8e" color="white" class="category-avatar"
-                            matTooltip="Expense category" (click)="openAddIconDialog()">
-                            <mat-icon>{{category.icon}}</mat-icon>
-                        </igx-avatar>
+                        <div class="card-header">
+                            <div class="card-name">
+                                {{category.name}}
+                            </div>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="last-expence">
+                                <div class="last-expence-label">{{lastExpenceLbl}}</div>
+                                <div class="last-expence-value">{{lastExpenceValue}}</div>
+                            </div>
+                            <div class="expence-total">
+                                <div class="expence-total-label">{{expenceTotalLbl}}</div>
+                                <div class="expence-total-value">{{expenceTotalValue}}</div>
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <mat-icon class="card-action-icon" matTooltip="Add expence">add</mat-icon>
+                            <mat-icon class="card-action-icon" matTooltip="All category expences">view_list</mat-icon>
+                            <mat-icon class="card-action-icon" matTooltip="Edit category">edit</mat-icon>
+                        </div>
                     </div>
-
-                    <div class="header">{{category.name}}</div>
-
-                    <mat-card-content class="card-content">
-                        <div class="last-expence">
-                            <div class="last-expence-label">{{lastExpenceLbl}}</div>
-                            <div class="last-expence-value">{{lastExpenceValue}}</div>
-                        </div>
-                        <div class="expence-total">
-                            <div class="expence-total-label">{{expenceTotalLbl}}</div>
-                            <div class="expence-total-value">{{expenceTotalValue}}</div>
-                        </div>
-                    </mat-card-content>
-
-                    <mat-card-actions class="card-actions">
-                        <mat-icon class="card-action-icon" matTooltip="Add category">add</mat-icon>
-                        <mat-icon class="card-action-icon" matTooltip="All category expences">view_list</mat-icon>
-                        <mat-icon class="card-action-icon" matTooltip="Edit category">edit</mat-icon>
-                    </mat-card-actions>
-                </mat-card>
+                </div>
             </div>
         </div>
     </div>

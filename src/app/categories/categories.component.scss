@@ -1,51 +1,63 @@
 .categories-list-content {
 	margin: 10px;
 }
-//EDIT
-.categories-list-actions-container {
-	display: grid;
-	grid-template-columns: 10fr 2fr;
-}
-.categories-list-actions {
-	display: grid;
-	grid-template-columns: 4fr 4fr 4fr;
-	margin: 10px 0;
-}
-.category-icon {
+.categories-list-header {
 	color: white;
-	font-size: 30px;
-	margin: auto;
+	display: flex;
 }
-//
+.categories-list-label {
+	font-family: "capture";
+	font-size: 1.3rem;
+}
+.category-menu-icon {
+	padding-top: 2px;
+	padding-left: 5px;
+}
 .categories-list {
 	display: grid;
-	grid-template-columns: repeat(6, 2fr);
+	grid-template-columns: repeat(8, 2fr);
+	grid-gap: 0.5rem;
+	max-height: 90vh;
+	overflow-y: auto;
 }
 .category-avatar-icon {
 	text-align: center;
 }
-.header {
+.card-header {
 	text-align: center;
 	text-transform: uppercase;
 }
+.card-name {
+	white-space: nowrap;
+	max-width: 120px;
+	text-overflow: ellipsis;
+	display: block;
+	overflow: hidden;
+	margin: auto;
+}
 .card-content {
 	line-height: 1.3;
+	font-size: .6rem;
 }
 .category-card-item {
 	background: transparent;
 	border: 1px solid white;
+	border-radius: 4px;
 	font-family: "sans";
 	color: white;
+	padding: 16px 10px;
 }
 .card-actions {
 	display: grid;
 	grid-template-columns: repeat(3, 4fr);
 	text-align: center;
+	margin-top: 5px;
 }
 .card-action-icon {
 	margin: auto;
 }
-.card-action-icon:hover {
+.card-action-icon:hover,
+.category-menu-icon:hover {
 	cursor: pointer;
 	opacity: 0.8;
 }
@@ -54,8 +66,16 @@
 	display: grid;
 	grid-template-columns: 6fr 6fr;
 	text-transform: uppercase;
-	text-align: center;
 }
+.last-expence-label,
+.expence-total-label {
+	text-align: right;
+}
+.last-expence-value,
+.expence-total-value {
+	text-align: left;
+}
+
 .no-categories-message {
 	margin: auto;
 	margin-top: 10vh;
@@ -84,11 +104,47 @@
 	color: black;
 	cursor: pointer;
 }
+@media (max-width: 1300px) {
+	.categories-list {
+		grid-template-columns: repeat(6, 2fr);
+		max-height: 85vh;
+	}
+}
+@media (max-width: 800px) {
+	.categories-list {
+		grid-template-columns: repeat(5, 2fr);
+		max-height: 80vh;
+	}
+}
 @media (max-width: 600px) {
+	.categories-list {
+		grid-template-columns: repeat(3, 4fr);
+		grid-gap: 3px;
+	}
+	.category-card,
+	.card-content {
+		font-size: 0.6rem;
+	}
+	.card-action-icon {
+		font-size: 1rem;
+	}
 	.no-categories-message {
 		font-size: 1rem;
 	}
 	.add-btn {
 		font-size: 0.8rem;
+	}
+}
+@media (max-width: 400px) {
+	.card-name {
+		max-width: 75px;
+	}
+	.category-card-item {
+		padding: 10px 5px 5px 5px;
+	}
+	.categories-list {
+		// grid-template-columns: repeat(3, 4fr);
+		// grid-gap: 3px;
+		//max-height: 70vh;
 	}
 }

@@ -47,7 +47,11 @@ body {
 .mat-tooltip {
 	text-transform: uppercase;
 }
-html, body { height: 100%; }
+.mat-menu-item {
+	text-transform: uppercase;
+	font-family: "sans";
+}
+html, body { margin: 0; height: 100%; overflow: hidden }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import "~igniteui-angular/lib/core/styles/themes/index";

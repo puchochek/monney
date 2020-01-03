@@ -19,6 +19,11 @@ export class CategoriesComponent implements OnInit {
 	addCategoryBtn: string = `add category`;
 	lastExpenceLbl: string = `last:`;
 	expenceTotalLbl: string = `total: `;
+	categoriesHeaderLbl: string = `categories`;
+	categoryMenuItems = [
+		{ name: `Add category`, action: this.addCategory.bind(this) },
+		// { name: `Log out`, action: this.logOut.bind(this) }
+	];
 
 	constructor(
 		private categoryService: CategoryService,
