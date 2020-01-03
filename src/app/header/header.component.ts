@@ -11,7 +11,8 @@ import { ApplicationUser } from '../interfaces';
 })
 export class HeaderComponent implements OnInit {
 	private userSubscription: Subscription;
-	private DEFAULT_AVATAR_SRC = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1577453294/iconfinder_Unicorn_y15fli.png`;
+	// private DEFAULT_AVATAR_SRC = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1577453294/iconfinder_Unicorn_y15fli.png`;
+	private DEFAULT_AVATAR_SRC =`https://res.cloudinary.com/dsiwkaugw/image/upload/v1578037420/no-avatar-user-transparent_ynbo0u.png`;
 
 	monneyLogoLbl: string = `monney`;
 	singInLbl: string = `sing in`;

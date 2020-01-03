@@ -1,4 +1,7 @@
 <div class="category-container">
+    <div *ngIf="isSpinner">
+        <app-spinner></app-spinner>
+    </div>
     <div class="category-form">
         <div class="category-form-title">
             {{categoryFormLbl}}

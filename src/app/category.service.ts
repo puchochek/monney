@@ -13,6 +13,9 @@ export class CategoryService {
 	private readonly category = new BehaviorSubject<Category>(null);
 	readonly _category = this.category.asObservable();
 
+	private readonly failedDategory = new BehaviorSubject<Category>(null);
+	readonly _failedDategory = this.failedDategory.asObservable();
+
 	constructor(
 		private http: HttpClient,
 		private router: Router,
@@ -26,6 +29,14 @@ export class CategoryService {
 
 	set upsertedCategory(category: Category) {
 		this.category.next(category);
+	}
+
+	get unsavedCategory(): Category {
+		return this.failedDategory.getValue();
+	}
+
+	set unsavedCategory(failedDategory: Category) {
+		this.failedDategory.next(failedDategory);
 	}
 
 	getExpencesCategories(categories: Category[]): Category[] {
@@ -58,9 +69,13 @@ export class CategoryService {
 					console.log('---> CATEGORY createdCategory ', createdCategory);
 					this.upsertedCategory = createdCategory;
 					this.storageService.updateToken(response.headers.get('Authorization'));
+					if (this.upsertedCategory.name !== `Income`) {
+						this.router.navigate(['/home']);
+					}
 				},
 				error => {
 					console.log('---> CATEGORY createdCategory error ', error);
+					this.unsavedCategory = category;
 				},
 				() => {
 					// 'onCompleted' callback.
