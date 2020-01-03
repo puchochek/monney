@@ -9,8 +9,8 @@ export class SpinnerComponent implements OnInit {
 
 	constructor() { }
 
-	ngOnInit() { 
-		console.log('---> spinner called' );
+	ngOnInit() {
+		console.log('---> spinner called');
 	}
 
 }

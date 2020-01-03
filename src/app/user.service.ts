@@ -51,7 +51,6 @@ export class UserService {
 	}
 
 	loginSelfRegistredUser(loginUser: LoginUser) {
-		console.log('---> loginSelfRegistredUser ');
 		const requestUrl = `${this.userBaseUrl}/singup`;
 		this.http.post(requestUrl, {
 			password: loginUser.password,
@@ -60,7 +59,7 @@ export class UserService {
 		).subscribe(
 			response => {
 				this.appUser = <ApplicationUser>response.body;
-				this.storageService.updateToken(response.headers.get('Authorization'));
+				this.refreshUserToken(this.appUser.id)
 				this.router.navigate(['/home']);
 			},
 			error => {
@@ -114,6 +113,19 @@ export class UserService {
 					}
 				);
 		}
+	}
+
+	refreshUserToken(id: string) {
+		this.http.post(`${this.userBaseUrl}/token`, {
+			id: id
+		}, { observe: 'response' }
+		).subscribe(response => {
+			if (response) {
+				this.storageService.updateToken(response.headers.get('Authorization'));
+			} else {
+				// TODO add error modal
+			}
+		});
 	}
 
 	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {
