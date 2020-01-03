@@ -1,4 +1,7 @@
 <div class="login-container">
+    <div *ngIf="isSpinner">
+        <app-spinner></app-spinner>
+    </div>
     <div class="login-form">
         <div class="login-form-title">
             {{loginFormLbl}}
