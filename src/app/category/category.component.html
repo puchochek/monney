@@ -1,0 +1,45 @@
+<div class="category-container">
+    <div class="category-form">
+        <div class="category-form-title">
+            {{categoryFormLbl}}
+        </div>
+        <div class="category-name">
+            <div class="form-group">
+                <div class="category-name-label">
+                    {{categoryNameLbl}}
+                </div>
+                <div class="category-name-input">
+                    <input type="text" class="form-control" id="name" [(ngModel)]="name">
+                </div>
+            </div>
+        </div>
+        <div class="category-description">
+            <div class="form-group">
+                <div class="category-description-label">
+                    {{categoryDescriptionLbl}}
+                </div>
+                <div class="category-description-input">
+                    <input type="text" class="form-control" id="description" [(ngModel)]="description">
+                </div>
+            </div>
+        </div>
+        <div class="category-icon">
+            <div class="form-group">
+                <div class="category-icon-label">
+                    {{categoryIconLbl}}
+                </div>
+                <div class="category-icon-btn">
+                    <igx-avatar roundShape="true" bgColor="#8e8e8e"
+						color="white" class="category-avatar"
+                        matTooltip="Expense category" (click)="openAddIconDialog()">
+                        <mat-icon>{{icon}}</mat-icon>
+					</igx-avatar>
+                </div>
+            </div>
+        </div>
+        <div class="category-submit">
+            <button type="submit" class="btn btn-submit" (click)="saveCategory()">{{saveCategoryLbl}}</button>
+        </div>
+    </div>
+
+</div>

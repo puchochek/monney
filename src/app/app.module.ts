@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CategoriesComponent } from './categories/categories.component';
     AuthComponent,
     ExternalRedirectComponent,
     SpinnerComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,
