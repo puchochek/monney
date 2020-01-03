@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
 		this.key = event.key;
 	}
 
-	isSpinnerRendered: boolean;
 	isNewUser: boolean;
 	loginFormLbl: string;
 	isEmailValid: boolean;
@@ -69,7 +68,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	singInNewUser() {
-		this.isSpinnerRendered = true;
 		this.isNameValid = this.validateUserName(this.name);
 		this.isEmailValid = this.validateUserEmail(this.email);
 		this.isPasswordValid = this.validateUserPassword(this.password);
@@ -83,13 +81,11 @@ export class LoginComponent implements OnInit {
 				categories: []
 			};
 			this.userService.createSelfRegistredUser(newUser);
-		} else {
-			this.isSpinnerRendered = false;
 		}
 	}
 
 	singUpExistedUser() {
-		this.isSpinnerRendered = true;
+		console.log('---> singUpExistedUser ' );
 		this.isEmailValid = this.validateUserEmail(this.email);
 		this.isPasswordValid = this.validateUserPassword(this.password);
 		if (this.isEmailValid && this.isPasswordValid) {
@@ -98,8 +94,6 @@ export class LoginComponent implements OnInit {
 				password: this.password
 			};
 			this.userService.loginSelfRegistredUser(loginUser);
-		} else {
-			this.isSpinnerRendered = false;
 		}
 
 	}
@@ -153,7 +147,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	authoriseWithGoogle() {
-		this.isSpinnerRendered = true;
 		this.userService.authoriseWithGoogle();
 	}
 
