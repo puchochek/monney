@@ -26,6 +26,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { IgxAvatarModule } from 'igniteui-angular';
 import { SelectIconComponent } from './select-icon/select-icon.component';
+import { TransactionComponent } from './transaction/transaction.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { SelectIconComponent } from './select-icon/select-icon.component';
 		SpinnerComponent,
 		CategoriesComponent,
 		CategoryComponent,
-		SelectIconComponent
+		SelectIconComponent,
+		TransactionComponent
 	],
 	imports: [
 		BrowserModule,

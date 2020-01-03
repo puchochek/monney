@@ -1,0 +1,48 @@
+<div class="transaction-container">
+    <div *ngIf="isSpinner">
+        <app-spinner></app-spinner>
+    </div>
+    <div class="transaction-form">
+        <div class="transaction-form-title">
+            {{categoryName}}
+        </div>
+        <div class="transaction-name">
+            <div class="form-group">
+                <div class="transaction-sum-label">
+                    {{transactionSumLbl}}
+                </div>
+                <div class="transaction-name-input">
+                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum">
+                </div>
+            </div>
+        </div>
+        <div class="transaction-comment">
+            <div class="form-group">
+                <div class="transaction-comment-label">
+                    {{transactionCommentLbl}}
+                </div>
+                <div class="transaction-comment-input">
+                    <input type="text" class="form-control" id="comment" [(ngModel)]="comment">
+                </div>
+            </div>
+        </div>
+        <div class="transaction-icon">
+            <div class="form-group">
+                <div class="transaction-icon-label">
+                    {{transactionIconLbl}}
+                </div>
+                <div class="transaction-icon-btn">
+                    <igx-avatar roundShape="true" bgColor="#8e8e8e"
+						color="white" class="transaction-avatar"
+                        matTooltip="Expense transaction" (click)="openAddIconDialog()">
+                        <mat-icon>{{icon}}</mat-icon>
+					</igx-avatar>
+                </div>
+            </div>
+        </div>
+        <div class="transaction-submit">
+            <button type="submit" class="btn btn-submit" (click)="saveCategory()">{{saveCategoryLbl}}</button>
+        </div>
+    </div>
+
+</div>

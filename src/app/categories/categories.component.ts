@@ -36,8 +36,13 @@ export class CategoriesComponent implements OnInit {
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
 	}
 
-	addCategory() {
+	addCategory(event) {
 		this.router.navigate(['/category/add']);
+	}
+
+	addExpence(event) {
+		const categoryName = event.srcElement.id;
+		this.router.navigate([`/${categoryName}/add`]);
 	}
 
 }
