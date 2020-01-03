@@ -1,4 +1,7 @@
 <div class="home-container">
+    <div *ngIf="isSpinner">
+        <app-spinner></app-spinner>
+    </div>
     <div class="home-content" *ngIf="currentUser; else unauthorisedUser">
         <div class="home-top">
             <div class="home-actions">In  development</div>

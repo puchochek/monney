@@ -12,7 +12,7 @@ import { ApplicationUser, Category } from '../interfaces';
 export class HomeComponent implements OnInit {
 
 	currentUser: ApplicationUser;
-
+	isSpinner: boolean;
 	homeMessage: string = `Hello and welcome to Monney - a simple app to track and keep your expences in order.
 	If You still dont have an account here - You may start from singing in. Otherwise - sing up and enjoy.`
 	private userSubscription: Subscription;
@@ -22,16 +22,21 @@ export class HomeComponent implements OnInit {
 		private userService: UserService,
 		private categoryService: CategoryService
 	) {
+		this.isSpinner = true;
 		this.userService.getUserByToken();
+		
 	}
 
 	ngOnInit() {
+		this.isSpinner = true;
 		this.userSubscription = this.userService._user.subscribe(response => {
+			this.isSpinner = true;
 			console.log('---> HOME _user ', response);
 			if (response) {
 				this.currentUser = response;
 				this.categoryService.checkIncomeCategory(this.currentUser);
 			}
+			this.isSpinner = false;
 		});
 		this.categorySubscription = this.categoryService._category.subscribe(response => {
 			console.log('---> HOME _category ', response);
