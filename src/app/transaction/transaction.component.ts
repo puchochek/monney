@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DatePickerSetup } from '../interfaces';
 
 @Component({
 	selector: 'app-transaction',
@@ -9,9 +10,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class TransactionComponent implements OnInit {
 	@Input() sum: number;
 	@Input() comment: string;
+	@Input() date: Date;
 
 	transactionSumLbl: string = `sum`;
 	transactionCommentLbl: string = `comment`;
+	datePickerSetup: DatePickerSetup = {
+		placeholder: `date`,
+		maxDate: new Date(),
+		minDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+		isFromDate: false,
+		isToDate: false
+	};
 
 	categoryName: string;
 
@@ -24,6 +33,11 @@ export class TransactionComponent implements OnInit {
 
 		this.categoryName = this.route.snapshot.paramMap.get('category');
 
+	}
+
+	handleDateChange(newDate: Date) {
+		console.log('---> newDate TR ', newDate);
+		this.date = newDate
 	}
 
 }

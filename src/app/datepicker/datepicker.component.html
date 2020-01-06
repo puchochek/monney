@@ -1,0 +1,15 @@
+<div class="datepicker-multi-date-container" *ngIf="datePickerSetup">
+    <div class="date">
+        <mat-form-field>
+            <input matInput [matDatepicker]="date" [formControl]="dateValue" [max]="maxDate"
+                [min]="minDate" (dateInput)="onDateInput($event)">
+            <mat-placeholder class="placeholder" *ngIf="isValidDate else invalidDateInput">{{datePickerSetup.placeholder}}
+            </mat-placeholder>
+            <ng-template #invalidDateInput>
+                <mat-placeholder class="placeholder-wrong-date">Check date format.</mat-placeholder>
+            </ng-template>
+            <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+            <mat-datepicker #date></mat-datepicker>
+        </mat-form-field>
+    </div>
+</div>

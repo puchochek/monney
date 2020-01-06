@@ -27,5 +27,12 @@ export interface Category {
 	isDeleted: boolean;
 	isIncome: boolean;
 	transactions: Transaction[];
+}
 
+export interface DatePickerSetup {
+	placeholder: string;
+	minDate: Date;
+	maxDate: Date;
+	isFromDate: boolean;
+	isToDate: boolean;
 }

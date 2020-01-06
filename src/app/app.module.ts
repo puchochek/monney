@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -19,7 +19,10 @@ import {
 	MatIconModule,
 	MatDialogModule,
 	MatCardModule,
-	MatTooltipModule
+	MatTooltipModule,
+	MatInputModule,
+	MatNativeDateModule,
+	MatDatepickerModule
 } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
@@ -27,6 +30,7 @@ import { CategoryComponent } from './category/category.component';
 import { IgxAvatarModule } from 'igniteui-angular';
 import { SelectIconComponent } from './select-icon/select-icon.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { DatepickerComponent } from './datepicker/datepicker.component';
 
 
 @NgModule({
@@ -41,13 +45,15 @@ import { TransactionComponent } from './transaction/transaction.component';
 		CategoriesComponent,
 		CategoryComponent,
 		SelectIconComponent,
-		TransactionComponent
+		TransactionComponent,
+		DatepickerComponent,
 	],
 	imports: [
 		BrowserModule,
 		HttpClientModule,
 		AppRoutingModule,
 		FormsModule,
+		ReactiveFormsModule,
 		BrowserAnimationsModule,
 		MatMenuModule,
 		MatButtonModule,
@@ -56,6 +62,9 @@ import { TransactionComponent } from './transaction/transaction.component';
 		MatDialogModule,
 		MatCardModule,
 		MatTooltipModule,
+		MatDatepickerModule,
+		MatInputModule,
+		MatNativeDateModule,
 		IgxAvatarModule
 	],
 	providers: [

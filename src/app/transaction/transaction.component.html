@@ -26,23 +26,13 @@
                 </div>
             </div>
         </div>
-        <div class="transaction-icon">
+        <div class="transaction-date">
             <div class="form-group">
-                <div class="transaction-icon-label">
-                    {{transactionIconLbl}}
-                </div>
-                <div class="transaction-icon-btn">
-                    <igx-avatar roundShape="true" bgColor="#8e8e8e"
-						color="white" class="transaction-avatar"
-                        matTooltip="Expense transaction" (click)="openAddIconDialog()">
-                        <mat-icon>{{icon}}</mat-icon>
-					</igx-avatar>
-                </div>
+                <app-datepicker [datePickerSetup]="datePickerSetup" (dateChange)="handleDateChange($event)"></app-datepicker>
             </div>
         </div>
         <div class="transaction-submit">
             <button type="submit" class="btn btn-submit" (click)="saveCategory()">{{saveCategoryLbl}}</button>
         </div>
     </div>
-
 </div>

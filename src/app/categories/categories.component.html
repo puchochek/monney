@@ -3,7 +3,7 @@
         <div class="categories-list-header">
             <div class="categories-list-label">{{categoriesHeaderLbl}}</div>
             <div class="categories-list-actions">
-                <mat-menu #appMenu="matMenu" xPosition="before">
+                <mat-menu #appMenu="matMenu" xPosition="after">
                     <button mat-menu-item class="custom-menu" *ngFor="let menuItem of categoryMenuItems"
                         (click)="menuItem.action()">{{menuItem.name}}</button>
                 </mat-menu>

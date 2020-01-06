@@ -16,15 +16,16 @@
 	margin: auto;
 }
 .transaction-name,
-.transaction-comment {
+.transaction-comment,
+.transaction-date {
 	margin: 5px 0;
 }
-.transaction-icon {
-    margin: 10px 0;
+.transaction-date {
+    padding: 5px;
 }
 .transaction-sum-label,
 .transaction-comment-label,
-.transaction-icon-label,
+.transaction-date-label,
 .form-control {
 	font-family: "sans";
 	color: white;
@@ -38,16 +39,6 @@
 }
 .transaction-submit {
     text-align: right;
-}
-.transaction-icon-label, .transaction-icon-btn {
-    display: inline;
-}
-.transaction-icon-btn {
-    margin: 0 10px;
-}
-.transaction-icon-btn:hover {
-    cursor: pointer;
-    opacity: 0.9;
 }
 .btn-submit {
 	font-family: "sans";
