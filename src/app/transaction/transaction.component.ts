@@ -77,10 +77,11 @@ export class TransactionComponent implements OnInit {
 			this.isSumInputInvalid = true;
 		}
 
-		return isDateValid && isDateValid && this.categoryName ? true : false;
+		return isDateValid && isSumValid && this.categoryName ? true : false;
 	}
 
 	hideInvalidInputMessage(event) {
+		console.log('---> hideInvalidInputMessage ');
 		this.isSumInputInvalid = false;
 	}
 

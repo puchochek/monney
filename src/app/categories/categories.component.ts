@@ -31,9 +31,26 @@ export class CategoriesComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		console.log('---> currentUser ', this.currentUser);
-		this.categories = this.categoryService.getExpencesCategories(this.currentUser.categories);
+		console.log('---> CategoriesComponent ', this.currentUser);
+		const currentCategories = [...this.currentUser.categories];
+		const expenceCategories = this.categoryService.getExpencesCategories(currentCategories);
+		const categoriesWithInitials = this.checkCategoriesIcon(expenceCategories);
+		this.categories = [...categoriesWithInitials];
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
+	}
+
+	checkCategoriesIcon(categories: Category[]): Category[] {
+		const categoriesWithInitials = categories.reduce((categories, category) => {
+			if (category.icon) {
+				categories.push(category);
+			} else {
+				const initials = category.name.substring(0, 2);
+				category.initials = initials;
+				categories.push(category);
+			}
+			return categories;
+		}, [])
+		return categoriesWithInitials;
 	}
 
 	addCategory(event) {

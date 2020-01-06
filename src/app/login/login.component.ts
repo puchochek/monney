@@ -76,12 +76,19 @@ export class LoginComponent implements OnInit {
 
 	singInNewUser() {
 		this.isSpinner = true;
-		// this.isNameValid = this.validateUserName(this.name);
-		// this.isEmailValid = this.validateUserEmail(this.email);
-		// this.isPasswordValid = this.validateUserPassword(this.password);
+
 		this.isNameValid = this.validationService.validateStringInput(this.usernameRegexp, this.name);
+		if (!this.isNameValid) {
+			this.isInvalidNameMessage = true;
+		}
 		this.isEmailValid = this.validationService.validateStringInput(this.emailRegexp, this.email);
+		if (!this.isEmailValid) {
+			this.isInvalidEmailMessage = true;
+		}
 		this.isPasswordValid = this.validationService.validateStringInput(this.passwordRegexp, this.password);
+		if (!this.isPasswordValid) {
+			this.isInvalidPasswordMessage = true;
+		}
 		if (this.isNameValid && this.isEmailValid && this.isPasswordValid) {
 			const newUser: ApplicationUser = {
 				name: this.name,
@@ -99,10 +106,15 @@ export class LoginComponent implements OnInit {
 
 	singUpExistedUser() {
 		this.isSpinner = true;
-		// this.isEmailValid = this.validateUserEmail(this.email);
-		// this.isPasswordValid = this.validateUserPassword(this.password);
+
 		this.isEmailValid = this.validationService.validateStringInput(this.emailRegexp, this.email);
+		if (!this.isEmailValid) {
+			this.isInvalidEmailMessage = true;
+		}
 		this.isPasswordValid = this.validationService.validateStringInput(this.passwordRegexp, this.password);
+		if (!this.isPasswordValid) {
+			this.isInvalidPasswordMessage = true;
+		}
 		if (this.isEmailValid && this.isPasswordValid) {
 			const loginUser: LoginUser = {
 				email: this.email,
@@ -114,39 +126,6 @@ export class LoginComponent implements OnInit {
 		}
 
 	}
-
-	// validateUserName(name: string): boolean {
-	// 	const usernameRegexp = new RegExp('[0-9a-zA-Z]{3,30}');
-	// 	const isUsernameValid = usernameRegexp.test(name);
-	// 	if (!isUsernameValid) {
-	// 		this.isInvalidNameMessage = true;
-	// 	}
-
-	// 	return isUsernameValid;
-	// }
-
-	// validateUserEmail(email: string): boolean {
-	// 	const emailRegexp = new RegExp(
-	// 		'^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
-	// 		']{1,3})(\\]?)$',
-	// 	);
-	// 	const isEmailValid = emailRegexp.test(email);
-	// 	if (!isEmailValid) {
-	// 		this.isInvalidEmailMessage = true;
-	// 	}
-
-	// 	return isEmailValid;
-	// }
-
-	// validateUserPassword(password: string): boolean {
-	// 	const passwordRegexp = new RegExp('[0-9a-zA-Z]{6,30}');
-	// 	const isPasswordValid = passwordRegexp.test(password);
-	// 	if (!isPasswordValid) {
-	// 		this.isInvalidPasswordMessage = true;
-	// 	}
-
-	// 	return isPasswordValid;
-	// }
 
 	hideInvalidInputMessage(event) {
 		const inputId = event.srcElement.id;

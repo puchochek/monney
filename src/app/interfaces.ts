@@ -32,6 +32,7 @@ export interface Category {
 	icon?: string;
 	isDeleted: boolean;
 	isIncome: boolean;
+	initials?: string;
 	transactions: Transaction[];
 }
 
