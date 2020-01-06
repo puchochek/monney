@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePickerSetup, Transaction } from '../interfaces';
+import { TransactionService } from '../transaction.service';
 import { ValidationService } from '../validation.service';
 
 
@@ -37,16 +38,17 @@ export class TransactionComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
+		private transactionService: TransactionService,
 		private validationService: ValidationService
 
 	) { }
 
 	ngOnInit() {
+		this.date = new Date();
 		this.categoryName = this.route.snapshot.paramMap.get('category');
 	}
 
 	handleDateChange(newDate: Date) {
-		console.log('---> newDate TR ', newDate);
 		this.date = newDate
 	}
 
@@ -62,6 +64,8 @@ export class TransactionComponent implements OnInit {
 				sum: Number(this.sum),
 				isDeleted: false
 			};
+			const navigateUrl = `/home`;
+			this.transactionService.createTransaction(transactionToSave, navigateUrl);
 		}
 
 	}
