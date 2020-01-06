@@ -57,6 +57,11 @@ export class CategoriesComponent implements OnInit {
 		this.router.navigate(['/category/add']);
 	}
 
+	viewCategoryTransactions(event) {
+		const categoryName = event.srcElement.id;
+		this.router.navigate([`/${categoryName}/transactions`]);
+	}
+
 	addExpence(event) {
 		const categoryName = event.srcElement.id;
 		this.router.navigate([`/${categoryName}/add`]);

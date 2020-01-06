@@ -31,6 +31,7 @@ import { IgxAvatarModule } from 'igniteui-angular';
 import { SelectIconComponent } from './select-icon/select-icon.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
+import { TransactionsByCategoryComponent } from './transactions-by-category/transactions-by-category.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { DatepickerComponent } from './datepicker/datepicker.component';
 		SelectIconComponent,
 		TransactionComponent,
 		DatepickerComponent,
+		TransactionsByCategoryComponent,
 	],
 	imports: [
 		BrowserModule,

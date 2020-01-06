@@ -41,7 +41,7 @@
 
                         <div class="card-actions">
                             <mat-icon class="card-action-icon" matTooltip="Add expence" (click)="addExpence($event)" id="{{category.name}}">add</mat-icon>
-                            <mat-icon class="card-action-icon" matTooltip="All category expences">view_list</mat-icon>
+                            <mat-icon class="card-action-icon" matTooltip="All category expences" (click)="viewCategoryTransactions($event)" id="{{category.name}}">view_list</mat-icon>
                             <mat-icon class="card-action-icon" matTooltip="Edit category">edit</mat-icon>
                         </div>
                     </div>
