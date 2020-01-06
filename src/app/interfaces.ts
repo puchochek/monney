@@ -15,7 +15,13 @@ export interface LoginUser {
 }
 
 export interface Transaction {
-
+	id?: string;
+	user?: string;
+	date: Date;
+	comment?: string;
+	category: string;
+	sum: number;
+	isDeleted: boolean;
 }
 
 export interface Category {

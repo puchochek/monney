@@ -12,7 +12,10 @@
                     {{transactionSumLbl}}
                 </div>
                 <div class="transaction-name-input">
-                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum">
+                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keypress)="hideInvalidInputMessage($event)">
+                </div>
+                <div class="invalid-input-meesage" *ngIf="isSumInputInvalid">
+                    {{invalidSumInputMessage}}
                 </div>
             </div>
         </div>
@@ -32,7 +35,7 @@
             </div>
         </div>
         <div class="transaction-submit">
-            <button type="submit" class="btn btn-submit" (click)="saveCategory()">{{saveCategoryLbl}}</button>
+            <button type="submit" class="btn btn-submit" (click)="saveTransaction()">{{saveTransactionLbl}}</button>
         </div>
     </div>
 </div>

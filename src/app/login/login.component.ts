@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from '../user.service';
+import { ValidationService } from '../validation.service';
 import { ApplicationUser } from '../interfaces';
 import { LoginUser } from '../interfaces';
 
@@ -38,11 +39,16 @@ export class LoginComponent implements OnInit {
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
 	invalidEmailMessage: string = `email has to contain @ symbol`;
 	invalidPasswordMessage: string = `password has to contain 1 uppercase letter and 1 non-letter character at least`;
+	emailRegexp = '^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
+		']{1,3})(\\]?)$';
+	usernameRegexp = '[0-9a-zA-Z]{3,30}';
+	passwordRegexp = '[0-9a-zA-Z]{6,30}';
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private userService: UserService,
+		private validationService: ValidationService
 	) { }
 
 	ngOnInit() {
@@ -70,9 +76,12 @@ export class LoginComponent implements OnInit {
 
 	singInNewUser() {
 		this.isSpinner = true;
-		this.isNameValid = this.validateUserName(this.name);
-		this.isEmailValid = this.validateUserEmail(this.email);
-		this.isPasswordValid = this.validateUserPassword(this.password);
+		// this.isNameValid = this.validateUserName(this.name);
+		// this.isEmailValid = this.validateUserEmail(this.email);
+		// this.isPasswordValid = this.validateUserPassword(this.password);
+		this.isNameValid = this.validationService.validateStringInput(this.usernameRegexp, this.name);
+		this.isEmailValid = this.validationService.validateStringInput(this.emailRegexp, this.email);
+		this.isPasswordValid = this.validationService.validateStringInput(this.passwordRegexp, this.password);
 		if (this.isNameValid && this.isEmailValid && this.isPasswordValid) {
 			const newUser: ApplicationUser = {
 				name: this.name,
@@ -90,8 +99,10 @@ export class LoginComponent implements OnInit {
 
 	singUpExistedUser() {
 		this.isSpinner = true;
-		this.isEmailValid = this.validateUserEmail(this.email);
-		this.isPasswordValid = this.validateUserPassword(this.password);
+		// this.isEmailValid = this.validateUserEmail(this.email);
+		// this.isPasswordValid = this.validateUserPassword(this.password);
+		this.isEmailValid = this.validationService.validateStringInput(this.emailRegexp, this.email);
+		this.isPasswordValid = this.validationService.validateStringInput(this.passwordRegexp, this.password);
 		if (this.isEmailValid && this.isPasswordValid) {
 			const loginUser: LoginUser = {
 				email: this.email,
@@ -104,38 +115,38 @@ export class LoginComponent implements OnInit {
 
 	}
 
-	validateUserName(name: string): boolean {
-		const usernameRegexp = new RegExp('[0-9a-zA-Z]{3,30}');
-		const isUsernameValid = usernameRegexp.test(name);
-		if (!isUsernameValid) {
-			this.isInvalidNameMessage = true;
-		}
+	// validateUserName(name: string): boolean {
+	// 	const usernameRegexp = new RegExp('[0-9a-zA-Z]{3,30}');
+	// 	const isUsernameValid = usernameRegexp.test(name);
+	// 	if (!isUsernameValid) {
+	// 		this.isInvalidNameMessage = true;
+	// 	}
 
-		return isUsernameValid;
-	}
+	// 	return isUsernameValid;
+	// }
 
-	validateUserEmail(email: string): boolean {
-		const emailRegexp = new RegExp(
-			'^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
-			']{1,3})(\\]?)$',
-		);
-		const isEmailValid = emailRegexp.test(email);
-		if (!isEmailValid) {
-			this.isInvalidEmailMessage = true;
-		}
+	// validateUserEmail(email: string): boolean {
+	// 	const emailRegexp = new RegExp(
+	// 		'^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
+	// 		']{1,3})(\\]?)$',
+	// 	);
+	// 	const isEmailValid = emailRegexp.test(email);
+	// 	if (!isEmailValid) {
+	// 		this.isInvalidEmailMessage = true;
+	// 	}
 
-		return isEmailValid;
-	}
+	// 	return isEmailValid;
+	// }
 
-	validateUserPassword(password: string): boolean {
-		const passwordRegexp = new RegExp('[0-9a-zA-Z]{6,30}');
-		const isPasswordValid = passwordRegexp.test(password);
-		if (!isPasswordValid) {
-			this.isInvalidPasswordMessage = true;
-		}
+	// validateUserPassword(password: string): boolean {
+	// 	const passwordRegexp = new RegExp('[0-9a-zA-Z]{6,30}');
+	// 	const isPasswordValid = passwordRegexp.test(password);
+	// 	if (!isPasswordValid) {
+	// 		this.isInvalidPasswordMessage = true;
+	// 	}
 
-		return isPasswordValid;
-	}
+	// 	return isPasswordValid;
+	// }
 
 	hideInvalidInputMessage(event) {
 		const inputId = event.srcElement.id;

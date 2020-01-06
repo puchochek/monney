@@ -37,6 +37,11 @@
 	border: none;
 	border-bottom: 1px dashed white;
 }
+.invalid-input-meesage {
+	font-family: "sans";
+	color: red;
+	font-size: 1.3rem;
+}
 .transaction-submit {
     text-align: right;
 }
