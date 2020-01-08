@@ -32,6 +32,7 @@ export class TransactionComponent implements OnInit {
 
 	categoryName: string;
 	isSumInputInvalid: boolean;
+	isSpinner: boolean;
 
 	constructor(
 		private router: Router,
@@ -63,6 +64,7 @@ export class TransactionComponent implements OnInit {
 				isDeleted: false
 			};
 			const navigateUrl = `/home`;
+			this.isSpinner = true;
 			this.transactionService.createTransaction(transactionToSave, navigateUrl);
 		}
 

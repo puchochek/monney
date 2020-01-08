@@ -78,4 +78,12 @@ export class TransactionsByCategoryComponent implements OnInit {
 		this.toDate = toDateChanged;
 	}
 
+	editTransaction(event) {
+
+	}
+
+	deleteTransaction(event) {
+		
+	}
+
 }
