@@ -1,1 +1,25 @@
-<p>transactions-by-category works!</p>
+<div class="transactions-list-container">
+    <div class="transactions-list-header">
+        <div class="category-info">
+            <div class="category-name">
+                {{categoryName}}
+            </div>
+            <div class="category-description">
+                {{categoryDescription}}
+            </div>
+        </div>
+        <div class="from-datepicker">
+            <app-datepicker [datePickerSetup]="fromDatePickerSetup" (dateChange)="handleFromDateChange($event)"></app-datepicker>
+        </div>
+        <div class="to-datepicker">
+            <app-datepicker [datePickerSetup]="toDatePickerSetup" (dateChange)="handleToDateChange($event)"></app-datepicker>
+        </div>
+    </div>
+    <div class="transactions-list-content" *ngIf="transactions?.length > 0; else noTransactionsMessage"></div>
+    <ng-template #noTransactionsMessage>
+        <div class="no-transactio-message">
+            Looks like you don't have a transactions for the selected period. You might choose another dates.
+        </div>
+    </ng-template>
+
+</div>

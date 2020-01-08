@@ -1,0 +1,31 @@
+.transactions-list-container {
+    margin: 10px;
+}
+.transactions-list-header {
+    display: grid;
+    grid-template-columns: repeat(3, 4fr);
+}
+.category-name {
+    font-family: "capture";
+	font-size: 1.3rem;
+    padding-left: 10px;
+    color: white;
+}
+.category-description {
+    font-family: "sans";
+    color: white;
+    padding-left: 10px;
+}
+.no-transactio-message {
+    font-family: 'capture';
+    color: white;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media(max-width: 500px) {
+    // .no-transactio-message {
+    //     font-size: 1.3rem;
+    // }
+}

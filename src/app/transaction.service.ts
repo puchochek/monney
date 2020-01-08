@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Transaction } from './interfaces';
+import { Transaction, ApplicationUser } from './interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from './../environments/environment';
@@ -9,6 +9,9 @@ import { environment } from './../environments/environment';
 	providedIn: 'root'
 })
 export class TransactionService {
+	// private readonly transactions = new BehaviorSubject<Transaction[]>(null);
+	// readonly _transactions = this.transactions.asObservable();
+
 
 	url: string = `${environment.apiBaseUrl}/transaction`;
 
@@ -16,6 +19,14 @@ export class TransactionService {
 		private http: HttpClient,
 		private router: Router,
 	) { }
+
+	// get userTransactions(): Transaction[] {
+	// 	return this.transactions.getValue();
+	// }
+
+	// set userTransactions(transactions: Transaction[]) {
+	// 	this.transactions.next(transactions);
+	// }
 
 	createTransaction(transaction: Transaction, navigateUrl: string) {
 		this.http.post(this.url, transaction, { observe: 'response' }
@@ -35,26 +46,28 @@ export class TransactionService {
 		);
 	}
 
-	getTransactionsByCategorty(category: string): Transaction[] {
-		console.log('---> category ', category);
-		let transactions: Transaction[];
-		const requestUrl = `${this.url}/${category}`;
-		this.http.get(requestUrl, { observe: 'response' }
-		).subscribe(
-			response => {
-				transactions = <Transaction[]>response.body;
-				console.log('---> newTransaction ', transactions);
-
-				//this.router.navigate([navigateUrl]);
-			},
-			error => {
-				console.log('---> SAVE TRANSACTION ERROR ', error);
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
-			}
-		);
-		return transactions;
+	getTransactionsByCategoryId(user: ApplicationUser, categoryId: string): Transaction[] {
+		let userTransactions: Transaction[];
+		if (user.transactions.length) {
+			userTransactions = [ ...user.transactions ];
+		}
+		return userTransactions.filter(transaction => transaction.category === categoryId);
 	}
+
+	// getTransactionsByCategorty(category: string) {
+	// 	const requestUrl = `${this.url}/${category}`;
+	// 	this.http.get(requestUrl, { observe: 'response' }
+	// 	).subscribe(
+	// 		response => {
+	// 			this.userTransactions = <Transaction[]>response.body;
+	// 		},
+	// 		error => {
+	// 			console.log('---> GET TRANSACTIONS ERROR ', error);
+	// 		},
+	// 		() => {
+	// 			// 'onCompleted' callback.
+	// 			// No errors, route to new page here
+	// 		}
+	// 	);
+	// }
 }

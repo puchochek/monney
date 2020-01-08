@@ -7,6 +7,7 @@ export interface ApplicationUser {
 	provider: string;
 	avatar?: string;
 	categories: Category[];
+	transactions: Transaction[];
 }
 
 export interface LoginUser {
@@ -38,8 +39,6 @@ export interface Category {
 
 export interface DatePickerSetup {
 	placeholder: string;
-	minDate: Date;
-	maxDate: Date;
 	isFromDate: boolean;
 	isToDate: boolean;
 }

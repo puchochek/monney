@@ -44,6 +44,15 @@ export class CategoryService {
 		return categories.filter(category => !category.isIncome);
 	}
 
+	getCategoryByName(user: ApplicationUser, categoryName: string): Category {
+		let currentCategory: Category;
+		if (user.categories.length) {
+			currentCategory = user.categories.filter(category => category.name === categoryName)[0];
+		}
+
+		return currentCategory;
+	}
+
 	checkIncomeCategory(user: ApplicationUser) {
 		if (user.categories.length === 0) {
 			const category = {

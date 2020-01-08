@@ -16,11 +16,22 @@
 	font-family: "sans";
     color: white;
 }
-.placeholder {
+.placeholder-single {
+	color: white;
     font-size: 1.8rem;
 }
-input.mat-input-element {
-    margin: 15px 0 0 0;
+.placeholder-multiply {
+	color: white;
+	font-size: 1.5rem;
+	margin: 0;
+}
+.date-input-single {
+	margin: 15px 0 0 0;
+	font-size: 1.3rem;
+}
+.date-input-multiply {
+	padding: 5px 0 0 0;
+    font-size: 1rem;
 }
 @media (max-width: 1000px) {
 	.datepicker-multi-date-container {

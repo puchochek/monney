@@ -96,7 +96,8 @@ export class LoginComponent implements OnInit {
 				password: this.password,
 				isConfirmed: false,
 				provider: `self-registerd`,
-				categories: []
+				categories: [],
+				transactions: []
 			};
 			this.userService.createSelfRegistredUser(newUser);
 		} else {

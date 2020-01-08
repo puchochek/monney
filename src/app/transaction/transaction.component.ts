@@ -25,8 +25,6 @@ export class TransactionComponent implements OnInit {
 	saveTransactionLbl: string = `save`;
 	datePickerSetup: DatePickerSetup = {
 		placeholder: `date`,
-		maxDate: new Date(),
-		minDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
 		isFromDate: false,
 		isToDate: false
 	};
