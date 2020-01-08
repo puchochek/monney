@@ -9,13 +9,31 @@
             </div>
         </div>
         <div class="from-datepicker">
-            <app-datepicker [datePickerSetup]="fromDatePickerSetup" (dateChange)="handleFromDateChange($event)"></app-datepicker>
+            <app-datepicker [datePickerSetup]="fromDatePickerSetup" (dateChange)="handleFromDateChange($event)">
+            </app-datepicker>
         </div>
         <div class="to-datepicker">
-            <app-datepicker [datePickerSetup]="toDatePickerSetup" (dateChange)="handleToDateChange($event)"></app-datepicker>
+            <app-datepicker [datePickerSetup]="toDatePickerSetup" (dateChange)="handleToDateChange($event)">
+            </app-datepicker>
         </div>
     </div>
-    <div class="transactions-list-content" *ngIf="transactions?.length > 0; else noTransactionsMessage"></div>
+    <div class="transactions-list-content" *ngIf="transactions?.length > 0; else noTransactionsMessage">
+        <div class="transactions-list-table-headers">
+            <div class="transactions-table-header" *ngFor="let transactionHeader of transactionsHeaders">
+                {{transactionHeader}}
+            </div>
+
+        </div>
+        <div class="transactions-list-table" *ngFor="let transaction of transactions">
+            <div class="transaction-date">{{ transaction.date | date }}</div>
+            <div class="transaction-comment">{{transaction.comment}}</div>
+            <div class="transaction-sum">{{transaction.sum}}</div>
+            <div class="transaction-actions">
+                <mat-icon class="edit-transaction-icon" matTooltip="Edit category" (click)="editTransaction($event)" id="{{transaction.id}}">edit</mat-icon>
+                <mat-icon class="delete-transaction-icon" matTooltip="All category expences" (click)="deleteTransaction($event)" id="{{transaction.id}}">delete</mat-icon>
+            </div>
+        </div>
+    </div>
     <ng-template #noTransactionsMessage>
         <div class="no-transactio-message">
             Looks like you don't have a transactions for the selected period. You might choose another dates.

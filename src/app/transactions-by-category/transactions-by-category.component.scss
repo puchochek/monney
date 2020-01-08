@@ -1,31 +1,106 @@
 .transactions-list-container {
-    margin: 10px;
+	margin: 10px 20px;
 }
 .transactions-list-header {
-    display: grid;
-    grid-template-columns: repeat(3, 4fr);
+	display: grid;
+	grid-template-columns: 10fr 1fr 1fr;
+	grid-column-gap: 10px;
 }
 .category-name {
-    font-family: "capture";
+	font-family: "capture";
 	font-size: 1.3rem;
-    padding-left: 10px;
-    color: white;
+	color: white;
 }
 .category-description {
-    font-family: "sans";
-    color: white;
-    padding-left: 10px;
+	font-family: "sans";
+	color: white;
+	line-height: 1.3;
+	max-height: 150px;
+	overflow-y: auto;
 }
-.no-transactio-message {
-    font-family: 'capture';
-    color: white;
-    font-size: 1.3rem;
-    margin-top: 30px;
-    text-align: center;
+.from-datepicker {
+	text-align: right;
+}
+.transactions-list-content {
+	margin-top: 20px;
+}
+.transactions-list-table,
+.transactions-list-table-headers {
+	display: grid;
+	grid-template-columns: 2fr 7fr 2fr 1fr;
+}
+.transactions-list-table,
+.transactions-table-header {
+	text-align: center;
+	color: white;
+}
+.transactions-list-table:nth-child(odd),
+.transactions-table-header {
+	background-color: #757575;
+}
+.transactions-list-table:nth-child(even) {
+	background-color: #494949;
+}
+.transaction-date,
+.transaction-comment,
+.transaction-sum,
+.transaction-actions,
+.transactions-table-header {
+	border: 1px solid #202124;
+	line-height: 1.3;
+	padding: 3px;
 }
 
-@media(max-width: 500px) {
-    // .no-transactio-message {
-    //     font-size: 1.3rem;
-    // }
+.no-transactio-message {
+	font-family: "capture";
+	color: white;
+	font-size: 1.3rem;
+	margin-top: 30px;
+	text-align: center;
+}
+
+@media (max-width: 800px) {
+	.edit-transaction-icon,
+	.delete-transaction-icon {
+		font-size: 1.2rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.transactions-list-table,
+	.transactions-list-table-headers {
+		display: grid;
+		grid-template-columns: 3fr 5fr 2fr 2fr;
+	}
+	.transactions-list-container {
+		margin: 5px 10px;
+	}
+	.transactions-list-header {
+		grid-template-columns: repeat(3, 4fr);
+	}
+	.category-info {
+		line-height: 1.3;
+	}
+	.category-name {
+		font-size: 1rem;
+	}
+	.category-description {
+		font-size: 0.8rem;
+		max-height: 100px;
+	}
+	.transaction-date,
+	.transaction-comment,
+	.transaction-sum,
+	.transaction-actions,
+	.transactions-table-header {
+		font-size: 0.8rem;
+	}
+	.transaction-date,
+	.transaction-comment {
+		line-height: 1.3;
+	}
+
+	// .no-transactio-message {
+	//     font-size: 1.3rem;
+	// }
 }

@@ -27,9 +27,13 @@ export class DatepickerComponent implements OnInit {
 
 	ngOnInit() {
 		const today = new Date();
-		this.dateValue = new FormControl(today);
-		this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-		this.maxDate = new Date();
+		this.minDate = new Date(today.getFullYear(), today.getMonth(), 1);
+		this.maxDate = today;
+		if (this.datePickerSetup.isFromDate) {
+			this.dateValue = new FormControl(this.minDate);
+		} else {
+			this.dateValue = new FormControl(today);
+		}
 		if (!this.datePickerSetup.isFromDate && !this.datePickerSetup.isToDate) {
 			this.placeholder = `placeholder-single`;
 			this.dateInputValue = `date-input-single`;
@@ -45,14 +49,6 @@ export class DatepickerComponent implements OnInit {
 
 		const isValidDate = this.validateInputDate(newDate);
 		if (isValidDate) {
-			// if (this.datePickerSetup.isFromDate) {
-			// 	console.log('---> isFromDate ' );
-			// 	this.minDate = newDate;
-			// }
-			// if (this.datePickerSetup.isToDate) {
-			// 	console.log('---> isToDate ' );
-			// 	this.maxDate = newDate;
-			// }
 			this.dateChange.emit(newDate);
 		} else {
 			this.isValidDate = false;

@@ -11,14 +11,15 @@
 	font-size: 1.5rem;
 	font-family: "sans";
 }
-.mat-form-field, .placeholder {
+.mat-form-field,
+.placeholder {
 	text-align: left;
 	font-family: "sans";
-    color: white;
+	color: white;
 }
 .placeholder-single {
 	color: white;
-    font-size: 1.8rem;
+	font-size: 1.8rem;
 }
 .placeholder-multiply {
 	color: white;
@@ -31,7 +32,7 @@
 }
 .date-input-multiply {
 	padding: 5px 0 0 0;
-    font-size: 1rem;
+	font-size: 1rem;
 }
 @media (max-width: 1000px) {
 	.datepicker-multi-date-container {
@@ -48,7 +49,19 @@
 	.placeholder-wrong-date {
 		font-size: 0.7rem;
 	}
-	.datepicker-multi-date-container  {
+	.datepicker-multi-date-container {
 		font-size: 0.8rem;
+	}
+	.placeholder-multiply {
+		font-size: 1rem;
+	}
+	.date-input-multiply {
+		padding: 0;
+		font-size: 0.8rem;
+	}
+}
+@media (max-width: 400px) {
+	.datepicker-multi-date-container {
+		width: 90px;
 	}
 }

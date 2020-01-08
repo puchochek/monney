@@ -18,8 +18,12 @@ export class TransactionsByCategoryComponent implements OnInit {
 	categoryName: string;
 	categoryDescription: string;
 	currentCategory: Category;
+
 	private userSubscription: Subscription;
 
+	fromDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+	toDate: Date = new Date();
+	transactionsHeaders : string[] = [`date`, `comment`, `sum`, `actions`];
 	fromDatePickerSetup: DatePickerSetup = {
 		placeholder: `from`,
 		isFromDate: true,
@@ -50,32 +54,28 @@ export class TransactionsByCategoryComponent implements OnInit {
 				console.log('---> transactions USER ', response);
 				this.currentUser = <ApplicationUser>response;
 				this.currentCategory = this.categoryService.getCategoryByName(this.currentUser, this.categoryName);
-				console.log('---> this.currentCategory ', this.currentCategory );
 				if (this.currentCategory) {
 					this.categoryDescription = this.currentCategory.description || '';
 				}
 				this.transactions = this.transactionService.getTransactionsByCategoryId(this.currentUser, this.currentCategory.id);
-				console.log('---> this.transactions ', this.transactions );
 			}
 		});
 	}
 
 	ngOnDestroy() {
-		// if (this.transactionSubscription) {
-		// 	this.transactionService.userTransactions = null;
-		// 	this.transactionSubscription.unsubscribe();
-		// }
 		if (this.userSubscription) {
 			this.userSubscription.unsubscribe();
 		}
 	}
 
-	handleFromDateChange(fromDate: Date) {
-		console.log('---> fromDateChange ', fromDate);
+	handleFromDateChange(fromDateChanged: Date) {
+		console.log('---> fromDateChange ', fromDateChanged);
+		this.fromDate = fromDateChanged;
 	}
 
-	handleToDateChange(toDate: Date) {
-		console.log('---> toDateChange ', toDate);
+	handleToDateChange(toDateChanged: Date) {
+		console.log('---> toDateChange ', toDateChanged);
+		this.toDate = toDateChanged;
 	}
 
 }
