@@ -3,8 +3,9 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../app/storage.service';
-import { Category, ApplicationUser } from '../app/interfaces';
+import { Category, ApplicationUser, Transaction } from '../app/interfaces';
 import { BehaviorSubject } from 'rxjs';
+import { TransactionComponent } from './transaction/transaction.component';
 
 @Injectable({
 	providedIn: 'root'
@@ -51,6 +52,63 @@ export class CategoryService {
 		}
 
 		return currentCategory;
+	}
+
+	setCategoriesTotal(categories: Category[], user: ApplicationUser): Category[] {
+		const categoriesWithTotal: Category[] = categories.reduce((categoriesList, category) => {
+			if (user.transactions.length) {
+				const currentUserTransactions = [...user.transactions];
+				const thisCategoryTransactions = currentUserTransactions.filter(transaction => transaction.category === category.id && !transaction.isDeleted);
+				if (thisCategoryTransactions.length) {
+					const thisMonthTransactions = this.getThisMonthTransactions(thisCategoryTransactions);
+					category.total = thisMonthTransactions.reduce((transactionsSumTotal, currentTransaction) => transactionsSumTotal + currentTransaction.sum, 0);
+				} else {
+					category.total = 0;
+				}
+			} else {
+				category.total = 0;
+			}
+			categoriesList.push(category);
+			return categoriesList;
+		}, []);
+
+		return categoriesWithTotal;
+	}
+
+	getThisMonthTransactions(transactions: Transaction[]): Transaction[] {
+		const currentMonth = new Date().getMonth();
+
+		return transactions.filter(transaction => new Date(transaction.date).getMonth() === currentMonth);
+	}
+
+	setCategoriesLast(categories: Category[], user: ApplicationUser): Category[] {
+		const categoriesWithLast: Category[] = categories.reduce((categoriesList, category) => {
+			if (user.transactions.length) {
+				const currentUserTransactions = [...user.transactions];
+				const thisCategoryTransactions = currentUserTransactions.filter(transaction => transaction.category === category.id && !transaction.isDeleted);
+				if (thisCategoryTransactions.length) {
+					const thisCategoryTransactionsSorted = this.sortCategoryTransactionsByDate(thisCategoryTransactions);
+					const categoryLastTransaction = thisCategoryTransactionsSorted[0];
+					category.lastTransaction = Number(categoryLastTransaction.sum);
+				} else {
+					category.lastTransaction = 0;
+				}
+			} else {
+				category.lastTransaction = 0;
+			}
+			categoriesList.push(category);
+			return categoriesList;
+		}, []);
+
+		return categoriesWithLast;
+	}
+
+	sortCategoryTransactionsByDate(currentCategoryTransactions: Transaction[]) {
+		const sortedTransactions: Transaction[] = currentCategoryTransactions.sort(function compare(a, b) {
+			return (new Date(b.date) as any) - (new Date(a.date) as any);
+		});
+
+		return sortedTransactions;
 	}
 
 	checkIncomeCategory(user: ApplicationUser) {

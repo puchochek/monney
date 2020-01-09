@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApplicationUser, Category } from '../interfaces';
 import { CategoryService } from '../category.service';
+import { UserService } from '../user.service';
+import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,12 +11,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 	styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-	@Input() currentUser: ApplicationUser;
-
 	categories: Category[];
 	noCategoriesMessage: string;
 	lastExpenceValue: number;
 	expenceTotalValue: number;
+	currentUser: ApplicationUser;
 
 	addCategoryBtn: string = `add category`;
 	lastExpenceLbl: string = `last:`;
@@ -25,18 +26,36 @@ export class CategoriesComponent implements OnInit {
 		// { name: `Log out`, action: this.logOut.bind(this) }
 	];
 
+	private userSubscription: Subscription;
+
 	constructor(
 		private categoryService: CategoryService,
 		private router: Router,
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
-		console.log('---> CategoriesComponent ', this.currentUser);
-		const currentCategories = [...this.currentUser.categories];
-		const expenceCategories = this.categoryService.getExpencesCategories(currentCategories);
-		const categoriesWithInitials = this.checkCategoriesIcon(expenceCategories);
-		this.categories = [...categoriesWithInitials];
+		this.userSubscription = this.userService._user.subscribe(response => {
+			if (response) {
+				this.currentUser = <ApplicationUser>response;
+				console.log('---> CategoriesComponent ', this.currentUser);
+				const currentCategories = [...this.currentUser.categories];
+				const expenceCategories = this.categoryService.getExpencesCategories(currentCategories);
+				const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(expenceCategories, this.currentUser);
+				const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
+				const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
+				this.categories = [...categoriesWithInitials];
+
+			}
+		});
+
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
+	}
+
+	ngOnDestroy() {
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
+		}
 	}
 
 	checkCategoriesIcon(categories: Category[]): Category[] {

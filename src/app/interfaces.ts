@@ -35,6 +35,8 @@ export interface Category {
 	isIncome: boolean;
 	initials?: string;
 	transactions: Transaction[];
+	total?: number;
+	lastTransaction?: number;
 }
 
 export interface DatePickerSetup {

@@ -75,17 +75,15 @@
 	font-family: "capture";
 	color: white;
 	font-size: 1.3rem;
-	margin-top: 30px;
+	margin-top: 20px;
 	text-align: center;
 }
-
 @media (max-width: 800px) {
 	.edit-transaction-icon,
 	.delete-transaction-icon {
 		font-size: 1.2rem;
 	}
 }
-
 @media (max-width: 600px) {
 	.transactions-list-table,
 	.transactions-list-table-headers {
