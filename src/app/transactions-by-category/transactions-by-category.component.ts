@@ -5,6 +5,8 @@ import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Transaction, ApplicationUser, Category, DatePickerSetup } from '../interfaces';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 @Component({
 	selector: 'app-transactions-by-category',
@@ -18,12 +20,14 @@ export class TransactionsByCategoryComponent implements OnInit {
 	categoryName: string;
 	categoryDescription: string;
 	currentCategory: Category;
+	navigateUrl: string;
 
 	private userSubscription: Subscription;
+	confirmationDialogRef: MatDialogRef<ConfirmationModalComponent>;
 
 	fromDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 	toDate: Date = new Date();
-	transactionsHeaders : string[] = [`date`, `comment`, `sum`, `actions`];
+	transactionsHeaders: string[] = [`date`, `comment`, `sum`, `actions`];
 	fromDatePickerSetup: DatePickerSetup = {
 		placeholder: `from`,
 		isFromDate: true,
@@ -35,19 +39,22 @@ export class TransactionsByCategoryComponent implements OnInit {
 		isFromDate: false,
 		isToDate: true
 	};
+	reportsLink = `reports page.`;
+	tableInfoMessage = `*Only this month transactions are available here. If You wish to look through the earlier transactions - check the `;
 
 	constructor(
 		private transactionService: TransactionService,
 		private categoryService: CategoryService,
 		private userService: UserService,
 		private route: ActivatedRoute,
-
+		private dialog: MatDialog,
 	) {
 		this.userService.getUserByToken();
 	}
 
 	ngOnInit() {
 		this.categoryName = this.route.snapshot.paramMap.get('category');
+		this.navigateUrl = `${this.categoryName}/transactions`;
 
 		this.userSubscription = this.userService._user.subscribe(response => {
 			if (response) {
@@ -57,7 +64,9 @@ export class TransactionsByCategoryComponent implements OnInit {
 				if (this.currentCategory) {
 					this.categoryDescription = this.currentCategory.description || '';
 				}
-				this.transactions = this.transactionService.getTransactionsByCategoryId(this.currentUser, this.currentCategory.id);
+				const currentCategoryTransactions = this.transactionService.getTransactionsByCategoryId(this.currentUser, this.currentCategory.id);
+				const thisMonthTransactions = this.transactionService.getThisMonthTransactions(currentCategoryTransactions);
+				this.transactions = [...thisMonthTransactions];
 			}
 		});
 	}
@@ -69,21 +78,51 @@ export class TransactionsByCategoryComponent implements OnInit {
 	}
 
 	handleFromDateChange(fromDateChanged: Date) {
-		console.log('---> fromDateChange ', fromDateChanged);
 		this.fromDate = fromDateChanged;
+		this.getTransactionsByDates();
+
 	}
 
 	handleToDateChange(toDateChanged: Date) {
-		console.log('---> toDateChange ', toDateChanged);
 		this.toDate = toDateChanged;
+		this.getTransactionsByDates();
+	}
+
+	getTransactionsByDates() {
+		const currentTransactions = this.transactionService.getTransactionsByCategoryId(this.currentUser, this.currentCategory.id);
+		const transactionsByDates = this.transactionService.getTransactionsByDates(this.fromDate, this.toDate, currentTransactions);
+		this.transactions = [...transactionsByDates];
 	}
 
 	editTransaction(event) {
 
 	}
 
-	deleteTransaction(event) {
-		
+	openDeleteConformationModal(event) {
+		const transactionToDeleteId = event.srcElement.id;
+		const transactionToDelete = this.transactionService.getTransactionById(this.transactions, transactionToDeleteId);
+		this.openAddFileDialog(transactionToDelete);
 	}
 
+	deleteTransaction(transactionToDelete: Transaction) {
+		console.log('---> delete this transaction ', transactionToDelete);
+		transactionToDelete.isDeleted = true;
+		this.transactionService.deleteTransaction(transactionToDelete, this.navigateUrl);
+	}
+
+	openAddFileDialog(transactionToDelete: Transaction) {
+		this.confirmationDialogRef = this.dialog.open(ConfirmationModalComponent, {
+			data: {
+				message: `Are you sure you want to delete this transaction: `,
+				itemInfo: `${transactionToDelete.comment}, of sum ${transactionToDelete.sum} ?`
+			}
+		});
+		this.confirmationDialogRef
+			.afterClosed()
+			.subscribe(isActionConfirmed => {
+				if (isActionConfirmed) {
+					this.deleteTransaction(transactionToDelete);
+				}
+			});
+	}
 }

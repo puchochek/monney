@@ -1,0 +1,12 @@
+<div class="confirmatiom-message-container">
+    <div class="confirmation-message">
+        {{message}}
+    </div>
+    <div class="additional-info" *ngIf="additionalInfo">
+        {{additionalInfo}}
+    </div>
+    <div class="modal-actions">
+        <button type="submit" class="btn modal-btn" (click)="confirmAction()">{{confirmBtnLbl}}</button>
+        <button type="close" class="btn modal-btn" (click)="closeModal()">{{closeBtnLbl}}</button>
+    </div>
+</div>

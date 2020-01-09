@@ -32,6 +32,7 @@ import { SelectIconComponent } from './select-icon/select-icon.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { TransactionsByCategoryComponent } from './transactions-by-category/transactions-by-category.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { TransactionsByCategoryComponent } from './transactions-by-category/tran
 		TransactionComponent,
 		DatepickerComponent,
 		TransactionsByCategoryComponent,
+		ConfirmationModalComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -77,7 +79,7 @@ import { TransactionsByCategoryComponent } from './transactions-by-category/tran
 		}
 	],
 	bootstrap: [AppComponent],
-	entryComponents: [SelectIconComponent]
+	entryComponents: [SelectIconComponent, ConfirmationModalComponent]
 })
 export class AppModule {
 }
