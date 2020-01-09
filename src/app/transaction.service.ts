@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Transaction, ApplicationUser } from './interfaces';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../app/user.service';
 import { environment } from './../environments/environment';
 import { transition } from '@angular/animations';
 
@@ -19,6 +20,7 @@ export class TransactionService {
 	constructor(
 		private http: HttpClient,
 		private router: Router,
+		private userService: UserService,
 	) { }
 
 	// get userTransactions(): Transaction[] {
@@ -47,14 +49,15 @@ export class TransactionService {
 		);
 	}
 
-	deleteTransaction(transaction: Transaction, navigateUrl: string) {
+	deleteTransaction(user: ApplicationUser, transaction: Transaction, navigateUrl: string) {
 		console.log('---> navigateUrl ', navigateUrl );
 		this.http.patch(this.url, transaction, { observe: 'response' }
 		).subscribe(
 			response => {
 				const deletedTransaction = <Transaction>response.body;
 				console.log('---> deleted Transaction ', deletedTransaction);
-				this.router.navigate([navigateUrl]);
+				//this.router.navigate([navigateUrl]);
+				this.userService.updateUserTransactions(deletedTransaction, user);
 			},
 			error => {
 				console.log('---> DELETE TRANSACTION ERROR ', error);

@@ -105,9 +105,8 @@ export class TransactionsByCategoryComponent implements OnInit {
 	}
 
 	deleteTransaction(transactionToDelete: Transaction) {
-		console.log('---> delete this transaction ', transactionToDelete);
 		transactionToDelete.isDeleted = true;
-		this.transactionService.deleteTransaction(transactionToDelete, this.navigateUrl);
+		this.transactionService.deleteTransaction(this.currentUser, transactionToDelete, this.navigateUrl);
 	}
 
 	openAddFileDialog(transactionToDelete: Transaction) {

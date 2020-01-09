@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, Category } from './interfaces';
+import { ApplicationUser, Category, Transaction } from './interfaces';
 import { LoginUser } from './interfaces';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
@@ -8,6 +8,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../app/storage.service';
 import { CategoryService } from '../app/category.service';
 import { Subscription } from 'rxjs';
+import { transition } from '@angular/animations';
 
 @Injectable({
 	providedIn: 'root'
@@ -131,6 +132,32 @@ export class UserService {
 	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {
 		const currentCategories = userToUpdate.categories;
 		currentCategories.push(createdCategory);
+		this.appUser = userToUpdate;
+	}
+
+	updateUserTransactions(upsertedTransaction: Transaction, userToUpdate: ApplicationUser) {
+		const currentTransactions = [...userToUpdate.transactions];
+		let existedTransaction: Transaction;
+		let updatedTransactions: Transaction[];
+		if (currentTransactions.length) {
+			const thisIdTransactions = currentTransactions.filter(transition => transition.id === upsertedTransaction.id);
+			if (thisIdTransactions.length) {
+				existedTransaction = thisIdTransactions[0];
+			}
+		}
+		if (existedTransaction) {
+			updatedTransactions = currentTransactions.reduce((transactionsList, transaction) => {
+				if (transaction.id === existedTransaction.id ) {
+					transactionsList.push(existedTransaction);
+				} else {
+					transactionsList.push(transaction);
+				}
+				return transactionsList;
+			}, []);
+		} else {
+			updatedTransactions = [...currentTransactions, upsertedTransaction];
+		}
+		userToUpdate.transactions = updatedTransactions;
 		this.appUser = userToUpdate;
 	}
 }
