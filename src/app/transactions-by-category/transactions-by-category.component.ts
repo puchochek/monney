@@ -47,6 +47,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 		private categoryService: CategoryService,
 		private userService: UserService,
 		private route: ActivatedRoute,
+		private router: Router,
 		private dialog: MatDialog,
 	) {
 		this.userService.getUserByToken();
@@ -95,7 +96,9 @@ export class TransactionsByCategoryComponent implements OnInit {
 	}
 
 	editTransaction(event) {
-
+		const transactionToEditId = event.srcElement.id;
+		this.userService.appUser = this.currentUser;
+		this.router.navigate([`/${this.categoryName}/edit/${transactionToEditId}`]);
 	}
 
 	openDeleteConformationModal(event) {
@@ -106,7 +109,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 
 	deleteTransaction(transactionToDelete: Transaction) {
 		transactionToDelete.isDeleted = true;
-		this.transactionService.deleteTransaction(this.currentUser, transactionToDelete, this.navigateUrl);
+		this.transactionService.deleteTransaction(this.currentUser, transactionToDelete);
 	}
 
 	openAddFileDialog(transactionToDelete: Transaction) {

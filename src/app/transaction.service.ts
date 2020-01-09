@@ -49,15 +49,31 @@ export class TransactionService {
 		);
 	}
 
-	deleteTransaction(user: ApplicationUser, transaction: Transaction, navigateUrl: string) {
-		console.log('---> navigateUrl ', navigateUrl );
+	deleteTransaction(user: ApplicationUser, transaction: Transaction) {
 		this.http.patch(this.url, transaction, { observe: 'response' }
 		).subscribe(
 			response => {
 				const deletedTransaction = <Transaction>response.body;
 				console.log('---> deleted Transaction ', deletedTransaction);
-				//this.router.navigate([navigateUrl]);
 				this.userService.updateUserTransactions(deletedTransaction, user);
+			},
+			error => {
+				console.log('---> DELETE TRANSACTION ERROR ', error);
+			},
+			() => {
+				// 'onCompleted' callback.
+				// No errors, route to new page here
+			}
+		);
+	}
+
+	updateTransaction(transaction: Transaction, navigateUrl: string) {
+		this.http.patch(this.url, transaction, { observe: 'response' }
+		).subscribe(
+			response => {
+				const updatedTransaction = <Transaction>response.body;
+				console.log('---> update Transaction ', updatedTransaction);
+				this.router.navigate([navigateUrl]);
 			},
 			error => {
 				console.log('---> DELETE TRANSACTION ERROR ', error);
