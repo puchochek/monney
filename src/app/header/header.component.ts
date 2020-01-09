@@ -10,21 +10,21 @@ import { ApplicationUser } from '../interfaces';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	private userSubscription: Subscription;
-	// private DEFAULT_AVATAR_SRC = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1577453294/iconfinder_Unicorn_y15fli.png`;
-	private DEFAULT_AVATAR_SRC =`https://res.cloudinary.com/dsiwkaugw/image/upload/v1578037420/no-avatar-user-transparent_ynbo0u.png`;
-
+	DEFAULT_AVATAR_SRC = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1578037420/no-avatar-user-transparent_ynbo0u.png`;
 	monneyLogoLbl: string = `monney`;
 	singInLbl: string = `sing in`;
 	singUpLbl: string = `sing up`;
-	isUserAuthorised: boolean;
 	headerMenuItems = [
 		{ name: `User info`, action: this.goToProfile.bind(this) },
 		{ name: `Log out`, action: this.logOut.bind(this) }
 	];
+
 	avatarSrc: string;
 	avatarInitials: string;
 	currentUser: ApplicationUser;
+	isUserAuthorised: boolean;
+
+	private userSubscription: Subscription;
 
 	constructor(
 		private userService: UserService,
@@ -44,6 +44,9 @@ export class HeaderComponent implements OnInit {
 				}
 			}
 		});
+		if (!this.currentUser && localStorage.getItem('token')) {
+			this.userService.getUserByToken();
+		}
 	}
 
 	ngOnDestroy() {
