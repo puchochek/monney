@@ -151,4 +151,28 @@ export class CategoryService {
 			);
 	}
 
+	updateCategory(categoryToUpdate: Category) {
+		const url = `${environment.apiBaseUrl}/category`;
+		this.http.patch(url, categoryToUpdate, { observe: 'response' })
+			.subscribe(
+				response => {
+					const upsertedCategory = <Category>response.body;
+					console.log('---> CATEGORY updatedCategory ', upsertedCategory);
+					this.upsertedCategory = upsertedCategory;
+					this.storageService.updateToken(response.headers.get('Authorization'));
+					if (this.upsertedCategory.name !== `Income`) {
+						this.router.navigate(['/home']);
+					}
+				},
+				error => {
+					console.log('--->CATEGORY updatedCategory error ', error);
+					this.unsavedCategory = categoryToUpdate;
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
+	}
+
 }

@@ -45,10 +45,8 @@ export class CategoriesComponent implements OnInit {
 				const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
 				const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
 				this.categories = [...categoriesWithInitials];
-
 			}
 		});
-
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
 	}
 
@@ -84,6 +82,16 @@ export class CategoriesComponent implements OnInit {
 	addExpence(event) {
 		const categoryName = event.srcElement.id;
 		this.router.navigate([`/${categoryName}/add`]);
+	}
+
+	editCategory(event) {
+		const categoryName = event.srcElement.id;
+		const currentCategory = this.categories.find(category => category.name === categoryName);
+		if (currentCategory) {
+			this.router.navigate([`/category/edit/${currentCategory.id}`]);
+		} else {
+			this.router.navigate([`/home`]);
+		}
 	}
 
 }

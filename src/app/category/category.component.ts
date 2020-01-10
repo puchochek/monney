@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SelectIconComponent } from '../select-icon/select-icon.component';
 import { CategoryService } from '../category.service';
-import { Category } from '../interfaces';
+import { UserService } from '../user.service';
+import { Category, ApplicationUser } from '../interfaces';
 import { Subscription } from 'rxjs';
 
 
@@ -28,33 +29,61 @@ export class CategoryComponent implements OnInit {
 	isCategoryEdit: boolean;
 	categoryFormLbl: string;
 	icon: string;
+	categoryId: string;
+	currentUser: ApplicationUser;
+	categoryToEdit: Category;
 
 	selectIconDialogRef: MatDialogRef<SelectIconComponent>;
 	private failedCategorySubscription: Subscription;
+	private userSubscription: Subscription;
 
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
 		private dialog: MatDialog,
-		private categoryService: CategoryService
+		private categoryService: CategoryService,
+		private userService: UserService,
 	) { }
 
 	ngOnInit() {
 		this.failedCategorySubscription = this.categoryService._failedDategory.subscribe(response => {
-			console.log('---> HOME _category ', response);
+			console.log('---> HOME failed category ', response);
 			if (response) {
 				//TODO handle category error
 			}
 		});
 		this.isCategoryEdit = this.router.url === this.ADD_CATEGORY_ROUTE ? false : true;
 		this.categoryFormLbl = this.isCategoryEdit ? `edit category` : `add new category`;
-		this.icon = this.DEFAULT_CATEGORY_ICON; //TODO FOR EDIT ADD USER ICON
+		if (this.route.snapshot.paramMap.get('id')) {
+			this.categoryId = this.route.snapshot.paramMap.get('id');
+		}
 
+		if (this.categoryId) {
+			this.userSubscription = this.userService._user.subscribe(response => {
+				if (response) {
+					console.log('---> category USER ', response);
+					this.currentUser = <ApplicationUser>response;
+					this.categoryToEdit = this.currentUser.categories.filter(category => category.id === this.categoryId)[0];
+					this.name = this.categoryToEdit.name;
+					this.description = this.categoryToEdit.description;
+					if (this.categoryToEdit.icon) {
+						this.icon = this.categoryToEdit.icon;
+					} else {
+						this.icon = this.DEFAULT_CATEGORY_ICON;
+					}
+				}
+			});
+		} else {
+			this.icon = this.DEFAULT_CATEGORY_ICON;
+		}
 	}
 
 	ngOnDestroy() {
 		if (this.failedCategorySubscription) {
 			this.failedCategorySubscription.unsubscribe();
+		}
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
 		}
 	}
 
@@ -64,6 +93,14 @@ export class CategoryComponent implements OnInit {
 		this.selectIconDialogRef
 			.afterClosed()
 			.subscribe(selectedIcon => this.icon = selectedIcon);
+	}
+
+	handleSaveBtnClick() {
+		if (this.isCategoryEdit) {
+			this.editCategory();
+		} else {
+			this.saveCategory();
+		}
 	}
 
 	saveCategory() {
@@ -76,9 +113,16 @@ export class CategoryComponent implements OnInit {
 			transactions: []
 		}
 		this.isSpinner = true;
-		if (!this.isCategoryEdit) {
-			this.categoryService.createCategory(categoryToSave);
-		}
+		this.categoryService.createCategory(categoryToSave);
+	}
 
+	editCategory() {
+		const categoryToUpdate = { ...this.categoryToEdit };
+		categoryToUpdate.name = this.name;
+		categoryToUpdate.description = this.description;
+		categoryToUpdate.icon = this.icon === this.DEFAULT_CATEGORY_ICON ? '' : this.icon;
+
+		this.isSpinner = true;
+		this.categoryService.updateCategory(categoryToUpdate);
 	}
 }
