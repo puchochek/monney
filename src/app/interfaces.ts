@@ -7,6 +7,7 @@ export interface ApplicationUser {
 	provider: string;
 	avatar?: string;
 	categories: Category[];
+	sortCategoriesBy: string;
 	transactions: Transaction[];
 }
 
@@ -37,6 +38,8 @@ export interface Category {
 	transactions: Transaction[];
 	total?: number;
 	lastTransaction?: number;
+	updatedAt?: Date;
+	createdAt?: Date;
 }
 
 export interface DatePickerSetup {

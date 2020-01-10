@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
 	isInvalidEmailMessage: boolean;
 	isInvalidPasswordMessage: boolean;
 
+	DEFAULT_SORT_CATEGORIES_ORDER = `date`;
 	userNameLbl: string = `name`;
 	userEmailLbl: string = `email`;
 	userPasswordLbl: string = `password`;
@@ -96,6 +97,7 @@ export class LoginComponent implements OnInit {
 				password: this.password,
 				isConfirmed: false,
 				provider: `self-registerd`,
+				sortCategoriesBy: this.DEFAULT_SORT_CATEGORIES_ORDER,
 				categories: [],
 				transactions: []
 			};

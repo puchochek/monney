@@ -111,6 +111,57 @@ export class CategoryService {
 		return sortedTransactions;
 	}
 
+	sortCategories(categories: Category[], sortByFlag: string): Category[] {
+		const sortByDateFlag = `date`;
+		const sortByNameFlag = `name`;
+		const sortBySumFlag = `sum`;
+		let sortedCategories: Category[];
+		switch (sortByFlag) {
+			case sortByDateFlag:
+				sortedCategories = this.sortCategoriesByDate(categories);
+				break;
+			case sortByNameFlag:
+				sortedCategories = this.sortCategoriesByName(categories);
+				break;
+			case sortBySumFlag:
+				sortedCategories = this.sortCategoriesBySum(categories);
+				break;
+		}
+
+		return sortedCategories;
+	}
+
+	sortCategoriesByDate(categories: Category[]): Category[] {
+		const sortedCategories: Category[] = categories.sort(function compare(a, b) {
+			return (new Date(b.updatedAt) as any) - (new Date(a.updatedAt) as any);
+		});
+
+		return sortedCategories;
+	}
+
+	sortCategoriesByName(categories: Category[]): Category[] {
+		const sortedCategories: Category[] = categories.sort(function (a, b) {
+			var nameA = a.name.toUpperCase();
+			var nameB = b.name.toUpperCase();
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+		});
+
+		return sortedCategories;
+	}
+
+	sortCategoriesBySum(categories: Category[]): Category[] {
+		const sortedCategories: Category[] = categories.sort(function (a, b) {
+			return Number(b.total) - Number(a.total);
+		});
+
+		return sortedCategories;
+	}
+
 	checkIncomeCategory(user: ApplicationUser) {
 		if (user.categories.length === 0) {
 			const category = {

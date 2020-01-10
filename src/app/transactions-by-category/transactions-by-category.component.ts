@@ -104,7 +104,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 	openDeleteConformationModal(event) {
 		const transactionToDeleteId = event.srcElement.id;
 		const transactionToDelete = this.transactionService.getTransactionById(this.transactions, transactionToDeleteId);
-		this.openAddFileDialog(transactionToDelete);
+		this.openConfirmationDialog(transactionToDelete);
 	}
 
 	deleteTransaction(transactionToDelete: Transaction) {
@@ -112,7 +112,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 		this.transactionService.deleteTransaction(this.currentUser, transactionToDelete);
 	}
 
-	openAddFileDialog(transactionToDelete: Transaction) {
+	openConfirmationDialog(transactionToDelete: Transaction) {
 		this.confirmationDialogRef = this.dialog.open(ConfirmationModalComponent, {
 			data: {
 				message: `Are you sure you want to delete this transaction: `,

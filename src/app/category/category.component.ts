@@ -51,8 +51,8 @@ export class CategoryComponent implements OnInit {
 
 	ngOnInit() {
 		this.failedCategorySubscription = this.categoryService._failedDategory.subscribe(response => {
-			console.log('---> HOME failed category ', response);
 			if (response) {
+				console.log('---> HOME failed category ', response);
 				//TODO handle category error
 			}
 		});

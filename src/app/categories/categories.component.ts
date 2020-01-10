@@ -44,7 +44,8 @@ export class CategoriesComponent implements OnInit {
 				const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(expenceCategories, this.currentUser);
 				const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
 				const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
-				this.categories = [...categoriesWithInitials];
+				const sortedCategories = this.categoryService.sortCategories(categoriesWithInitials, this.currentUser.sortCategoriesBy);
+				this.categories = [...sortedCategories];
 			}
 		});
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
