@@ -70,7 +70,7 @@ export class CategoriesComponent implements OnInit {
 		return categoriesWithInitials;
 	}
 
-	addCategory(event) {
+	addCategory() {
 		this.router.navigate(['/category/add']);
 	}
 
