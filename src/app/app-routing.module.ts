@@ -7,6 +7,7 @@ import { ExternalRedirectComponent } from '../app/external-redirect/external-red
 import { CategoryComponent } from '../app/category/category.component';
 import { TransactionComponent } from '../app/transaction/transaction.component';
 import { TransactionsByCategoryComponent } from '../app/transactions-by-category/transactions-by-category.component';
+import { UserProfileComponent } from '../app/user-profile/user-profile.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: ':category/edit/:id', component: TransactionComponent },
     { path: 'auth/:token', component: AuthComponent},
     { path: ':category/transactions', component: TransactionsByCategoryComponent},
+    { path: 'user', component: UserProfileComponent},
     { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: ExternalRedirectComponent },
 ];
 

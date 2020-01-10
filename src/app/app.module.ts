@@ -33,6 +33,9 @@ import { TransactionComponent } from './transaction/transaction.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { TransactionsByCategoryComponent } from './transactions-by-category/transactions-by-category.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from "ng2-file-upload";
 
 
 @NgModule({
@@ -51,6 +54,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 		DatepickerComponent,
 		TransactionsByCategoryComponent,
 		ConfirmationModalComponent,
+		UserProfileComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -69,7 +73,8 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 		MatDatepickerModule,
 		MatInputModule,
 		MatNativeDateModule,
-		IgxAvatarModule
+		IgxAvatarModule,
+		FileUploadModule
 	],
 	providers: [
 		{

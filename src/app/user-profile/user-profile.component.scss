@@ -1,0 +1,23 @@
+// .user-profile-container {
+//     margin: 10px;
+//     color: white;
+// }
+.user-avatar-label {
+    padding: 10px 0 0 20px;
+    color: white;
+    font-family: 'capture';
+    font-size: 1.3rem;
+}
+.user-avatar {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+.user-avatar-action {
+    margin: auto;
+}
+.user-avatar-image {
+    text-align: left;
+}
+// input[type="file"] {
+//     display: none;
+// }

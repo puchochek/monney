@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { StorageService } from '../storage.service';
 import { Subscription } from 'rxjs';
-import { ApplicationUser } from '../interfaces';
+import { ApplicationUser, StorageUser } from '../interfaces';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-header',
@@ -28,7 +29,8 @@ export class HeaderComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
-		private storageService: StorageService
+		private storageService: StorageService,
+		private router: Router,
 	) { }
 
 	ngOnInit() {
@@ -44,7 +46,16 @@ export class HeaderComponent implements OnInit {
 				}
 			}
 		});
-		if (!this.currentUser && localStorage.getItem('token')) {
+		if (!this.currentUser && localStorage.getItem('storageUser')) {
+			const currentStorageUser = JSON.parse(localStorage.getItem('storageUser'));
+			this.isUserAuthorised = true;
+			if (currentStorageUser.avatar) {
+				this.avatarSrc = this.currentUser.avatar;
+			} else {
+				this.avatarSrc = this.DEFAULT_AVATAR_SRC;
+			}
+		}
+		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {
 			this.userService.getUserByToken();
 		}
 	}
@@ -56,7 +67,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	goToProfile() {
-		//this.router.navigate([`/myprofile/${this.userId}`]);
+		this.router.navigate([`/user`]);
 	}
 
 	logOut() {

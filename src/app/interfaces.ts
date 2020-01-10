@@ -16,6 +16,11 @@ export interface LoginUser {
 	password: string;
 }
 
+export interface StorageUser {
+	avatar: string;
+	//userName: string;
+}
+
 export interface Transaction {
 	id?: string;
 	user?: string;

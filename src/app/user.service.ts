@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, Category, Transaction } from './interfaces';
+import { ApplicationUser, Category, Transaction, StorageUser } from './interfaces';
 import { LoginUser } from './interfaces';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
@@ -102,6 +102,7 @@ export class UserService {
 					response => {
 						this.appUser = <ApplicationUser>response.body;
 						this.storageService.updateToken(response.headers.get('Authorization'));
+						this.storageService.updateStorageUser(this.appUser);
 						console.log('---> USER SERVICE response ', response);
 					},
 					error => {
