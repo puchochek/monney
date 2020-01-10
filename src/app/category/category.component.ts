@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { SelectIconComponent } from '../select-icon/select-icon.component';
 import { CategoryService } from '../category.service';
 import { UserService } from '../user.service';
 import { Category, ApplicationUser } from '../interfaces';
 import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { SelectIconComponent } from '../select-icon/select-icon.component';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class CategoryComponent implements OnInit {
 	categoryIconLbl: string = `icon`;
 	selectCategoryLbl: string = `select icon`;
 	saveCategoryLbl: string = `save`;
+	deleteCategoryLbl: string = `delete`;
 
 	isSpinner: boolean;
 	isCategoryEdit: boolean;
@@ -34,6 +36,8 @@ export class CategoryComponent implements OnInit {
 	categoryToEdit: Category;
 
 	selectIconDialogRef: MatDialogRef<SelectIconComponent>;
+	confirmationDialogRef: MatDialogRef<ConfirmationModalComponent>;
+
 	private failedCategorySubscription: Subscription;
 	private userSubscription: Subscription;
 
@@ -95,6 +99,21 @@ export class CategoryComponent implements OnInit {
 			.subscribe(selectedIcon => this.icon = selectedIcon);
 	}
 
+	openConfirmationDialog() {
+		this.confirmationDialogRef = this.dialog.open(ConfirmationModalComponent, {
+			data: {
+				message: `Are you sure you want to delete this category: ${this.categoryToEdit.name}? Notice that all the related transactions will be deleted as well.`
+			}
+		});
+		this.confirmationDialogRef
+			.afterClosed()
+			.subscribe(isActionConfirmed => {
+				if (isActionConfirmed) {
+					this.deleteCategory();
+				}
+			});
+	}
+
 	handleSaveBtnClick() {
 		if (this.isCategoryEdit) {
 			this.editCategory();
@@ -124,5 +143,13 @@ export class CategoryComponent implements OnInit {
 
 		this.isSpinner = true;
 		this.categoryService.updateCategory(categoryToUpdate);
+	}
+
+	deleteCategory() {
+		const categoryToDelete = { ...this.categoryToEdit };
+		categoryToDelete.isDeleted = true;
+
+		this.isSpinner = true;
+		this.categoryService.updateCategory(categoryToDelete);
 	}
 }
