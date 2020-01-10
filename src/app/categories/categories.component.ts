@@ -20,11 +20,10 @@ export class CategoriesComponent implements OnInit {
 	addCategoryBtn: string = `add category`;
 	lastExpenceLbl: string = `last:`;
 	expenceTotalLbl: string = `total: `;
+	addNewCategoryLbl: string = `Add new category`;
+	sortCategoriesByLbl: string = `Sort categories by`;
 	categoriesHeaderLbl: string = `categories`;
-	categoryMenuItems = [
-		{ name: `Add category`, action: this.addCategory.bind(this) },
-		// { name: `Log out`, action: this.logOut.bind(this) }
-	];
+	subMenuItems: string[] = [`name`, `date`, `sum`];
 
 	private userSubscription: Subscription;
 
@@ -95,4 +94,9 @@ export class CategoriesComponent implements OnInit {
 		}
 	}
 
+	sortCategoriesByField(fieldName: string) {
+		const userToUpdate = {...this.currentUser};
+		userToUpdate.sortCategoriesBy = fieldName;
+		this.userService.updateUser(userToUpdate);
+	}
 }

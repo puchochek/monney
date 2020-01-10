@@ -3,12 +3,19 @@
         <div class="categories-list-header">
             <div class="categories-list-label">{{categoriesHeaderLbl}}</div>
             <div class="categories-list-actions">
-                <mat-menu #appMenu="matMenu" xPosition="after">
-                    <button mat-menu-item class="custom-menu" *ngFor="let menuItem of categoryMenuItems"
-                        (click)="menuItem.action()">{{menuItem.name}}</button>
-                </mat-menu>
-                <mat-icon class="category-menu-icon" [matMenuTriggerFor]="appMenu" matTooltip="Category menu">menu
-                </mat-icon>
+                <mat-menu #rootMenu="matMenu">
+					<button mat-menu-item class="custom-menu" (click)="addCategory()">{{addNewCategoryLbl}}</button>
+					<button mat-menu-item class="custom-menu" [matMenuTriggerFor]="subMenu">{{sortCategoriesByLbl}}</button>
+				</mat-menu>
+
+				<mat-menu #subMenu="matMenu">
+					<button mat-menu-item *ngFor="let menuItem of subMenuItems"
+						(click)="sortCategoriesByField(menuItem)" class="custom-menu">{{menuItem}}</button>
+				</mat-menu>
+
+				<button mat-icon-button [matMenuTriggerFor]="rootMenu" matTooltip="Manage expense categories">
+					<mat-icon class="category-menu-icon">menu</mat-icon>
+				</button>
             </div>
         </div>
         <div class="categories-list">

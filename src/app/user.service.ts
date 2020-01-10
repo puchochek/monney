@@ -129,6 +129,25 @@ export class UserService {
 		});
 	}
 
+	updateUser(user: ApplicationUser) {
+		this.http.patch(this.userBaseUrl, user, { observe: 'response' })
+			.subscribe(
+				response => {
+					this.appUser = <ApplicationUser>response.body;
+					console.log('---> USER updatedUser ', this.appUser);
+					this.storageService.updateToken(response.headers.get('Authorization'));
+				},
+				error => {
+					console.log('---> USER updatedUser error ', error);
+				},
+				() => {
+					// 'onCompleted' callback.
+					// No errors, route to new page here
+				}
+			);
+
+	}
+
 	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {
 		const currentCategories = userToUpdate.categories;
 		currentCategories.push(createdCategory);
@@ -147,7 +166,7 @@ export class UserService {
 		}
 		if (existedTransaction) {
 			updatedTransactions = currentTransactions.reduce((transactionsList, transaction) => {
-				if (transaction.id === existedTransaction.id ) {
+				if (transaction.id === existedTransaction.id) {
 					transactionsList.push(existedTransaction);
 				} else {
 					transactionsList.push(transaction);
