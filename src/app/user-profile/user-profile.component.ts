@@ -106,7 +106,7 @@ export class UserProfileComponent implements OnInit {
 		this.uploader.uploadAll();
 	}
 
-	hideInvalidInputMessage() {
+	hideInvalidInputMessage(event) {
 		console.log('hideInvalidInputMessage')
 		this.isEmailInvalid = false;
 		this.isBalanceLimitInvalid = false;
