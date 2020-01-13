@@ -9,6 +9,8 @@ import { StorageService } from '../app/storage.service';
 import { CategoryService } from '../app/category.service';
 import { Subscription } from 'rxjs';
 import { transition } from '@angular/animations';
+import { FileUploadModule } from "ng2-file-upload";
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,6 +20,7 @@ export class UserService {
 	readonly _user = this.user.asObservable();
 
 	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
+	public uploader: FileUploader;
 
 	constructor(
 		private http: HttpClient,

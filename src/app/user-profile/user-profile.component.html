@@ -1,18 +1,13 @@
 <div calss="user-profile-container">
-    <div class="user-avatar-label">
-        {{userAvatarLbl}}
+    <div class="user-profile-form">
+        <div class="user-avatar-label">
+            {{userAvatarLbl}}
+        </div>
+        <div class="user-avatar">
+            <igx-avatar roundShape="true" id="avatar" initials="t" [src]="avatarSrc" bgColor="#8e8e8e" color="white"
+                class="user-avatar-image" matTooltip="User avatar">
+            </igx-avatar>
+            <input type="file" name="avatar" ng2FileSelect [uploader]="uploader" (change)="onFileSelected()"/>
+        </div>
     </div>
-    <!-- <div class="user-avatar">
-        <div class="user-avatar-action">
-            <input type="file" name="avatar" ng2FileSelect [uploader]="uploader" />
-            Update avatar
-        </div>
-        <div class="upload-avatar-action">
-            <button type="button" class="upload-avatar" (click)="uploader.uploadAll()"
-                [disabled]="!uploader.getNotUploadedItems().length">
-                Upload an Image
-            </button>
-        </div>
-        <div class="user-avatar-image"></div>
-    </div> -->
 </div>

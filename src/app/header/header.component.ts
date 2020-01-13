@@ -49,11 +49,7 @@ export class HeaderComponent implements OnInit {
 		if (!this.currentUser && localStorage.getItem('storageUser')) {
 			const currentStorageUser = JSON.parse(localStorage.getItem('storageUser'));
 			this.isUserAuthorised = true;
-			if (currentStorageUser.avatar) {
-				this.avatarSrc = this.currentUser.avatar;
-			} else {
-				this.avatarSrc = this.DEFAULT_AVATAR_SRC;
-			}
+			this.avatarSrc = currentStorageUser.avatar ? currentStorageUser.avatar : this.DEFAULT_AVATAR_SRC;
 		}
 		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {
 			this.userService.getUserByToken();
