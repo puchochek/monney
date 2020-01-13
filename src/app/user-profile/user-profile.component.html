@@ -1,13 +1,52 @@
 <div calss="user-profile-container">
     <div class="user-profile-form">
-        <div class="user-avatar-label">
-            {{userAvatarLbl}}
+        <div class="user-profile-label">
+            {{userInfoLbl}}
         </div>
         <div class="user-avatar">
+            <div class="user-avatar-label">
+                {{userAvatarLbl}}
+            </div>
             <igx-avatar roundShape="true" id="avatar" initials="t" [src]="avatarSrc" bgColor="#8e8e8e" color="white"
                 class="user-avatar-image" matTooltip="User avatar">
             </igx-avatar>
-            <input type="file" name="avatar" ng2FileSelect [uploader]="uploader" (change)="onFileSelected()"/>
+            <label class="label-input">
+                <span class="label-text">{{changeAvatarLbl}}</span>
+                <input type="file" name="avatar" ng2FileSelect [uploader]="uploader" (change)="onFileSelected()" />
+            </label>
+        </div>
+        <div class="user-name">
+            <div class="user-name-label">
+                {{userNameLbl}}
+            </div>
+            <div class="user-name-input">
+                <input type="text" class="user-input" id="name" [(ngModel)]="name" (keypress)="hideInvalidInputMessage($event)">
+            </div>
+            <div class="invalid-input" *ngIf="isNameInvalid">{{invalidNameMessage}}</div>
+        </div>
+        <div class="user-email">
+            <div class="user-email-label">
+                {{userEmailLbl}}
+            </div>
+            <div class="user-emeil-input">
+                <input type="text" class="user-input" id="email" [(ngModel)]="email" (keypress)="hideInvalidInputMessage($event)">
+            </div>
+            <div class="invalid-input" *ngIf="isEmailInvalid">{{invalidEmailMessage}}</div>
+        </div>
+        <div class="user-balance-limit">
+            <div class="user-balance-limit-label">
+                {{balanceLimitLbl}}
+            </div>
+            <div class="user-balance-limit-helper-text">
+                {{balanceHelperText}}
+            </div>
+            <div class="user-balance-limit-input">
+                <input type="text" class="user-input" id="balanceLimit" [(ngModel)]="balanceLimit" (keypress)="hideInvalidInputMessage($event)">
+            </div>
+            <div class="invalid-input" *ngIf="isBalanceLimitInvalid">{{invalidBalanceLimitMessage}}</div>
+        </div>
+        <div class="user-info-submit">
+            <button type="submit" class="btn btn-submit" (click)="submitForm()">{{userInfoSubmitBtnLbl}}</button>
         </div>
     </div>
 </div>

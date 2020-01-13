@@ -8,6 +8,7 @@ export interface ApplicationUser {
 	avatar?: string;
 	categories: Category[];
 	sortCategoriesBy: string;
+	balanceEdge?: number;
 	transactions: Transaction[];
 }
 
