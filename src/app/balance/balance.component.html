@@ -1,0 +1,22 @@
+<div class="balance-container">
+    <div class="balance-dates-info">
+        Balance from {{ monthStartDate | date }} to {{ currentDate | date }}
+    </div>
+    <div class="balance-dates-info-comment">
+        <span>{{balanceDatesCommentMessage}}</span><span class="report-link"
+            [routerLink]="'/home'">{{reportsLink}}</span>
+    </div>
+    <div class="incomes-info">
+        <div class="incomes-info-label">{{incomesInfoLbl}}</div>
+        <div class="incomes-info-value">{{incomesInfoValue}}</div>
+    </div>
+    <div class="expenses-info">
+        <div class="expenses-info-label">{{expensesLbl}}</div>
+        <div class="expenses-info-value">{{expensesInfoValue}}</div>
+    </div>
+    <div class="balance-info">
+        <div class="balance-info-label">{{balanceLbl}}</div>
+        <div class="balance-info-value" [ngClass]="balanceValue">{{balanceInfoValue}}</div>
+    </div>
+    <div class="low-balance-warning" *ngIf="balanceValue === 'balance-value-limit'">{{lowBalanceMessage}}</div>
+</div>

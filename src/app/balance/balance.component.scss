@@ -1,0 +1,88 @@
+.balance-container {
+	color: white;
+	margin: 10px 20px;
+}
+.balance-dates-info {
+	font-family: "sans";
+	text-transform: uppercase;
+}
+.balance-dates-info-comment {
+	font-family: "sans";
+	font-size: 0.6rem;
+	line-height: 1;
+	margin-bottom: 10px;
+}
+.report-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.incomes-info,
+.expenses-info,
+.balance-info {
+	display: grid;
+	grid-template-columns: 3fr 9fr;
+}
+.incomes-info-label,
+.expenses-info-label,
+.balance-info-label {
+	font-family: "sans";
+	text-transform: uppercase;
+}
+.incomes-info-value,
+.expenses-info-value,
+.balance-info-value {
+	font-family: "sans";
+}
+.balance-value-normal {
+	color: white;
+}
+.balance-value-limit {
+	color: red;
+}
+.low-balance-warning {
+	color: white;
+	font-size: 0.6rem;
+	line-height: 1;
+}
+@media (max-width: 800px) {
+    .balance-dates-info,
+	.incomes-info-label,
+	.expenses-info-label,
+	.balance-info-label,
+	.incomes-info-value,
+	.expenses-info-value,
+	.balance-info-value {
+        font-size: .8rem;
+        line-height: 1.3;
+	}
+}
+@media(max-width: 600px) {
+    .balance-dates-info-comment {
+        display: none;
+    }
+    .balance-dates-info {
+        text-transform: none;
+        line-height: 1;
+    }
+    .balance-dates-info {
+        margin-bottom: 10px;
+    }
+    .incomes-info-label,
+	.expenses-info-label,
+	.balance-info-label,
+	.incomes-info-value,
+	.expenses-info-value,
+	.balance-info-value {
+        line-height: 1.2;
+    }
+}
+@media(max-width: 300px) {
+    .incomes-info-label,
+	.expenses-info-label,
+	.balance-info-label,
+	.incomes-info-value,
+	.expenses-info-value,
+	.balance-info-value {
+        font-size: .6rem;
+    }
+}

@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { TransactionService } from '../transaction.service';
 import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
+import { BalanceService } from '../balance.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Transaction, ApplicationUser, Category, DatePickerSetup } from '../interfaces';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -46,6 +47,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 		private transactionService: TransactionService,
 		private categoryService: CategoryService,
 		private userService: UserService,
+		private balanceService: BalanceService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private dialog: MatDialog,
@@ -66,7 +68,7 @@ export class TransactionsByCategoryComponent implements OnInit {
 					this.categoryDescription = this.currentCategory.description || '';
 				}
 				const currentCategoryTransactions = this.transactionService.getTransactionsByCategoryId(this.currentUser, this.currentCategory.id);
-				const thisMonthTransactions = this.transactionService.getThisMonthTransactions(currentCategoryTransactions);
+				const thisMonthTransactions = this.balanceService.getThisMonthTransactionsByCategoryId(this.currentCategory.id, currentCategoryTransactions);
 				this.transactions = [...thisMonthTransactions];
 			}
 		});

@@ -104,7 +104,7 @@ export class UserProfileComponent implements OnInit {
 		}
 		this.name = this.currentUser.name;
 		this.email = this.currentUser.email;
-		this.balanceLimit = this.currentUser.balanceEdge || 0;
+		this.balanceLimit = this.currentUser.balanceEdge;
 	}
 
 	onFileSelected() {

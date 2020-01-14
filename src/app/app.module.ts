@@ -36,6 +36,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { FileUploadModule } from "ng2-file-upload";
+import { BalanceComponent } from './balance/balance.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { FileUploadModule } from "ng2-file-upload";
 		TransactionsByCategoryComponent,
 		ConfirmationModalComponent,
 		UserProfileComponent,
+		BalanceComponent,
 	],
 	imports: [
 		BrowserModule,

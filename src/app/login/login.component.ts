@@ -97,6 +97,7 @@ export class LoginComponent implements OnInit {
 				password: this.password,
 				isConfirmed: false,
 				provider: `self-registerd`,
+				balanceEdge: 0,
 				sortCategoriesBy: this.DEFAULT_SORT_CATEGORIES_ORDER,
 				categories: [],
 				transactions: []

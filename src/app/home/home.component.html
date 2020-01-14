@@ -27,13 +27,19 @@
                     </div>
                 </div>
             </div>
+
             <div class="home-divider"></div>
-            <div class="home-balance">In development</div>
+
+            <div class="home-balance">
+                <app-balance></app-balance>
+            </div>
         </div>
+
         <div class="home-categories">
             <app-categories></app-categories>
         </div>
     </div>
+
     <ng-template #unauthorisedUser>
         <div class="no-user-home-content">
             <div class="no-user-home-message">
