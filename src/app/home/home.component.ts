@@ -3,6 +3,8 @@ import { UserService } from '../user.service';
 import { CategoryService } from '../category.service';
 import { Subscription } from 'rxjs';
 import { ApplicationUser, Category } from '../interfaces';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
 	selector: 'app-home',
@@ -22,7 +24,8 @@ export class HomeComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
-		private categoryService: CategoryService
+		private categoryService: CategoryService,
+		private router: Router,
 	) {
 		this.userService.getUserByToken();
 	}
@@ -53,6 +56,11 @@ export class HomeComponent implements OnInit {
 		if (this.categorySubscription) {
 			this.categorySubscription.unsubscribe();
 		}
+	}
+
+	addIncome(event) {
+		const categoryName = `Income`;
+		this.router.navigate([`/${categoryName}/add`]);
 	}
 
 }
