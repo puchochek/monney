@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 	// isSpinner: boolean;
 	incomesLbl: string = `incomes`;
 	reportsLbl: string = `reports`;
+	categoryName: string = `Income`;
 	homeMessage: string = `Hello and welcome to Monney - a simple app to track and keep your expences in order.
 	If You still dont have an account here - You may start from singing in. Otherwise - sing up and enjoy.`
 	private userSubscription: Subscription;
@@ -59,8 +60,13 @@ export class HomeComponent implements OnInit {
 	}
 
 	addIncome(event) {
-		const categoryName = `Income`;
-		this.router.navigate([`/${categoryName}/add`]);
+
+		this.router.navigate([`/${this.categoryName}/add`]);
+	}
+
+	viewIncomesList(event) {
+
+		this.router.navigate([`/${this.categoryName}/transactions`]);
 	}
 
 }

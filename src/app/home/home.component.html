@@ -12,7 +12,7 @@
                             <mat-icon class="incomes-action-icon" matTooltip="Add income" (click)="addIncome($event)"
                                 id="Income">add</mat-icon>
                             <mat-icon class="incomes-action-icon" matTooltip="All incomes"
-                                (click)="viewIncomseLise($event)" id="Income">view_list</mat-icon>
+                                (click)="viewIncomesList($event)" id="Income">view_list</mat-icon>
                         </div>
                     </div>
                 </div>
@@ -20,8 +20,8 @@
                     <div class="reports">
                         <div class="reports-label">{{reportsLbl}}</div>
                         <div class="reports-actions">
-                            <mat-icon class="reports-action-icon" matTooltip="Add expence">add</mat-icon>
-                            <mat-icon class="reports-action-icon" matTooltip="All category expences">view_list
+                            <mat-icon class="reports-action-icon" matTooltip="Build chart" (click)="buildChart($event)">
+                                insert_chart_outlined
                             </mat-icon>
                         </div>
                     </div>
