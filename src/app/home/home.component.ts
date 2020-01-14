@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
 
 	currentUser: ApplicationUser;
 	// isSpinner: boolean;
+	incomesLbl: string = `incomes`;
+	reportsLbl: string = `reports`;
 	homeMessage: string = `Hello and welcome to Monney - a simple app to track and keep your expences in order.
 	If You still dont have an account here - You may start from singing in. Otherwise - sing up and enjoy.`
 	private userSubscription: Subscription;
