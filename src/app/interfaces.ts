@@ -19,8 +19,9 @@ export interface LoginUser {
 
 export interface StorageUser {
 	avatar: string;
-	name?: string;
-	email?: string;
+	initials: string;
+	// name?: string;
+	// email?: string;
 	//userName: string;
 }
 

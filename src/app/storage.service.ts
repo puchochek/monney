@@ -18,7 +18,8 @@ export class StorageService {
 
 	updateStorageUser(currentUser: ApplicationUser) {
 		const storageUser: StorageUser = {
-			avatar: currentUser.avatar
+			avatar: currentUser.avatar,
+			initials: currentUser.name.substring(0, 2)
 		}
 		localStorage.setItem('storageUser', JSON.stringify(storageUser));
 	}

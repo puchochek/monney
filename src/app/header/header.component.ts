@@ -46,12 +46,12 @@ export class HeaderComponent implements OnInit {
 			}
 		});
 		if (!this.currentUser && localStorage.getItem('storageUser')) {
-			const currentStorageUser = JSON.parse(localStorage.getItem('storageUser'));
+			const currentStorageUser: StorageUser = JSON.parse(localStorage.getItem('storageUser'));
 			this.isUserAuthorised = true;
-			if (this.currentUser.avatar) {
-				this.avatarSrc = this.currentUser.avatar;
+			if (currentStorageUser.avatar) {
+				this.avatarSrc = currentStorageUser.avatar;
 			} else {
-				this.avatarInitials = this.currentUser.name.substring(0, 2);
+				this.avatarInitials = currentStorageUser.initials;;
 			}
 		}
 		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {

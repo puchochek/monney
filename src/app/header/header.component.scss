@@ -46,8 +46,17 @@
 .mat-card-image {
 	margin: 0;
 }
+.igx-avatar--small {
+	min-width: 30px !important;
+}
 
 @media (max-width: 800px) {
+	.header-avatar {
+		height: 35px;
+		width: 35px;
+		font-size: .8rem;
+		margin: 2px 10px;
+	}
 	.login-actions {
 		padding: 5px 10px 0 0;
 	}

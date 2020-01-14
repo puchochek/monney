@@ -2,7 +2,7 @@
 	width: 50%;
 	margin: 200px auto auto auto;
 	border: 1px solid white;
-	padding: 10px;
+	padding: 20px;
 	line-height: 1.5;
 }
 .user-profile-label {
@@ -34,10 +34,9 @@
 	font-family: "capture";
 	color: white;
 	background-color: #8e8e8e;
-	// margin: 4px 20px;
 }
 .user-input {
-	width: 95%;
+	width: 100%;
 	background: transparent;
 	border: none;
 	border-bottom: 1px dashed white;
@@ -82,4 +81,31 @@ input[type="file"] {
 	font-family: "sans";
 	color: red;
 	font-size: 1.3rem;
+}
+@media (max-width: 800px) {
+	.user-profile-form {
+		width: 80%;
+		margin-top: 100px;
+	}
+	.label-input,
+	.btn-submit {
+		font-size: 0.8rem;
+		padding: 3px 10px;
+		margin-left: 30px;
+	}
+}
+@media (max-width: 600px) {
+	.user-profile-label {
+		padding: 0 0 0 5px;
+	}
+	.user-profile-label,
+	.user-input {
+		font-size: 1rem;
+	}
+	.user-avatar-label,
+	.user-name-label,
+	.user-email-label,
+	.user-balance-limit-label {
+		font-size: .8rem;
+	}
 }
