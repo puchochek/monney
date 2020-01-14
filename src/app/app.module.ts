@@ -37,6 +37,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { FileUploadModule } from "ng2-file-upload";
 import { BalanceComponent } from './balance/balance.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -76,7 +78,8 @@ import { BalanceComponent } from './balance/balance.component';
 		MatInputModule,
 		MatNativeDateModule,
 		IgxAvatarModule,
-		FileUploadModule
+		FileUploadModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [
 		{
