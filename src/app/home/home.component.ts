@@ -69,4 +69,8 @@ export class HomeComponent implements OnInit {
 		this.router.navigate([`/${this.categoryName}/transactions`]);
 	}
 
+	buildChart(event) {
+
+	}
+
 }
