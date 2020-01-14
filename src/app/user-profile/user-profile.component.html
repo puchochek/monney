@@ -1,4 +1,7 @@
 <div calss="user-profile-container">
+    <!-- <div *ngIf="isSpinner">
+        <app-spinner></app-spinner>
+    </div> -->
     <div class="user-profile-form">
         <div class="user-profile-label">
             {{userInfoLbl}}
@@ -7,8 +10,8 @@
             <div class="user-avatar-label">
                 {{userAvatarLbl}}
             </div>
-            <igx-avatar roundShape="true" id="avatar" initials="t" [src]="avatarSrc" bgColor="#8e8e8e" color="white"
-                class="user-avatar-image" matTooltip="User avatar">
+            <igx-avatar roundShape="true" id="avatar" initials={{avatarInitials}} [src]="avatarSrc" class="user-avatar-image"
+                matTooltip="User avatar">
             </igx-avatar>
             <label class="label-input">
                 <span class="label-text">{{changeAvatarLbl}}</span>
@@ -20,7 +23,8 @@
                 {{userNameLbl}}
             </div>
             <div class="user-name-input">
-                <input type="text" class="user-input" id="name" [(ngModel)]="name" (keypress)="hideInvalidInputMessage($event)">
+                <input type="text" class="user-input" id="name" [(ngModel)]="name"
+                    (keypress)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isNameInvalid">{{invalidNameMessage}}</div>
         </div>
@@ -29,7 +33,8 @@
                 {{userEmailLbl}}
             </div>
             <div class="user-emeil-input">
-                <input type="text" class="user-input" id="email" [(ngModel)]="email" (keypress)="hideInvalidInputMessage($event)">
+                <input type="text" class="user-input" id="email" [(ngModel)]="email"
+                    (keypress)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isEmailInvalid">{{invalidEmailMessage}}</div>
         </div>
@@ -41,7 +46,8 @@
                 {{balanceHelperText}}
             </div>
             <div class="user-balance-limit-input">
-                <input type="text" class="user-input" id="balanceLimit" [(ngModel)]="balanceLimit" (keypress)="hideInvalidInputMessage($event)">
+                <input type="text" class="user-input" id="balanceLimit" [(ngModel)]="balanceLimit"
+                    (keypress)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isBalanceLimitInvalid">{{invalidBalanceLimitMessage}}</div>
         </div>

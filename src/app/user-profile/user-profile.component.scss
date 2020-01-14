@@ -30,6 +30,12 @@
 .user-balance-limit {
 	padding: 5px 0 0 5px;
 }
+.user-avatar-image {
+	font-family: "capture";
+	color: white;
+	background-color: #8e8e8e;
+	// margin: 4px 20px;
+}
 .user-input {
 	width: 95%;
 	background: transparent;
@@ -63,7 +69,7 @@ input[type="file"] {
 	margin-left: 30px;
 }
 .user-info-submit {
-    margin: 15px 0 5px 0;
+	margin: 15px 0 5px 0;
 	text-align: right;
 }
 .label-input:hover,

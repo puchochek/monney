@@ -11,7 +11,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	DEFAULT_AVATAR_SRC = `https://res.cloudinary.com/dsiwkaugw/image/upload/v1578037420/no-avatar-user-transparent_ynbo0u.png`;
 	monneyLogoLbl: string = `monney`;
 	singInLbl: string = `sing in`;
 	singUpLbl: string = `sing up`;
@@ -42,14 +41,18 @@ export class HeaderComponent implements OnInit {
 				if (this.currentUser.avatar) {
 					this.avatarSrc = this.currentUser.avatar;
 				} else {
-					this.avatarSrc = this.DEFAULT_AVATAR_SRC;
+					this.avatarInitials = this.currentUser.name.substring(0, 2);
 				}
 			}
 		});
 		if (!this.currentUser && localStorage.getItem('storageUser')) {
 			const currentStorageUser = JSON.parse(localStorage.getItem('storageUser'));
 			this.isUserAuthorised = true;
-			this.avatarSrc = currentStorageUser.avatar ? currentStorageUser.avatar : this.DEFAULT_AVATAR_SRC;
+			if (this.currentUser.avatar) {
+				this.avatarSrc = this.currentUser.avatar;
+			} else {
+				this.avatarInitials = this.currentUser.name.substring(0, 2);
+			}
 		}
 		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {
 			this.userService.getUserByToken();
@@ -70,5 +73,6 @@ export class HeaderComponent implements OnInit {
 		this.storageService.cleanStorage();
 		this.isUserAuthorised = false;
 		this.userService.appUser = null;
+		this.router.navigate([`/home`]);
 	}
 }

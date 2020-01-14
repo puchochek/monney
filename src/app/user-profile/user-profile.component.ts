@@ -2,12 +2,11 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { UserService } from '../user.service';
 import { StorageService } from '../storage.service';
 import { ValidationService } from '../validation.service';
-
 import { ApplicationUser, StorageUser } from '../interfaces';
 import { environment } from '../../environments/environment';
 import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,6 +26,7 @@ export class UserProfileComponent implements OnInit {
 
 	currentUser: ApplicationUser;
 	avatarSrc: string;
+	avatarInitials: string;
 	isEmailInvalid: boolean;
 	isBalanceLimitInvalid: boolean;
 	isNameInvalid: boolean;
@@ -53,7 +53,9 @@ export class UserProfileComponent implements OnInit {
 	constructor(
 		private userService: UserService,
 		private storageService: StorageService,
-		private validationService: ValidationService
+		private validationService: ValidationService,
+		private router: Router,
+
 	) { }
 
 	ngOnInit() {
@@ -69,6 +71,9 @@ export class UserProfileComponent implements OnInit {
 		});
 		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {
 			this.userService.getUserByToken();
+		}
+		if (!this.currentUser && !localStorage.getItem('storageUser') && !localStorage.getItem('token')) {
+			this.router.navigate([`/home`]);
 		}
 	}
 
@@ -86,17 +91,17 @@ export class UserProfileComponent implements OnInit {
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			const imageInfo = JSON.parse(response);
 			if (imageInfo.secure_url) {
-				console.log('---> imageInfo.secure_url ', imageInfo.secure_url);
 				this.avatarSrc = imageInfo.secure_url;
-				// const userToUpdate: ApplicationUser = { ...this.currentUser };
-				// userToUpdate.avatar = imageInfo.secure_url;
-				// this.userService.updateUser(userToUpdate);
 			};
 		}
 	}
 
 	setFormInitialValues() {
-		this.avatarSrc = this.currentUser.avatar;
+		if (this.currentUser.avatar) {
+			this.avatarSrc = this.currentUser.avatar;
+		} else {
+			this.avatarInitials = this.currentUser.name.substring(0, 2);
+		}
 		this.name = this.currentUser.name;
 		this.email = this.currentUser.email;
 		this.balanceLimit = this.currentUser.balanceEdge || 0;
@@ -124,13 +129,10 @@ export class UserProfileComponent implements OnInit {
 		}
 		const isBalanceLimitValid = this.validationService.validateNumberInput(String(this.balanceLimit));
 		if (!isBalanceLimitValid) {
-			console.log('---> this.isBalanceLimitValid ');
 			this.isBalanceLimitInvalid = true;
 		}
-		console.log('---> isNameValid && isEmailValid && this.isBalanceLimitInvalid', isNameValid && isEmailValid && isBalanceLimitValid);
 		if (isNameValid && isEmailValid && isBalanceLimitValid) {
 			const isUserInfoChanged = this.compareUserInfo();
-			console.log('---> isUserInfoChanged ', isUserInfoChanged );
 			if (isUserInfoChanged) {
 				const userToUpdate: ApplicationUser = { ...this.currentUser };
 				userToUpdate.avatar = this.avatarSrc;
