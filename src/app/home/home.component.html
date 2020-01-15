@@ -20,7 +20,10 @@
                     <div class="reports">
                         <div class="reports-label">{{reportsLbl}}</div>
                         <div class="reports-actions">
-                            <mat-icon class="reports-action-icon" matTooltip="Build chart" (click)="buildChart($event)">
+                            <mat-icon class="reports-action-icon" matTooltip="Build table" (click)="buildChart($event)">
+                                table_chart
+                            </mat-icon>
+                            <mat-icon class="reports-action-icon" matTooltip="Build chart" [routerLink]="'/chart'" >
                                 insert_chart_outlined
                             </mat-icon>
                         </div>

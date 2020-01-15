@@ -61,3 +61,22 @@ export interface DatePickerSetup {
 	isFromDate: boolean;
 	isToDate: boolean;
 }
+
+export class ChartItem {
+	icon: string;
+	class: string;
+	tooltip: string;
+}
+
+export class CheckboxItem {
+	label: string;
+	isChecked: boolean;
+}
+
+export class ChartData {
+	user: ApplicationUser;
+	chartType: string;
+	chartFromDate: Date;
+	chartToDate: Date;
+	selectedCategories: Category[];
+}

@@ -22,7 +22,8 @@ import {
 	MatTooltipModule,
 	MatInputModule,
 	MatNativeDateModule,
-	MatDatepickerModule
+	MatDatepickerModule,
+	MatCheckboxModule
 } from '@angular/material';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
@@ -39,6 +40,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { BalanceComponent } from './balance/balance.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ChartSetupComponent } from './chart-setup/chart-setup.component';
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import { environment } from '../environments/environment';
 		ConfirmationModalComponent,
 		UserProfileComponent,
 		BalanceComponent,
+		ChartSetupComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -76,6 +79,7 @@ import { environment } from '../environments/environment';
 		MatTooltipModule,
 		MatDatepickerModule,
 		MatInputModule,
+		MatCheckboxModule,
 		MatNativeDateModule,
 		IgxAvatarModule,
 		FileUploadModule,

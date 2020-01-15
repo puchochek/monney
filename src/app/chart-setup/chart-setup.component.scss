@@ -1,0 +1,84 @@
+.chart-setup-form {
+	width: 50%;
+	margin: 200px auto auto auto;
+	border: 1px solid white;
+	padding: 10px 20px;
+	color: white;
+	line-height: 1.5;
+}
+.chart-label {
+	font-family: "capture";
+	font-size: 1.3rem;
+}
+.chart-type-label,
+.chart-dates-label,
+.chart-categories-label {
+	font-family: "sans";
+	font-size: 1.3rem;
+	margin: 10px;
+	padding-left: 10px;
+}
+.chart-types-container {
+	display: grid;
+	grid-template-columns: repeat(3, 4fr);
+	text-align: center;
+}
+.chart-type-icon {
+}
+.chart-type-icon-selected {
+	background-color: white;
+	color: #8e8e8e;
+}
+.chart-type-icon:hover,
+.chart-type-icon-selected:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+.chart-dates {
+	display: grid;
+	grid-template-columns: 6fr 6fr;
+}
+.from-datepicker,
+.to-datepicker {
+	padding-left: 20%;
+}
+.chart-categories {
+	display: grid;
+	grid-template-columns: repeat(4, 3fr);
+	padding: 0 30px;
+}
+.chart-submit {
+    text-align: right;
+}
+.btn-submit {
+	font-family: "sans";
+	font-size: 1rem;
+	padding: 5px 15px;
+	background: transparent;
+	color: white;
+	border: 1px solid white;
+    margin: 20px;
+}
+.btn-submit:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+.unselected-category-message,
+.unselected-type-message {
+    padding-left: 20px;
+    color: red;
+}
+
+@media (max-width: 800px) {
+	.chart-setup-form {
+		width: 80%;
+		margin-top: 100px;
+	}
+}
+
+@media (max-width: 600px) {
+}
+
+@media (max-width: 400px) {
+}

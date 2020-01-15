@@ -1,0 +1,46 @@
+<div class="chart-setup-container">
+    <div class="chart-setup-form">
+        <div class="chart-label">
+            {{chartSetupLbl}}
+        </div>
+        <div class="chart-type">
+            <div class="chart-type-label">
+                {{chartTypeLbl}}
+            </div>
+            <div class="chart-types-container">
+                <div class="chart-types-item" *ngFor="let chartItem of chartItems">
+                    <mat-icon [ngClass]="chartItem.class" id={{chartItem.icon}} matTooltip={{chartItem.tooltip}}
+                        (click)="selectChartType($event)">
+                        {{chartItem.icon}}
+                    </mat-icon>
+                </div>
+            </div>
+            <div class="unselected-type-message" *ngIf="isChartTypeUnselected">{{unselectedChartTypeMessage}}</div>
+            <div class="chart-dates-label">
+                {{chartDatesLbl}}
+            </div>
+            <div class="chart-dates">
+                <div class="from-datepicker">
+                    <app-datepicker [datePickerSetup]="fromDatePickerSetup" (dateChange)="handleFromDateChange($event)">
+                    </app-datepicker>
+                </div>
+                <div class="to-datepicker">
+                    <app-datepicker [datePickerSetup]="toDatePickerSetup" (dateChange)="handleToDateChange($event)">
+                    </app-datepicker>
+                </div>
+            </div>
+            <div class="chart-categories-label">
+                {{chartCategoriesLbl}}
+            </div>
+            <div class="chart-categories">
+                <div class="categories-checkboxes" *ngFor="let category of checkBoxCategories">
+                    <mat-checkbox id={{category.label}} (change)="checkChartCategories($event)"
+                        [(ngModel)]="category.isChecked">{{category.label}}</mat-checkbox>
+                </div>
+            </div>
+            <div class="unselected-category-message" *ngIf="isCategoryUnselected">{{unselectedCategoryTypeMessage}}</div>
+            <div class="chart-submit">
+                <button type="submit" class="btn btn-submit" (click)="buildChart()">{{buildChartLbl}}</button>
+            </div>
+        </div>
+    </div>
