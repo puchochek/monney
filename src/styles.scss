@@ -65,6 +65,17 @@ body {
 .mat-pseudo-checkbox-indeterminate {
 	background-color: #8e8e8e !important;
 }
+.mat-checkbox-label {
+    white-space: normal !important;
+}
+
+@media (max-width: 600px) {
+    .mat-checkbox-inner-container {
+		height: 10px !important;
+		width: 10px !important;
+
+    }
+}
 html,
 body {
 	margin: 0;

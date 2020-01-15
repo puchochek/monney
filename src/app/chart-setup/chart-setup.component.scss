@@ -1,6 +1,6 @@
 .chart-setup-form {
 	width: 50%;
-	margin: 200px auto auto auto;
+	margin: 100px auto auto auto;
 	border: 1px solid white;
 	padding: 10px 20px;
 	color: white;
@@ -48,7 +48,7 @@
 	padding: 0 30px;
 }
 .chart-submit {
-    text-align: right;
+	text-align: right;
 }
 .btn-submit {
 	font-family: "sans";
@@ -57,7 +57,7 @@
 	background: transparent;
 	color: white;
 	border: 1px solid white;
-    margin: 20px;
+	margin: 20px;
 }
 .btn-submit:hover {
 	background-color: white;
@@ -66,8 +66,12 @@
 }
 .unselected-category-message,
 .unselected-type-message {
-    padding-left: 20px;
-    color: red;
+	padding-left: 20px;
+	color: red;
+}
+.chart-categories {
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 @media (max-width: 800px) {
@@ -78,6 +82,35 @@
 }
 
 @media (max-width: 600px) {
+	.chart-setup-form {
+		margin: 50px auto auto auto;
+		padding: 5px 10px;
+	}
+	.chart-label,
+	.chart-type-label,
+	.chart-dates-label,
+	.chart-categories-label {
+        font-size: .8rem;
+        margin: 5px;
+	}
+	.chart-categories {
+		grid-template-columns: repeat(3, 4fr);
+		padding: 0 5px;
+        font-size: 0.8rem;
+        grid-gap: 3px;
+	}
+	.btn-submit {
+		font-size: 0.8rem;
+		padding: 3px 10px;
+		margin: 10px;
+	}
+	.from-datepicker,
+	.to-datepicker {
+		padding-left: 10%;
+    }
+    .chart-categories {
+        max-height: 45vh;
+    }
 }
 
 @media (max-width: 400px) {

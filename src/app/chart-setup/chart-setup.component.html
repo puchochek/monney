@@ -34,7 +34,7 @@
             </div>
             <div class="chart-categories">
                 <div class="categories-checkboxes" *ngFor="let category of checkBoxCategories">
-                    <mat-checkbox id={{category.label}} (change)="checkChartCategories($event)"
+                    <mat-checkbox class="t" id={{category.label}} (change)="checkChartCategories($event)"
                         [(ngModel)]="category.isChecked">{{category.label}}</mat-checkbox>
                 </div>
             </div>
