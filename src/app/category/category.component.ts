@@ -80,6 +80,10 @@ export class CategoryComponent implements OnInit {
 					} else {
 						this.icon = this.DEFAULT_CATEGORY_ICON;
 					}
+				} else if (localStorage.getItem(`token`)) {
+					this.userService.getUserByToken();
+				} else {
+					this.router.navigate([`/home`]);
 				}
 			});
 		} else {

@@ -104,12 +104,6 @@ export class TransactionService {
 		return transactionById;
 	}
 
-	getThisMonthTransactions(transactions: Transaction[]): Transaction[] {
-		const currentMonth = new Date().getMonth();
-
-		return transactions.filter(transaction => new Date(transaction.date).getMonth() === currentMonth);
-	}
-
 	getTransactionsByDates(startDate: Date, endDate: Date, transactions: Transaction[]): Transaction[] {
 
 
@@ -121,21 +115,4 @@ export class TransactionService {
 			return transactionDateFormatted >= startDateFormatted && transactionDateFormatted <= endDateFormatted;
 		});
 	}
-
-	// getTransactionsByCategorty(category: string) {
-	// 	const requestUrl = `${this.url}/${category}`;
-	// 	this.http.get(requestUrl, { observe: 'response' }
-	// 	).subscribe(
-	// 		response => {
-	// 			this.userTransactions = <Transaction[]>response.body;
-	// 		},
-	// 		error => {
-	// 			console.log('---> GET TRANSACTIONS ERROR ', error);
-	// 		},
-	// 		() => {
-	// 			// 'onCompleted' callback.
-	// 			// No errors, route to new page here
-	// 		}
-	// 	);
-	// }
 }
