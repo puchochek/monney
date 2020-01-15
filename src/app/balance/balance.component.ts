@@ -54,11 +54,11 @@ export class BalanceComponent implements OnInit {
 	}
 
 	setBalanceInfo() {
-		const incomeId: string = this.balanceService.getCategoryIdByName('Income', this.currentUser.categories);
+		const incomeId: string = this.currentUser.incomeCategory.id;
 		const thisMonthIncomes: Transaction[] = this.balanceService.getThisMonthTransactionsByCategoryId(incomeId, this.currentUser.transactions);
 		this.incomesInfoValue = thisMonthIncomes.length ? this.balanceService.countTransactionsSum(thisMonthIncomes) : 0;
 
-		const expensesCategories: Category[] = this.currentUser.categories.filter(category => category.id !== incomeId);
+		const expensesCategories: Category[] = this.currentUser.expensesCategories;
 		let thisMonthExpensesTotal: number;
 		if (expensesCategories.length) {
 			thisMonthExpensesTotal = expensesCategories.reduce((sum, category) => {

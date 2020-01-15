@@ -8,17 +8,6 @@ export class BalanceService {
 
 	constructor() { }
 
-	getCategoryIdByName(categoryName: string, categories: Category[]): string {
-		let categoryId: string;
-		const categoryByName: Category = categories.find(category => category.name.toLowerCase() === categoryName.toLowerCase());
-		if (categoryByName.hasOwnProperty(`id`)) {
-			categoryId = categoryByName.id;
-		}
-
-		return categoryId;
-
-	}
-
 	getThisMonthTransactionsByCategoryId(categoryId: string, transactions: Transaction[]): Transaction[] {
 		const currentMonth = new Date().getMonth();
 		const currentYear = new Date().getFullYear();

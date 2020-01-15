@@ -38,9 +38,8 @@ export class CategoriesComponent implements OnInit {
 			if (response) {
 				this.currentUser = <ApplicationUser>response;
 				console.log('---> CategoriesComponent ', this.currentUser);
-				const currentCategories = [...this.currentUser.categories];
-				const expenceCategories = this.categoryService.getExpencesCategories(currentCategories);
-				const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(expenceCategories, this.currentUser);
+				const currentCategories = [...this.currentUser.expensesCategories];
+				const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(currentCategories, this.currentUser);
 				const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
 				const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
 				const sortedCategories = this.categoryService.sortCategories(categoriesWithInitials, this.currentUser.sortCategoriesBy);

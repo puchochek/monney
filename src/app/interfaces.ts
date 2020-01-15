@@ -9,6 +9,8 @@ export interface ApplicationUser {
 	categories: Category[];
 	sortCategoriesBy: string;
 	balanceEdge: number;
+	incomeCategory?: Category;
+	expensesCategories?: Category[];
 	transactions: Transaction[];
 }
 

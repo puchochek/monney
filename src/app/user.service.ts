@@ -8,7 +8,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { StorageService } from '../app/storage.service';
 import { CategoryService } from '../app/category.service';
 import { Subscription } from 'rxjs';
-import { transition } from '@angular/animations';
 import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 
@@ -103,7 +102,11 @@ export class UserService {
 			this.http.get(this.userBaseUrl, { observe: 'response' })
 				.subscribe(
 					response => {
-						this.appUser = <ApplicationUser>response.body;
+						const currentUser = <ApplicationUser>response.body;
+						currentUser.incomeCategory = this.getIncomeCategory(currentUser);
+						currentUser.expensesCategories = currentUser.categories.length ? this.getExpensesCategories(currentUser.incomeCategory.id, currentUser) : [];
+						// this.appUser = <ApplicationUser>response.body;
+						this.appUser = currentUser;
 						this.storageService.updateToken(response.headers.get('Authorization'));
 						this.storageService.updateStorageUser(this.appUser);
 						console.log('---> USER SERVICE response ', response);
@@ -149,7 +152,16 @@ export class UserService {
 					// No errors, route to new page here
 				}
 			);
+	}
 
+	getIncomeCategory(user: ApplicationUser): Category {
+
+		return user.categories.find(category => category.name === `Income`);
+	}
+
+	getExpensesCategories(incomeId: string, user: ApplicationUser): Category[] {
+
+		return user.categories.filter(category => category.id !== incomeId);
 	}
 
 	updateUserCategories(createdCategory: Category, userToUpdate: ApplicationUser) {

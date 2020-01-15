@@ -40,11 +40,6 @@ export class CategoryService {
 		this.failedDategory.next(failedDategory);
 	}
 
-	getExpencesCategories(categories: Category[]): Category[] {
-
-		return categories.filter(category => !category.isIncome);
-	}
-
 	getCategoryByName(user: ApplicationUser, categoryName: string): Category {
 		let currentCategory: Category;
 		if (user.categories.length) {
