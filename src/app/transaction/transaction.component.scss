@@ -38,9 +38,11 @@
 	border-bottom: 1px dashed white;
 }
 .invalid-input-meesage {
+	padding-top: 5px;
 	font-family: "sans";
 	color: red;
-	font-size: 1.3rem;
+	font-size: 1rem;
+	line-height: 1.2;
 }
 .transaction-submit {
     text-align: right;
@@ -67,7 +69,14 @@
 	}
 }
 
-@media (max-width: 600px) {}
+@media (max-width: 600px) {
+	.invalid-input-meesage {
+		font-family: "sans";
+		color: red;
+		font-size: .6rem;
+		line-height: 1.2;
+	}
+}
 
 @media (max-width: 400px) {
 }

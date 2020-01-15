@@ -24,7 +24,7 @@
             </div>
             <div class="user-name-input">
                 <input type="text" class="user-input" id="name" [(ngModel)]="name"
-                    (keypress)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isNameInvalid">{{invalidNameMessage}}</div>
         </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="user-emeil-input">
                 <input type="text" class="user-input" id="email" [(ngModel)]="email"
-                    (keypress)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isEmailInvalid">{{invalidEmailMessage}}</div>
         </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="user-balance-limit-input">
                 <input type="text" class="user-input" id="balanceLimit" [(ngModel)]="balanceLimit"
-                    (keypress)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage($event)">
             </div>
             <div class="invalid-input" *ngIf="isBalanceLimitInvalid">{{invalidBalanceLimitMessage}}</div>
         </div>

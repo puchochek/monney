@@ -12,7 +12,7 @@
                     {{transactionSumLbl}}
                 </div>
                 <div class="transaction-name-input">
-                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keypress)="hideInvalidInputMessage($event)">
+                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keydown)="hideInvalidInputMessage($event)">
                 </div>
                 <div class="invalid-input-meesage" *ngIf="isSumInputInvalid">
                     {{invalidSumInputMessage}}

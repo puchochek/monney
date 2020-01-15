@@ -20,9 +20,12 @@ export interface LoginUser {
 export interface StorageUser {
 	avatar: string;
 	initials: string;
-	// name?: string;
-	// email?: string;
-	//userName: string;
+}
+
+export interface UserBalance {
+	incomes: number;
+	expenses: number;
+	balance: number;
 }
 
 export interface Transaction {

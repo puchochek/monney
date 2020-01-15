@@ -39,6 +39,8 @@ export class HomeComponent implements OnInit {
 			if (response) {
 				this.currentUser = response;
 				this.categoryService.checkIncomeCategory(this.currentUser);
+			} else {
+				this.currentUser = null;
 			}
 			// this.isSpinner = false;
 		});

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, StorageUser } from './interfaces';
+import { ApplicationUser, StorageUser, UserBalance } from './interfaces';
 
 
 @Injectable({
@@ -22,6 +22,15 @@ export class StorageService {
 			initials: currentUser.name.substring(0, 2)
 		}
 		localStorage.setItem('storageUser', JSON.stringify(storageUser));
+	}
+
+	updateUserBalance(userIncomes: number, userExpenses: number, userBalance: number) {
+		const userBalanceData: UserBalance = {
+			incomes: userIncomes,
+			expenses: userExpenses,
+			balance: userBalance
+		}
+		localStorage.setItem('userBalance', JSON.stringify(userBalanceData));
 	}
 
 	cleanStorage() {

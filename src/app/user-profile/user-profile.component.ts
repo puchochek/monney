@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
 	@Input() email: string;
 	@Input() balanceLimit: number;
 	key: any;
-	@HostListener('document:keypress', ['$event'])
+	@HostListener('document:keydown', ['$event'])
 	handleKeyboardEvent(event: KeyboardEvent) {
 		this.key = event.key;
 	}

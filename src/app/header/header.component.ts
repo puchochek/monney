@@ -73,6 +73,5 @@ export class HeaderComponent implements OnInit {
 		this.storageService.cleanStorage();
 		this.isUserAuthorised = false;
 		this.userService.appUser = null;
-		this.router.navigate([`/home`]);
 	}
 }

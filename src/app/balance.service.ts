@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, Category, Transaction, StorageUser } from './interfaces';
+import { ApplicationUser, Category, Transaction } from './interfaces';
 
 @Injectable({
 	providedIn: 'root'
