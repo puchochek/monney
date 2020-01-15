@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CategoryService } from '../category.service';
 import { UserService } from '../user.service';
@@ -17,6 +17,7 @@ import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-m
 export class CategoryComponent implements OnInit {
 	@Input() name: string;
 	@Input() description: string;
+	@ViewChild("nameInput", { static: false }) _el: ElementRef;
 
 	private ADD_CATEGORY_ROUTE = `/category/add`;
 	private DEFAULT_CATEGORY_ICON = `add`;
@@ -48,6 +49,10 @@ export class CategoryComponent implements OnInit {
 		private categoryService: CategoryService,
 		private userService: UserService,
 	) { }
+
+	ngAfterViewInit() {
+		this._el.nativeElement.focus();
+	}
 
 	ngOnInit() {
 		this.failedCategorySubscription = this.categoryService._failedDategory.subscribe(response => {

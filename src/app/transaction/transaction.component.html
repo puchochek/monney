@@ -11,8 +11,8 @@
                 <div class="transaction-sum-label">
                     {{transactionSumLbl}}
                 </div>
-                <div class="transaction-name-input">
-                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keydown)="hideInvalidInputMessage($event)">
+                <div class="transaction-sum-input">
+                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keydown)="hideInvalidInputMessage($event)" #sumInput >
                 </div>
                 <div class="invalid-input-meesage" *ngIf="isSumInputInvalid">
                     {{invalidSumInputMessage}}

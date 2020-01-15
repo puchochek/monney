@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from '../user.service';
 import { ValidationService } from '../validation.service';
@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
 	handleKeyboardEvent(event: KeyboardEvent) {
 		this.key = event.key;
 	}
+	@ViewChild("userName", { static: false }) _elName: ElementRef;
+	@ViewChild("userEmail", { static: false }) _elEmail: ElementRef;
 
 	isSpinner: boolean;
 	isNewUser: boolean;
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
 	userPasswordLbl: string = `password`;
 	loginActionBtnLbl: string = `submit`;
 	forgotPasswordLbl: string = `I forgot my password`;
-	googleAuthLbl: string = `or sing in with google`;
+	googleAuthLbl: string = `or authorize with google`;
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
 	invalidEmailMessage: string = `email has to contain @ symbol`;
 	invalidPasswordMessage: string = `password has to contain 1 uppercase letter and 1 non-letter character at least`;
@@ -51,6 +53,14 @@ export class LoginComponent implements OnInit {
 		private userService: UserService,
 		private validationService: ValidationService
 	) { }
+
+	ngAfterViewInit() {
+		if (this._elName) {
+			this._elName.nativeElement.focus();
+		} else {
+			this._elEmail.nativeElement.focus();
+		}
+	}
 
 	ngOnInit() {
 		this.isNewUser = this.checkIfNewUser();

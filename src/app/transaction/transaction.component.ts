@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePickerSetup, Transaction, ApplicationUser, UserBalance } from '../interfaces';
 import { TransactionService } from '../transaction.service';
@@ -20,6 +20,8 @@ export class TransactionComponent implements OnInit {
 	handleKeyboardEvent(event: KeyboardEvent) {
 		this.key = event.key;
 	}
+	@ViewChild("sumInput", { static: false }) _el: ElementRef;
+
 
 	transactionSumLbl: string = `sum`;
 	transactionCommentLbl: string = `comment`;
@@ -48,6 +50,10 @@ export class TransactionComponent implements OnInit {
 		private validationService: ValidationService,
 		private userService: UserService,
 	) { }
+
+	ngAfterViewInit() {
+		this._el.nativeElement.focus();
+	}
 
 	ngOnInit() {
 		this.date = new Date();
@@ -137,7 +143,11 @@ export class TransactionComponent implements OnInit {
 	}
 
 	checkTransactionSum() {
-		let isSumLessThanBalance: boolean
+		if (this.categoryName === `Income`) {
+			return true;
+		}
+
+		let isSumLessThanBalance: boolean;
 		if (localStorage.getItem('userBalance')) {
 			const currentUserBalance = <UserBalance>JSON.parse(localStorage.getItem('userBalance'));
 			this.currentBalance = currentUserBalance.balance;
@@ -151,6 +161,6 @@ export class TransactionComponent implements OnInit {
 
 	hideInvalidInputMessage(event) {
 		this.isSumInputInvalid = false;
-		console.log('---> this.isSumInputInvalid ', this.isSumInputInvalid );
+		console.log('---> this.isSumInputInvalid ', this.isSumInputInvalid);
 	}
 }
