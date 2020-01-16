@@ -78,5 +78,5 @@ export class ChartData {
 	chartType: string;
 	chartFromDate: Date;
 	chartToDate: Date;
-	selectedCategories: Category[];
+	categories: CheckboxItem[];
 }

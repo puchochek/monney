@@ -41,6 +41,9 @@ import { BalanceComponent } from './balance/balance.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartSetupComponent } from './chart-setup/chart-setup.component';
+import { ChartComponent } from './chart/chart.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './store/reducers/chart.reducer';
 
 
 @NgModule({
@@ -62,6 +65,7 @@ import { ChartSetupComponent } from './chart-setup/chart-setup.component';
 		UserProfileComponent,
 		BalanceComponent,
 		ChartSetupComponent,
+		ChartComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -83,6 +87,7 @@ import { ChartSetupComponent } from './chart-setup/chart-setup.component';
 		MatNativeDateModule,
 		IgxAvatarModule,
 		FileUploadModule,
+		StoreModule.forRoot({ chartSetup: reducer }),
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [

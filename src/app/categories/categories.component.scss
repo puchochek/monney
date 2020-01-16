@@ -19,7 +19,7 @@
 	display: grid;
 	grid-template-columns: repeat(8, 2fr);
 	grid-gap: 0.5rem;
-	max-height: 90vh;
+	max-height: 70vh;
 	overflow-y: auto;
 }
 .category-avatar-icon {
@@ -110,13 +110,13 @@
 @media (max-width: 1300px) {
 	.categories-list {
 		grid-template-columns: repeat(6, 2fr);
-		max-height: 85vh;
+		max-height: 65vh;
 	}
 }
 @media (max-width: 800px) {
 	.categories-list {
 		grid-template-columns: repeat(5, 2fr);
-		max-height: 80vh;
+		max-height: 60vh;
 	}
 }
 @media (max-width: 600px) {

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartData } from '../interfaces';
 import { UserService } from '../user.service';
+import { StorageService } from '../storage.service';
 import { Subscription } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ChartState } from '../store/state/chart.state';
 
 @Component({
 	selector: 'app-chart-setup',
@@ -19,8 +24,8 @@ export class ChartSetupComponent implements OnInit {
 	unSelectedChartClass: string = `chart-type-icon`;
 	unselectedChartTypeMessage: string = `Please, select a chart type.`;
 	unselectedCategoryTypeMessage: string = `Please, select a category.`;
-	fromDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-	toDate: Date = new Date();
+	fromDate: Date;
+	toDate: Date;
 	chartItems: ChartItem[] = [
 		{ icon: `bar_chart`, class: this.unSelectedChartClass, tooltip: `bar chart` },
 		{ icon: `multiline_chart`, class: this.unSelectedChartClass, tooltip: `line chart` },
@@ -44,11 +49,19 @@ export class ChartSetupComponent implements OnInit {
 	selectedChartData: ChartData;
 	isChartTypeUnselected: boolean;
 	isCategoryUnselected: boolean;
+	chartDataStateObject: any;
 	private userSubscription: Subscription;
 
 	constructor(
 		private userService: UserService,
-	) { }
+		private router: Router,
+		private storageService: StorageService,
+		private store: Store<ChartState>
+	) {
+		this.store.select(state => state).subscribe(data => {
+			this.chartDataStateObject = data;
+		});
+	}
 
 	ngOnInit() {
 		this.userSubscription = this.userService._user.subscribe(response => {
@@ -60,12 +73,30 @@ export class ChartSetupComponent implements OnInit {
 				this.userService.getUserByToken();
 			}
 		});
+		if (this.chartDataStateObject.chartSetup.length) {
+			this.autofillInputsFromPreviouseForm()
+		}
+		if (!this.fromDate) {
+			this.fromDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+			this.toDate = new Date();
+		}
 	}
 
 	ngOnDestroy() {
 		if (this.userSubscription) {
 			this.userSubscription.unsubscribe();
 		}
+	}
+
+	autofillInputsFromPreviouseForm() {
+		const previouseChartSetup = this.chartDataStateObject.chartSetup.find(chartDataState => chartDataState.hasOwnProperty(`chartType`));
+		console.log('---> previouseChartSetup ', previouseChartSetup);
+		this.selectadChartType = previouseChartSetup.chartType;
+		this.fromDate = previouseChartSetup.chartFromDate;
+		this.toDate = previouseChartSetup.chartToDate;
+		this.checkBoxCategories = previouseChartSetup.categories;
+		this.changeSelectedChartTypeClass();
+
 	}
 
 	selectChartType(event) {
@@ -97,12 +128,10 @@ export class ChartSetupComponent implements OnInit {
 
 	handleFromDateChange(fromDateChanged: Date) {
 		this.fromDate = fromDateChanged;
-		console.log('---> this.fromDate ', this.fromDate);
 	}
 
 	handleToDateChange(toDateChanged: Date) {
 		this.toDate = toDateChanged;
-		console.log('---> todate ', this.toDate);
 	}
 
 	checkChartCategories(event) {
@@ -131,25 +160,24 @@ export class ChartSetupComponent implements OnInit {
 	buildChart() {
 		const isChartSetupValid: boolean = this.validateChartSetup();
 		if (isChartSetupValid) {
-			const checkedCategories: Category[] = this.currentUser.categories.reduce((categoriesList, category) => {
-				this.checkBoxCategories.forEach(checkboxCategory => {
-					if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
-						categoriesList.push(category);
-					}
-				})
-				return categoriesList;
-			}, []);
+			// const checkedCategories: Category[] = this.currentUser.categories.reduce((categoriesList, category) => {
+			// 	this.checkBoxCategories.forEach(checkboxCategory => {
+			// 		if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
+			// 			categoriesList.push(category);
+			// 		}
+			// 	})
+			// 	return categoriesList;
+			// }, []);
 			this.selectedChartData = {
 				user: this.currentUser,
 				chartType: this.selectadChartType,
 				chartFromDate: new Date(this.fromDate),
 				chartToDate: new Date(this.toDate),
-				selectedCategories: checkedCategories
+				categories: this.checkBoxCategories
 			}
 		}
 
-		console.log('---> selectedChartData ', this.selectedChartData);
-
+		this.router.navigate([`/chart/${this.selectedChartData.chartType}`], { state: this.selectedChartData });
 	}
 
 	validateChartSetup(): boolean {

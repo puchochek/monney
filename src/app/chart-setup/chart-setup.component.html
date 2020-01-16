@@ -38,7 +38,8 @@
                         [(ngModel)]="category.isChecked">{{category.label}}</mat-checkbox>
                 </div>
             </div>
-            <div class="unselected-category-message" *ngIf="isCategoryUnselected">{{unselectedCategoryTypeMessage}}</div>
+            <div class="unselected-category-message" *ngIf="isCategoryUnselected">{{unselectedCategoryTypeMessage}}
+            </div>
             <div class="chart-submit">
                 <button type="submit" class="btn btn-submit" (click)="buildChart()">{{buildChartLbl}}</button>
             </div>

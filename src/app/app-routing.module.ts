@@ -9,6 +9,7 @@ import { TransactionComponent } from '../app/transaction/transaction.component';
 import { TransactionsByCategoryComponent } from '../app/transactions-by-category/transactions-by-category.component';
 import { UserProfileComponent } from '../app/user-profile/user-profile.component';
 import { ChartSetupComponent } from '../app/chart-setup/chart-setup.component';
+import { ChartComponent } from '../app/chart/chart.component';
 
 const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
@@ -25,6 +26,7 @@ const routes: Routes = [
     { path: ':category/transactions', component: TransactionsByCategoryComponent},
     { path: 'user', component: UserProfileComponent},
     { path: 'chart', component: ChartSetupComponent},
+    { path: 'chart/:chartType', component: ChartComponent},
     { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: ExternalRedirectComponent },
 ];
 
