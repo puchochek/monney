@@ -29,7 +29,9 @@ export class DatepickerComponent implements OnInit {
 		const today = new Date();
 		this.minDate = new Date(today.getFullYear(), today.getMonth(), 1);
 		this.maxDate = today;
-		if (this.datePickerSetup.isFromDate) {
+		if (this.datePickerSetup.dateValue) {
+			this.dateValue = new FormControl(this.datePickerSetup.dateValue);
+		} else if (this.datePickerSetup.isFromDate) {
 			this.dateValue = new FormControl(this.minDate);
 		} else {
 			this.dateValue = new FormControl(today);

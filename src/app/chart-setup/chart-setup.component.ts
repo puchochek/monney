@@ -24,8 +24,8 @@ export class ChartSetupComponent implements OnInit {
 	unSelectedChartClass: string = `chart-type-icon`;
 	unselectedChartTypeMessage: string = `Please, select a chart type.`;
 	unselectedCategoryTypeMessage: string = `Please, select a category.`;
-	fromDate: Date;
-	toDate: Date;
+	fromDate: Date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);;
+	toDate: Date = new Date();
 	chartItems: ChartItem[] = [
 		{ icon: `bar_chart`, class: this.unSelectedChartClass, tooltip: `bar chart` },
 		{ icon: `multiline_chart`, class: this.unSelectedChartClass, tooltip: `line chart` },
@@ -76,10 +76,6 @@ export class ChartSetupComponent implements OnInit {
 		if (this.chartDataStateObject.chartSetup.length) {
 			this.autofillInputsFromPreviouseForm()
 		}
-		if (!this.fromDate) {
-			this.fromDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-			this.toDate = new Date();
-		}
 	}
 
 	ngOnDestroy() {
@@ -94,6 +90,8 @@ export class ChartSetupComponent implements OnInit {
 		this.selectadChartType = previouseChartSetup.chartType;
 		this.fromDate = previouseChartSetup.chartFromDate;
 		this.toDate = previouseChartSetup.chartToDate;
+		this.fromDatePickerSetup.dateValue = previouseChartSetup.chartFromDate;
+		this.toDatePickerSetup.dateValue = previouseChartSetup.chartToDate;
 		this.checkBoxCategories = previouseChartSetup.categories;
 		this.changeSelectedChartTypeClass();
 

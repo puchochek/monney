@@ -60,6 +60,7 @@ export interface DatePickerSetup {
 	placeholder: string;
 	isFromDate: boolean;
 	isToDate: boolean;
+	dateValue?: Date;
 }
 
 export class ChartItem {
