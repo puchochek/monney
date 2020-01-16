@@ -105,8 +105,6 @@ export class TransactionService {
 	}
 
 	getTransactionsByDates(startDate: Date, endDate: Date, transactions: Transaction[]): Transaction[] {
-
-
 		return transactions.filter(transaction => {
 			const startDateFormatted = new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()));
 			const endDateFormatted = new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));

@@ -49,7 +49,7 @@ export class ChartSetupComponent implements OnInit {
 	selectedChartData: ChartData;
 	isChartTypeUnselected: boolean;
 	isCategoryUnselected: boolean;
-	chartDataStateObject: any;
+	previouseChartSetup: ChartData;
 	private userSubscription: Subscription;
 
 	constructor(
@@ -59,7 +59,16 @@ export class ChartSetupComponent implements OnInit {
 		private store: Store<ChartState>
 	) {
 		this.store.select(state => state).subscribe(data => {
-			this.chartDataStateObject = data;
+			console.log('data ', data)
+			const localChartSetup: any = data;
+			if (localChartSetup.chartSetup.length) {
+				localChartSetup.chartSetup.forEach(chartDataObj => {
+					if (chartDataObj && chartDataObj.hasOwnProperty(`chartType`)) {
+						this.previouseChartSetup = chartDataObj;
+					}
+				});
+
+			}
 		});
 	}
 
@@ -73,7 +82,7 @@ export class ChartSetupComponent implements OnInit {
 				this.userService.getUserByToken();
 			}
 		});
-		if (this.chartDataStateObject.chartSetup.length) {
+		if (this.previouseChartSetup) {
 			this.autofillInputsFromPreviouseForm()
 		}
 	}
@@ -85,16 +94,13 @@ export class ChartSetupComponent implements OnInit {
 	}
 
 	autofillInputsFromPreviouseForm() {
-		const previouseChartSetup = this.chartDataStateObject.chartSetup.find(chartDataState => chartDataState.hasOwnProperty(`chartType`));
-		console.log('---> previouseChartSetup ', previouseChartSetup);
-		this.selectadChartType = previouseChartSetup.chartType;
-		this.fromDate = previouseChartSetup.chartFromDate;
-		this.toDate = previouseChartSetup.chartToDate;
-		this.fromDatePickerSetup.dateValue = previouseChartSetup.chartFromDate;
-		this.toDatePickerSetup.dateValue = previouseChartSetup.chartToDate;
-		this.checkBoxCategories = previouseChartSetup.categories;
+		this.selectadChartType = this.previouseChartSetup.chartType;
+		this.fromDate = this.previouseChartSetup.chartFromDate;
+		this.toDate = this.previouseChartSetup.chartToDate;
+		this.fromDatePickerSetup.dateValue = this.previouseChartSetup.chartFromDate;
+		this.toDatePickerSetup.dateValue = this.previouseChartSetup.chartToDate;
+		this.checkBoxCategories = this.previouseChartSetup.categories;
 		this.changeSelectedChartTypeClass();
-
 	}
 
 	selectChartType(event) {
@@ -173,9 +179,8 @@ export class ChartSetupComponent implements OnInit {
 				chartToDate: new Date(this.toDate),
 				categories: this.checkBoxCategories
 			}
+			this.router.navigate([`/chart/${this.selectedChartData.chartType}`], { state: this.selectedChartData });
 		}
-
-		this.router.navigate([`/chart/${this.selectedChartData.chartType}`], { state: this.selectedChartData });
 	}
 
 	validateChartSetup(): boolean {
