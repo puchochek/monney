@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartData } from '../interfaces';
+import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartSetup } from '../interfaces';
 import { UserService } from '../user.service';
 import { StorageService } from '../storage.service';
 import { Subscription } from 'rxjs';
@@ -28,8 +28,9 @@ export class ChartSetupComponent implements OnInit {
 	toDate: Date = new Date();
 	chartItems: ChartItem[] = [
 		{ icon: `bar_chart`, class: this.unSelectedChartClass, tooltip: `bar chart` },
+		{ icon: `pie_chart`, class: this.unSelectedChartClass, tooltip: `pie chart` },
 		{ icon: `multiline_chart`, class: this.unSelectedChartClass, tooltip: `line chart` },
-		{ icon: `dashboard`, class: this.unSelectedChartClass, tooltip: `waterfall chart` }
+		{ icon: `dashboard`, class: this.unSelectedChartClass, tooltip: `card chart` }
 	];
 	fromDatePickerSetup: DatePickerSetup = {
 		placeholder: `from`,
@@ -46,10 +47,10 @@ export class ChartSetupComponent implements OnInit {
 	selectadChartType: string;
 	checkBoxCategories: CheckboxItem[];
 	currentUser: ApplicationUser;
-	selectedChartData: ChartData;
+	selectedChartSetup: ChartSetup;
 	isChartTypeUnselected: boolean;
 	isCategoryUnselected: boolean;
-	previouseChartSetup: ChartData;
+	previouseChartSetup: ChartSetup;
 	private userSubscription: Subscription;
 
 	constructor(
@@ -172,14 +173,14 @@ export class ChartSetupComponent implements OnInit {
 			// 	})
 			// 	return categoriesList;
 			// }, []);
-			this.selectedChartData = {
+			this.selectedChartSetup = {
 				user: this.currentUser,
 				chartType: this.selectadChartType,
 				chartFromDate: new Date(this.fromDate),
 				chartToDate: new Date(this.toDate),
 				categories: this.checkBoxCategories
 			}
-			this.router.navigate([`/chart/${this.selectedChartData.chartType}`], { state: this.selectedChartData });
+			this.router.navigate([`/chart/${this.selectedChartSetup.chartType}`], { state: this.selectedChartSetup });
 		}
 	}
 

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 import { Action } from '@ngrx/store'
-import { ChartData } from '../../interfaces';
+import { ChartSetup } from '../../interfaces';
 
 export const ADD_CHART_DATA = '[CHART_DATA] Add';
 
-export class AddChartData implements Action {
+export class AddChartSetup implements Action {
     readonly type = ADD_CHART_DATA
-    constructor(public payload: ChartData) { }
+    constructor(public payload: ChartSetup) { }
 }
 
-export type Actions = AddChartData;
+export type Actions = AddChartSetup;

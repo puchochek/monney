@@ -11,9 +11,6 @@ import { transition } from '@angular/animations';
 	providedIn: 'root'
 })
 export class TransactionService {
-	// private readonly transactions = new BehaviorSubject<Transaction[]>(null);
-	// readonly _transactions = this.transactions.asObservable();
-
 
 	url: string = `${environment.apiBaseUrl}/transaction`;
 
@@ -22,14 +19,6 @@ export class TransactionService {
 		private router: Router,
 		private userService: UserService,
 	) { }
-
-	// get userTransactions(): Transaction[] {
-	// 	return this.transactions.getValue();
-	// }
-
-	// set userTransactions(transactions: Transaction[]) {
-	// 	this.transactions.next(transactions);
-	// }
 
 	createTransaction(transaction: Transaction, navigateUrl: string) {
 		this.http.post(this.url, transaction, { observe: 'response' }

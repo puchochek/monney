@@ -24,6 +24,8 @@
 		"@angular/router": "~8.2.11",
 		"@angular/service-worker": "~8.2.11",
 		"@ngrx/store": "^8.6.0",
+		"@swimlane/ngx-charts": "^13.0.2",
+		"bootstrap": "^4.4.1",
 		"igniteui-angular": "^8.2.13",
 		"ng2-file-upload": "^1.4.0",
 		"rxjs": "~6.4.0",

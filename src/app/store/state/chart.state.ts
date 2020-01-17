@@ -1,7 +1,7 @@
-import { ChartData } from '../../interfaces';
+import { ChartSetup } from '../../interfaces';
 
 export interface ChartState {
-    readonly chartData: ChartData;
+    readonly chartData: ChartSetup;
 }
 
 export const initialChartState: ChartState = {

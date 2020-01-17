@@ -74,10 +74,15 @@ export class CheckboxItem {
 	isChecked: boolean;
 }
 
-export class ChartData {
+export class ChartSetup {
 	user: ApplicationUser;
 	chartType: string;
 	chartFromDate: Date;
 	chartToDate: Date;
 	categories: CheckboxItem[];
+}
+
+export class ChartDataObject {
+	category: string;
+	transactions: Transaction[];
 }

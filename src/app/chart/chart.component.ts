@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ChartState } from '../store/state/chart.state';
-import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartData, Transaction } from '../interfaces';
+import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartSetup, Transaction, ChartDataObject } from '../interfaces';
 import * as ChartActions from '../store/actions/chart.actions';
 import { Observable } from 'rxjs/Observable';
 import { TransactionService } from '../transaction.service';
+import { BalanceService } from '../balance.service';
 
 
 @Component({
@@ -14,66 +15,137 @@ import { TransactionService } from '../transaction.service';
 	styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
-	//const this
-	// data  = [
-	// 	{ "CountryName": "China", "Pop1995": 1216, "Pop2005": 1297, "Pop2015": 1361, "Pop2025": 1394 },
-	// 	{ "CountryName": "India", "Pop1995": 920, "Pop2005": 1090, "Pop2015": 1251, "Pop2025": 1396 },
-	// 	{ "CountryName": "United States", "Pop1995": 266, "Pop2005": 295, "Pop2015": 322, "Pop2025": 351 },
-	// 	{ "CountryName": "Indonesia", "Pop1995": 197, "Pop2005": 229, "Pop2015": 256, "Pop2025": 277 },
-	// 	{ "CountryName": "Brazil", "Pop1995": 161, "Pop2005": 186, "Pop2015": 204, "Pop2025": 218 }
-	// ];
-	data;
-	chartSetup: ChartData;
+
+	chartSetup: ChartSetup;
 	chartType: string;
+	isBarChart: boolean;
+	isPieChart: boolean;
+	isLinearChart: boolean;
+	isCardChart: boolean;
 	chartName: string = `chart`;
-	columnChartType: string = `Column`;
-	lineCharttype: string = `SplineArea`;
-	dashboardChartType: string = `Waterfall`;
+	categoriesWithTransactionsByDates: ChartDataObject[];
+
+	chartData: any[];
+	showXAxis: boolean;
+	showYAxis: boolean;
+	gradient: boolean;
+	showLegend: boolean;
+	showXAxisLabel: boolean;
+	xAxisLabel: string;
+	showYAxisLabel: boolean;
+	yAxisLabel: string;
+	timeline: boolean;
+	colorScheme: string;
+	legendPosition: string;
+	showLabels: boolean;
+	isDoughnut: boolean;
+	xAxis: boolean;
+	yAxis: boolean;
+	animations: boolean;
+
 	constructor(
 		private router: Router,
 		private store: Store<ChartState>,
-		private transactionService: TransactionService
+		private transactionService: TransactionService,
+		private balanceService: BalanceService,
 	) {
 		console.log('---> getCurrentNavigation.state.data ', router.getCurrentNavigation().extras.state);
-		this.chartSetup = <ChartData>router.getCurrentNavigation().extras.state;
+		this.chartSetup = <ChartSetup>router.getCurrentNavigation().extras.state;
 		if (!this.chartSetup) {
 			this.router.navigate([`/chart`]);
 		}
-		this.store.dispatch(new ChartActions.AddChartData(this.chartSetup));
+		this.store.dispatch(new ChartActions.AddChartSetup(this.chartSetup));
 	}
 
 	ngOnInit() {
-		this.chartType = this.columnChartType;
+		this.prepareChartData();
+		switch (this.chartSetup.chartType) {
+			case `bar_chart`:
+				this.isBarChart = true;
+				this.xAxisLabel = `category`;
+				this.yAxisLabel = `sum`;
+				this.buildBarChartData();
+				break;
+			case `pie_chart`:
+				this.isPieChart = true;
+				this.buildBarChartData();
+				break;
+			case `multiline_chart`:
+				this.isLinearChart = true;
+				this.xAxisLabel = `date`;
+				this.yAxisLabel = `sum`;
+				this.buildLinearChartData();
+				break;
+			case `dashboard`:
+				this.isCardChart = true;
+				this.buildBarChartData();
+				break;
+		}
+		this.setChartVisualEffects();
 
-		this.buildChartData();
-		const usaMedals: any = [
-			{ Year: "1964", UnitedStatesrr: 148, name: 're' },
-			{ Year: "2000", UnitedStatesrr: 142, name: 're' },
-			{ Year: "2001", UnitedStatesrr: 134, name: 're' },
-			{ Year: "2008", UnitedStatesrr: 131, name: 're' },
-			{ Year: "2012", UnitedStatesrr: 135, name: 're' },
-			{ Year: "2020", UnitedStatesrr: 146, name: 're' }
-		];
-		const chinaMedals: any = [
-			{ Year: "1976", China: 110, name: 'rsfe' },
-			{ Year: "2002", China: 115, name: 'rsfe' },
-			{ Year: "2004", China: 121, name: 'rsfe' },
-			{ Year: "2010", China: 129, name: 'rsfe' },
-			{ Year: "2015", China: 115, name: 'rsfe' },
-			{ Year: "2016", China: 112, name: 'rsfe' }
-		];
-		const russiaMedals: any = [
-			{ Year: "1998", Russia: 95, name: 'rfdfe' },
-			{ Year: "2000", Russia: 91, name: 'rfdfe' },
-			{ Year: "2005", Russia: 86, name: 'rfdfe' },
-			{ Year: "2008", Russia: 65, name: 'rfdfe' },
-			{ Year: "2012", Russia: 77, name: 'rfdfe' },
-			{ Year: "2016", Russia: 88, name: 'rfdfe' }
-		];
-		this.data = [usaMedals, chinaMedals, russiaMedals];
 	}
 
-	buildChartData() {
+	buildBarChartData() {
+		const barChartData = this.categoriesWithTransactionsByDates.reduce((chartDataList, chartDataItem) => {
+			let barChartDataItem = {
+				name: chartDataItem.category,
+				value: chartDataItem.transactions.length ? this.balanceService.countTransactionsSum(chartDataItem.transactions) : 0
+			}
+			chartDataList.push(barChartDataItem);
+			return chartDataList;
+		}, []);
+
+		this.chartData = barChartData;
+	}
+
+	buildLinearChartData() {
+		const linearChartData = this.categoriesWithTransactionsByDates.reduce((chartDataList, chartDataItem) => {
+			let linearChartDataItem = {
+				name: chartDataItem.category,
+				series: []
+			};
+			if (chartDataItem.transactions.length) {
+				chartDataItem.transactions.forEach(transaction => {
+					const linearSeriesItem = {
+						name: new Date(transaction.date).toLocaleDateString(),
+						value: transaction.sum,
+					}
+					linearChartDataItem.series.push(linearSeriesItem);
+				});
+			}
+			chartDataList.push(linearChartDataItem);
+			return chartDataList;
+		}, []);
+
+		this.chartData = linearChartData;
+	}
+
+	setChartVisualEffects() {
+		this.showLegend = window.innerWidth > 700 ? true : false;
+		this.showYAxisLabel = window.innerWidth > 700 ? true : false;
+		this.showXAxis = true;
+		this.showYAxis = true;
+		this.gradient = false;
+		this.showXAxisLabel = true;
+		this.timeline = true;
+		this.xAxis = true;
+		this.yAxis = true;
+		this.colorScheme = this.setRandomColorScheme();
+		this.showLabels = this.isPieChart ? true : false;
+		this.isDoughnut = false;
+		this.legendPosition = `right`;
+		this.animations = true;
+	}
+
+	setRandomColorScheme(): string {
+		const availableColorSchemas: string[] = [
+			`vivid`, `natural`, `cool`, `fire`, `solar`, `air`, `aqua`, `flame`, `ocean`, `forest`, `horizon`, `neons`, `picnic`, `night`, `nightLights`
+		];
+
+		return availableColorSchemas[Math.floor(Math.random() * availableColorSchemas.length)];
+	}
+
+	prepareChartData() {
 		const user = <ApplicationUser>this.chartSetup.user;
 		const selectedCategories: CheckboxItem[] = this.chartSetup.categories;
 
@@ -85,9 +157,8 @@ export class ChartComponent implements OnInit {
 			})
 			return categoriesList;
 		}, []);
-		console.log('---> checkedCategories ', categoriesToBuildChart);
 
-		const categoriesWithTransactions = categoriesToBuildChart.reduce((categoriesWithTransactionsList, category) => {
+		const categoriesWithTransactions: ChartDataObject[] = categoriesToBuildChart.reduce((categoriesWithTransactionsList, category) => {
 			const categoryWithTransactions = {
 				category: category.name,
 				transactions: this.transactionService.getTransactionsByCategoryId(user, category.id)
@@ -96,10 +167,7 @@ export class ChartComponent implements OnInit {
 			return categoriesWithTransactionsList;
 		}, []);
 
-		console.log('---> categoriesWithTransactions ', categoriesWithTransactions);
-
-
-		const categoriesWithTransactionsByDates = categoriesWithTransactions.reduce((categoriesWithTransactionsList, category) => {
+		this.categoriesWithTransactionsByDates = categoriesWithTransactions.reduce((categoriesWithTransactionsList, category) => {
 			if (category.transactions.length) {
 				const transactionsByDate = this.transactionService.getTransactionsByDates(this.chartSetup.chartFromDate, this.chartSetup.chartToDate, category.transactions);
 				const categoryWithTransactionsByDates = {
@@ -112,10 +180,5 @@ export class ChartComponent implements OnInit {
 			}
 			return categoriesWithTransactionsList;
 		}, []);
-		console.log('---> categoriesWithTransactionsByDates ', categoriesWithTransactionsByDates);
-
 	}
-
-
-
 }

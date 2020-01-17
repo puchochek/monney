@@ -25,6 +25,7 @@ import {
 	MatDatepickerModule,
 	MatCheckboxModule
 } from '@angular/material';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
@@ -87,6 +88,7 @@ import { reducer } from './store/reducers/chart.reducer';
 		MatNativeDateModule,
 		IgxAvatarModule,
 		FileUploadModule,
+		NgxChartsModule,
 		StoreModule.forRoot({ chartSetup: reducer }),
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],

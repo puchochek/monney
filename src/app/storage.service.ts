@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, StorageUser, UserBalance, ChartData } from './interfaces';
+import { ApplicationUser, StorageUser, UserBalance, ChartSetup } from './interfaces';
 
 
 @Injectable({
@@ -33,7 +33,7 @@ export class StorageService {
 		localStorage.setItem('userBalance', JSON.stringify(userBalanceData));
 	}
 
-	// updateChartSetup(chartDataObject: ChartData) {
+	// updateChartSetup(chartDataObject: ChartSetup) {
 	// 	localStorage.setItem('chartSetup', JSON.stringify(chartDataObject));
 	// }
 
