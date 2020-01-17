@@ -18,8 +18,7 @@
         </div>
     </div>
     <div class="table-info-message">
-        <!-- TODO chang link to a report component -->
-        <span>{{tableInfoMessage}}</span><span class="report-link" [routerLink]="'/home'">{{reportsLink}}</span>
+        <span>{{tableInfoMessage}}</span><span class="report-link" [routerLink]="'/reports'">{{reportsLink}}</span>
     </div>
     <div class="transactions-list-content" *ngIf="transactions?.length > 0; else noTransactionsMessage">
         <div class="transactions-list-table-headers">

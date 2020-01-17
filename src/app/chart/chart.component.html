@@ -1,9 +1,9 @@
-<div class="chart-container">
+<div class="chart-container" *ngIf="isChart; else tableContainer">
     <div class="chart-label">
         {{chartLbl}}
     </div>
     <div class="chart-actions">
-        <button type="submit" class="btn btn-submit" [routerLink]="'/chart'">{{backBtnLbl}}</button>
+        <button type="submit" class="btn btn-submit" [routerLink]="'/reports'">{{backBtnLbl}}</button>
         <button type="submit" class="btn btn-submit" (click)="saveChartAsPdf()">{{saveAsPdfLbl}}</button>
     </div>
     <div class="chart">
@@ -30,3 +30,28 @@
         </div>
     </div>
 </div>
+
+<ng-template #tableContainer>
+    <div class="table-container">
+        <div class="table-label">
+            {{tableLbl}}
+        </div>
+        <div class="table-actions">
+            <button type="submit" class="btn btn-submit" [routerLink]="'/reports'">{{backBtnLbl}}</button>
+            <button type="submit" class="btn btn-submit" (click)="saveReportAsExcel()">{{saveAsExcelLbl}}</button>
+        </div>
+        <div class="table" id="table">
+            <div class="transactions-list-table-headers">
+                <div class="transactions-table-header" *ngFor="let tableHeader of tableHeaders">
+                    {{tableHeader}}
+                </div>
+            </div>
+            <div class="transactions-list-table" *ngFor="let transaction of tableData">
+                <div class="transaction-category">{{ transaction.category }}</div>
+                <div class="transaction-date">{{ transaction.date | date }}</div>
+                <div class="transaction-sum">{{transaction.sum}}</div>
+                <div class="transaction-comment">{{transaction.comment}}</div>
+            </div>
+        </div>
+    </div>
+</ng-template>

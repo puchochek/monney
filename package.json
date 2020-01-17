@@ -26,6 +26,7 @@
 		"@ngrx/store": "^8.6.0",
 		"@swimlane/ngx-charts": "^13.0.2",
 		"bootstrap": "^4.4.1",
+		"file-saver": "^2.0.2",
 		"igniteui-angular": "^8.2.13",
 		"ng2-file-upload": "^1.4.0",
 		"ngx-export-as": "^1.4.0",
@@ -33,6 +34,7 @@
 		"rxjs-compat": "^6.5.3",
 		"tslib": "^1.10.0",
 		"web-animations-js": "^2.3.2",
+		"xlsx": "^0.15.4",
 		"zone.js": "~0.9.1"
 	},
 	"devDependencies": {

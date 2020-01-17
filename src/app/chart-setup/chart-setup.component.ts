@@ -15,11 +15,11 @@ import { ChartState } from '../store/state/chart.state';
 })
 export class ChartSetupComponent implements OnInit {
 
-	chartSetupLbl: string = `set up your chart`;
-	chartTypeLbl: string = `chart type`;
+	chartSetupLbl: string = `set up your report`;
+	chartTypeLbl: string = `report type`;
 	chartDatesLbl: string = `period`;
 	chartCategoriesLbl: string = `categories`;
-	buildChartLbl: string = `build chart`;
+	buildChartLbl: string = `build report`;
 	selectedChartClass: string = `chart-type-icon-selected`;
 	unSelectedChartClass: string = `chart-type-icon`;
 	unselectedChartTypeMessage: string = `Please, select a chart type.`;
@@ -30,7 +30,8 @@ export class ChartSetupComponent implements OnInit {
 		{ icon: `bar_chart`, class: this.unSelectedChartClass, tooltip: `bar chart` },
 		{ icon: `pie_chart`, class: this.unSelectedChartClass, tooltip: `pie chart` },
 		{ icon: `multiline_chart`, class: this.unSelectedChartClass, tooltip: `line chart` },
-		{ icon: `dashboard`, class: this.unSelectedChartClass, tooltip: `card chart` }
+		{ icon: `dashboard`, class: this.unSelectedChartClass, tooltip: `card chart` },
+		{ icon: `table_chart`, class: this.unSelectedChartClass, tooltip: `table`}
 	];
 	fromDatePickerSetup: DatePickerSetup = {
 		placeholder: `from`,
@@ -165,14 +166,6 @@ export class ChartSetupComponent implements OnInit {
 	buildChart() {
 		const isChartSetupValid: boolean = this.validateChartSetup();
 		if (isChartSetupValid) {
-			// const checkedCategories: Category[] = this.currentUser.categories.reduce((categoriesList, category) => {
-			// 	this.checkBoxCategories.forEach(checkboxCategory => {
-			// 		if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
-			// 			categoriesList.push(category);
-			// 		}
-			// 	})
-			// 	return categoriesList;
-			// }, []);
 			this.selectedChartSetup = {
 				user: this.currentUser,
 				chartType: this.selectadChartType,
@@ -180,7 +173,7 @@ export class ChartSetupComponent implements OnInit {
 				chartToDate: new Date(this.toDate),
 				categories: this.checkBoxCategories
 			}
-			this.router.navigate([`/chart/${this.selectedChartSetup.chartType}`], { state: this.selectedChartSetup });
+			this.router.navigate([`/report/${this.selectedChartSetup.chartType}`], { state: this.selectedChartSetup });
 		}
 	}
 

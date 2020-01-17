@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { TransactionService } from '../transaction.service';
 import { BalanceService } from '../balance.service';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -17,14 +19,17 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 })
 export class ChartComponent implements OnInit {
 
+	isChart: boolean;
 	chartSetup: ChartSetup;
 	chartLbl: string;
+	tableLbl: string;
 	isBarChart: boolean;
 	isPieChart: boolean;
 	isLinearChart: boolean;
 	isCardChart: boolean;
 	categoriesWithTransactionsByDates: ChartDataObject[];
 	chartData: any[];
+	tableData: any[];
 	showXAxis: boolean;
 	showYAxis: boolean;
 	gradient: boolean;
@@ -44,8 +49,12 @@ export class ChartComponent implements OnInit {
 
 	backBtnLbl: string = `back`;
 	saveAsPdfLbl: string = `save as pdf`;
+	saveAsExcelLbl: string = `save as excel`;
+	tableHeaders: string[] = [`category`, `date`, `sum`, `comment`];
+	excel_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+	excel_extension = '.xlsx';
 
-	exportAsConfig: ExportAsConfig = {
+	exportAsPdfConfig: ExportAsConfig = {
 		type: 'pdf',
 		elementId: 'chart',
 		options: {
@@ -71,14 +80,24 @@ export class ChartComponent implements OnInit {
 		console.log('---> getCurrentNavigation.state.data ', router.getCurrentNavigation().extras.state);
 		this.chartSetup = <ChartSetup>router.getCurrentNavigation().extras.state;
 		if (!this.chartSetup) {
-			this.router.navigate([`/chart`]);
+			this.router.navigate([`/reports`]);
 		}
 		this.store.dispatch(new ChartActions.AddChartSetup(this.chartSetup));
 	}
 
 	ngOnInit() {
+		this.prepareReportData();
+		if (this.chartSetup.chartType === `table_chart`) {
+			this.setupTable();
+		} else {
+			this.isChart = true;
+			this.setupChart();
+		}
+	}
+
+	setupChart() {
 		this.chartLbl = `transactions from ${this.chartSetup.chartFromDate.toLocaleDateString()} to ${this.chartSetup.chartToDate.toLocaleDateString()} `;
-		this.prepareChartData();
+
 		switch (this.chartSetup.chartType) {
 			case `bar_chart`:
 				this.isBarChart = true;
@@ -102,7 +121,11 @@ export class ChartComponent implements OnInit {
 				break;
 		}
 		this.setChartVisualEffects();
+	}
 
+	setupTable() {
+		this.tableLbl = `transactions from ${this.chartSetup.chartFromDate.toLocaleDateString()} to ${this.chartSetup.chartToDate.toLocaleDateString()} `;
+		this.buildTableData();
 	}
 
 	buildCommonChartData() {
@@ -140,6 +163,23 @@ export class ChartComponent implements OnInit {
 		this.chartData = linearChartData;
 	}
 
+	buildTableData() {
+		this.tableData = this.categoriesWithTransactionsByDates.reduce((tableDataList, dataItem) => {
+			if (dataItem.transactions.length) {
+				dataItem.transactions.forEach(transaction => {
+					const tableItem = {
+						category: dataItem.category,
+						date: new Date(transaction.date).toLocaleDateString(),
+						sum: transaction.sum,
+						comment: transaction.comment,
+					};
+					tableDataList.push(tableItem);
+				});
+			}
+			return tableDataList;
+		}, []);
+	}
+
 	setChartVisualEffects() {
 		this.showLegend = window.innerWidth > 700 ? true : false;
 		this.showYAxisLabel = window.innerWidth > 700 ? true : false;
@@ -165,7 +205,7 @@ export class ChartComponent implements OnInit {
 		return availableColorSchemas[Math.floor(Math.random() * availableColorSchemas.length)];
 	}
 
-	prepareChartData() {
+	prepareReportData() {
 		const user = <ApplicationUser>this.chartSetup.user;
 		const selectedCategories: CheckboxItem[] = this.chartSetup.categories;
 
@@ -203,6 +243,19 @@ export class ChartComponent implements OnInit {
 	}
 
 	saveChartAsPdf() {
-		this.exportAsService.save(this.exportAsConfig, this.chartLbl).subscribe(() => {});
+		this.exportAsService.save(this.exportAsPdfConfig, this.chartLbl).subscribe(() => { });
+	}
+
+	saveReportAsExcel() {
+		const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
+		const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+		const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+		this.saveAsExcelFile(excelBuffer, this.tableLbl);
+
+	}
+
+	saveAsExcelFile(buffer: any, fileName: string) {
+		const data: Blob = new Blob([buffer], { type: this.excel_type });
+		FileSaver.saveAs(data, fileName);
 	}
 }

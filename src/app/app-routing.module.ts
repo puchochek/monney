@@ -25,8 +25,8 @@ const routes: Routes = [
     { path: 'auth/:token', component: AuthComponent},
     { path: ':category/transactions', component: TransactionsByCategoryComponent},
     { path: 'user', component: UserProfileComponent},
-    { path: 'chart', component: ChartSetupComponent},
-    { path: 'chart/:chartType', component: ChartComponent},
+    { path: 'reports', component: ChartSetupComponent},
+    { path: 'report/:chartType', component: ChartComponent},
     { path: 'externalRedirect', resolve: { url: externalUrlProvider, }, component: ExternalRedirectComponent },
 ];
 

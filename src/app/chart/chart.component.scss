@@ -5,7 +5,8 @@
 	padding: 10px 20px;
 	background-color: #8e8e8e;
 }
-.chart-label {
+.chart-label,
+.table-label {
 	color: #8e8e8e;
 	text-align: center;
 	font-family: "sans";
@@ -20,14 +21,14 @@
 	font-family: "sans" !important;
 }
 .chart-actions {
-    width: 90%;
-    margin: auto;
-    text-align: left;
+	width: 90%;
+	margin: auto;
+	text-align: left;
 }
 .btn-submit {
 	font-family: "sans";
 	font-size: 1rem;
-    padding: 5px 15px;
+	padding: 5px 15px;
 	background: transparent;
 	color: white;
 	border: 1px solid white;
@@ -38,12 +39,57 @@
 	color: black;
 	cursor: pointer;
 }
+.table-actions {
+	margin: 20px 30px;
+	text-align: left;
+}
+.table {
+	margin: 20px 30px;
+}
+.transactions-list-table,
+.transactions-list-table-headers {
+	display: grid;
+	grid-template-columns: repeat(4, 3fr);
+}
+.transactions-list-content {
+	max-height: 80vh;
+	overflow-y: auto;
+}
+.transactions-list-table,
+.transactions-table-header {
+	text-align: center;
+	color: white;
+}
+.transactions-list-table:nth-child(odd),
+.transactions-table-header {
+	background-color: #757575;
+}
+.transactions-list-table:nth-child(even) {
+	background-color: #494949;
+}
+.transaction-date,
+.transaction-comment,
+.transaction-sum,
+.transaction-category,
+.transactions-table-header {
+	border: 1px solid #202124;
+	line-height: 1.3;
+	padding: 3px;
+}
 @media (max-width: 600px) {
-	.chart-label {
+	.chart-label,
+	.table-label {
 		font-size: 0.6rem;
-    }
-    .btn-submit  {
-        font-size: .8rem;
-        padding: 3px 10px;
-    }
+	}
+	.btn-submit {
+		font-size: 0.8rem;
+		padding: 3px 10px;
+	}
+	.transaction-date,
+	.transaction-comment,
+	.transaction-sum,
+	.transaction-category,
+	.transactions-table-header {
+		font-size: 0.8rem;
+	}
 }
