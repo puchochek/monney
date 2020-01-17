@@ -7,6 +7,7 @@ import * as ChartActions from '../store/actions/chart.actions';
 import { Observable } from 'rxjs/Observable';
 import { TransactionService } from '../transaction.service';
 import { BalanceService } from '../balance.service';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 
 @Component({
@@ -17,14 +18,12 @@ import { BalanceService } from '../balance.service';
 export class ChartComponent implements OnInit {
 
 	chartSetup: ChartSetup;
-	chartType: string;
+	chartLbl: string;
 	isBarChart: boolean;
 	isPieChart: boolean;
 	isLinearChart: boolean;
 	isCardChart: boolean;
-	chartName: string = `chart`;
 	categoriesWithTransactionsByDates: ChartDataObject[];
-
 	chartData: any[];
 	showXAxis: boolean;
 	showYAxis: boolean;
@@ -43,11 +42,31 @@ export class ChartComponent implements OnInit {
 	yAxis: boolean;
 	animations: boolean;
 
+	backBtnLbl: string = `back`;
+	saveAsPdfLbl: string = `save as pdf`;
+
+	exportAsConfig: ExportAsConfig = {
+		type: 'pdf',
+		elementId: 'chart',
+		options: {
+			jsPDF: {
+				orientation: 'landscape'
+			},
+			margins: {
+				top: '50',
+				left: '20',
+				bottom: '20',
+				right: '20',
+			}
+		}
+	};
+
 	constructor(
 		private router: Router,
 		private store: Store<ChartState>,
 		private transactionService: TransactionService,
 		private balanceService: BalanceService,
+		private exportAsService: ExportAsService
 	) {
 		console.log('---> getCurrentNavigation.state.data ', router.getCurrentNavigation().extras.state);
 		this.chartSetup = <ChartSetup>router.getCurrentNavigation().extras.state;
@@ -58,17 +77,18 @@ export class ChartComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.chartLbl = `transactions from ${this.chartSetup.chartFromDate.toLocaleDateString()} to ${this.chartSetup.chartToDate.toLocaleDateString()} `;
 		this.prepareChartData();
 		switch (this.chartSetup.chartType) {
 			case `bar_chart`:
 				this.isBarChart = true;
 				this.xAxisLabel = `category`;
 				this.yAxisLabel = `sum`;
-				this.buildBarChartData();
+				this.buildCommonChartData();
 				break;
 			case `pie_chart`:
 				this.isPieChart = true;
-				this.buildBarChartData();
+				this.buildCommonChartData();
 				break;
 			case `multiline_chart`:
 				this.isLinearChart = true;
@@ -78,14 +98,14 @@ export class ChartComponent implements OnInit {
 				break;
 			case `dashboard`:
 				this.isCardChart = true;
-				this.buildBarChartData();
+				this.buildCommonChartData();
 				break;
 		}
 		this.setChartVisualEffects();
 
 	}
 
-	buildBarChartData() {
+	buildCommonChartData() {
 		const barChartData = this.categoriesWithTransactionsByDates.reduce((chartDataList, chartDataItem) => {
 			let barChartDataItem = {
 				name: chartDataItem.category,
@@ -180,5 +200,9 @@ export class ChartComponent implements OnInit {
 			}
 			return categoriesWithTransactionsList;
 		}, []);
+	}
+
+	saveChartAsPdf() {
+		this.exportAsService.save(this.exportAsConfig, this.chartLbl).subscribe(() => {});
 	}
 }

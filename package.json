@@ -28,6 +28,7 @@
 		"bootstrap": "^4.4.1",
 		"igniteui-angular": "^8.2.13",
 		"ng2-file-upload": "^1.4.0",
+		"ngx-export-as": "^1.4.0",
 		"rxjs": "~6.4.0",
 		"rxjs-compat": "^6.5.3",
 		"tslib": "^1.10.0",

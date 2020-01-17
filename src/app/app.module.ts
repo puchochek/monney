@@ -45,6 +45,7 @@ import { ChartSetupComponent } from './chart-setup/chart-setup.component';
 import { ChartComponent } from './chart/chart.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './store/reducers/chart.reducer';
+import { ExportAsModule } from 'ngx-export-as';
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import { reducer } from './store/reducers/chart.reducer';
 		IgxAvatarModule,
 		FileUploadModule,
 		NgxChartsModule,
+		ExportAsModule,
 		StoreModule.forRoot({ chartSetup: reducer }),
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],

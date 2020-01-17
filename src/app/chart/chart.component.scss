@@ -1,14 +1,49 @@
 .chart {
-    width: 90%;
-	margin: 100px auto auto auto;
+	width: 90%;
+	margin: 50px auto auto auto;
 	border: 1px solid white;
-    padding: 10px 20px;
-    background-color: #8e8e8e;
+	padding: 10px 20px;
+	background-color: #8e8e8e;
+}
+.chart-label {
+	color: #8e8e8e;
+	text-align: center;
+	font-family: "sans";
+	text-transform: uppercase;
+	margin: 20px 0;
 }
 .chart-image {
-    color: #202124;
+	color: #202124;
+	margin: auto;
+	width: 80vw;
+	height: 50vh;
+	font-family: "sans" !important;
+}
+.chart-actions {
+    width: 90%;
     margin: auto;
-    width: 80vw;
-    height: 50vh;
-    font-family: "sans" !important;
+    text-align: left;
+}
+.btn-submit {
+	font-family: "sans";
+	font-size: 1rem;
+    padding: 5px 15px;
+	background: transparent;
+	color: white;
+	border: 1px solid white;
+	margin-right: 2.5%;
+}
+.btn-submit:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+@media (max-width: 600px) {
+	.chart-label {
+		font-size: 0.6rem;
+    }
+    .btn-submit  {
+        font-size: .8rem;
+        padding: 3px 10px;
+    }
 }

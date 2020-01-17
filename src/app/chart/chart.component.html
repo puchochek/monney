@@ -1,23 +1,30 @@
 <div class="chart-container">
+    <div class="chart-label">
+        {{chartLbl}}
+    </div>
+    <div class="chart-actions">
+        <button type="submit" class="btn btn-submit" [routerLink]="'/chart'">{{backBtnLbl}}</button>
+        <button type="submit" class="btn btn-submit" (click)="saveChartAsPdf()">{{saveAsPdfLbl}}</button>
+    </div>
     <div class="chart">
-        <div class="chart-image bar-chart" *ngIf="isBarChart">
+        <div class="chart-image bar-chart" *ngIf="isBarChart" id="chart">
             <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
                 [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
                 [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
             </ngx-charts-bar-vertical>
         </div>
-        <div class="chart-image pie-chart" *ngIf="isPieChart">
+        <div class="chart-image pie-chart" *ngIf="isPieChart" id="chart">
             <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
                 [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut">
             </ngx-charts-pie-chart>
         </div>
-        <div class="chart-image linear-chart" *ngIf="isLinearChart">
+        <div class="chart-image linear-chart" *ngIf="isLinearChart" id="chart">
             <ngx-charts-area-chart-stacked [scheme]="colorScheme" [legend]="showLegend"
                 [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="chartData">
             </ngx-charts-area-chart-stacked>
         </div>
-        <div class="chart-image tree-chart" *ngIf="isCardChart">
+        <div class="chart-image tree-chart" *ngIf="isCardChart" id="chart">
             <ngx-charts-number-card [scheme]="colorScheme" [results]="chartData">
             </ngx-charts-number-card>
         </div>
