@@ -4,6 +4,10 @@ import { UserService } from '../user.service';
 import { ValidationService } from '../validation.service';
 import { ApplicationUser } from '../interfaces';
 import { LoginUser } from '../interfaces';
+import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
+
 
 @Component({
 	selector: 'app-login',
@@ -42,17 +46,21 @@ export class LoginComponent implements OnInit {
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
 	invalidEmailMessage: string = `email has to contain @ symbol`;
 	invalidPasswordMessage: string = `password has to contain 1 uppercase letter and 1 non-letter character at least`;
-	// emailRegexp = '^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
-	// 	']{1,3})(\\]?)$';
+	successLoginMessage: string = `Congratulations! You were succesfully logged in the Monney-app. Please, check your email to continue`;
+	failLoginMessage: string = `Login failed. `;
 	emailRegexp = /\S+@\S+/;
 	usernameRegexp = /[0-9a-zA-Z]{3,30}/;
 	passwordRegexp = /[0-9a-zA-Z]{6,30}/;
+
+	private selfRegistredUserSubscription: Subscription;
+	confirmationDialogRef: MatDialogRef<ConfirmationModalComponent>;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private userService: UserService,
-		private validationService: ValidationService
+		private validationService: ValidationService,
+		private dialog: MatDialog,
 	) { }
 
 	ngAfterViewInit() {
@@ -64,8 +72,24 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.selfRegistredUserSubscription = this.userService._selfRegistredUserStatus.subscribe(response => {
+			if (response) {
+				if (response === `success`) {
+					this.openConfirmationDialog(this.successLoginMessage);
+				} else if (response.includes(`error`)) {
+					this.openConfirmationDialog(this.failLoginMessage + response);
+				}
+			}
+		});
+
 		this.isNewUser = this.checkIfNewUser();
 		this.loginFormLbl = this.isNewUser ? `sing in` : `sing up`;
+	}
+
+	ngOnDestroy() {
+		if (this.selfRegistredUserSubscription) {
+			this.selfRegistredUserSubscription.unsubscribe();
+		}
 	}
 
 	checkIfNewUser(): boolean {
@@ -160,6 +184,21 @@ export class LoginComponent implements OnInit {
 	authoriseWithGoogle() {
 		this.isSpinner = true;
 		this.userService.authoriseWithGoogle();
+	}
+
+	openConfirmationDialog(message: string) {
+		this.confirmationDialogRef = this.dialog.open(ConfirmationModalComponent, {
+			data: {
+				message: message
+			}
+		});
+		this.confirmationDialogRef
+			.afterClosed()
+			.subscribe(isActionConfirmed => {
+				if (isActionConfirmed) {
+					this.router.navigate(['/home']);
+				}
+			});
 	}
 
 }

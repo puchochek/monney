@@ -18,6 +18,9 @@ export class UserService {
 	private readonly user = new BehaviorSubject<ApplicationUser>(null);
 	readonly _user = this.user.asObservable();
 
+	private readonly selfRegistredUserStatus = new BehaviorSubject<string>(null);
+	readonly _selfRegistredUserStatus = this.selfRegistredUserStatus.asObservable();
+
 	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
 	public uploader: FileUploader;
 
@@ -36,15 +39,25 @@ export class UserService {
 		this.user.next(user);
 	}
 
+	get createdUserStatus(): string {
+		return this.selfRegistredUserStatus.getValue();
+	}
+
+	set createdUserStatus(selfRegistredUserStatus:  string) {
+		this.selfRegistredUserStatus.next(selfRegistredUserStatus);
+	}
+
 	createSelfRegistredUser(user: ApplicationUser) {
 		const requestUrl = `${this.userBaseUrl}/singin`;
 		this.http.post(requestUrl, user, { observe: 'response' }
 		).subscribe(
 			response => {
 				console.log('---> login response ', response);
+				this.createdUserStatus = `success`;
 			},
 			error => {
 				console.log('---> user login error ', error);
+				this.createdUserStatus = error.error.message;
 			},
 			() => {
 				// 'onCompleted' callback.

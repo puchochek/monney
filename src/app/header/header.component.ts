@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit {
 		if (!this.currentUser && !localStorage.getItem('storageUser') && localStorage.getItem('token')) {
 			this.userService.getUserByToken();
 		}
+		console.log('---> this.avatarSrc ', this.avatarSrc );
 	}
 
 	ngOnDestroy() {
@@ -73,5 +74,6 @@ export class HeaderComponent implements OnInit {
 		this.storageService.cleanStorage();
 		this.isUserAuthorised = false;
 		this.userService.appUser = null;
+		this.router.navigate([`/home`]);
 	}
 }
