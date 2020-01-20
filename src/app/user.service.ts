@@ -102,18 +102,18 @@ export class UserService {
 			this.http.get(this.userBaseUrl, { observe: 'response' })
 				.subscribe(
 					response => {
-						const currentUser = <ApplicationUser>response.body;
-						currentUser.incomeCategory = this.getIncomeCategory(currentUser);
-						currentUser.expensesCategories = currentUser.categories.length ? this.getExpensesCategories(currentUser.incomeCategory.id, currentUser) : [];
-						// this.appUser = <ApplicationUser>response.body;
-						this.appUser = currentUser;
-						this.storageService.updateToken(response.headers.get('Authorization'));
-						this.storageService.updateStorageUser(this.appUser);
-						console.log('---> USER SERVICE response ', response);
+						if (response.body) {
+							const currentUser = <ApplicationUser>response.body;
+							currentUser.incomeCategory = this.getIncomeCategory(currentUser);
+							currentUser.expensesCategories = currentUser.categories.length ? this.getExpensesCategories(currentUser.incomeCategory.id, currentUser) : [];
+							this.appUser = currentUser;
+							this.storageService.updateToken(response.headers.get('Authorization'));
+							this.storageService.updateStorageUser(this.appUser);
+							console.log('---> USER SERVICE response ', response);
+						}
 					},
 					error => {
 						console.log('---> USER SERVICE error ', error);
-						//this.router.navigate(['/hello-monney']);
 					},
 					() => {
 						// 'onCompleted' callback.

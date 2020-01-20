@@ -42,7 +42,9 @@ export class BalanceComponent implements OnInit {
 			if (response) {
 				this.currentUser = <ApplicationUser>response;
 				console.log('---> user balance USER ', this.currentUser);
-				this.setBalanceInfo();
+				if (this.currentUser.incomeCategory) {
+					this.setBalanceInfo();
+				}
 			}
 		});
 	}

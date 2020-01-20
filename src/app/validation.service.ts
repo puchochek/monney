@@ -7,7 +7,7 @@ export class ValidationService {
 
 	constructor() { }
 
-	validateStringInput(regExpString: string, input: string): boolean {
+	validateStringInput(regExpString: RegExp, input: string): boolean {
 		const regExp = new RegExp(regExpString);
 
 		return regExp.test(input);

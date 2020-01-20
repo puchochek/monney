@@ -42,10 +42,11 @@ export class LoginComponent implements OnInit {
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
 	invalidEmailMessage: string = `email has to contain @ symbol`;
 	invalidPasswordMessage: string = `password has to contain 1 uppercase letter and 1 non-letter character at least`;
-	emailRegexp = '^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
-		']{1,3})(\\]?)$';
-	usernameRegexp = '[0-9a-zA-Z]{3,30}';
-	passwordRegexp = '[0-9a-zA-Z]{6,30}';
+	// emailRegexp = '^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
+	// 	']{1,3})(\\]?)$';
+	emailRegexp = /\S+@\S+/;
+	usernameRegexp = /[0-9a-zA-Z]{3,30}/;
+	passwordRegexp = /[0-9a-zA-Z]{6,30}/;
 
 	constructor(
 		private route: ActivatedRoute,
