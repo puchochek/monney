@@ -38,7 +38,7 @@ export class CategoriesComponent implements OnInit {
 			if (response) {
 				this.currentUser = <ApplicationUser>response;
 				console.log('---> CategoriesComponent ', this.currentUser);
-				if (this.currentUser.expensesCategories.length) {
+				if (this.currentUser.expensesCategories && this.currentUser.expensesCategories.length) {
 					const currentCategories = [...this.currentUser.expensesCategories];
 					const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(currentCategories, this.currentUser);
 					const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
