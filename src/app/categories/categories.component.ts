@@ -38,12 +38,14 @@ export class CategoriesComponent implements OnInit {
 			if (response) {
 				this.currentUser = <ApplicationUser>response;
 				console.log('---> CategoriesComponent ', this.currentUser);
-				const currentCategories = [...this.currentUser.expensesCategories];
-				const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(currentCategories, this.currentUser);
-				const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
-				const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
-				const sortedCategories = this.categoryService.sortCategories(categoriesWithInitials, this.currentUser.sortCategoriesBy);
-				this.categories = [...sortedCategories];
+				if (this.currentUser.expensesCategories.length) {
+					const currentCategories = [...this.currentUser.expensesCategories];
+					const expenceCategoriesWithTotal = this.categoryService.setCategoriesTotal(currentCategories, this.currentUser);
+					const expenceCategoriesWithLast = this.categoryService.setCategoriesLast(expenceCategoriesWithTotal, this.currentUser);
+					const categoriesWithInitials = this.checkCategoriesIcon(expenceCategoriesWithLast);
+					const sortedCategories = this.categoryService.sortCategories(categoriesWithInitials, this.currentUser.sortCategoriesBy);
+					this.categories = [...sortedCategories];
+				}
 			}
 		});
 		this.noCategoriesMessage = `Hello, ${this.currentUser.name}. You don't have an expences categories yet. It would be great to add some to keep your expences in order.`;
@@ -94,7 +96,7 @@ export class CategoriesComponent implements OnInit {
 	}
 
 	sortCategoriesByField(fieldName: string) {
-		const userToUpdate = {...this.currentUser};
+		const userToUpdate = { ...this.currentUser };
 		userToUpdate.sortCategoriesBy = fieldName;
 		this.userService.updateUser(userToUpdate);
 	}
