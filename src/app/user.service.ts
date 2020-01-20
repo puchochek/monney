@@ -43,7 +43,7 @@ export class UserService {
 		return this.selfRegistredUserStatus.getValue();
 	}
 
-	set createdUserStatus(selfRegistredUserStatus:  string) {
+	set createdUserStatus(selfRegistredUserStatus: string) {
 		this.selfRegistredUserStatus.next(selfRegistredUserStatus);
 	}
 
@@ -74,7 +74,10 @@ export class UserService {
 		}, { observe: 'response' }
 		).subscribe(
 			response => {
-				this.appUser = <ApplicationUser>response.body;
+				const currentUser = <ApplicationUser>response.body;
+				currentUser.incomeCategory = null;
+				currentUser.expensesCategories = [];
+				this.appUser = currentUser;
 				this.refreshUserToken(this.appUser.id)
 				this.router.navigate(['/home']);
 			},
