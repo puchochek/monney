@@ -16,7 +16,7 @@
     </div>
     <div class="balance-info">
         <div class="balance-info-label">{{balanceLbl}}</div>
-        <div class="balance-info-value" [ngClass]="balanceValue">{{balanceInfoValue}}</div>
+        <div class="balance-info-value" [ngClass]="balanceValueClass">{{balanceInfoValue}}</div>
     </div>
-    <div class="low-balance-warning" *ngIf="balanceValue === 'balance-value-limit'">{{lowBalanceMessage}}</div>
+    <div class="low-balance-warning" *ngIf="balanceValueClass === 'balance-value-limit'">{{lowBalanceMessage}}</div>
 </div>

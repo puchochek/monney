@@ -46,7 +46,9 @@ export class ChartComponent implements OnInit {
 	xAxis: boolean;
 	yAxis: boolean;
 	animations: boolean;
+	isNoTransactions: boolean;
 
+	noTransacionsMessage: string = `There are no transactions for the selected period. You might go back to the chart setup and select another dates.`;
 	backBtnLbl: string = `back`;
 	saveAsPdfLbl: string = `save as pdf`;
 	saveAsExcelLbl: string = `save as excel`;
@@ -97,35 +99,44 @@ export class ChartComponent implements OnInit {
 
 	setupChart() {
 		this.chartLbl = `transactions from ${this.chartSetup.chartFromDate.toLocaleDateString()} to ${this.chartSetup.chartToDate.toLocaleDateString()} `;
-
-		switch (this.chartSetup.chartType) {
-			case `bar_chart`:
-				this.isBarChart = true;
-				this.xAxisLabel = `category`;
-				this.yAxisLabel = `sum`;
-				this.buildCommonChartData();
-				break;
-			case `pie_chart`:
-				this.isPieChart = true;
-				this.buildCommonChartData();
-				break;
-			case `multiline_chart`:
-				this.isLinearChart = true;
-				this.xAxisLabel = `date`;
-				this.yAxisLabel = `sum`;
-				this.buildLinearChartData();
-				break;
-			case `dashboard`:
-				this.isCardChart = true;
-				this.buildCommonChartData();
-				break;
+		const user = <ApplicationUser>this.chartSetup.user;
+		if (user.transactions.length) {
+			switch (this.chartSetup.chartType) {
+				case `bar_chart`:
+					this.isBarChart = true;
+					this.xAxisLabel = `category`;
+					this.yAxisLabel = `sum`;
+					this.buildCommonChartData();
+					break;
+				case `pie_chart`:
+					this.isPieChart = true;
+					this.buildCommonChartData();
+					break;
+				case `multiline_chart`:
+					this.isLinearChart = true;
+					this.xAxisLabel = `date`;
+					this.yAxisLabel = `sum`;
+					this.buildLinearChartData();
+					break;
+				case `dashboard`:
+					this.isCardChart = true;
+					this.buildCommonChartData();
+					break;
+			}
+			this.setChartVisualEffects();
+		} else {
+			this.isNoTransactions = true;
 		}
-		this.setChartVisualEffects();
 	}
 
 	setupTable() {
 		this.tableLbl = `transactions from ${this.chartSetup.chartFromDate.toLocaleDateString()} to ${this.chartSetup.chartToDate.toLocaleDateString()} `;
-		this.buildTableData();
+		const user = <ApplicationUser>this.chartSetup.user;
+		if (user.transactions.length) {
+			this.buildTableData();
+		} else {
+			this.isNoTransactions = true;
+		}
 	}
 
 	buildCommonChartData() {
@@ -209,37 +220,43 @@ export class ChartComponent implements OnInit {
 		const user = <ApplicationUser>this.chartSetup.user;
 		const selectedCategories: CheckboxItem[] = this.chartSetup.categories;
 
-		const categoriesToBuildChart: Category[] = user.categories.reduce((categoriesList, category) => {
-			selectedCategories.forEach(checkboxCategory => {
-				if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
-					categoriesList.push(category);
-				}
-			})
-			return categoriesList;
-		}, []);
+		if (user.transactions.length) {
+			const categoriesToBuildChart: Category[] = user.categories.reduce((categoriesList, category) => {
+				selectedCategories.forEach(checkboxCategory => {
+					if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
+						categoriesList.push(category);
+					}
+				})
+				return categoriesList;
+			}, []);
 
-		const categoriesWithTransactions: ChartDataObject[] = categoriesToBuildChart.reduce((categoriesWithTransactionsList, category) => {
-			const categoryWithTransactions = {
-				category: category.name,
-				transactions: this.transactionService.getTransactionsByCategoryId(user, category.id)
-			};
-			categoriesWithTransactionsList.push(categoryWithTransactions);
-			return categoriesWithTransactionsList;
-		}, []);
-
-		this.categoriesWithTransactionsByDates = categoriesWithTransactions.reduce((categoriesWithTransactionsList, category) => {
-			if (category.transactions.length) {
-				const transactionsByDate = this.transactionService.getTransactionsByDates(this.chartSetup.chartFromDate, this.chartSetup.chartToDate, category.transactions);
-				const categoryWithTransactionsByDates = {
-					category: category.category,
-					transactions: transactionsByDate
+			const categoriesWithTransactions: ChartDataObject[] = categoriesToBuildChart.reduce((categoriesWithTransactionsList, category) => {
+				const categoryWithTransactions = {
+					category: category.name,
+					transactions: this.transactionService.getTransactionsByCategoryId(user, category.id)
 				};
-				categoriesWithTransactionsList.push(categoryWithTransactionsByDates);
-			} else {
-				categoriesWithTransactionsList.push(category);
-			}
-			return categoriesWithTransactionsList;
-		}, []);
+				categoriesWithTransactionsList.push(categoryWithTransactions);
+				return categoriesWithTransactionsList;
+			}, []);
+
+			this.categoriesWithTransactionsByDates = categoriesWithTransactions.reduce((categoriesWithTransactionsList, category) => {
+				if (category.transactions.length) {
+					const transactionsByDate = this.transactionService.getTransactionsByDates(this.chartSetup.chartFromDate, this.chartSetup.chartToDate, category.transactions);
+					const categoryWithTransactionsByDates = {
+						category: category.category,
+						transactions: transactionsByDate
+					};
+					categoriesWithTransactionsList.push(categoryWithTransactionsByDates);
+				} else {
+					categoriesWithTransactionsList.push(category);
+				}
+				return categoriesWithTransactionsList;
+			}, []);
+		} else {
+			this.categoriesWithTransactionsByDates = [];
+		}
+
+
 	}
 
 	saveChartAsPdf() {

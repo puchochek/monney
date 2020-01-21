@@ -25,7 +25,8 @@
 	margin: auto;
 	text-align: left;
 }
-.btn-submit {
+.btn-submit,
+.btn-submit-disabled {
 	font-family: "sans";
 	font-size: 1rem;
 	padding: 5px 15px;
@@ -38,6 +39,15 @@
 	background-color: white;
 	color: black;
 	cursor: pointer;
+}
+.btn-submit-disabled {
+	opacity: .8;
+	pointer-events: none;
+}
+.table-message {
+	color: white;
+	margin: 20px 0;
+	line-height: 1;
 }
 .table-actions {
 	margin: 20px 30px;
@@ -76,12 +86,17 @@
 	line-height: 1.3;
 	padding: 3px;
 }
+.no-transactions-message {
+	font-family: "sans";
+	font-size: 1rem;
+}
 @media (max-width: 600px) {
 	.chart-label,
 	.table-label {
 		font-size: 0.6rem;
 	}
-	.btn-submit {
+	.btn-submit,
+	.btn-submit-disabled {
 		font-size: 0.8rem;
 		padding: 3px 10px;
 	}

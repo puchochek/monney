@@ -75,8 +75,8 @@ export class UserService {
 		).subscribe(
 			response => {
 				const currentUser = <ApplicationUser>response.body;
-				currentUser.incomeCategory = null;
-				currentUser.expensesCategories = [];
+				currentUser.incomeCategory = this.getIncomeCategory(currentUser);
+				currentUser.expensesCategories = currentUser.categories.length ? this.getExpensesCategories(currentUser.incomeCategory.id, currentUser) : [];
 				this.appUser = currentUser;
 				this.refreshUserToken(this.appUser.id)
 				this.router.navigate(['/home']);

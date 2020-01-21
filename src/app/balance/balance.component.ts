@@ -18,7 +18,7 @@ export class BalanceComponent implements OnInit {
 	incomesInfoValue: number;
 	expensesInfoValue: number;
 	balanceInfoValue: number;
-	balanceValue: string;
+	balanceValueClass: string;
 	lowBalanceMessage: string;
 	balanceDatesCommentMessage: string = `*Only this month data is available here. If You wish to look through the earlier balance dynamic - check the `;
 	reportsLink: string = `reports page.`;
@@ -78,8 +78,8 @@ export class BalanceComponent implements OnInit {
 
 		this.balanceInfoValue = this.incomesInfoValue - this.expensesInfoValue;
 
-		this.balanceValue = this.balanceInfoValue >= this.currentUser.balanceEdge ? `balance-value-normal` : `balance-value-limit`;
-		if (this.balanceValue === `balance-value-limit`) {
+		this.balanceValueClass = this.balanceInfoValue >= this.currentUser.balanceEdge ? `balance-value-normal` : `balance-value-limit`;
+		if (this.balanceValueClass === `balance-value-limit`) {
 			this.lowBalanceMessage = `${this.currentUser.name}, your balance limit equals to ${this.currentUser.balanceEdge}.
 			Current balance is lower than that value. That's why you see this message.`;
 		}

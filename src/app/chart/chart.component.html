@@ -4,9 +4,12 @@
     </div>
     <div class="chart-actions">
         <button type="submit" class="btn btn-submit" [routerLink]="'/reports'">{{backBtnLbl}}</button>
-        <button type="submit" class="btn btn-submit" (click)="saveChartAsPdf()">{{saveAsPdfLbl}}</button>
+        <button type="submit" [ngClass]="isNoTransactions ? 'btn-submit-disabled' : 'btn-submit'" (click)="saveChartAsPdf()">{{saveAsPdfLbl}}</button>
     </div>
     <div class="chart">
+        <div class="no-transactions-message" *ngIf="isNoTransactions">
+            {{noTransacionsMessage}}
+        </div>
         <div class="chart-image bar-chart" *ngIf="isBarChart" id="chart">
             <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
                 [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
@@ -38,9 +41,12 @@
         </div>
         <div class="table-actions">
             <button type="submit" class="btn btn-submit" [routerLink]="'/reports'">{{backBtnLbl}}</button>
-            <button type="submit" class="btn btn-submit" (click)="saveReportAsExcel()">{{saveAsExcelLbl}}</button>
+            <button type="submit" [ngClass]="isNoTransactions ? 'btn-submit-disabled' : 'btn-submit'" (click)="saveReportAsExcel()">{{saveAsExcelLbl}}</button>
         </div>
         <div class="table" id="table">
+            <div class="no-transactions-message table-message" *ngIf="isNoTransactions">
+                {{noTransacionsMessage}}
+            </div>
             <div class="transactions-list-table-headers">
                 <div class="transactions-table-header" *ngFor="let tableHeader of tableHeaders">
                     {{tableHeader}}

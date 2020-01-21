@@ -29,7 +29,7 @@ export class TransactionComponent implements OnInit {
 	datePickerSetup: DatePickerSetup = {
 		placeholder: `date`,
 		isFromDate: false,
-		isToDate: false
+		isToDate: false,
 	};
 
 	invalidSumInputMessage: string;
@@ -70,6 +70,7 @@ export class TransactionComponent implements OnInit {
 					this.sum = String(this.transactionToEdit.sum);
 					this.comment = this.transactionToEdit.comment;
 					this.date = new Date(this.transactionToEdit.date);
+					this.datePickerSetup.dateValue = this.date;
 				}
 			});
 		}
