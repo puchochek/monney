@@ -96,6 +96,9 @@
 }
 
 @media (max-width: 400px) {
+	.login-form {
+		margin-top: 30px;
+	}
 	.user-name-label,
 	.user-email-label,
 	.user-password-label,
