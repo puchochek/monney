@@ -97,6 +97,7 @@
 
 @media (max-width: 400px) {
 	.login-form {
+		line-height: 1.2;
 		margin-top: 30px;
 	}
 	.user-name-label,
@@ -110,10 +111,11 @@
         margin: 0;
     }
     .btn-submit {
-        font-size: .8rem;
+		font-size: .8rem;
+		padding: 5px 15px;
     }
     .user-forgot-password {
         font-size: .6rem;
         text-decoration: underline;
-    }
+	}
 }

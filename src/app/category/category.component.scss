@@ -1,15 +1,15 @@
 .category-form {
-    width: 50%;
+	width: 50%;
 	margin: 200px auto auto auto;
 	border: 1px solid white;
-    padding: 10px;
-    line-height: 1.5;
+	padding: 10px;
+	line-height: 1.5;
 }
 .category-form-title {
 	font-family: "capture";
 	color: white;
-    font-size: 1.3rem;
-    margin-left: 2.5%;
+	font-size: 1.3rem;
+	margin-left: 2.5%;
 }
 .form-group {
 	width: 95%;
@@ -20,7 +20,7 @@
 	margin: 5px 0;
 }
 .category-icon {
-    margin: 10px 0;
+	margin: 10px 0;
 }
 .category-name-label,
 .category-description-label,
@@ -37,17 +37,18 @@
 	border-bottom: 1px dashed white;
 }
 .category-submit {
-    text-align: right;
+	text-align: right;
 }
-.category-icon-label, .category-icon-btn {
-    display: inline;
+.category-icon-label,
+.category-icon-btn {
+	display: inline;
 }
 .category-icon-btn {
-    margin: 0 10px;
+	margin: 0 10px;
 }
 .category-icon-btn:hover {
-    cursor: pointer;
-    opacity: 0.9;
+	cursor: pointer;
+	opacity: 0.9;
 }
 .btn-submit {
 	font-family: "sans";
@@ -71,10 +72,31 @@
 	}
 }
 
-@media (max-width: 600px) {}
+@media (max-width: 600px) {
+}
 
 @media (max-width: 400px) {
 	.category-form {
 		margin-top: 30px;
+		line-height: 1.2;
+	}
+	.category-form-title,
+	.category-name-label,
+	.category-description-label,
+	.category-icon-label,
+	.form-control {
+		font-size: 1rem;
+	}
+	.btn-submit {
+		font-size: 0.8rem;
+		padding: 5px 15px;
+	}
+	.igx-avatar--small {
+		width: 2rem;
+		height: 2rem;
+		min-width: 2rem;
+	}
+	.category-icon-btn {
+		font-size: .8rem;
 	}
 }

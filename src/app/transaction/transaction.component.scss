@@ -1,15 +1,15 @@
 .transaction-form {
-    width: 50%;
+	width: 50%;
 	margin: 200px auto auto auto;
 	border: 1px solid white;
-    padding: 10px;
-    line-height: 1.5;
+	padding: 10px;
+	line-height: 1.5;
 }
 .transaction-form-title {
 	font-family: "capture";
 	color: white;
-    font-size: 1.3rem;
-    margin-left: 2.5%;
+	font-size: 1.3rem;
+	margin-left: 2.5%;
 }
 .form-group {
 	width: 95%;
@@ -21,7 +21,7 @@
 	margin: 5px 0;
 }
 .transaction-date {
-    padding: 5px;
+	padding: 5px;
 }
 .transaction-sum-label,
 .transaction-comment-label,
@@ -45,7 +45,7 @@
 	line-height: 1.2;
 }
 .transaction-submit {
-    text-align: right;
+	text-align: right;
 }
 .btn-submit {
 	font-family: "sans";
@@ -73,7 +73,7 @@
 	.invalid-input-meesage {
 		font-family: "sans";
 		color: red;
-		font-size: .6rem;
+		font-size: 0.6rem;
 		line-height: 1.2;
 	}
 }
@@ -81,5 +81,17 @@
 @media (max-width: 400px) {
 	.transaction-form {
 		margin-top: 30px;
+		line-height: 1.2;
+	}
+	.transaction-form-title,
+	.transaction-sum-label,
+	.transaction-comment-label,
+	.transaction-date-label,
+	.form-control {
+		font-size: 1rem;
+	}
+	.btn-submit {
+		font-size: .8rem;
+		padding: 5px 15px;
 	}
 }
