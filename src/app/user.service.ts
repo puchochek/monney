@@ -83,6 +83,7 @@ export class UserService {
 			},
 			error => {
 				console.log('---> login error ', error);
+				this.createdUserStatus = error.error.message;
 			},
 			() => {
 				// 'onCompleted' callback.
