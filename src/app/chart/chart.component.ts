@@ -150,6 +150,10 @@ export class ChartComponent implements OnInit {
 		}, []);
 
 		this.chartData = barChartData;
+
+		if (!this.chartData.length) {
+			this.isNoTransactions = true;
+		}
 	}
 
 	buildLinearChartData() {
@@ -172,6 +176,10 @@ export class ChartComponent implements OnInit {
 		}, []);
 
 		this.chartData = linearChartData;
+
+		if (!this.chartData.length) {
+			this.isNoTransactions = true;
+		}
 	}
 
 	buildTableData() {
@@ -189,6 +197,10 @@ export class ChartComponent implements OnInit {
 			}
 			return tableDataList;
 		}, []);
+
+		if (!this.tableData.length) {
+			this.isNoTransactions = true;
+		}
 	}
 
 	setChartVisualEffects() {
@@ -223,7 +235,7 @@ export class ChartComponent implements OnInit {
 		if (user.transactions.length) {
 			const categoriesToBuildChart: Category[] = user.categories.reduce((categoriesList, category) => {
 				selectedCategories.forEach(checkboxCategory => {
-					if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.isChecked) {
+					if (category.name.toLowerCase() === checkboxCategory.label.toLowerCase() && checkboxCategory.class === `chart-category-selected`) {
 						categoriesList.push(category);
 					}
 				})

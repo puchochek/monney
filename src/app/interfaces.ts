@@ -71,7 +71,7 @@ export class ChartItem {
 
 export class CheckboxItem {
 	label: string;
-	isChecked: boolean;
+	class: string;
 }
 
 export class ChartSetup {

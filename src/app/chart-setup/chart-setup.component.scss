@@ -1,5 +1,5 @@
 .chart-setup-form {
-	width: 50%;
+	width: 70%;
 	margin: 100px auto auto auto;
 	border: 1px solid white;
 	padding: 10px 20px;
@@ -45,7 +45,13 @@
 .chart-categories {
 	display: grid;
 	grid-template-columns: repeat(4, 3fr);
-	padding: 0 30px;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+.categories-checkboxes {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .chart-submit {
 	text-align: right;
@@ -53,15 +59,14 @@
 .btn-submit {
 	font-family: "sans";
 	font-size: 1rem;
-	padding: 5px 15px;
-	background: transparent;
-	color: white;
-	border: 1px solid white;
-	margin: 20px;
-}
-.btn-submit:hover {
+	padding: 10px;
 	background-color: white;
 	color: black;
+	border: 1px solid white;
+	margin: 20px 10px;
+}
+.btn-submit:hover {
+	opacity: .8;
 	cursor: pointer;
 }
 .unselected-category-message,
@@ -69,9 +74,31 @@
 	padding-left: 20px;
 	color: red;
 }
-.chart-categories {
-    max-height: 60vh;
-    overflow-y: auto;
+.chart-category,
+.chart-category-selected {
+	font-family: "sans";
+	text-align: center;
+	text-transform: lowercase;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid white;
+	white-space: nowrap;
+	width: 150px;
+	max-width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.chart-category:hover {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+}
+.chart-category-selected:hover {
+	cursor: pointer;
+}
+.chart-category-selected {
+	background-color: white;
+	color: black;
 }
 
 @media (max-width: 800px) {
@@ -79,25 +106,39 @@
 		width: 80%;
 		margin-top: 100px;
 	}
+	.chart-category,
+	.chart-category-selected {
+		width: 120px;
+		max-width: 120px;
+	}
+}
+
+@media (max-width: 700px) {
+	.chart-category,
+	.chart-category-selected {
+		width: 100px;
+		max-width: 100px;
+	}
 }
 
 @media (max-width: 600px) {
 	.chart-setup-form {
-		margin: 50px auto auto auto;
+		width: 90%;
+		margin: 30px auto auto auto;
 		padding: 5px 10px;
 	}
 	.chart-label,
 	.chart-type-label,
 	.chart-dates-label,
 	.chart-categories-label {
-        font-size: .8rem;
-        margin: 5px;
+		font-size: 0.8rem;
+		margin: 5px;
 	}
 	.chart-categories {
 		grid-template-columns: repeat(3, 4fr);
 		padding: 0 5px;
-        font-size: 0.8rem;
-        grid-gap: 3px;
+		font-size: 0.8rem;
+		grid-gap: 3px;
 	}
 	.btn-submit {
 		font-size: 0.8rem;
@@ -107,11 +148,22 @@
 	.from-datepicker,
 	.to-datepicker {
 		padding-left: 10%;
-    }
-    .chart-categories {
-        max-height: 45vh;
-    }
+	}
+	.chart-categories {
+		max-height: 45vh;
+	}
 }
 
 @media (max-width: 400px) {
+	.chart-category,
+	.chart-category-selected {
+		width: 70px;
+		max-width: 70px;
+	}
+}
+
+@media (max-width: 300px) {
+	.chart-categories {
+		grid-template-columns: repeat(2, 6fr);
+	}
 }
