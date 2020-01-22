@@ -12,7 +12,7 @@
                     {{transactionSumLbl}}
                 </div>
                 <div class="transaction-sum-input">
-                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keydown)="hideInvalidInputMessage($event)" #sumInput >
+                    <input type="text" class="form-control" id="sum" [(ngModel)]="sum" (keydown)="hideInvalidInputMessage($event)" #sumInput autocomplete="off">
                 </div>
                 <div class="invalid-input-meesage" *ngIf="isSumInputInvalid">
                     {{invalidSumInputMessage}}
@@ -25,7 +25,7 @@
                     {{transactionCommentLbl}}
                 </div>
                 <div class="transaction-comment-input">
-                    <input type="text" class="form-control" id="comment" [(ngModel)]="comment">
+                    <input type="text" class="form-control" id="comment" [(ngModel)]="comment" autocomplete="off">
                 </div>
             </div>
         </div>

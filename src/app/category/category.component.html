@@ -12,7 +12,7 @@
                     {{categoryNameLbl}}
                 </div>
                 <div class="category-name-input">
-                    <input type="text" class="form-control" id="name" [(ngModel)]="name" #nameInput>
+                    <input type="text" class="form-control" id="name" [(ngModel)]="name" #nameInput autocomplete="off">
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     {{categoryDescriptionLbl}}
                 </div>
                 <div class="category-description-input">
-                    <input type="text" class="form-control" id="description" [(ngModel)]="description">
+                    <input type="text" class="form-control" id="description" [(ngModel)]="description" autocomplete="off">
                 </div>
             </div>
         </div>
