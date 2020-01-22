@@ -1,7 +1,7 @@
 <div calss="user-profile-container">
-    <!-- <div *ngIf="isSpinner">
+    <div *ngIf="isSpinner">
         <app-spinner></app-spinner>
-    </div> -->
+    </div>
     <div class="user-profile-form">
         <div class="user-profile-label">
             {{userInfoLbl}}
@@ -10,8 +10,8 @@
             <div class="user-avatar-label">
                 {{userAvatarLbl}}
             </div>
-            <igx-avatar roundShape="true" id="avatar" initials={{avatarInitials}} [src]="avatarSrc" class="user-avatar-image"
-                matTooltip="User avatar">
+            <igx-avatar roundShape="true" id="avatar" initials={{avatarInitials}} [src]="avatarSrc"
+                class="user-avatar-image" matTooltip="User avatar">
             </igx-avatar>
             <label class="label-input">
                 <span class="label-text">{{changeAvatarLbl}}</span>
@@ -24,7 +24,7 @@
             </div>
             <div class="user-name-input">
                 <input type="text" class="user-input" id="name" [(ngModel)]="name"
-                    (keydown)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage()">
             </div>
             <div class="invalid-input" *ngIf="isNameInvalid">{{invalidNameMessage}}</div>
         </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="user-emeil-input">
                 <input type="text" class="user-input" id="email" [(ngModel)]="email"
-                    (keydown)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage()">
             </div>
             <div class="invalid-input" *ngIf="isEmailInvalid">{{invalidEmailMessage}}</div>
         </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="user-balance-limit-input">
                 <input type="text" class="user-input" id="balanceLimit" [(ngModel)]="balanceLimit"
-                    (keydown)="hideInvalidInputMessage($event)">
+                    (keydown)="hideInvalidInputMessage()">
             </div>
             <div class="invalid-input" *ngIf="isBalanceLimitInvalid">{{invalidBalanceLimitMessage}}</div>
         </div>

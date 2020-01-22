@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { UserService } from '../user.service';
-import { StorageService } from '../storage.service';
 import { ValidationService } from '../validation.service';
-import { ApplicationUser, StorageUser } from '../interfaces';
+import { ApplicationUser } from '../interfaces';
 import { environment } from '../../environments/environment';
 import { FileUploadModule } from "ng2-file-upload";
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,6 +30,7 @@ export class UserProfileComponent implements OnInit {
 	isBalanceLimitInvalid: boolean;
 	isNameInvalid: boolean;
 	invalidInputMessage: string;
+	isSpinner: boolean;
 	changeAvatarLbl: string = `change avatar`;
 	userInfoLbl: string = `user info`;
 	userAvatarLbl: string = `avatar`;
@@ -39,8 +39,6 @@ export class UserProfileComponent implements OnInit {
 	balanceLimitLbl: string = `balance limit`;
 	balanceHelperText: string = `*You may set a balance edge to warn You if a balance is too low. By default it is set to 0.`;
 	userInfoSubmitBtnLbl: string = `apply changes`;
-	// emailRegexp = '^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9-]+\\.)+))([a-zA-Z]{2,4}|[0-9' +
-	// 	']{1,3})(\\]?)$';
 	emailRegexp = /\S+@\S+/;
 	usernameRegexp = /[0-9a-zA-Z]{3,30}/;
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
@@ -53,7 +51,6 @@ export class UserProfileComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
-		private storageService: StorageService,
 		private validationService: ValidationService,
 		private router: Router,
 
@@ -63,6 +60,7 @@ export class UserProfileComponent implements OnInit {
 		this.manageUploader();
 		this.userSubscription = this.userService._user.subscribe(response => {
 			if (response) {
+				this.isSpinner = false;
 				this.currentUser = <ApplicationUser>response;
 				console.log('---> user profile USER ', this.currentUser);
 				this.setFormInitialValues();
@@ -88,11 +86,17 @@ export class UserProfileComponent implements OnInit {
 		const token = localStorage.getItem('token');
 		const UPL_URL = `${environment.apiBaseUrl}/user/avatar`;
 		this.uploader = new FileUploader({ url: UPL_URL, itemAlias: 'avatar', headers: [{ name: 'Authorization', value: `${token}` }] });
-		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+
+		this.uploader.onAfterAddingFile = (file) => {
+			this.isSpinner = true;
+			file.withCredentials = false;
+		};
+
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			const imageInfo = JSON.parse(response);
 			if (imageInfo.secure_url) {
 				this.avatarSrc = imageInfo.secure_url;
+				this.isSpinner = false;
 			};
 		}
 	}
@@ -112,14 +116,15 @@ export class UserProfileComponent implements OnInit {
 		this.uploader.uploadAll();
 	}
 
-	hideInvalidInputMessage(event) {
-		console.log('hideInvalidInputMessage')
+	hideInvalidInputMessage() {
 		this.isEmailInvalid = false;
 		this.isBalanceLimitInvalid = false;
 		this.isNameInvalid = false;
 	}
 
 	submitForm() {
+		this.isSpinner = true;
+
 		const isNameValid = this.validationService.validateStringInput(this.usernameRegexp, this.name);
 		if (!isNameValid) {
 			this.isNameInvalid = true;
