@@ -1,7 +1,7 @@
 <div class="home-container">
-    <!-- <div *ngIf="isSpinner">
+    <div *ngIf="isSpinner">
         <app-spinner></app-spinner>
-    </div> -->
+    </div>
     <div class="home-content" *ngIf="currentUser; else unauthorisedUser">
         <div class="home-top">
             <div class="home-actions">
@@ -20,10 +20,7 @@
                     <div class="reports">
                         <div class="reports-label">{{reportsLbl}}</div>
                         <div class="reports-actions">
-                            <!-- <mat-icon class="reports-action-icon" matTooltip="Build table" (click)="buildChart($event)">
-                                table_chart
-                            </mat-icon> -->
-                            <mat-icon class="reports-action-icon" matTooltip="Build chart" [routerLink]="'/reports'" >
+                            <mat-icon class="reports-action-icon" matTooltip="Build chart" [routerLink]="'/reports'">
                                 insert_chart_outlined
                             </mat-icon>
                         </div>

@@ -14,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit {
 
 	currentUser: ApplicationUser;
-	// isSpinner: boolean;
+	isSpinner: boolean;
 	incomesLbl: string = `incomes`;
 	reportsLbl: string = `reports`;
 	categoryName: string = `Income`;
@@ -28,21 +28,23 @@ export class HomeComponent implements OnInit {
 		private categoryService: CategoryService,
 		private router: Router,
 	) {
-		this.userService.getUserByToken();
+		// this.userService.getUserByToken();
 	}
 
 	ngOnInit() {
-		// this.isSpinner = true;
+		this.isSpinner = true;
+
+		this.userService.getUserByToken();
+
 		this.userSubscription = this.userService._user.subscribe(response => {
-			// this.isSpinner = true;
 			console.log('---> HOME _user ', response);
 			if (response) {
 				this.currentUser = response;
 				this.categoryService.checkIncomeCategory(this.currentUser);
+				this.isSpinner = false;
 			} else {
 				this.currentUser = null;
 			}
-			// this.isSpinner = false;
 		});
 		this.categorySubscription = this.categoryService._category.subscribe(response => {
 			console.log('---> HOME _category ', response);
@@ -70,9 +72,4 @@ export class HomeComponent implements OnInit {
 
 		this.router.navigate([`/${this.categoryName}/transactions`]);
 	}
-
-	buildChart(event) {
-
-	}
-
 }

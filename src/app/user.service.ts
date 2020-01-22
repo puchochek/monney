@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ApplicationUser, Category, Transaction, StorageUser } from './interfaces';
+import { ApplicationUser, Category, Transaction } from './interfaces';
 import { LoginUser } from './interfaces';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { StorageService } from '../app/storage.service';
-import { CategoryService } from '../app/category.service';
-import { Subscription } from 'rxjs';
-import { FileUploadModule } from "ng2-file-upload";
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 
 @Injectable({
 	providedIn: 'root'
@@ -22,13 +18,11 @@ export class UserService {
 	readonly _selfRegistredUserStatus = this.selfRegistredUserStatus.asObservable();
 
 	userBaseUrl: string = `${environment.apiBaseUrl}/user`;
-	public uploader: FileUploader;
 
 	constructor(
 		private http: HttpClient,
 		private router: Router,
 		private storageService: StorageService,
-		private categoryService: CategoryService,
 	) { }
 
 	get appUser(): ApplicationUser {
@@ -58,10 +52,6 @@ export class UserService {
 			error => {
 				console.log('---> user login error ', error);
 				this.createdUserStatus = error.error.message;
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
 			}
 		);
 	}
@@ -84,10 +74,6 @@ export class UserService {
 			error => {
 				console.log('---> login error ', error);
 				this.createdUserStatus = error.error.message;
-			},
-			() => {
-				// 'onCompleted' callback.
-				// No errors, route to new page here
 			}
 		);
 
@@ -131,10 +117,6 @@ export class UserService {
 					},
 					error => {
 						console.log('---> USER SERVICE error ', error);
-					},
-					() => {
-						// 'onCompleted' callback.
-						// No errors, route to new page here
 					}
 				);
 		}
@@ -163,10 +145,6 @@ export class UserService {
 				},
 				error => {
 					console.log('---> USER updatedUser error ', error);
-				},
-				() => {
-					// 'onCompleted' callback.
-					// No errors, route to new page here
 				}
 			);
 	}
