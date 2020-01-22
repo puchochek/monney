@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ChartState } from '../store/state/chart.state';
-import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartSetup, Transaction, ChartDataObject } from '../interfaces';
+import { ChartItem, DatePickerSetup, Category, ApplicationUser, CategoryChartItem, ChartSetup, Transaction, ChartDataObject } from '../interfaces';
 import * as ChartActions from '../store/actions/chart.actions';
 import { Observable } from 'rxjs/Observable';
 import { TransactionService } from '../transaction.service';
@@ -230,7 +230,7 @@ export class ChartComponent implements OnInit {
 
 	prepareReportData() {
 		const user = <ApplicationUser>this.chartSetup.user;
-		const selectedCategories: CheckboxItem[] = this.chartSetup.categories;
+		const selectedCategories: CategoryChartItem[] = this.chartSetup.categories;
 
 		if (user.transactions.length) {
 			const categoriesToBuildChart: Category[] = user.categories.reduce((categoriesList, category) => {

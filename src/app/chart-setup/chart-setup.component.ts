@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartItem, DatePickerSetup, Category, ApplicationUser, CheckboxItem, ChartSetup } from '../interfaces';
+import { ChartItem, DatePickerSetup, Category, ApplicationUser, CategoryChartItem, ChartSetup } from '../interfaces';
 import { UserService } from '../user.service';
 import { StorageService } from '../storage.service';
 import { Subscription } from 'rxjs';
@@ -46,7 +46,7 @@ export class ChartSetupComponent implements OnInit {
 	};
 
 	selectadChartType: string;
-	checkBoxCategories: CheckboxItem[];
+	CategoryChartItems: CategoryChartItem[];
 	currentUser: ApplicationUser;
 	selectedChartSetup: ChartSetup;
 	isChartTypeUnselected: boolean;
@@ -79,7 +79,7 @@ export class ChartSetupComponent implements OnInit {
 			console.log('---> CHART_SETUP _user ', response);
 			if (response) {
 				this.currentUser = response;
-				this.checkBoxCategories = this.buildCheckBoxCategoriesList(this.currentUser.categories);
+				this.CategoryChartItems = this.buildCategoryChartItemsList(this.currentUser.categories);
 			} else if (!this.currentUser && localStorage.getItem('token')) {
 				this.userService.getUserByToken();
 			}
@@ -101,7 +101,7 @@ export class ChartSetupComponent implements OnInit {
 		this.toDate = this.previouseChartSetup.chartToDate;
 		this.fromDatePickerSetup.dateValue = this.previouseChartSetup.chartFromDate;
 		this.toDatePickerSetup.dateValue = this.previouseChartSetup.chartToDate;
-		this.checkBoxCategories = this.previouseChartSetup.categories;
+		this.CategoryChartItems = this.previouseChartSetup.categories;
 		this.changeSelectedChartTypeClass();
 	}
 
@@ -121,15 +121,15 @@ export class ChartSetupComponent implements OnInit {
 		});
 	}
 
-	buildCheckBoxCategoriesList(categories: Category[]): CheckboxItem[] {
-		const initCheckboxItem: CheckboxItem = { label: `all`, class: `chart-category` };
-		const checkboxItemsList = categories.reduce((checkboxList, category) => {
-			const checkboxItem = { label: category.name.toLowerCase(), class: `chart-category` };
-			checkboxList.push(checkboxItem);
+	buildCategoryChartItemsList(categories: Category[]): CategoryChartItem[] {
+		const initCategoryChartItem: CategoryChartItem = { label: `all`, class: `chart-category` };
+		const CategoryChartItemsList = categories.reduce((checkboxList, category) => {
+			const CategoryChartItem = { label: category.name.toLowerCase(), class: `chart-category` };
+			checkboxList.push(CategoryChartItem);
 			return checkboxList;
-		}, [initCheckboxItem]);
+		}, [initCategoryChartItem]);
 
-		return checkboxItemsList;
+		return CategoryChartItemsList;
 	}
 
 	handleFromDateChange(fromDateChanged: Date) {
@@ -143,24 +143,24 @@ export class ChartSetupComponent implements OnInit {
 	checkChartCategories(event) {
 		this.isCategoryUnselected = false;
 		if (event.srcElement.id === `all`) {
-			const allCategoriesClass: CheckboxItem = this.checkBoxCategories.find(category => category.class);
+			const allCategoriesClass: CategoryChartItem = this.CategoryChartItems.find(category => category.class);
 			if (allCategoriesClass.class === `chart-category`) {
-				this.checkBoxCategories.forEach(checkboxItem => {
-					checkboxItem.class = `chart-category-selected`;
+				this.CategoryChartItems.forEach(CategoryChartItem => {
+					CategoryChartItem.class = `chart-category-selected`;
 				});
 			} else {
-				this.checkBoxCategories.forEach(checkboxItem => {
-					checkboxItem.class = `chart-category`;
+				this.CategoryChartItems.forEach(CategoryChartItem => {
+					CategoryChartItem.class = `chart-category`;
 				});
 			}
 		}
 		if (event.srcElement.id !== `all`) {
-			this.checkBoxCategories.forEach(checkboxItem => {
-				if (checkboxItem.label === `all`) {
-					checkboxItem.class = `chart-category`;
+			this.CategoryChartItems.forEach(CategoryChartItem => {
+				if (CategoryChartItem.label === `all`) {
+					CategoryChartItem.class = `chart-category`;
 				}
-				if (checkboxItem.label === event.srcElement.id) {
-					checkboxItem.class = checkboxItem.class === `chart-category-selected` ? `chart-category` : `chart-category-selected`;
+				if (CategoryChartItem.label === event.srcElement.id) {
+					CategoryChartItem.class = CategoryChartItem.class === `chart-category-selected` ? `chart-category` : `chart-category-selected`;
 				}
 			});
 		}
@@ -174,14 +174,14 @@ export class ChartSetupComponent implements OnInit {
 				chartType: this.selectadChartType,
 				chartFromDate: new Date(this.fromDate),
 				chartToDate: new Date(this.toDate),
-				categories: this.checkBoxCategories
+				categories: this.CategoryChartItems
 			}
 			this.router.navigate([`/report/${this.selectedChartSetup.chartType}`], { state: this.selectedChartSetup });
 		}
 	}
 
 	validateChartSetup(): boolean {
-		const selectedCategories = this.checkBoxCategories.filter(checkboxItem => checkboxItem.class === `chart-category-selected`);
+		const selectedCategories = this.CategoryChartItems.filter(CategoryChartItem => CategoryChartItem.class === `chart-category-selected`);
 		if (!selectedCategories.length) {
 			this.isCategoryUnselected = true;
 		}

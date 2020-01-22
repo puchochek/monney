@@ -33,7 +33,7 @@
                 {{chartCategoriesLbl}}
             </div>
             <div class="chart-categories">
-                <div class="categories-checkboxes" *ngFor="let category of checkBoxCategories">
+                <div class="chart-categories-list" *ngFor="let category of CategoryChartItems">
                     <div  [ngClass]="category.class" id={{category.label}} (click)="checkChartCategories($event)">{{category.label}}</div>
                 </div>
             </div>

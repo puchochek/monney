@@ -69,7 +69,7 @@ export class ChartItem {
 	tooltip: string;
 }
 
-export class CheckboxItem {
+export class CategoryChartItem {
 	label: string;
 	class: string;
 }
@@ -79,7 +79,7 @@ export class ChartSetup {
 	chartType: string;
 	chartFromDate: Date;
 	chartToDate: Date;
-	categories: CheckboxItem[];
+	categories: CategoryChartItem[];
 }
 
 export class ChartDataObject {
