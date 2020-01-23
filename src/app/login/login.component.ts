@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, AfterVie
 import { Router } from "@angular/router";
 import { UserService } from '../user.service';
 import { ValidationService } from '../validation.service';
+import { StorageService } from '../storage.service';
 import { ApplicationUser } from '../interfaces';
 import { LoginUser } from '../interfaces';
 import { Subscription } from 'rxjs';
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
 		private router: Router,
 		private userService: UserService,
 		private validationService: ValidationService,
+		private storageService: StorageService,
 		private dialog: MatDialog,
 	) { }
 
@@ -135,10 +137,16 @@ export class LoginComponent implements OnInit {
 							response => { // Success
 								console.log('---> res ', response);
 								this.isSpinner = false;
+								this.storageService.cleanStorage();
+								const resetPasswordMessage: string = `Your password was successfully updated.
+								Please, check your emeil to continue.`;
+								this.openConfirmationDialog(resetPasswordMessage);
 							},
 							error => {
 								console.log('---> err ', error);
 								this.isSpinner = false;
+								const resetPasswordMessage: string = `Oops! ${error.message}.`;
+								this.openConfirmationDialog(resetPasswordMessage);
 							}
 						);
 					break;
@@ -233,10 +241,9 @@ export class LoginComponent implements OnInit {
 		this.confirmationDialogRef
 			.afterClosed()
 			.subscribe(isActionConfirmed => {
-				if (isActionConfirmed) {
+				if (isActionConfirmed  && this.currentAction !== `reset`) {
 					this.router.navigate(['/home']);
 				}
 			});
 	}
-
 }
