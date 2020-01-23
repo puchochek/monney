@@ -82,10 +82,23 @@ input[type="file"] {
 	color: red;
 	font-size: 1.3rem;
 }
+.user-profile-actions {
+	display: grid;
+	grid-template-columns: 6fr 6fr;
+}
+.reset-password {
+	text-align: left;
+	margin: 15px 0 5px 0;
+	color: white;
+	text-decoration: underline;
+}
+.reset-password:hover {
+	cursor: pointer;
+}
 @media (max-width: 800px) {
 	.user-profile-form {
-		width: 80%;
-		margin-top: 100px;
+		width: 90%;
+		margin-top: 30px;
 	}
 	.label-input,
 	.btn-submit {
@@ -107,5 +120,9 @@ input[type="file"] {
 	.user-email-label,
 	.user-balance-limit-label {
 		font-size: .8rem;
+	}
+	.reset-password {
+		line-height: 1.2;
+		font-size: .6rem;
 	}
 }

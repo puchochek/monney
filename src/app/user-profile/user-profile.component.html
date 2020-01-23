@@ -51,8 +51,13 @@
             </div>
             <div class="invalid-input" *ngIf="isBalanceLimitInvalid">{{invalidBalanceLimitMessage}}</div>
         </div>
-        <div class="user-info-submit">
-            <button type="submit" class="btn btn-submit" (click)="submitForm()">{{userInfoSubmitBtnLbl}}</button>
+        <div class="user-profile-actions">
+            <div class="reset-password" [routerLink]="'/password/reset'">
+                {{resetPasswordLbl}}
+            </div>
+            <div class="user-info-submit">
+                <button type="submit" class="btn btn-submit" (click)="submitForm()">{{userInfoSubmitBtnLbl}}</button>
+            </div>
         </div>
     </div>
 </div>

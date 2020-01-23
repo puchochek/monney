@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Router } from '@angular/router';
 import { StorageService } from '../app/storage.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
 	providedIn: 'root'
@@ -147,6 +148,26 @@ export class UserService {
 					console.log('---> USER updatedUser error ', error);
 				}
 			);
+	}
+
+	resetPassword(resetPasswordUser: LoginUser) {
+		const resetUserPromise = new Promise((resolve, reject) => {
+			this.http.post(`${this.userBaseUrl}/password`,
+				resetPasswordUser,
+				{ observe: 'response' })
+				.toPromise()
+				.then(
+					result => {
+						console.log('---> result.headers ', result.headers.get('Authorization'));
+						resolve(result);
+					},
+					error => {
+						reject(error);
+					}
+				)
+		});
+
+		return resetUserPromise;
 	}
 
 	getIncomeCategory(user: ApplicationUser): Category {

@@ -39,6 +39,7 @@ export class UserProfileComponent implements OnInit {
 	balanceLimitLbl: string = `balance limit`;
 	balanceHelperText: string = `*You may set a balance edge to warn You if a balance is too low. By default it is set to 0.`;
 	userInfoSubmitBtnLbl: string = `apply changes`;
+	resetPasswordLbl: string = `reset my password`;
 	emailRegexp = /\S+@\S+/;
 	usernameRegexp = /[0-9a-zA-Z]{3,30}/;
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
@@ -163,5 +164,6 @@ export class UserProfileComponent implements OnInit {
 			true
 			: false;
 	}
+
 }
 

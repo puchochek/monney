@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { UserService } from '../user.service';
 import { ValidationService } from '../validation.service';
 import { ApplicationUser } from '../interfaces';
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
 
 	isSpinner: boolean;
 	isNewUser: boolean;
+	isLoginForm: boolean;
 	loginFormLbl: string;
 	isEmailValid: boolean;
 	isPasswordValid: boolean;
@@ -35,12 +36,16 @@ export class LoginComponent implements OnInit {
 	isInvalidNameMessage: boolean;
 	isInvalidEmailMessage: boolean;
 	isInvalidPasswordMessage: boolean;
+	currentAction: string;
 
 	DEFAULT_SORT_CATEGORIES_ORDER = `date`;
 	userNameLbl: string = `name`;
 	userEmailLbl: string = `email`;
 	userPasswordLbl: string = `password`;
+	userResetPasswordLbl: string = `new password`;
 	loginActionBtnLbl: string = `submit`;
+	resetPasswordFormLbl: string = `reset password`;
+	resetPasswordBtnLbl: string = `reset password`;
 	forgotPasswordLbl: string = `I forgot my password`;
 	googleAuthLbl: string = `or authorize with google`;
 	invalidNameMessage: string = `name has to contain at least 3 symbols`;
@@ -56,7 +61,6 @@ export class LoginComponent implements OnInit {
 	confirmationDialogRef: MatDialogRef<ConfirmationModalComponent>;
 
 	constructor(
-		private route: ActivatedRoute,
 		private router: Router,
 		private userService: UserService,
 		private validationService: ValidationService,
@@ -82,7 +86,9 @@ export class LoginComponent implements OnInit {
 			}
 		});
 
-		this.isNewUser = this.checkIfNewUser();
+		this.setCurrentAction();
+		this.isLoginForm = this.currentAction === `reset` ? false : true;
+		this.isNewUser = this.currentAction === `singin` ? true : false;
 		this.loginFormLbl = this.isNewUser ? `sing in` : `sing up`;
 	}
 
@@ -92,26 +98,58 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
-	checkIfNewUser(): boolean {
+	setCurrentAction() {
 		const curentUrl = this.router.url;
 		const curentUrlSplited = curentUrl.split(`/`);
 		const lastParamIndex = curentUrlSplited.length - 1;
-		const currentAction = curentUrlSplited[lastParamIndex];
+		this.currentAction = curentUrlSplited[lastParamIndex];
+	}
 
-		return currentAction === `singin` ? true : false;
+	showResetPasswordForm() {
+		this.isLoginForm = false;
+		this.currentAction = `reset`;
 	}
 
 	submitForm() {
+		this.isSpinner = true;
+
+		let userToHandle: ApplicationUser | LoginUser;
+
 		if (this.isNewUser) {
-			this.singInNewUser();
+			userToHandle = this.getNewUserData();
 		} else {
-			this.singUpExistedUser();
+			userToHandle = this.getExistedUserData();
 		}
 
+		if (Object.keys(userToHandle).length) {
+			switch (this.currentAction) {
+				case `singin`:
+					this.userService.createSelfRegistredUser(<ApplicationUser>userToHandle);
+					break;
+				case `singup`:
+					this.userService.loginSelfRegistredUser(<LoginUser>userToHandle);
+					break;
+				case `reset`:
+					this.userService.resetPassword(<LoginUser>userToHandle)
+						.then(
+							response => { // Success
+								console.log('---> res ', response);
+								this.isSpinner = false;
+							},
+							error => {
+								console.log('---> err ', error);
+								this.isSpinner = false;
+							}
+						);
+					break;
+			}
+		} else {
+			this.isSpinner = false;
+		}
 	}
 
-	singInNewUser() {
-		this.isSpinner = true;
+	getNewUserData(): ApplicationUser {
+		let userToSave: ApplicationUser;
 
 		this.isNameValid = this.validationService.validateStringInput(this.usernameRegexp, this.name);
 		if (!this.isNameValid) {
@@ -137,14 +175,14 @@ export class LoginComponent implements OnInit {
 				categories: [],
 				transactions: []
 			};
-			this.userService.createSelfRegistredUser(newUser);
-		} else {
-			this.isSpinner = false;
+			userToSave = newUser;
 		}
+
+		return userToSave;
 	}
 
-	singUpExistedUser() {
-		this.isSpinner = true;
+	getExistedUserData(): LoginUser {
+		let existedUser: LoginUser;
 
 		this.isEmailValid = this.validationService.validateStringInput(this.emailRegexp, this.email);
 		if (!this.isEmailValid) {
@@ -154,16 +192,16 @@ export class LoginComponent implements OnInit {
 		if (!this.isPasswordValid) {
 			this.isInvalidPasswordMessage = true;
 		}
+
 		if (this.isEmailValid && this.isPasswordValid) {
 			const loginUser: LoginUser = {
 				email: this.email,
 				password: this.password
 			};
-			this.userService.loginSelfRegistredUser(loginUser);
-		} else {
-			this.isSpinner = false;
+			existedUser = loginUser;
 		}
 
+		return existedUser;
 	}
 
 	hideInvalidInputMessage(event) {

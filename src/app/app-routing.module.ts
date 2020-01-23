@@ -18,6 +18,7 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'singin', component: LoginComponent },
     { path: 'singup', component: LoginComponent },
+    { path: 'password/reset', component: LoginComponent },
     { path: 'category/add', component: CategoryComponent },
     { path: 'category/edit/:id', component: CategoryComponent },
     { path: ':category/add', component: TransactionComponent },

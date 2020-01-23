@@ -1,11 +1,13 @@
-.login-form {
+.login-form,
+.reset-password-form {
 	width: 50%;
 	margin: 200px auto auto auto;
 	border: 1px solid white;
     padding: 10px;
     line-height: 1.5;
 }
-.login-form-title {
+.login-form-title,
+.reset-password-form-title {
 	font-family: "capture";
 	color: white;
     font-size: 1.3rem;
@@ -34,7 +36,8 @@
 	border: none;
 	border-bottom: 1px dashed white;
 }
-.login-form-submit {
+.login-form-submit,
+.reset-password-form-submit {
 	margin: 15px 0 5px 0;
 	text-align: right;
 }
@@ -83,7 +86,8 @@
 }
 
 @media (max-width: 800px) {
-	.login-form {
+	.login-form,
+	.reset-password-form {
 		width: 80%;
 		margin-top: 100px;
 	}
@@ -96,7 +100,8 @@
 }
 
 @media (max-width: 400px) {
-	.login-form {
+	.login-form,
+	.reset-password-form {
 		line-height: 1.2;
 		margin-top: 30px;
 	}
@@ -104,11 +109,13 @@
 	.user-email-label,
 	.user-password-label,
     .form-control,
-    .login-form-title {
+	.login-form-title,
+	.reset-password-form-title {
 		font-size: 1rem;
     }
-    .login-form-submit {
-        margin: 0;
+	.login-form-submit,
+	.reset-password-form-submit {
+        margin: 10px;
     }
     .btn-submit {
 		font-size: .8rem;

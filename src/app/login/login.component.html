@@ -2,7 +2,7 @@
     <div *ngIf="isSpinner">
         <app-spinner></app-spinner>
     </div>
-    <div class="login-form">
+    <div class="login-form" *ngIf="isLoginForm; else isResetForm">
         <div class="login-form-title">
             {{loginFormLbl}}
         </div>
@@ -12,7 +12,8 @@
                     {{userNameLbl}}
                 </div>
                 <div class="user-name-input">
-                    <input type="text" class="form-control" id="name" [(ngModel)]="name" (keydown)="hideInvalidInputMessage($event)" #userName>
+                    <input type="text" class="form-control" id="name" [(ngModel)]="name"
+                        (keydown)="hideInvalidInputMessage($event)" #userName>
                 </div>
                 <div class="invalid-input" *ngIf="isInvalidNameMessage">
                     {{invalidNameMessage}}
@@ -25,7 +26,8 @@
                     {{userEmailLbl}}
                 </div>
                 <div class="user-email-input">
-                    <input type="text" class="form-control" id="email" [(ngModel)]="email" (keydown)="hideInvalidInputMessage($event)" #userEmail>
+                    <input type="text" class="form-control" id="email" [(ngModel)]="email"
+                        (keydown)="hideInvalidInputMessage($event)" #userEmail>
                 </div>
                 <div class="invalid-input" *ngIf="isInvalidEmailMessage">
                     {{invalidEmailMessage}}
@@ -38,14 +40,15 @@
                     {{userPasswordLbl}}
                 </div>
                 <div class="user-password-input">
-                    <input type="password" class="form-control" id="password" [(ngModel)]="password" (keydown)="hideInvalidInputMessage($event)">
+                    <input type="password" class="form-control" id="password" [(ngModel)]="password"
+                        (keydown)="hideInvalidInputMessage($event)">
                 </div>
                 <div class="invalid-input" *ngIf="isInvalidPasswordMessage">
                     {{invalidPasswordMessage}}
                 </div>
             </div>
         </div>
-        <div class="user-forgot-password" *ngIf="!isNewUser">
+        <div class="user-forgot-password" *ngIf="!isNewUser" (click)="showResetPasswordForm()">
             {{forgotPasswordLbl}}
         </div>
         <div class="login-form-submit">
@@ -56,4 +59,44 @@
                 {{googleAuthLbl}}
             </div>
         </div>
+    </div>
+
+    <ng-template #isResetForm>
+        <div class="reset-password-form">
+            <div class="reset-password-form-title">
+                {{resetPasswordFormLbl}}
+            </div>
+            <div class="user-email">
+                <div class="form-group">
+                    <div class="user-email-label">
+                        {{userEmailLbl}}
+                    </div>
+                    <div class="user-email-input">
+                        <input type="text" class="form-control" id="email" [(ngModel)]="email"
+                            (keydown)="hideInvalidInputMessage($event)" #userEmail>
+                    </div>
+                    <div class="invalid-input" *ngIf="isInvalidEmailMessage">
+                        {{invalidEmailMessage}}
+                    </div>
+                </div>
+            </div>
+            <div class="user-password">
+                <div class="form-group">
+                    <div class="user-password-label">
+                        {{userResetPasswordLbl}}
+                    </div>
+                    <div class="user-password-input">
+                        <input type="password" class="form-control" id="password" [(ngModel)]="password"
+                            (keydown)="hideInvalidInputMessage($event)">
+                    </div>
+                    <div class="invalid-input" *ngIf="isInvalidPasswordMessage">
+                        {{invalidPasswordMessage}}
+                    </div>
+                </div>
+            </div>
+            <div class="reset-password-form-submit">
+                <button type="submit" class="btn btn-submit" (click)="submitForm()">{{resetPasswordBtnLbl}}</button>
+            </div>
+        </div>
+    </ng-template>
 </div>
