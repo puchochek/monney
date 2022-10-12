@@ -29,7 +29,7 @@
 		"file-saver": "^2.0.2",
 		"igniteui-angular": "^8.2.13",
 		"ng2-file-upload": "^1.4.0",
-		"ngx-export-as": "^1.4.0",
+		"ngx-export-as": "^1.14.1",
 		"rxjs": "~6.4.0",
 		"rxjs-compat": "^6.5.3",
 		"tslib": "^1.10.0",
